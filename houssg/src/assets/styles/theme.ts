@@ -12,5 +12,5 @@ export const color = {
 // 추후 테마색 결정
 export const basicTheme: DefaultTheme = {
 	bgColor: 'white',
-	color: 'black',
+	textColor: 'black',
 };
