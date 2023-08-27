@@ -2,7 +2,14 @@ import styled from 'styled-components';
 import { color } from '../assets/styles/theme';
 
 const Footer = () => {
-	return <FooterWrapper>Footer</FooterWrapper>;
+	return (
+		<FooterWrapper>
+			{/* TODO: 값 반영후 스타일 수정 */}
+			<br /> <br />
+			<br />
+			<small>Copyright &copy;houssg</small>
+		</FooterWrapper>
+	);
 };
 
 export default Footer;
