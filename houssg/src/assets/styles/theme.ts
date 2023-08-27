@@ -7,10 +7,12 @@ export const color = {
 	color3: '#BE93FD',
 	color4: '#DCB0FF',
 	color5: '#FACCFF',
+	basicColor: '#000000',
+	backColor: '#FFFFFF',
 };
 
 // 추후 테마색 결정
 export const basicTheme: DefaultTheme = {
-	bgColor: 'white',
-	textColor: 'black',
+	bgColor: color.backColor,
+	textColor: color.basicColor,
 };
