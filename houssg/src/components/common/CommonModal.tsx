@@ -1,18 +1,16 @@
 import { Modal } from 'antd';
-import { ReactNode } from 'react';
-// import { styled } from 'styled-components';
+import { useAppDispatch, useAppSelector } from '../../hooks/useReduxToolkit';
+import { closeModal, isModalOpen, modalComponent } from '../../store/redux/modalSlice';
+const CommonModal = () => {
+	const modalState = useAppSelector(isModalOpen);
+	const modalComp = useAppSelector(modalComponent);
 
-interface CommonModalProps {
-	isModalOpen: boolean;
-	children: ReactNode;
-	setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
-}
-
-const CommonModal: React.FC<CommonModalProps> = ({ setIsModalOpen, isModalOpen, children }) => {
+	const dispatch = useAppDispatch();
+	const onCloseModal = () => dispatch(closeModal());
 	return (
 		<div>
-			<Modal open={isModalOpen} footer={null} onCancel={() => setIsModalOpen(false)} keyboard centered maskClosable>
-				{children}
+			<Modal open={modalState} footer={null} onCancel={onCloseModal} keyboard centered maskClosable>
+				{modalComp}
 			</Modal>
 		</div>
 	);

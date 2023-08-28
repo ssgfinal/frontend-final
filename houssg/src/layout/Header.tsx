@@ -1,24 +1,19 @@
-import React from 'react';
 import styled from 'styled-components';
+// import Login from '../components/auth/Login';
+import { useAppDispatch } from '../hooks/useReduxToolkit';
+import { openModal } from '../store/redux/modalSlice';
 import Login from '../components/auth/Login';
 
-interface ModalOpener {
-	setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
-	setModalChildren: React.Dispatch<React.SetStateAction<React.ReactNode>>;
-}
+const Header = () => {
+	const dispatch = useAppDispatch();
 
-const Header: React.FC<ModalOpener> = ({ setIsModalOpen, setModalChildren }) => {
+	const modalOpen = () => {
+		dispatch(openModal(<Login />));
+	};
 	return (
 		<HeaderContainer>
 			<div>logo</div>
-			<div
-				onClick={() => {
-					setIsModalOpen(true);
-					setModalChildren(<Login />);
-				}}
-			>
-				로그인
-			</div>
+			<div onClick={modalOpen}>로그인</div>
 		</HeaderContainer>
 	);
 };
