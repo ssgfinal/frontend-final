@@ -1,10 +1,24 @@
+import React from 'react';
 import styled from 'styled-components';
+import Login from '../components/auth/Login';
 
-const Header = () => {
+interface ModalOpener {
+	setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+	setModalChildren: React.Dispatch<React.SetStateAction<React.ReactNode>>;
+}
+
+const Header: React.FC<ModalOpener> = ({ setIsModalOpen, setModalChildren }) => {
 	return (
 		<HeaderContainer>
 			<div>logo</div>
-			<div>로그인</div>
+			<div
+				onClick={() => {
+					setIsModalOpen(true);
+					setModalChildren(<Login />);
+				}}
+			>
+				로그인
+			</div>
 		</HeaderContainer>
 	);
 };
