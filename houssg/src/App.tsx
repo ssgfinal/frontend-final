@@ -1,12 +1,12 @@
 import { Main } from './pages';
 import { Routes, Route } from 'react-router-dom';
 import './App.css';
-import UserHome from './pages/UserHome';
-import OwernerHome from './pages/OwernerHome';
-import UserMain from './pages/UserMain';
-import UserHouseList from './pages/UserHouseList';
-import UserMypage from './pages/UserMypage';
-import UserReservationList from './pages/UserReservationList';
+import UserHome from './pages/user/UserHome';
+import OwernerHome from './pages/owner/OwnerHome';
+import UserMain from './pages/user/UserMain';
+import UserHouseList from './pages/user/UserHouseList';
+import UserMypage from './pages/user/UserMypage';
+import UserReservationList from './pages/user/UserReservationList';
 
 const App = () => {
 	return (

@@ -1,6 +1,8 @@
 import { Outlet } from 'react-router-dom';
-import { Footer, Header, Nav } from '../layout';
 import styled from 'styled-components';
+
+import { Footer, Header, Nav } from '../../layout';
+
 const UserHome = () => {
 	return (
 		<LayoutWrapper>
