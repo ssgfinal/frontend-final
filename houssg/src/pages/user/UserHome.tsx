@@ -13,7 +13,9 @@ const UserHome = () => {
 			<Header setIsModalOpen={setIsModalOpen} setModalChildren={setModalChildren} />
 			<Nav />
 			<Outlet />
-			<CommonModal isModalOpen={isModalOpen}>{modalChildren}</CommonModal>
+			<CommonModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen}>
+				{modalChildren}
+			</CommonModal>
 			<Footer />
 		</LayoutWrapper>
 	);
