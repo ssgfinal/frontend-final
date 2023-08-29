@@ -6,7 +6,9 @@ const Header = () => {
 	const dispatch = useAppDispatch();
 
 	const modalOpen = () => {
-		dispatch(openModal({ modalComponent: 'auth', modalSize: 300 }));
+		const modalSize = window.innerWidth >= 1000 ? 600 : 450;
+
+		dispatch(openModal({ modalComponent: 'auth', modalSize: modalSize }));
 	};
 	return (
 		<HeaderContainer>
