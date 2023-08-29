@@ -1,3 +1,4 @@
+// import { useState, useRef, useEffect } from 'react';
 import { styled } from 'styled-components';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Pagination, Navigation } from 'swiper/modules';
@@ -8,6 +9,8 @@ import Desert from '../../assets/icons/Desert.jpg';
 import Hydrangeas from '../../assets/icons/Hydrangeas.jpg';
 import Lighthouse from '../../assets/icons/Lighthouse.jpg';
 
+import Test from '../Test';
+
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
@@ -15,6 +18,11 @@ import 'swiper/css/navigation';
 import './HomeSlider.css';
 
 const HomeSlider = () => {
+	// const [perview, setPerview] = useState(''); // 1 | 3 | 4 | 5
+	// const [autodelay, setAutodelay] = useState(''); // 2500, 5000
+	// const [outdoor_view, setOutdoor_view] = useState({}); // 숙소 이미지
+	// const [review_rating, setReview_rating] = useState(''); // 평점
+
 	return (
 		<HomeSliderContainer>
 			<Swiper
@@ -50,25 +58,19 @@ const HomeSlider = () => {
 			>
 				<div className="swiper-slide">
 					<SwiperSlide>
-						<img src={Koala} />
+						<Test />
 					</SwiperSlide>
 					<SwiperSlide>
-						<img src={Jellyfish} />
+						<Test />
 					</SwiperSlide>
 					<SwiperSlide>
-						<img src={Desert} />
+						<Test />
 					</SwiperSlide>
 					<SwiperSlide>
-						<img src={Hydrangeas} />
+						<Test />
 					</SwiperSlide>
 					<SwiperSlide>
-						<img src={Lighthouse} />
-					</SwiperSlide>
-					<SwiperSlide>
-						<img src={Koala} />
-					</SwiperSlide>
-					<SwiperSlide>
-						<img src={Jellyfish} />
+						<Test />
 					</SwiperSlide>
 				</div>
 			</Swiper>

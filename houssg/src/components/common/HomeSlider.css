@@ -1,12 +1,9 @@
 .homeSwiper {
 	width: 80vw;
-	height: 25vh;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	overflow: hidden;
+	height: 60vw;
 }
 
 .swiper-slide img {
 	max-width: 100%;
+	padding: 5px 5px 5px 5px;
 }

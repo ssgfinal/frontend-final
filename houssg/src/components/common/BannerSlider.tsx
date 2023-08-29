@@ -28,20 +28,36 @@ const BannerSlider = () => {
 				pagination={{
 					clickable: true,
 				}}
+				breakpoints={{
+					640: {
+						slidesPerView: 1,
+						spaceBetween: 10,
+					},
+					768: {
+						slidesPerView: 1,
+						spaceBetween: 30,
+					},
+					1024: {
+						slidesPerView: 1,
+						spaceBetween: 40,
+					},
+				}}
 				navigation={true}
 				modules={[Autoplay, Pagination, Navigation]}
 				// slideToClickedSlide={true}
 				className="mySwiper"
 			>
-				<SwiperSlide>
-					<img src={Koala} />
-				</SwiperSlide>
-				<SwiperSlide>
-					<img src={Jellyfish} />
-				</SwiperSlide>
-				<SwiperSlide>
-					<img src={Desert} />
-				</SwiperSlide>
+				<div className="swiper-banner">
+					<SwiperSlide>
+						<img src={Koala} />
+					</SwiperSlide>
+					<SwiperSlide>
+						<img src={Jellyfish} />
+					</SwiperSlide>
+					<SwiperSlide>
+						<img src={Desert} />
+					</SwiperSlide>
+				</div>
 			</Swiper>
 		</BannerContainer>
 	);
