@@ -8,9 +8,9 @@ const UserMain = () => {
 		<div>
 			<BannerSlider />
 			<br />
-			<UserMainContainer>
+			{/* <UserMainContainer>
 				<p>&nbsp;평점 높은 숙소 TOP20</p>
-			</UserMainContainer>
+			</UserMainContainer> */}
 			<br />
 			<HomeSlider />
 		</div>
@@ -19,8 +19,8 @@ const UserMain = () => {
 
 export default UserMain;
 
-const UserMainContainer = styled.div`
-	color: ${color.color1};
-	text-align: left;
-	font-size: 1rem;
-`;
+// const UserMainContainer = styled.div`
+// 	color: ${color.color1};
+// 	text-align: left;
+// 	font-size: 1rem;
+// `;

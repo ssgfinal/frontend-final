@@ -1,13 +1,7 @@
-// import { useState, useRef, useEffect } from 'react';
+// import { useState, useEffect } from 'react';
 import { styled } from 'styled-components';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Pagination, Navigation } from 'swiper/modules';
-
-import Koala from '../../assets/icons/Koala.jpg';
-import Jellyfish from '../../assets/icons/Jellyfish.jpg';
-import Desert from '../../assets/icons/Desert.jpg';
-import Hydrangeas from '../../assets/icons/Hydrangeas.jpg';
-import Lighthouse from '../../assets/icons/Lighthouse.jpg';
 
 import Test from '../Test';
 
@@ -15,13 +9,57 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 
-import './HomeSlider.css';
+import Koala from '../../assets/icons/Koala.jpg';
+import Jellyfish from '../../assets/icons/Jellyfish.jpg';
+import Desert from '../../assets/icons/Desert.jpg';
+
+const house = [
+	{
+		name: '가나다 Hotel',
+		price: '100,000원',
+		rating: 4.5,
+		location: '부산',
+		image: Koala,
+	},
+	{
+		name: '가나다 Hotel',
+		price: '100,000원',
+		rating: 4.5,
+		location: '부산',
+		image: Desert,
+	},
+	{
+		name: '가나다 Hotel',
+		price: '100,000원',
+		rating: 4.5,
+		location: '부산',
+		image: Jellyfish,
+	},
+	{
+		name: '가나다 Hotel',
+		price: '100,000원',
+		rating: 4.5,
+		location: '부산',
+		image: Koala,
+	},
+	{
+		name: '가나다 Hotel',
+		price: '100,000원',
+		rating: 4.5,
+		location: '부산',
+		image: Jellyfish,
+	},
+];
 
 const HomeSlider = () => {
-	// const [perview, setPerview] = useState(''); // 1 | 3 | 4 | 5
-	// const [autodelay, setAutodelay] = useState(''); // 2500, 5000
-	// const [outdoor_view, setOutdoor_view] = useState({}); // 숙소 이미지
-	// const [review_rating, setReview_rating] = useState(''); // 평점
+	//const [houses, setHouses] = useState([]);
+
+	// useEffect(() => {
+	// 	fetch('URL_TO_YOUR_API_ENDPOINT')
+	// 		.then((response) => response.json())
+	// 		.then((data) => setHouses(data))
+	// 		.catch((error) => console.error('Error fetching data:', error));
+	// }, []);
 
 	return (
 		<HomeSliderContainer>
@@ -57,21 +95,11 @@ const HomeSlider = () => {
 				className="homeSwiper"
 			>
 				<div className="swiper-slide">
-					<SwiperSlide>
-						<Test />
-					</SwiperSlide>
-					<SwiperSlide>
-						<Test />
-					</SwiperSlide>
-					<SwiperSlide>
-						<Test />
-					</SwiperSlide>
-					<SwiperSlide>
-						<Test />
-					</SwiperSlide>
-					<SwiperSlide>
-						<Test />
-					</SwiperSlide>
+					{house.map((item, index) => (
+						<SwiperSlide key={index}>
+							<Test house={item} />
+						</SwiperSlide>
+					))}
 				</div>
 			</Swiper>
 		</HomeSliderContainer>
@@ -82,7 +110,32 @@ export default HomeSlider;
 
 const HomeSliderContainer = styled.div`
 	cursor: pointer;
+	width: 100%;
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	@media (max-width: 640px) {
+		.homeSwiper {
+			flex-direction: column;
+			align-items: flex-start;
+			width: 80vw;
+		}
+	}
+
+	@media (max-width: 768px) {
+		.homeSwiper {
+			width: 80vw;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
+	}
+
+	@media (min-width: 1024px) {
+		.homeSwiper {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
+	}
 `;

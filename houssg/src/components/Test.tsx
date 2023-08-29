@@ -1,17 +1,31 @@
-import Koala from '../assets/icons/Koala.jpg';
+import React from 'react';
 
-const Test = () => {
+interface House {
+	house: {
+		name: string;
+		price: string;
+		rating: number;
+		location: string;
+		image: string;
+	};
+}
+
+const Test: React.FC<House> = ({ house }) => {
 	console.log('컴포넌트에 들어옴:');
-
+	console.log('house:' + house);
 	return (
-		<div style={{ width: '300px' }}>
-			<p>숙소명</p>
-			<div style={{ width: '200px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-				<img src={Koala} />
+		<div>
+			<div style={{ textAlign: 'left' }}>
+				<img src={house.image} style={{ width: '100%', padding: '5px 5px 5px 5px' }} />
+				<span>
+					{house.location}&nbsp;
+					{house.name}
+				</span>
+				&nbsp;<input type="checkbox"></input>
+				<br />
+				<span>*****&nbsp;{house.rating}</span>
 			</div>
-			<br />
-			평점 컴포넌트
-			<br />
+			<div style={{ textAlign: 'right', fontSize: '1.3rem' }}>{house.price}</div>
 		</div>
 	);
 };

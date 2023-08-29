@@ -11,7 +11,8 @@ import Desert from '../../assets/icons/Desert.jpg';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
-import './BannerSlider.css';
+
+const images = [Koala, Jellyfish, Desert];
 
 const BannerSlider = () => {
 	return (
@@ -35,11 +36,11 @@ const BannerSlider = () => {
 					},
 					768: {
 						slidesPerView: 1,
-						spaceBetween: 30,
+						spaceBetween: 10,
 					},
 					1024: {
 						slidesPerView: 1,
-						spaceBetween: 40,
+						spaceBetween: 10,
 					},
 				}}
 				navigation={true}
@@ -47,16 +48,14 @@ const BannerSlider = () => {
 				// slideToClickedSlide={true}
 				className="mySwiper"
 			>
-				<div className="swiper-banner">
-					<SwiperSlide>
-						<img src={Koala} />
-					</SwiperSlide>
-					<SwiperSlide>
-						<img src={Jellyfish} />
-					</SwiperSlide>
-					<SwiperSlide>
-						<img src={Desert} />
-					</SwiperSlide>
+				<div className="swiper-wrapper">
+					<div className="swiper-banner">
+						{images.map((image, index) => (
+							<SwiperSlide key={index}>
+								<img src={image} alt={`Image ${index}`} style={{ width: '100%', height: '13vw' }} />
+							</SwiperSlide>
+						))}
+					</div>
 				</div>
 			</Swiper>
 		</BannerContainer>
@@ -67,7 +66,29 @@ export default BannerSlider;
 
 const BannerContainer = styled.div`
 	cursor: pointer;
-	display: flex;
-	justify-content: center;
-	align-items: center;
+	@media (max-width: 640px) {
+		.mySwiper {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
+	}
+	@media (max-width: 768px) {
+		.mySwiper {
+			width: 100vw;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
+	}
+
+	@media (min-width: 1024px) {
+		.mySwiper {
+			width: 100%;
+			height: 13;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
+	}
 `;
