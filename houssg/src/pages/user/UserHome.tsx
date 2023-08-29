@@ -2,6 +2,7 @@ import { Outlet } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { Footer, Header, Nav } from '../../layout';
+import CommonModal from '../../components/common/CommonModal';
 
 const UserHome = () => {
 	return (
@@ -9,6 +10,7 @@ const UserHome = () => {
 			<Header />
 			<Nav />
 			<Outlet />
+			<CommonModal></CommonModal>
 			<Footer />
 		</LayoutWrapper>
 	);
