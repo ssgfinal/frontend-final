@@ -1,9 +1,10 @@
 import { AuthProps } from '../../types/auth';
+import { AuthContainer, AuthTitle } from '../../assets/styles';
 
 const SignUp: React.FC<AuthProps> = ({ setIsLoginComp }) => {
 	return (
-		<div>
-			<div>회원가입</div>
+		<AuthContainer>
+			<AuthTitle>회원가입</AuthTitle>
 			<div
 				onClick={() => {
 					setIsLoginComp(true);
@@ -11,7 +12,7 @@ const SignUp: React.FC<AuthProps> = ({ setIsLoginComp }) => {
 			>
 				로그인버튼
 			</div>
-		</div>
+		</AuthContainer>
 	);
 };
 

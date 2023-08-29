@@ -1,10 +1,12 @@
 import { AuthProps } from '../../types/auth';
-
+import { AuthContainer, AuthTitle } from '../../assets/styles';
+import { AuthInput } from '.';
 const Login: React.FC<AuthProps> = ({ setIsLoginComp }) => {
 	return (
-		<div>
-			<div>Login</div>
-
+		<AuthContainer>
+			<AuthTitle>로그인</AuthTitle>
+			<AuthInput title="아이디" />
+			<AuthInput title="비밀번호" password />
 			<div
 				onClick={() => {
 					setIsLoginComp(false);
@@ -12,7 +14,7 @@ const Login: React.FC<AuthProps> = ({ setIsLoginComp }) => {
 			>
 				회원가입버튼
 			</div>
-		</div>
+		</AuthContainer>
 	);
 };
 
