@@ -1,7 +1,11 @@
-import React from 'react';
+import styled from 'styled-components';
 
 const Login = () => {
-	return <div>Login</div>;
+	return <LoginContainer>Login</LoginContainer>;
 };
 
 export default Login;
+
+const LoginContainer = styled.div`
+	/* background-color: red; */
+`;

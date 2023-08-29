@@ -1,13 +1,13 @@
 import styled from 'styled-components';
 import { useAppDispatch } from '../hooks/useReduxToolkit';
 import { openModal } from '../store/redux/modalSlice';
-import Login from '../components/auth/Login';
+import { AuthWrap } from '../components/auth';
 
 const Header = () => {
 	const dispatch = useAppDispatch();
 
 	const modalOpen = () => {
-		dispatch(openModal(<Login />));
+		dispatch(openModal({ component: <AuthWrap />, modalSize: 300 }));
 	};
 	return (
 		<HeaderContainer>
