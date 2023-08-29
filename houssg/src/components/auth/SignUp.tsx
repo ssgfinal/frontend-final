@@ -9,7 +9,7 @@ const SignUp: React.FC<AuthProps> = ({ setIsLoginComp }) => {
 					setIsLoginComp(true);
 				}}
 			>
-				로그인
+				로그인버튼
 			</div>
 		</div>
 	);
