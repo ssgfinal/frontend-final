@@ -2,12 +2,12 @@ import { Modal } from 'antd';
 
 import { useAppDispatch, useAppSelector } from '../../hooks/useReduxToolkit';
 import { closeModal, isModalOpen, modalComponent, modalSize } from '../../store/redux/modalSlice';
+import { AuthWrap } from '../auth';
 
 const CommonModal = () => {
 	const modalState = useAppSelector(isModalOpen);
 	const modalComp = useAppSelector(modalComponent);
 	const size = useAppSelector(modalSize);
-	console.log(size);
 
 	const dispatch = useAppDispatch();
 	const onCloseModal = () => dispatch(closeModal());
@@ -22,7 +22,7 @@ const CommonModal = () => {
 			maskClosable
 			width={size}
 		>
-			{modalComp}
+			{modalComp === 'auth' && <AuthWrap />}
 		</Modal>
 	);
 };
