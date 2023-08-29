@@ -1,7 +1,7 @@
 import axios, { InternalAxiosRequestConfig } from 'axios';
 
 const api = axios.create({
-	baseURL: 'http://localhost:3000/',
+	baseURL: 'http://localhost:3100/',
 	timeout: 100000,
 	headers: {
 		'content-type': 'application/json;charset=UTF-8',
