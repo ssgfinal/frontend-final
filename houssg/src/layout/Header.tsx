@@ -1,13 +1,12 @@
 import styled from 'styled-components';
-import { useAppDispatch } from '../hooks/useReduxToolkit';
 import { openModal } from '../store/redux/modalSlice';
+import { useAppDispatch } from '../hooks';
 
 const Header = () => {
 	const dispatch = useAppDispatch();
 
 	const modalOpen = () => {
 		const modalSize = window.innerWidth >= 1000 ? 600 : 450;
-
 		dispatch(openModal({ modalComponent: 'auth', modalSize: modalSize }));
 	};
 	return (
