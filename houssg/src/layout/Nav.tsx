@@ -4,7 +4,7 @@ import { color } from '../assets/styles/theme';
 import { usePathname } from '../hooks/usePathname';
 
 interface NavTextProps {
-	active: boolean; // active 속성의 타입을 지정
+	$active: boolean; // active 속성의 타입을 지정
 }
 
 const Nav = () => {
@@ -12,16 +12,16 @@ const Nav = () => {
 	const pathname = usePathname();
 	return (
 		<NavContainer>
-			<NavText onClick={() => navigate('/user')} active={pathname === '/user'}>
+			<NavText onClick={() => navigate('/user')} $active={pathname === '/user'}>
 				홈
 			</NavText>
-			<NavText onClick={() => navigate('/user/house')} active={pathname === '/user/house'}>
+			<NavText onClick={() => navigate('/user/house')} $active={pathname === '/user/house'}>
 				숙박업소
 			</NavText>
-			<NavText onClick={() => navigate('/user/reservation')} active={pathname === '/user/reservation'}>
+			<NavText onClick={() => navigate('/user/reservation')} $active={pathname === '/user/reservation'}>
 				예약내역
 			</NavText>
-			<NavText onClick={() => navigate('/user/mypage')} active={pathname === '/user/mypage'}>
+			<NavText onClick={() => navigate('/user/mypage')} $active={pathname === '/user/mypage'}>
 				마이페이지
 			</NavText>
 		</NavContainer>
@@ -39,8 +39,8 @@ const NavContainer = styled.div`
 `;
 
 const NavText = styled.div<NavTextProps>`
-	font-size: ${({ active }) => (active ? '1.3rem' : '1rem')};
-	font-weight: ${({ active }) => (active ? 800 : 500)};
+	font-size: ${({ $active }) => ($active ? '1.3rem' : '1rem')};
+	font-weight: ${({ $active }) => ($active ? 800 : 500)};
 	color: ${color.backColor};
 	cursor: pointer;
 `;
