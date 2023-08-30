@@ -1,6 +1,9 @@
 import { styled } from 'styled-components';
 import { useState } from 'react';
-import { color } from '../../assets/styles';
+
+import { color } from '../../../assets/styles';
+import { unvisible, visible } from '../../../assets/icons';
+
 interface AuthInputType {
 	title: string;
 	password?: boolean;
@@ -17,7 +20,11 @@ const AuthInput: React.FC<AuthInputType> = ({ title, password }) => {
 			<AuthInputTitle>{title}</AuthInputTitle>
 			<AuthInputContainer>
 				<AuthInputSheet type={isVisible ? 'password' : 'text'} />
-				{password && <AuthPasswordVisibility onClick={toggleIsPassword}>스티커</AuthPasswordVisibility>}
+				{password && (
+					<AuthPasswordVisibility onClick={toggleIsPassword}>
+						{!isVisible ? <img src={visible} height="20px" /> : <img src={unvisible} height="20px" />}
+					</AuthPasswordVisibility>
+				)}
 			</AuthInputContainer>
 		</AuthInputWrapper>
 	);
@@ -26,7 +33,7 @@ const AuthInput: React.FC<AuthInputType> = ({ title, password }) => {
 export default AuthInput;
 
 const AuthInputWrapper = styled.div`
-	width: 100%;
+	width: 80%;
 	padding-inline: 0.5rem;
 	padding-bottom: 0.5rem;
 `;
@@ -41,9 +48,9 @@ const AuthInputContainer = styled.div`
 `;
 const AuthPasswordVisibility = styled.div`
 	position: absolute;
-	right: 0.2rem;
+	right: 0.3rem;
 	top: 50%;
-	transform: translateY(-50%);
+	transform: translateY(-40%);
 `;
 const AuthInputSheet = styled.input`
 	width: 100%;

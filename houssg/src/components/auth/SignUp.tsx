@@ -10,7 +10,7 @@ const SignUp: React.FC<AuthProps> = ({ setIsLoginComp }) => {
 					setIsLoginComp(true);
 				}}
 			>
-				로그인버튼
+				로그인하기
 			</div>
 		</AuthContainer>
 	);

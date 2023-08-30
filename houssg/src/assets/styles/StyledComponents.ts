@@ -6,11 +6,12 @@ export const AuthTitle = styled.div`
 	font-size: 2rem;
 	font-weight: 800;
 	color: ${color.color2};
+	text-align: center;
 `;
 
 export const AuthContainer = styled.div`
 	width: 90%;
 	display: flex;
 	flex-direction: column;
-	justify-content: flex-start;
+	align-items: center;
 `;
