@@ -10,7 +10,7 @@ const Login: React.FC<AuthProps> = ({ setIsLoginComp }) => {
 			<AuthInput title="아이디" />
 			<AuthInput title="비밀번호" password />
 			<AuthSubmitBtn>로그인하기</AuthSubmitBtn>
-			<img src={kakaoLogin} width="40%" />
+			<img src={kakaoLogin} width="45%" />
 			<div
 				onClick={() => {
 					setIsLoginComp(false);

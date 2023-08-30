@@ -57,6 +57,6 @@ const AuthInputSheet = styled.input`
 	font-size: 0.9rem;
 	border: 1px solid ${color.basicColor};
 	border-radius: 5px;
-	height: 2rem;
+	height: 2.2rem;
 	padding-left: 0.3rem;
 `;

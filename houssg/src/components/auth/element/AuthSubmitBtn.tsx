@@ -6,19 +6,32 @@ interface AuthSubmitType {
 }
 
 const AuthSubmitBtn: React.FC<AuthSubmitType> = ({ children }) => {
-	return <SubmitBtnContainer>{children}</SubmitBtnContainer>;
+	return (
+		<SubmitBtnContainer>
+			<HoverableText>{children}</HoverableText>
+		</SubmitBtnContainer>
+	);
 };
 
 export default AuthSubmitBtn;
 
 const SubmitBtnContainer = styled.div`
-	width: 40%;
+	width: 45%;
 	height: 2rem;
-	font-weight: 700;
 	color: ${color.color2};
-	cursor: pointer;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	margin: 0.3rem 0;
+`;
+
+const HoverableText = styled.span`
+	font-size: 1rem;
+	font-weight: 700;
+	transition: font-size 0.2s;
+	cursor: pointer;
+
+	&:hover {
+		font-size: 1.2rem;
+	}
 `;
