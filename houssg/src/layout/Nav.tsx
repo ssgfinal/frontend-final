@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom'; // useLocation 추가
 import { color } from '../assets/styles/theme';
-import { usePathname } from '../hooks';
+import { useIsUser, usePathname } from '../hooks';
 
 interface NavTextProps {
 	$active: boolean; // active 속성의 타입을 지정
@@ -10,9 +10,27 @@ interface NavTextProps {
 const Nav = () => {
 	const navigate = useNavigate();
 	const pathname = usePathname();
+	const isUser = useIsUser();
+	const userNav = [
+		['홈', '/user'],
+		['숙박업소', '/user/house'],
+		['예약내역', '/user/reservation'],
+		['마이페이지', '/user/mypage'],
+	];
+	const ownerNav = [
+		['홈', '/owner'],
+		['홈', '/owner'],
+		['홈', '/owner'],
+	];
+	const currentComp = isUser ? userNav : ownerNav;
 	return (
 		<NavContainer>
-			<NavText onClick={() => navigate('/user')} $active={pathname === '/user'}>
+			{currentComp.map((nav) => (
+				<NavText onClick={() => navigate(nav[1])} $active={pathname === nav[1]}>
+					{nav[0]}
+				</NavText>
+			))}
+			{/* <NavText onClick={() => navigate('/user')} $active={pathname === '/user'}>
 				홈
 			</NavText>
 			<NavText onClick={() => navigate('/user/house')} $active={pathname === '/user/house'}>
@@ -23,7 +41,7 @@ const Nav = () => {
 			</NavText>
 			<NavText onClick={() => navigate('/user/mypage')} $active={pathname === '/user/mypage'}>
 				마이페이지
-			</NavText>
+			</NavText> */}
 		</NavContainer>
 	);
 };

@@ -5,11 +5,12 @@ import { HeightProps } from '../../types/common';
 
 export const AuthTitle = styled.div`
 	width: 100%;
-	padding: 1vw;
+	padding: 0.5rem;
 	font-size: 2rem;
 	font-weight: 800;
 	color: ${color.color2};
 	text-align: center;
+	height: 4rem;
 `;
 
 export const AuthContainer = styled.div`

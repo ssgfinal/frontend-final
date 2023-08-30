@@ -3,12 +3,13 @@ import { color } from '../../../assets/styles';
 
 interface AuthSubmitType {
 	children: string;
+	onClick?: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
 }
 
-const AuthSubmitBtn: React.FC<AuthSubmitType> = ({ children }) => {
+const AuthSubmitBtn: React.FC<AuthSubmitType> = ({ children, onClick }) => {
 	return (
 		<SubmitBtnContainer>
-			<HoverableText>{children}</HoverableText>
+			<HoverableText onClick={onClick}>{children}</HoverableText>
 		</SubmitBtnContainer>
 	);
 };
