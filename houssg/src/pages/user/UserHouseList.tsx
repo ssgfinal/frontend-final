@@ -3,7 +3,7 @@ import { Select } from 'antd';
 // import { AudioOutlined } from '@ant-design/icons';
 import { Input, Space, DatePicker } from 'antd';
 import styled from 'styled-components';
-import BriefHouse from '../../components/BriefHouse';
+// import BriefHouse from '../../components/BriefHouse';
 
 const UserHouseList = () => {
 	const handleChange = (value: { value: string; label: React.ReactNode }) => {
@@ -16,74 +16,75 @@ const UserHouseList = () => {
 
 	const { RangePicker } = DatePicker;
 
-	const house = [
-		{
-			name: '무지개멘션',
-			price: '38000원',
-			rating: 3.4,
-			location: '부산시 수영구 센텀',
-		},
-		{
-			name: '무지개떡',
-			price: '44000원',
-			rating: 4.4,
-			location: '부산시 중구 남포',
-		},
-		{
-			name: '파라다이스',
-			price: '44000원',
-			rating: 4.4,
-			location: '부산시 중구 남포',
-		},
-		{
-			name: '환영펜션',
-			price: '44000원',
-			rating: 4.4,
-			location: '부산시 중구 남포',
-		},
-		{
-			name: '환영펜션',
-			price: '44000원',
-			rating: 4.4,
-			location: '부산시 중구 남포',
-		},
-		{
-			name: '환영펜션',
-			price: '44000원',
-			rating: 4.4,
-			location: '부산시 중구 남포',
-		},
-		{
-			name: '환영펜션',
-			price: '44000원',
-			rating: 4.4,
-			location: '부산시 중구 남포',
-		},
-		{
-			name: '환영펜션',
-			price: '44000원',
-			rating: 4.4,
-			location: '부산시 중구 남포',
-		},
-		{
-			name: '환영펜션',
-			price: '44000원',
-			rating: 4.4,
-			location: '부산시 중구 남포',
-		},
-		{
-			name: '환영펜션',
-			price: '44000원',
-			rating: 4.4,
-			location: '부산시 중구 남포',
-		},
-		{
-			name: '환영펜션',
-			price: '44000원',
-			rating: 4.4,
-			location: '부산시 중구 남포',
-		},
-	];
+	// 더미 데이터
+	// const house = [
+	// 	{
+	// 		name: '무지개멘션',
+	// 		price: '38000원',
+	// 		rating: 3.4,
+	// 		location: '부산시 수영구 센텀',
+	// 	},
+	// 	{
+	// 		name: '무지개떡',
+	// 		price: '44000원',
+	// 		rating: 4.4,
+	// 		location: '부산시 중구 남포',
+	// 	},
+	// 	{
+	// 		name: '파라다이스',
+	// 		price: '44000원',
+	// 		rating: 4.4,
+	// 		location: '부산시 중구 남포',
+	// 	},
+	// 	{
+	// 		name: '환영펜션',
+	// 		price: '44000원',
+	// 		rating: 4.4,
+	// 		location: '부산시 중구 남포',
+	// 	},
+	// 	{
+	// 		name: '환영펜션',
+	// 		price: '44000원',
+	// 		rating: 4.4,
+	// 		location: '부산시 중구 남포',
+	// 	},
+	// 	{
+	// 		name: '환영펜션',
+	// 		price: '44000원',
+	// 		rating: 4.4,
+	// 		location: '부산시 중구 남포',
+	// 	},
+	// 	{
+	// 		name: '환영펜션',
+	// 		price: '44000원',
+	// 		rating: 4.4,
+	// 		location: '부산시 중구 남포',
+	// 	},
+	// 	{
+	// 		name: '환영펜션',
+	// 		price: '44000원',
+	// 		rating: 4.4,
+	// 		location: '부산시 중구 남포',
+	// 	},
+	// 	{
+	// 		name: '환영펜션',
+	// 		price: '44000원',
+	// 		rating: 4.4,
+	// 		location: '부산시 중구 남포',
+	// 	},
+	// 	{
+	// 		name: '환영펜션',
+	// 		price: '44000원',
+	// 		rating: 4.4,
+	// 		location: '부산시 중구 남포',
+	// 	},
+	// 	{
+	// 		name: '환영펜션',
+	// 		price: '44000원',
+	// 		rating: 4.4,
+	// 		location: '부산시 중구 남포',
+	// 	},
+	// ];
 	return (
 		<>
 			<SearchWrapper>
@@ -146,11 +147,11 @@ const UserHouseList = () => {
 					]}
 				/>
 			</div>
-			<div className="container" style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '2vw' }}>
+			{/* <div className="container" style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '2vw' }}>
 				{house.map((h, idx) => (
 					<BriefHouse house={h} key={idx} />
 				))}
-			</div>
+			</div> */}
 		</>
 	);
 };
