@@ -6,7 +6,15 @@ import { useState } from 'react';
 const AuthWrap: React.FC = () => {
 	const [isLoginComp, setIsLoginComp] = useState(true);
 
-	return <AuthWrapper>{isLoginComp ? <Login setIsLoginComp={setIsLoginComp} /> : <SignUp setIsLoginComp={setIsLoginComp} />}</AuthWrapper>;
+	return (
+		<AuthWrapper>
+			{isLoginComp ? (
+				<Login isLoginComp={isLoginComp} setIsLoginComp={setIsLoginComp} />
+			) : (
+				<SignUp isLoginComp={isLoginComp} setIsLoginComp={setIsLoginComp} />
+			)}
+		</AuthWrapper>
+	);
 };
 
 export default AuthWrap;

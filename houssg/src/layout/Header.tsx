@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { openModal } from '../store/redux/modalSlice';
 import { useAppDispatch } from '../hooks';
-import { logo } from '../assets/icons';
+import { login, logo } from '../assets/icons';
 
 const Header = () => {
 	const dispatch = useAppDispatch();
@@ -13,7 +13,7 @@ const Header = () => {
 	return (
 		<HeaderContainer>
 			<img src={logo} height="70px" />
-			<div onClick={modalOpen}>로그인</div>
+			<LoginImg onClick={modalOpen} src={login} />
 		</HeaderContainer>
 	);
 };
@@ -26,4 +26,10 @@ const HeaderContainer = styled.header`
 	justify-content: space-between;
 	align-items: flex-end;
 	padding-inline: 1rem;
+`;
+
+const LoginImg = styled.img`
+	height: 3.2rem;
+	cursor: pointer;
+	padding-bottom: 0.5rem;
 `;
