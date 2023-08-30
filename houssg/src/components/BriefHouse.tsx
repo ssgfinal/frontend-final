@@ -1,5 +1,6 @@
-import React from 'react';
 import { styled } from 'styled-components';
+
+import React from 'react';
 
 interface House {
 	house: {
@@ -21,14 +22,16 @@ const BriefHouse: React.FC<House> = ({ house }) => {
 				<HouseBox4>
 					<HouseBox5>
 						<HouseBox2>
-							<span>
-								{house.location}&nbsp;
-								{house.name}
-							</span>
-							<input type="checkbox"></input>
+							<div>
+								<span>
+									{house.location}&nbsp;
+									{house.name}
+								</span>
+								<input type="checkbox"></input>
+							</div>
 						</HouseBox2>
 						<RateBox>
-							<p>*****&nbsp;{house.rating}</p>
+							<div>*****&nbsp;{house.rating}</div>
 						</RateBox>
 						<PriceBox>
 							<div>{house.price}</div>
@@ -43,17 +46,16 @@ const BriefHouse: React.FC<House> = ({ house }) => {
 export default BriefHouse;
 
 const HouseBox1 = styled.div`
-	width: 15vw;
 	margin: 1rem;
 	align-items: center;
 `;
 
 const HouseBox2 = styled.div`
 	text-align: left;
-	align-items: center;
 `;
 
 const HouseBox3 = styled.div`
+	padding: 1rem;
 	align-items: center;
 `;
 
@@ -62,17 +64,35 @@ const HouseBox4 = styled.div`
 `;
 
 const HouseBox5 = styled.div`
-	margin-left: 1rem;
 	align-items: center;
 `;
 
 const ImageBox = styled.div`
-	padding: 1rem;
+	padding: 0.5;
 	align-items: center;
-	.imagebox {
-		width: 13vw;
-		height: 13vw;
-		align-items: center;
+
+	@media (max-width: 540px) {
+		.imagebox {
+			width: 100%;
+		}
+	}
+
+	@media (min-width: 540px) and (max-width: 768px) {
+		.imagebox {
+			width: 100%;
+		}
+	}
+
+	@media (min-width: 768px) and (max-width: 1024px) {
+		.imagebox {
+			width: 100%;
+		}
+	}
+
+	@media (min-width: 1024px) {
+		.imagebox {
+			width: 100%;
+		}
 	}
 `;
 
@@ -81,8 +101,6 @@ const RateBox = styled.div`
 `;
 
 const PriceBox = styled.div`
-	width: 15vw;
-	margin-right: 0rem;
 	text-align: right;
 	font-size: 1rem;
 `;

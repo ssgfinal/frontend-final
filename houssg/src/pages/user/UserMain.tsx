@@ -27,6 +27,8 @@ const UserMain = () => {
 export default UserMain;
 
 const UserMainContainer = styled.div`
+	margin-top: 1rem;
+	margin-left: 1rem;
 	color: ${color.color1};
 	text-align: left;
 	font-size: 1rem;
