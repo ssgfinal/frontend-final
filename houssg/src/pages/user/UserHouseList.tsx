@@ -89,7 +89,7 @@ const UserHouseList = () => {
 			<SearchWrapper>
 				<Select
 					labelInValue
-					defaultValue={{ value: '부산역', label: '지하철역' }}
+					defaultValue={{ value: '부산역', label: '부산역' }}
 					style={{ width: '120px', marginLeft: '5px', marginRight: '5px', marginTop: '5px', marginBottom: '5px' }}
 					onChange={handleChange}
 					options={[
@@ -105,7 +105,7 @@ const UserHouseList = () => {
 				/>
 				<Select
 					labelInValue
-					defaultValue={{ value: '호텔', label: '숙소 종류' }}
+					defaultValue={{ value: '호텔', label: '호텔' }}
 					style={{ width: '120px', marginLeft: '5px', marginRight: '5px', marginTop: '5px', marginBottom: '5px' }}
 					onChange={handleChange}
 					options={[
@@ -121,7 +121,9 @@ const UserHouseList = () => {
 				/>
 				<Space>
 					<RangePicker />
-					<Search placeholder=" 키워드로 찾아보세요." onSearch={onSearch} enterButton style={{ width: '250px' }} />
+				</Space>
+				<Space>
+					<Search placeholder=" 키워드로 찾아보세요." onSearch={onSearch} enterButton style={{ width: '15rem' }} />
 				</Space>
 			</SearchWrapper>
 
@@ -129,7 +131,7 @@ const UserHouseList = () => {
 				<span style={{ margin: 'auto 0' }}> 50개의 검색 결과</span>
 				<Select
 					labelInValue
-					defaultValue={{ value: '평점 높은순', label: '정렬' }}
+					defaultValue={{ value: '평점 높은순', label: '평점 높은순' }}
 					style={{ width: 120, marginLeft: '5px', marginRight: '5px', marginTop: '5px', marginBottom: '5px', justifyContent: 'flex-end' }}
 					onChange={handleChange}
 					options={[
@@ -144,7 +146,7 @@ const UserHouseList = () => {
 					]}
 				/>
 			</div>
-			<div className="container" style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between' }}>
+			<div className="container" style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '2vw' }}>
 				{house.map((h, idx) => (
 					<BriefHouse house={h} key={idx} />
 				))}
