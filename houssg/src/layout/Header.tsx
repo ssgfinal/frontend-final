@@ -1,16 +1,18 @@
 import styled from 'styled-components';
-import { useAppDispatch } from '../hooks/useReduxToolkit';
 import { openModal } from '../store/redux/modalSlice';
+import { useAppDispatch } from '../hooks';
+import { logo } from '../assets/icons';
 
 const Header = () => {
 	const dispatch = useAppDispatch();
 
 	const modalOpen = () => {
-		dispatch(openModal({ modalComponent: 'auth', modalSize: 300 }));
+		const modalSize = window.innerWidth >= 1000 ? 500 : 400;
+		dispatch(openModal({ modalComponent: 'auth', modalSize: modalSize }));
 	};
 	return (
 		<HeaderContainer>
-			<div>logo</div>
+			<img src={logo} height="70px" />
 			<div onClick={modalOpen}>로그인</div>
 		</HeaderContainer>
 	);

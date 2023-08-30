@@ -26,15 +26,16 @@ export const modalSlice = createSlice({
 			state.modalComponent = action.payload.modalComponent;
 			if (action.payload.modalSize) {
 				state.modalSize = action.payload.modalSize;
+			} else {
+				state.modalSize = '500px';
 			}
 			if (action.payload.modalProps) {
 				state.modalProps = action.payload.modalProps;
 			}
 		},
 		closeModal: (state) => {
-			state.isModalOpen = false;
 			state.modalComponent = '';
-			state.modalSize = 500;
+			state.isModalOpen = false;
 			state.modalProps = {};
 		},
 	},
