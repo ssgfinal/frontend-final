@@ -50,6 +50,7 @@ const house = [
 ];
 
 const HomeSlider = () => {
+	// TODO:
 	//const [houses, setHouses] = useState([]);
 
 	// useEffect(() => {
@@ -87,12 +88,14 @@ const HomeSlider = () => {
 				modules={[Navigation]}
 				className="homeSwiper"
 			>
-				<div className="swiper-slide">
-					{house.map((item, index) => (
-						<SwiperSlide key={index}>
-							<BriefHouse house={item} />
-						</SwiperSlide>
-					))}
+				<div className="swiper-wrapper">
+					<div className="swiper-slide">
+						{house.map((item, index) => (
+							<SwiperSlide key={index}>
+								<BriefHouse house={item} />
+							</SwiperSlide>
+						))}
+					</div>
 				</div>
 			</Swiper>
 		</HomeSliderContainer>
@@ -101,11 +104,21 @@ const HomeSlider = () => {
 
 export default HomeSlider;
 
+// TODO: 마진 아래랑 양옆, hover랑 gap주기
 const HomeSliderContainer = styled.div`
 	cursor: pointer;
 	display: flex;
 	justify-content: center;
 	align-items: center;
+
+	.swiper-wrapper {
+		gap: 1rem;
+	}
+
+	.swiper-slider {
+		margin: 1rem;
+	}
+
 	@media (max-width: 380px) and (min-width: 540px) {
 		.homeSwiper {
 			flex-direction: column;
@@ -122,13 +135,13 @@ const HomeSliderContainer = styled.div`
 
 	@media (max-width: 768px) and (min-width: 1024px) {
 		.homeSwiper {
-			width: 80vw;
+			width: 60vw;
 		}
 	}
 
 	@media (min-width: 1024px) {
 		.homeSwiper {
-			width: 100vw;
+			width: 80vw;
 		}
 	}
 `;
