@@ -10,9 +10,7 @@ interface House {
 	};
 }
 
-const Test: React.FC<House> = ({ house }) => {
-	console.log('컴포넌트에 들어옴:');
-	console.log('house:' + house);
+const BriefHouse: React.FC<House> = ({ house }) => {
 	return (
 		<div>
 			<div style={{ textAlign: 'left' }}>
@@ -30,4 +28,4 @@ const Test: React.FC<House> = ({ house }) => {
 	);
 };
 
-export default Test;
+export default BriefHouse;

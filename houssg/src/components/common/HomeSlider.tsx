@@ -1,17 +1,15 @@
-// import { useState, useEffect } from 'react';
 import { styled } from 'styled-components';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Autoplay, Pagination, Navigation } from 'swiper/modules';
+import { Navigation } from 'swiper/modules';
 
-import Test from '../Test';
+import BriefHouse from '../BriefHouse';
+import Koala from '../../assets/icons/Koala.jpg';
+import Jellyfish from '../../assets/icons/Jellyfish.jpg';
+import Desert from '../../assets/icons/Desert.jpg';
 
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
-
-import Koala from '../../assets/icons/Koala.jpg';
-import Jellyfish from '../../assets/icons/Jellyfish.jpg';
-import Desert from '../../assets/icons/Desert.jpg';
 
 const house = [
 	{
@@ -67,18 +65,14 @@ const HomeSlider = () => {
 				slidesPerView={1}
 				spaceBetween={5}
 				slidesPerGroup={1}
-				loop={true}
-				autoplay={{
-					delay: 2500,
-					disableOnInteraction: false,
-				}}
-				pagination={{
-					clickable: true,
-				}}
 				breakpoints={{
-					640: {
+					380: {
 						slidesPerView: 1,
 						spaceBetween: 10,
+					},
+					540: {
+						slidesPerView: 2,
+						spaceBetween: 20,
 					},
 					768: {
 						slidesPerView: 3,
@@ -90,14 +84,13 @@ const HomeSlider = () => {
 					},
 				}}
 				navigation={true}
-				modules={[Autoplay, Pagination, Navigation]}
-				// slideToClickedSlide={true}
+				modules={[Navigation]}
 				className="homeSwiper"
 			>
 				<div className="swiper-slide">
 					{house.map((item, index) => (
 						<SwiperSlide key={index}>
-							<Test house={item} />
+							<BriefHouse house={item} />
 						</SwiperSlide>
 					))}
 				</div>
@@ -110,32 +103,32 @@ export default HomeSlider;
 
 const HomeSliderContainer = styled.div`
 	cursor: pointer;
-	width: 100%;
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	@media (max-width: 640px) {
+	@media (max-width: 380px) and (min-width: 540px) {
 		.homeSwiper {
 			flex-direction: column;
 			align-items: flex-start;
-			width: 80vw;
+			width: 10vw;
 		}
 	}
 
-	@media (max-width: 768px) {
+	@media (max-width: 540px) and (min-width: 768px) {
+		.homeSwiper {
+			width: 60vw;
+		}
+	}
+
+	@media (max-width: 768px) and (min-width: 1024px) {
 		.homeSwiper {
 			width: 80vw;
-			display: flex;
-			justify-content: center;
-			align-items: center;
 		}
 	}
 
 	@media (min-width: 1024px) {
 		.homeSwiper {
-			display: flex;
-			justify-content: center;
-			align-items: center;
+			width: 100vw;
 		}
 	}
 `;

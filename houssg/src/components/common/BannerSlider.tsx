@@ -1,9 +1,7 @@
-// import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Pagination, Navigation } from 'swiper/modules';
 
-// import Koala from '../../assets/icons/Koala.svg';
 import Koala from '../../assets/icons/Koala.jpg';
 import Jellyfish from '../../assets/icons/Jellyfish.jpg';
 import Desert from '../../assets/icons/Desert.jpg';
@@ -45,7 +43,6 @@ const BannerSlider = () => {
 				}}
 				navigation={true}
 				modules={[Autoplay, Pagination, Navigation]}
-				// slideToClickedSlide={true}
 				className="mySwiper"
 			>
 				<div className="swiper-wrapper">
@@ -66,29 +63,23 @@ export default BannerSlider;
 
 const BannerContainer = styled.div`
 	cursor: pointer;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 	@media (max-width: 640px) {
 		.mySwiper {
-			display: flex;
-			justify-content: center;
-			align-items: center;
+			width: 100vw;
 		}
 	}
 	@media (max-width: 768px) {
 		.mySwiper {
 			width: 100vw;
-			display: flex;
-			justify-content: center;
-			align-items: center;
 		}
 	}
 
 	@media (min-width: 1024px) {
 		.mySwiper {
-			width: 100%;
-			height: 13;
-			display: flex;
-			justify-content: center;
-			align-items: center;
+			width: 100vw;
 		}
 	}
 `;
