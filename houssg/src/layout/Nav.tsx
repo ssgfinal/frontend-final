@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom'; // useLocation 추가
 import { color } from '../assets/styles/theme';
-import { usePathname } from '../hooks/usePathname';
+import { usePathname } from '../hooks';
 
 interface NavTextProps {
 	$active: boolean; // active 속성의 타입을 지정
