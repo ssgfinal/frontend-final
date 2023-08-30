@@ -1,10 +1,10 @@
 import { AuthProps } from '../../types/auth';
 import { AuthContainer, AuthTitle, HeightPositioningDiv } from '../../assets/styles';
-import { AuthInput } from '.';
+
 import { kakaoLogin } from '../../assets/images';
-import AuthSubmitBtn from './element/AuthSubmitBtn';
-import AuthModeBtn from './element/AuthModeBtn';
-const Login: React.FC<AuthProps> = ({ setIsLoginComp }) => {
+import { AuthInput, AuthModeBtn, AuthSubmitBtn } from './element';
+
+const Login: React.FC<AuthProps> = ({ isLoginComp, setIsLoginComp }) => {
 	return (
 		<AuthContainer>
 			<AuthTitle>로그인</AuthTitle>
@@ -14,7 +14,9 @@ const Login: React.FC<AuthProps> = ({ setIsLoginComp }) => {
 			<HeightPositioningDiv height="0.2rem" />
 			<img src={kakaoLogin} width="45%" />
 			<HeightPositioningDiv height="1.3rem" />
-			<AuthModeBtn setIsLoginComp={setIsLoginComp}>회원가입하기</AuthModeBtn>
+			<AuthModeBtn isLoginComp={isLoginComp} setIsLoginComp={setIsLoginComp}>
+				회원가입으로
+			</AuthModeBtn>
 		</AuthContainer>
 	);
 };
