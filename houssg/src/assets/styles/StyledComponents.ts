@@ -1,5 +1,8 @@
 import styled from 'styled-components';
+
 import { color } from '.';
+import { HeightProps } from '../../types/common';
+
 export const AuthTitle = styled.div`
 	width: 100%;
 	padding: 1vw;
@@ -14,4 +17,8 @@ export const AuthContainer = styled.div`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+`;
+
+export const HeightPositioningDiv = styled.div<HeightProps>`
+	height: ${(props) => props.height};
 `;

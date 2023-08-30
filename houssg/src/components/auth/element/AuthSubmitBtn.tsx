@@ -18,7 +18,6 @@ export default AuthSubmitBtn;
 const SubmitBtnContainer = styled.div`
 	width: 45%;
 	height: 2rem;
-	color: ${color.color2};
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -26,6 +25,7 @@ const SubmitBtnContainer = styled.div`
 `;
 
 const HoverableText = styled.span`
+	color: ${color.color2};
 	font-size: 1rem;
 	font-weight: 700;
 	transition: font-size 0.2s;

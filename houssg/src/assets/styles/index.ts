@@ -1,5 +1,5 @@
 import { color, basicTheme } from './theme';
 import GlobalStyle from './GlobalStyle';
-import { AuthTitle, AuthContainer } from './StyledComponents';
+import { AuthTitle, AuthContainer, HeightPositioningDiv } from './StyledComponents';
 
-export { color, basicTheme, GlobalStyle, AuthTitle, AuthContainer };
+export { color, basicTheme, GlobalStyle, AuthTitle, AuthContainer, HeightPositioningDiv };
