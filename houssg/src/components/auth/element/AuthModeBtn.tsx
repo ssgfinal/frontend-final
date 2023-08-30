@@ -4,19 +4,14 @@ import { color } from '../../../assets/styles';
 
 interface AuthModeType {
 	children: string;
+	isLoginComp: boolean;
 	setIsLoginComp: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const AuthModeBtn: React.FC<AuthModeType> = ({ children, setIsLoginComp }) => {
+const AuthModeBtn: React.FC<AuthModeType> = ({ children, isLoginComp, setIsLoginComp }) => {
 	return (
 		<AuthModeBtnContainer>
-			<HoverText
-				onClick={() => {
-					setIsLoginComp(false);
-				}}
-			>
-				{children}
-			</HoverText>
+			<HoverText onClick={() => setIsLoginComp(!isLoginComp)}>{children}</HoverText>
 		</AuthModeBtnContainer>
 	);
 };
