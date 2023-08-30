@@ -14,21 +14,28 @@ interface House {
 const BriefHouse: React.FC<House> = ({ house }) => {
 	return (
 		<HouseBox1>
-			<ImageBox>
-				<img src={house.image} className="imagebox" />
-			</ImageBox>
-			<HouseBox2>
-				<span>
-					{house.location}&nbsp;
-					{house.name}
-				</span>
-				&nbsp;<input type="checkbox"></input>
-				<RateBox>
-					<br />
-					<p>*****&nbsp;{house.rating}</p>
-				</RateBox>
-			</HouseBox2>
-			<div style={{ textAlign: 'right', fontSize: '1.3rem' }}>{house.price}</div>
+			<HouseBox3>
+				<ImageBox>
+					<img src={house.image} className="imagebox" />
+				</ImageBox>
+				<HouseBox4>
+					<HouseBox5>
+						<HouseBox2>
+							<span>
+								{house.location}&nbsp;
+								{house.name}
+							</span>
+							<input type="checkbox"></input>
+						</HouseBox2>
+						<RateBox>
+							<p>*****&nbsp;{house.rating}</p>
+						</RateBox>
+						<PriceBox>
+							<div>{house.price}</div>
+						</PriceBox>
+					</HouseBox5>
+				</HouseBox4>
+			</HouseBox3>
 		</HouseBox1>
 	);
 };
@@ -36,26 +43,46 @@ const BriefHouse: React.FC<House> = ({ house }) => {
 export default BriefHouse;
 
 const HouseBox1 = styled.div`
+	width: 15vw;
 	margin: 1rem;
+	align-items: center;
 `;
 
 const HouseBox2 = styled.div`
-	display: flex;
-	justify-content: left;
 	text-align: left;
-	margin: 1rem;
+	align-items: center;
+`;
+
+const HouseBox3 = styled.div`
+	align-items: center;
+`;
+
+const HouseBox4 = styled.div`
+	align-items: center;
+`;
+
+const HouseBox5 = styled.div`
+	margin-left: 1rem;
+	align-items: center;
 `;
 
 const ImageBox = styled.div`
 	padding: 1rem;
-	width: 20vw;
-	height: 15vw;
+	align-items: center;
 	.imagebox {
-		width: 100%;
-		height: 100%;
+		width: 13vw;
+		height: 13vw;
+		align-items: center;
 	}
 `;
 
 const RateBox = styled.div`
 	text-align: left;
+`;
+
+const PriceBox = styled.div`
+	width: 15vw;
+	margin-right: 0rem;
+	text-align: right;
+	font-size: 1rem;
 `;

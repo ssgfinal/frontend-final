@@ -73,30 +73,32 @@ const HomeSlider = () => {
 					},
 					540: {
 						slidesPerView: 2,
-						spaceBetween: 20,
+						spaceBetween: 10,
 					},
 					768: {
 						slidesPerView: 3,
-						spaceBetween: 30,
+						spaceBetween: 10,
 					},
 					1024: {
 						slidesPerView: 4,
-						spaceBetween: 40,
+						spaceBetween: 10,
 					},
 				}}
 				navigation={true}
 				modules={[Navigation]}
 				className="homeSwiper"
 			>
-				<div className="swiper-wrapper">
-					<div className="swiper-slide">
-						{house.map((item, index) => (
-							<SwiperSlide key={index}>
-								<BriefHouse house={item} />
-							</SwiperSlide>
-						))}
-					</div>
-				</div>
+				<SwiperWrapper>
+					<SwiperSlideMap>
+						<div className="swiper-slide">
+							{house.map((item, index) => (
+								<SwiperSlide key={index}>
+									<BriefHouse house={item} />
+								</SwiperSlide>
+							))}
+						</div>
+					</SwiperSlideMap>
+				</SwiperWrapper>
 			</Swiper>
 		</HomeSliderContainer>
 	);
@@ -105,6 +107,15 @@ const HomeSlider = () => {
 export default HomeSlider;
 
 // TODO: 마진 아래랑 양옆, hover랑 gap주기
+
+const SwiperWrapper = styled.div`
+	margin: 0px;
+`;
+
+const SwiperSlideMap = styled.div`
+	margin: 0px;
+`;
+
 const HomeSliderContainer = styled.div`
 	cursor: pointer;
 	display: flex;
@@ -112,18 +123,18 @@ const HomeSliderContainer = styled.div`
 	align-items: center;
 
 	.swiper-wrapper {
-		gap: 1rem;
-	}
-
-	.swiper-slider {
-		margin: 1rem;
+		gap: 0.5rem;
+		margin: 0.5rem;
 	}
 
 	@media (max-width: 380px) and (min-width: 540px) {
 		.homeSwiper {
 			flex-direction: column;
 			align-items: flex-start;
-			width: 10vw;
+			width: 80vw;
+			display: flex;
+			justify-content: center;
+			align-items: center;
 		}
 	}
 
@@ -135,13 +146,13 @@ const HomeSliderContainer = styled.div`
 
 	@media (max-width: 768px) and (min-width: 1024px) {
 		.homeSwiper {
-			width: 60vw;
+			width: 80vw;
 		}
 	}
 
 	@media (min-width: 1024px) {
 		.homeSwiper {
-			width: 80vw;
+			width: 100vw;
 		}
 	}
 `;
