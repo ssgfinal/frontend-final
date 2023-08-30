@@ -11,6 +11,7 @@ const UserHome = () => {
 			<Nav />
 			<Outlet />
 			<CommonModal></CommonModal>
+			<FooterPositioner />
 			<Footer />
 		</LayoutWrapper>
 	);
@@ -22,4 +23,9 @@ const LayoutWrapper = styled.div`
 	min-height: 100vh;
 	position: relative;
 	width: 100%;
+`;
+
+const FooterPositioner = styled.div`
+	width: 100%;
+	height: 110px;
 `;
