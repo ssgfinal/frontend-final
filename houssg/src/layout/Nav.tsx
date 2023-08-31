@@ -11,6 +11,7 @@ const Nav = () => {
 	const navigate = useNavigate();
 	const pathname = usePathname();
 	const isUser = useIsUser();
+
 	const userNav = [
 		['홈', '/user'],
 		['숙박업소', '/user/house'],
@@ -22,26 +23,16 @@ const Nav = () => {
 		['숙소 등록', '/owner/register'],
 		['숙소 관리', '/owner/management'],
 	];
-	const currentComp = isUser ? userNav : ownerNav;
+
+	const currentNav = isUser ? userNav : ownerNav;
+
 	return (
 		<NavContainer>
-			{currentComp.map((nav, i) => (
+			{currentNav.map((nav, i) => (
 				<NavText key={i} onClick={() => navigate(nav[1])} $active={pathname === nav[1]}>
 					{nav[0]}
 				</NavText>
 			))}
-			{/* <NavText onClick={() => navigate('/user')} $active={pathname === '/user'}>
-				홈
-			</NavText>
-			<NavText onClick={() => navigate('/user/house')} $active={pathname === '/user/house'}>
-				숙박업소
-			</NavText>
-			<NavText onClick={() => navigate('/user/reservation')} $active={pathname === '/user/reservation'}>
-				예약내역
-			</NavText>
-			<NavText onClick={() => navigate('/user/mypage')} $active={pathname === '/user/mypage'}>
-				마이페이지
-			</NavText> */}
 		</NavContainer>
 	);
 };
