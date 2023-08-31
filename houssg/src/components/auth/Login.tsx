@@ -17,7 +17,7 @@ const Login: React.FC<AuthProps> = ({ isLoginComp, setIsLoginComp }) => {
 	const [userId, setUserId] = useState('');
 	const [userPw, setUserPw] = useState('');
 
-	// console.log(1, userId, 2, userPw);
+	console.log(1, userId, 2, userPw);
 
 	const onLogin = () => {
 		if (userId.trim() === '') {
@@ -32,7 +32,7 @@ const Login: React.FC<AuthProps> = ({ isLoginComp, setIsLoginComp }) => {
 			console.log('들어오나');
 			api.post(url.login + `?id=${userId}&password=${userPw}&auth=0`).then((resp) => {
 				alert(resp);
-
+				// TODO:
 				// if (resp.data.id) {
 				// 	localStorage.setItem('login', resp.data.id);
 				// 	setUserId('');
@@ -43,7 +43,6 @@ const Login: React.FC<AuthProps> = ({ isLoginComp, setIsLoginComp }) => {
 				// }
 			});
 		}
-
 		!isUser && navigate('/owner');
 	};
 

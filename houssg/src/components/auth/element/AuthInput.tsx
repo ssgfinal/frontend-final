@@ -1,34 +1,29 @@
 import { styled } from 'styled-components';
-import { ChangeEvent, useEffect, useState } from 'react';
+import { useEffect, ChangeEvent, useState } from 'react';
 
 import { color } from '../../../assets/styles';
 import { unvisible, visible } from '../../../assets/icons';
 import { useDebounce } from '../../../hooks';
-
-interface AuthInputType {
-	title: string;
-	password?: boolean;
-	setValue: React.Dispatch<React.SetStateAction<string>>;
-}
+import { AuthInputType } from '../../../types/auth';
 
 const AuthInput: React.FC<AuthInputType> = ({ title, password, setValue }) => {
 	const [isVisible, setIsVisible] = useState(password);
-	// TODO: 콜백안이라 사용 안됨
-	// const [inputValue, setInputValue] = useState('');
-	// useEffect(() => {
-	// 	setValue(useDebounce(inputValue, 0.2));
-	// }, [inputValue]);
+	const [inputValue, setInputValue] = useState('');
+
 	const toggleIsPassword = () => {
 		setIsVisible(!isVisible);
 	};
-
 	const onChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
-		// const lastValue = useDebounce(e.target.value, 0.2);
-		// setValue(lastValue);
-		// console.log(e.target.value);
-		// setInputValue(e.target.value);
-		setValue(e.target.value);
+		setInputValue(e.target.value);
 	};
+
+	const debouncedValue = useDebounce(inputValue, 300);
+
+	useEffect(() => {
+		if (debouncedValue) {
+			setValue(debouncedValue);
+		}
+	}, [debouncedValue, setValue]);
 
 	return (
 		<AuthInputWrapper>
