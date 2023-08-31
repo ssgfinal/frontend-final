@@ -1,7 +1,7 @@
 import { styled } from 'styled-components';
 
 import React from 'react';
-import { color } from '../assets/styles';
+import Rating from './common/Rating';
 
 interface House {
 	house: {
@@ -29,7 +29,7 @@ const BriefHouse: React.FC<House> = ({ house }) => {
 						<input type="checkbox"></input>
 					</div>
 					<RateBox>
-						<div>*****&nbsp;{house.rating}</div>
+						<Rating rate={house.rating} readonly />
 					</RateBox>
 				</HouseDetailContainer>
 				<PriceBox>
