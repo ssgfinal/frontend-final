@@ -14,7 +14,6 @@ const Header = () => {
 	const navigate = useNavigate();
 	const pathname = usePathname();
 	const isUser = useIsUser();
-	console.log(isUser);
 	const goHomeHandler = () => {
 		pathname === '/user' || pathname === '/owner' ? navigate('/') : isUser ? navigate('/user') : navigate('/owner');
 	};
