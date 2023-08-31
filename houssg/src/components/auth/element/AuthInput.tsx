@@ -14,12 +14,12 @@ const AuthInput: React.FC<AuthInputType> = ({ title, password, setValue, reg }) 
 	const toggleIsPassword = () => {
 		setIsVisible(!isVisible);
 	};
+
 	const onChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
 		setInputValue(e.target.value);
 	};
 
 	const debouncedValue = useDebounce(inputValue, 200);
-
 	useEffect(() => {
 		if (debouncedValue) {
 			setValue(debouncedValue);
