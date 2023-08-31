@@ -52,4 +52,7 @@ const NavText = styled.div<NavTextProps>`
 	font-weight: ${({ $active }) => ($active ? 800 : 500)};
 	color: ${color.backColor};
 	cursor: pointer;
+	@media only screen and (max-width: 765px) {
+		font-size: ${({ $active }) => ($active ? '1.1rem' : '0.8rem')};
+	}
 `;

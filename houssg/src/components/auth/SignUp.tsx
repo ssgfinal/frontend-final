@@ -4,6 +4,7 @@ import { AuthInput, AuthModeBtn, AuthSubmitBtn } from './element';
 import { styled } from 'styled-components';
 import { usePathname } from '../../hooks';
 import { useState } from 'react';
+import { regSignUp } from '../../assets/constant';
 
 const SignUp: React.FC<AuthProps> = ({ isLoginComp, setIsLoginComp }) => {
 	const pathname = usePathname();
@@ -14,19 +15,20 @@ const SignUp: React.FC<AuthProps> = ({ isLoginComp, setIsLoginComp }) => {
 	const [userPw, setUserPw] = useState('');
 	const [userPwCheck, setUserPwCheck] = useState('');
 
+	const { regId, regPw } = regSignUp;
 	console.log(userId, userNick, userPw, userPwCheck);
 	return (
 		<AuthContainer>
 			<AuthTitle>회원가입</AuthTitle>
 			<CheckerContainer>
-				<AuthInput setValue={setUserId} title="아이디" />
+				<AuthInput setValue={setUserId} title="아이디" reg={regId} />
 				<UseAbilitiyChecker $isUser={isUser}>본인 확인</UseAbilitiyChecker>
 			</CheckerContainer>
 			<CheckerContainer>
 				<AuthInput setValue={setUserNick} title="닉네임" />
 				<UseAbilitiyChecker $isUser={isUser}>중복 확인</UseAbilitiyChecker>
 			</CheckerContainer>
-			<AuthInput setValue={setUserPw} title="비밀번호" password />
+			<AuthInput setValue={setUserPw} title="비밀번호" password reg={regPw} />
 			<AuthInput setValue={setUserPwCheck} title="비밀번호확인" password />
 			<AuthSubmitBtn>회원가입하기</AuthSubmitBtn>
 

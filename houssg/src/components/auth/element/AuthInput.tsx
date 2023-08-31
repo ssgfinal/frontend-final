@@ -1,12 +1,13 @@
 import { styled } from 'styled-components';
-import { useEffect, ChangeEvent, useState } from 'react';
+import { useEffect, ChangeEvent, useState, memo } from 'react';
 
 import { color } from '../../../assets/styles';
 import { unvisible, visible } from '../../../assets/icons';
 import { useDebounce } from '../../../hooks';
 import { AuthInputType } from '../../../types/auth';
+import { Tooltip } from 'antd';
 
-const AuthInput: React.FC<AuthInputType> = ({ title, password, setValue }) => {
+const AuthInput: React.FC<AuthInputType> = ({ title, password, setValue, reg }) => {
 	const [isVisible, setIsVisible] = useState(password);
 	const [inputValue, setInputValue] = useState('');
 
@@ -17,7 +18,7 @@ const AuthInput: React.FC<AuthInputType> = ({ title, password, setValue }) => {
 		setInputValue(e.target.value);
 	};
 
-	const debouncedValue = useDebounce(inputValue, 300);
+	const debouncedValue = useDebounce(inputValue, 200);
 
 	useEffect(() => {
 		if (debouncedValue) {
@@ -29,7 +30,13 @@ const AuthInput: React.FC<AuthInputType> = ({ title, password, setValue }) => {
 		<AuthInputWrapper>
 			<AuthInputTitle>{title}</AuthInputTitle>
 			<AuthInputContainer>
-				<AuthInputSheet type={isVisible ? 'password' : 'text'} onChange={onChangeInput} />
+				{reg ? (
+					<Tooltip title={reg.tooltip} color={color.color4} placement="topRight" overlayStyle={{ fontSize: '0.7rem', opacity: 0.9 }}>
+						<AuthInputSheet type={isVisible ? 'password' : 'text'} onChange={onChangeInput} />
+					</Tooltip>
+				) : (
+					<AuthInputSheet type={isVisible ? 'password' : 'text'} onChange={onChangeInput} />
+				)}
 				{password && (
 					<AuthPasswordVisibility onClick={toggleIsPassword}>
 						{!isVisible ? <img src={visible} height="20px" /> : <img src={unvisible} height="20px" />}
@@ -40,7 +47,7 @@ const AuthInput: React.FC<AuthInputType> = ({ title, password, setValue }) => {
 	);
 };
 
-export default AuthInput;
+export const MemorizedAuthInput = memo(AuthInput);
 
 const AuthInputWrapper = styled.div`
 	width: 80%;
