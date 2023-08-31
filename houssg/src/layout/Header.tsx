@@ -1,6 +1,7 @@
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 import { openModal } from '../store/redux/modalSlice';
-import { useAppDispatch } from '../hooks';
+import { useAppDispatch, useIsUser, usePathname } from '../hooks';
 import { login, logo } from '../assets/icons';
 
 const Header = () => {
@@ -10,10 +11,17 @@ const Header = () => {
 		const modalSize = window.innerWidth >= 1000 ? 500 : 400;
 		dispatch(openModal({ modalComponent: 'auth', modalSize: modalSize }));
 	};
+	const navigate = useNavigate();
+	const pathname = usePathname();
+	const isUser = useIsUser();
+	const goHomeHandler = () => {
+		pathname === '/user' || pathname === '/owner' ? navigate('/') : isUser ? navigate('/user') : navigate('/owner');
+	};
+
 	return (
 		<HeaderContainer>
-			<img src={logo} height="70px" />
-			<LoginImg onClick={modalOpen} src={login} />
+			<LogoImg onClick={goHomeHandler} src={logo} />
+			{isUser && <LoginImg onClick={modalOpen} src={login} />}
 		</HeaderContainer>
 	);
 };
@@ -28,6 +36,10 @@ const HeaderContainer = styled.header`
 	padding-inline: 1rem;
 `;
 
+const LogoImg = styled.img`
+	height: 4rem;
+	cursor: pointer;
+`;
 const LoginImg = styled.img`
 	height: 3.2rem;
 	cursor: pointer;

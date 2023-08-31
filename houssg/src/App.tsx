@@ -1,12 +1,9 @@
-import { Main } from './pages';
 import { Routes, Route } from 'react-router-dom';
 import './App.css';
-import UserHome from './pages/user/UserHome';
-import OwernerHome from './pages/owner/OwnerHome';
-import UserMain from './pages/user/UserMain';
-import UserHouseList from './pages/user/UserHouseList';
-import UserMypage from './pages/user/UserMypage';
-import UserReservationList from './pages/user/UserReservationList';
+
+import { Main } from './pages';
+import { OwnerAuth, OwnerHome, OwnerMain, OwnerManagement, OwnerRegister } from './pages/owner';
+import { UserHome, UserHouseList, UserMain, UserMypage, UserReservationList } from './pages/user';
 
 const App = () => {
 	return (
@@ -18,7 +15,12 @@ const App = () => {
 				<Route path="/user/mypage" element={<UserMypage />} />
 				<Route path="/user/reservation" element={<UserReservationList />} />
 			</Route>
-			<Route path="/owner" element={<OwernerHome />} />
+			<Route path="/ownerAuth" element={<OwnerAuth />} />
+			<Route path="/owner" element={<OwnerHome />}>
+				<Route index element={<OwnerMain />} />
+				<Route path="/owner/register" element={<OwnerRegister />} />
+				<Route path="/owner/management" element={<OwnerManagement />} />
+			</Route>
 		</Routes>
 	);
 };
