@@ -1,6 +1,7 @@
 import { styled } from 'styled-components';
 
 import React from 'react';
+import { color } from '../assets/styles';
 
 interface House {
 	house: {
@@ -22,7 +23,7 @@ const BriefHouse: React.FC<House> = ({ house }) => {
 				<HouseBox4>
 					<HouseBox5>
 						<HouseBox2>
-							<div>
+							<div className="househover">
 								<span>
 									{house.location}&nbsp;
 									{house.name}
@@ -70,6 +71,11 @@ const HouseBox5 = styled.div`
 const ImageBox = styled.div`
 	padding: 0.5;
 	align-items: center;
+
+	.imagebox:hover {
+		width: 95%;
+		transition: width 0.2s;
+	}
 
 	@media (max-width: 540px) {
 		.imagebox {
