@@ -19,8 +19,8 @@ const Nav = () => {
 	];
 	const ownerNav = [
 		['홈', '/owner'],
-		['홈', '/owner'],
-		['홈', '/owner'],
+		['숙소 등록', '/owner/register'],
+		['숙소 관리', '/owner/management'],
 	];
 	const currentComp = isUser ? userNav : ownerNav;
 	return (

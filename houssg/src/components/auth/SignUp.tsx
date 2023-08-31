@@ -46,7 +46,7 @@ const UseAbilitiyChecker = styled.div<{ $isUser?: boolean }>`
 	right: calc(12% + 0.2rem);
 	bottom: 0;
 	/* TODO: */
-	transform: translateY(${(props) => (props.$isUser ? '-43%' : '-75%')});
+	transform: translateY(${(props) => (props.$isUser ? '-42.5%' : '-75%')});
 	font-size: 0.7rem;
 	color: ${color.backColor};
 	background-color: ${color.color3};
