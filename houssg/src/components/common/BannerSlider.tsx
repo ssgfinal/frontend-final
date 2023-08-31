@@ -2,22 +2,20 @@ import styled from 'styled-components';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Pagination, Navigation } from 'swiper/modules';
 
-import Koala from '../../assets/icons/Koala.jpg';
-import Jellyfish from '../../assets/icons/Jellyfish.jpg';
-import Desert from '../../assets/icons/Desert.jpg';
+import Banner from '../../assets/images/Banner.jpg';
+import House from '../../assets/images/Lighthouse.jpg';
 
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 
-const images = [Koala, Jellyfish, Desert];
+const images = [Banner, House];
 
 const BannerSlider = () => {
 	return (
 		<BannerContainer>
 			<Swiper
 				slidesPerView={1}
-				spaceBetween={50}
 				centeredSlides={true}
 				loop={true}
 				autoplay={{
@@ -28,17 +26,17 @@ const BannerSlider = () => {
 					clickable: true,
 				}}
 				breakpoints={{
-					640: {
+					380: {
 						slidesPerView: 1,
-						spaceBetween: 10,
+					},
+					540: {
+						slidesPerView: 1,
 					},
 					768: {
 						slidesPerView: 1,
-						spaceBetween: 10,
 					},
 					1024: {
 						slidesPerView: 1,
-						spaceBetween: 10,
 					},
 				}}
 				navigation={true}
@@ -49,7 +47,7 @@ const BannerSlider = () => {
 					<div className="swiper-banner">
 						{images.map((image, index) => (
 							<SwiperSlide key={index}>
-								<img src={image} alt={`Image ${index}`} style={{ width: '100%', height: '13vw' }} />
+								<img src={image} alt={`Image ${index}`} className="swiper-main-banner" />
 							</SwiperSlide>
 						))}
 					</div>
@@ -66,20 +64,18 @@ const BannerContainer = styled.div`
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	@media (max-width: 640px) {
-		.mySwiper {
+
+	@media (min-width: 100px) {
+		.swiper-main-banner {
 			width: 100vw;
-		}
-	}
-	@media (max-width: 768px) {
-		.mySwiper {
-			width: 100vw;
+			height: 25vw;
 		}
 	}
 
-	@media (min-width: 1024px) {
-		.mySwiper {
-			width: 100vw;
+	@media (min-width: 1700px) {
+		.swiper-main-banner {
+			width: 100%;
+			height: 15vh;
 		}
 	}
 `;
