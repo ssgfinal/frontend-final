@@ -14,7 +14,7 @@ const Header = () => {
 	const navigate = useNavigate();
 	const pathname = usePathname();
 	const isUser = useIsUser();
-
+	console.log(isUser);
 	const goHomeHandler = () => {
 		pathname === '/user' || pathname === '/owner' ? navigate('/') : isUser ? navigate('/user') : navigate('/owner');
 	};
@@ -22,7 +22,7 @@ const Header = () => {
 	return (
 		<HeaderContainer>
 			<LogoImg onClick={goHomeHandler} src={logo} />
-			{isUser ?? <LoginImg onClick={modalOpen} src={login} />}
+			{isUser && <LoginImg onClick={modalOpen} src={login} />}
 		</HeaderContainer>
 	);
 };

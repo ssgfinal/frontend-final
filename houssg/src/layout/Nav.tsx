@@ -25,8 +25,8 @@ const Nav = () => {
 	const currentComp = isUser ? userNav : ownerNav;
 	return (
 		<NavContainer>
-			{currentComp.map((nav) => (
-				<NavText onClick={() => navigate(nav[1])} $active={pathname === nav[1]}>
+			{currentComp.map((nav, i) => (
+				<NavText key={i} onClick={() => navigate(nav[1])} $active={pathname === nav[1]}>
 					{nav[0]}
 				</NavText>
 			))}
