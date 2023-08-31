@@ -18,6 +18,7 @@ const UserHouseList = () => {
 
 	const { RangePicker } = DatePicker;
 
+	// 더미 데이터 (추후 삭제 예정)
 	const house = [
 		{
 			name: '무지개멘션',
@@ -97,66 +98,68 @@ const UserHouseList = () => {
 			image: accomodation,
 		},
 	];
+
+	// <Select>에 필요한 배열
+	const category = [
+		{
+			value: '호텔',
+			label: '호텔',
+		},
+		{
+			value: '펜션',
+			label: '펜션',
+		},
+	];
+
+	// <Select>에 필요한 배열
+	const order = [
+		{
+			value: '평점 높은순',
+			label: '평점 높은순',
+		},
+		{
+			value: '최근 등록순',
+			label: '최근 등록순',
+		},
+	];
+
 	return (
 		<>
 			<SearchWrapper>
-				<Select
-					labelInValue
-					defaultValue={{ value: '지하철역', label: '지하철역' }}
-					onChange={handleChange}
-					options={[
-						{
-							value: '부산역',
-							label: '부산역',
-						},
-						{
-							value: '남포동',
-							label: '남포동',
-						},
-					]}
-					style={{ width: '15rem' }}
-				/>
-				<Select
-					labelInValue
-					defaultValue={{ value: '카테고리', label: '카테고리' }}
-					onChange={handleChange}
-					options={[
-						{
-							value: '호텔',
-							label: '호텔',
-						},
-						{
-							value: '펜션',
-							label: '펜션',
-						},
-					]}
-					style={{ width: '15rem' }}
-				/>
-				<Space style={{ width: '15rem' }}>
-					<RangePicker />
-				</Space>
-				<Space style={{ width: '15rem' }}>
-					<Search placeholder=" 키워드로 찾아보세요." onSearch={onSearch} enterButton style={{ width: '15rem' }} />
-				</Space>
+				<Category>
+					<Select
+						labelInValue
+						defaultValue={{ value: '카테고리', label: '카테고리' }}
+						onChange={handleChange}
+						options={category}
+						style={{ width: '100%' }}
+					/>
+				</Category>
+				<Date>
+					<Space>
+						<RangePicker id="date" />
+					</Space>
+				</Date>
+				<SearchInput>
+					<Search
+						// id="search"
+						placeholder=" 키워드로 찾아보세요."
+						onSearch={onSearch}
+						enterButton
+						// size="large"
+						// style={{ width: '100%' }}
+					/>
+				</SearchInput>
 			</SearchWrapper>
 
 			<SearchResultBar>
 				<span style={{ margin: 'auto 0' }}> 50개의 검색 결과</span>
 				<Select
 					labelInValue
-					defaultValue={{ value: '평점 높은순', label: '평점 높은순' }}
-					style={{ width: 120, marginLeft: '5px', marginRight: '5px', marginTop: '5px', marginBottom: '5px', justifyContent: 'flex-end' }}
+					defaultValue={{ value: order[0].value, label: order[0].value }}
+					style={{ width: '8rem' }}
 					onChange={handleChange}
-					options={[
-						{
-							value: '평점 높은순',
-							label: '평점 높은순',
-						},
-						{
-							value: '최근 등록순',
-							label: '최근 등록순',
-						},
-					]}
+					options={order}
 				/>
 			</SearchResultBar>
 			<SearchResultContents>
@@ -174,30 +177,47 @@ export default UserHouseList;
 // 라이브러리에서 들고온 태그의 스타일은 스타일드 컴포넌트로 해서 안 먹힐 수 있음-> 라이브러리에서 들고온 태그의 스타일은인라인으로 해야함
 const SearchWrapper = styled.div`
 	display: grid;
-	width: 50rem;
-	//margin: 5px auto; // 해당 태그가 가로 중앙에 있고 싶을 때 마진을 건드리기
+
 	margin: 1rem auto;
 	grid-gap: 1rem;
 
 	@media (min-width: 1400px) {
-		grid-template-columns: 1fr 1fr 2fr 2fr;
+		width: 50%;
+		grid-template-columns: repeat(3, 1fr);
+		grid-template-areas: 'a b c';
 	}
 
 	@media (min-width: 700px) and (max-width: 1400px) {
-		grid-template-columns: 1fr 1fr;
+		width: 45%;
+		grid-template-columns: repeat(2, 1fr);
+		grid-template-areas: 'a b' 'c c';
 	}
 
 	@media (max-width: 700px) {
-		grid-template-columns: 1fr;
+		width: 50%;
+		grid-template-columns: repeat(1, 1fr);
+		grid-template-areas: 'a ' 'b' ' c';
 	}
+`;
+
+const Category = styled.div`
+	grid-area: a;
+`;
+
+const Date = styled.div`
+	grid-area: b;
+`;
+
+const SearchInput = styled.div`
+	//width: 100%;
+	grid-area: c;
 `;
 
 const SearchResultBar = styled.div`
 	margin: 1rem;
 	display: flex;
 	justify-content: space-between;
-	padding-left: 5vw;
-	padding-right: 5vw;
+	padding: 1vw 5vw;
 	background-color: #dcb0ff;
 `;
 
