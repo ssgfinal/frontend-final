@@ -1,4 +1,5 @@
 import React from 'react';
+import Rating from './common/Rating';
 
 interface House {
 	house: {
@@ -21,7 +22,7 @@ const BriefHouse: React.FC<House> = ({ house }) => {
 				</span>
 				&nbsp;<input type="checkbox"></input>
 				<br />
-				<span>*****&nbsp;{house.rating}</span>
+				<Rating rate={house.rating} readonly />
 			</div>
 			<div style={{ textAlign: 'right', fontSize: '1.3rem' }}>{house.price}</div>
 		</div>
