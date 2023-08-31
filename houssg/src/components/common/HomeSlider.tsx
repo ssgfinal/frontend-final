@@ -11,6 +11,7 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 
+// TODO : 임시 데이터, Map 돌린 후는 삭제
 const house = [
 	{
 		name: '가나다 Hotel',
@@ -50,6 +51,7 @@ const house = [
 ];
 
 const HomeSlider = () => {
+	// TODO: Map 돌릴 때 사용될 부분, 백 받은 후, 확인하고 오류가 있으면 수정 예정
 	//const [houses, setHouses] = useState([]);
 
 	// useEffect(() => {
@@ -63,24 +65,19 @@ const HomeSlider = () => {
 		<HomeSliderContainer>
 			<Swiper
 				slidesPerView={1}
-				spaceBetween={5}
 				slidesPerGroup={1}
 				breakpoints={{
 					380: {
 						slidesPerView: 1,
-						spaceBetween: 10,
 					},
 					540: {
 						slidesPerView: 2,
-						spaceBetween: 20,
 					},
 					768: {
 						slidesPerView: 3,
-						spaceBetween: 30,
 					},
 					1024: {
 						slidesPerView: 4,
-						spaceBetween: 40,
 					},
 				}}
 				navigation={true}
@@ -101,34 +98,50 @@ const HomeSlider = () => {
 
 export default HomeSlider;
 
+// TODO: 해당 숙소 상세페이지로 이동할 때, 한 번 더 확인
 const HomeSliderContainer = styled.div`
 	cursor: pointer;
 	display: flex;
 	justify-content: center;
 	align-items: center;
+
+	.swiper-wrapper {
+		margin: 0.5rem;
+	}
+
 	@media (max-width: 380px) and (min-width: 540px) {
 		.homeSwiper {
-			flex-direction: column;
-			align-items: flex-start;
-			width: 10vw;
+			width: 70vw;
+			display: flex;
+			justify-content: center;
+			align-items: center;
 		}
 	}
 
 	@media (max-width: 540px) and (min-width: 768px) {
 		.homeSwiper {
-			width: 60vw;
+			width: 70vw;
+			display: flex;
+			justify-content: center;
+			align-items: center;
 		}
 	}
 
 	@media (max-width: 768px) and (min-width: 1024px) {
 		.homeSwiper {
-			width: 80vw;
+			width: 70vw;
+			display: flex;
+			justify-content: center;
+			align-items: center;
 		}
 	}
 
 	@media (min-width: 1024px) {
 		.homeSwiper {
-			width: 100vw;
+			width: 87vw;
+			display: flex;
+			justify-content: center;
+			align-items: center;
 		}
 	}
 `;
