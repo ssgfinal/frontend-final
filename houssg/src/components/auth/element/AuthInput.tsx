@@ -1,25 +1,40 @@
 import { styled } from 'styled-components';
-import { useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 
 import { color } from '../../../assets/styles';
 import { unvisible, visible } from '../../../assets/icons';
+import { useDebounce } from '../../../hooks';
 
 interface AuthInputType {
 	title: string;
 	password?: boolean;
+	setValue: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const AuthInput: React.FC<AuthInputType> = ({ title, password }) => {
+const AuthInput: React.FC<AuthInputType> = ({ title, password, setValue }) => {
 	const [isVisible, setIsVisible] = useState(password);
+	// TODO: 콜백안이라 사용 안됨
+	// const [inputValue, setInputValue] = useState('');
+	// useEffect(() => {
+	// 	setValue(useDebounce(inputValue, 0.2));
+	// }, [inputValue]);
 	const toggleIsPassword = () => {
 		setIsVisible(!isVisible);
+	};
+
+	const onChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
+		// const lastValue = useDebounce(e.target.value, 0.2);
+		// setValue(lastValue);
+		// console.log(e.target.value);
+		// setInputValue(e.target.value);
+		setValue(e.target.value);
 	};
 
 	return (
 		<AuthInputWrapper>
 			<AuthInputTitle>{title}</AuthInputTitle>
 			<AuthInputContainer>
-				<AuthInputSheet type={isVisible ? 'password' : 'text'} />
+				<AuthInputSheet type={isVisible ? 'password' : 'text'} onChange={onChangeInput} />
 				{password && (
 					<AuthPasswordVisibility onClick={toggleIsPassword}>
 						{!isVisible ? <img src={visible} height="20px" /> : <img src={unvisible} height="20px" />}
