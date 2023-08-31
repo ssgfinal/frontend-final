@@ -14,7 +14,7 @@ const Main = () => {
 			</div>
 			<div
 				onClick={() => {
-					navigate('/owner');
+					navigate('/ownerAuth');
 				}}
 			>
 				사업자

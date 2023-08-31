@@ -2,5 +2,5 @@
 import { useDebounce } from './useDebounce';
 import { usePathname } from './usePathname';
 import { useAppSelector, useAppDispatch } from './useReduxToolkit';
-
-export { useAppDispatch, useAppSelector, useDebounce, usePathname };
+import { useIsUser } from './useIsUser';
+export { useAppDispatch, useAppSelector, useDebounce, usePathname, useIsUser };
