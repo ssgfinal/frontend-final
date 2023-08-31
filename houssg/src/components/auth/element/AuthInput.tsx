@@ -36,11 +36,13 @@ const AuthInputWrapper = styled.div`
 	width: 80%;
 	padding-inline: 0.5rem;
 	padding-bottom: 0.5rem;
+	height: 4.5rem;
 `;
 const AuthInputTitle = styled.div`
 	font-size: 1rem;
 	font-weight: 700;
 	margin-bottom: 0.3rem;
+	text-align: start;
 `;
 const AuthInputContainer = styled.div`
 	width: 100%;
