@@ -23,8 +23,6 @@ const AuthInput: React.FC<AuthInputType> = ({ title, password, setValue, reg }) 
 	useEffect(() => {
 		if (debouncedValue) {
 			if (reg) {
-				console.log(reg, debouncedValue);
-				console.log(reg.reg.test(debouncedValue));
 				reg.reg.test(debouncedValue) ? setIsUsable(true) : setIsUsable(false);
 			}
 			setValue(debouncedValue);
