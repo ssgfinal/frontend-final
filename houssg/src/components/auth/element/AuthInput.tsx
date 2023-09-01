@@ -10,7 +10,7 @@ import { Tooltip } from 'antd';
 const AuthInput: React.FC<AuthInputType> = ({ title, password, setValue, reg }) => {
 	const [isVisible, setIsVisible] = useState(password);
 	const [inputValue, setInputValue] = useState('');
-
+	const [isUsable, setIsUsable] = useState(true); // 처음엔 툴팁 안보이도록 true로 설정
 	const toggleIsPassword = () => {
 		setIsVisible(!isVisible);
 	};
@@ -22,16 +22,21 @@ const AuthInput: React.FC<AuthInputType> = ({ title, password, setValue, reg }) 
 	const debouncedValue = useDebounce(inputValue, 200);
 	useEffect(() => {
 		if (debouncedValue) {
+			if (reg) {
+				console.log(reg, debouncedValue);
+				console.log(reg.reg.test(debouncedValue));
+				reg.reg.test(debouncedValue) ? setIsUsable(true) : setIsUsable(false);
+			}
 			setValue(debouncedValue);
 		}
-	}, [debouncedValue, setValue]);
+	}, [debouncedValue, setValue, reg]);
 
 	return (
 		<AuthInputWrapper>
 			<AuthInputTitle>{title}</AuthInputTitle>
 			<AuthInputContainer>
 				{reg ? (
-					<Tooltip title={reg.tooltip} color={color.color4} placement="topRight" overlayStyle={{ fontSize: '0.7rem', opacity: 0.9 }}>
+					<Tooltip open={!isUsable} title={reg.tooltip} color={color.color4} placement="topRight" overlayStyle={{ fontSize: '0.7rem', opacity: 0.9 }}>
 						<AuthInputSheet type={isVisible ? 'password' : 'text'} onChange={onChangeInput} />
 					</Tooltip>
 				) : (

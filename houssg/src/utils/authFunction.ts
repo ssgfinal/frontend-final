@@ -23,7 +23,15 @@ export const authLoginFunc = (userId: string, userPw: string, isUser: boolean, n
 	}
 };
 
-export const authSignUpFunc = (userId: string, userNick: string, userPw: string, userPwCheck: string, userPhone: string, isUser: boolean) => {
+export const authSignUpFunc = (
+	userId: string,
+	userNick: string,
+	userPw: string,
+	userPwCheck: string,
+	userPhone: string,
+	isUser: boolean,
+	setIsLoginComp: React.Dispatch<React.SetStateAction<boolean>>,
+) => {
 	if (userId.trim() === '') {
 		alert('아이디를 입력해주세요');
 		return;
@@ -49,10 +57,12 @@ export const authSignUpFunc = (userId: string, userNick: string, userPw: string,
 	if (isUser) {
 		api.post(url.adduser + `?id=${userId}&password=${userPw}&nickname=${userNick}&phone_number=${userPhone}&auth=0`).then((resp) => {
 			alert(resp);
+			setIsLoginComp(true);
 		});
 	} else {
 		api.post(url.adduser + `?id=${userId}&password=${userPw}&nickname=${userNick}&phone_number=${userPhone}&auth=1`).then((resp) => {
 			alert(resp);
+			setIsLoginComp(true);
 		});
 	}
 };

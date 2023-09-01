@@ -7,6 +7,6 @@ interface AuthInputType {
 	title: string;
 	setValue: React.Dispatch<React.SetStateAction<string>>;
 	password?: boolean;
-	reg?: { reg: string; tooltip: string };
+	reg?: { reg: RegExp; tooltip: string };
 }
 export type { AuthProps, AuthInputType };
