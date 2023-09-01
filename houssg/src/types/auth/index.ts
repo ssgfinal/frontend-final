@@ -3,4 +3,10 @@ interface AuthProps {
 	setIsLoginComp: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export type { AuthProps };
+interface AuthInputType {
+	title: string;
+	setValue: React.Dispatch<React.SetStateAction<string>>;
+	password?: boolean;
+	reg?: { reg: RegExp; tooltip: string };
+}
+export type { AuthProps, AuthInputType };

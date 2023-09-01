@@ -1,14 +1,22 @@
 import styled from 'styled-components';
 import { AuthWrap } from '../../components/auth';
 import { color } from '../../assets/styles';
+import { useNavigate } from 'react-router-dom';
 
 const OwnerAuth = () => {
+	const navigate = useNavigate();
+
 	return (
-		<OwnerAuthWrapper>
-			<OwnerAuthContainer>
-				<AuthWrap />
-			</OwnerAuthContainer>
-		</OwnerAuthWrapper>
+		<div>
+			<div onClick={() => navigate('/')} style={{ backgroundColor: color.color4, height: '40px' }}>
+				시작점 가는 버튼
+			</div>
+			<OwnerAuthWrapper>
+				<OwnerAuthContainer>
+					<AuthWrap />
+				</OwnerAuthContainer>
+			</OwnerAuthWrapper>
+		</div>
 	);
 };
 

@@ -1,25 +1,46 @@
 import { styled } from 'styled-components';
-import { useState } from 'react';
+import { useEffect, ChangeEvent, useState, memo } from 'react';
 
 import { color } from '../../../assets/styles';
 import { unvisible, visible } from '../../../assets/icons';
+import { useDebounce } from '../../../hooks';
+import { AuthInputType } from '../../../types/auth';
+import { Tooltip } from 'antd';
 
-interface AuthInputType {
-	title: string;
-	password?: boolean;
-}
-
-const AuthInput: React.FC<AuthInputType> = ({ title, password }) => {
+const AuthInput: React.FC<AuthInputType> = ({ title, password, setValue, reg }) => {
 	const [isVisible, setIsVisible] = useState(password);
+	const [inputValue, setInputValue] = useState('');
+	const [isUsable, setIsUsable] = useState(true); // 처음엔 툴팁 안보이도록 true로 설정
 	const toggleIsPassword = () => {
 		setIsVisible(!isVisible);
 	};
+
+	const onChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
+		setInputValue(e.target.value);
+	};
+
+	const debouncedValue = useDebounce(inputValue, 200);
+	useEffect(() => {
+		if (debouncedValue) {
+			if (reg) {
+				reg.reg.test(debouncedValue) ? setIsUsable(true) : setIsUsable(false);
+			}
+			setValue(debouncedValue);
+		}
+	}, [debouncedValue, setValue, reg]);
 
 	return (
 		<AuthInputWrapper>
 			<AuthInputTitle>{title}</AuthInputTitle>
 			<AuthInputContainer>
-				<AuthInputSheet type={isVisible ? 'password' : 'text'} />
+				{reg ? (
+					<Tooltip open={!isUsable} title={reg.tooltip} color={color.color4} placement="topRight" overlayStyle={{ fontSize: '0.7rem', opacity: 0.9 }}>
+						<AuthInputSheet type={isVisible ? 'password' : 'text'} onChange={onChangeInput} />
+					</Tooltip>
+				) : (
+					<AuthInputSheet type={isVisible ? 'password' : 'text'} onChange={onChangeInput} />
+				)}
+
 				{password && (
 					<AuthPasswordVisibility onClick={toggleIsPassword}>
 						{!isVisible ? <img src={visible} height="20px" /> : <img src={unvisible} height="20px" />}
@@ -30,7 +51,7 @@ const AuthInput: React.FC<AuthInputType> = ({ title, password }) => {
 	);
 };
 
-export default AuthInput;
+export const MemorizedAuthInput = memo(AuthInput);
 
 const AuthInputWrapper = styled.div`
 	width: 80%;
