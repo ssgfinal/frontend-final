@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { Select } from 'antd';
 import { Input, Space, DatePicker } from 'antd';
 
@@ -21,6 +22,7 @@ const UserHouseList = () => {
 	// 더미 데이터 (추후 삭제 예정)
 	const house = [
 		{
+			houseId: 1,
 			name: '무지개멘션',
 			price: '38000원',
 			rating: 1.3,
@@ -28,6 +30,7 @@ const UserHouseList = () => {
 			image: accomodation,
 		},
 		{
+			houseId: 2,
 			name: '무지개떡',
 			price: '44000원',
 			rating: 1.7,
@@ -35,6 +38,7 @@ const UserHouseList = () => {
 			image: accomodation,
 		},
 		{
+			houseId: 3,
 			name: '파라다이스',
 			price: '44000원',
 			rating: 2.1,
@@ -42,6 +46,7 @@ const UserHouseList = () => {
 			image: accomodation,
 		},
 		{
+			houseId: 4,
 			name: '환영펜션',
 			price: '44000원',
 			rating: 2.9,
@@ -49,6 +54,7 @@ const UserHouseList = () => {
 			image: accomodation,
 		},
 		{
+			houseId: 5,
 			name: '환영펜션',
 			price: '44000원',
 			rating: 3.0,
@@ -56,6 +62,7 @@ const UserHouseList = () => {
 			image: accomodation,
 		},
 		{
+			houseId: 6,
 			name: '환영펜션',
 			price: '44000원',
 			rating: 4.01,
@@ -63,6 +70,7 @@ const UserHouseList = () => {
 			image: accomodation,
 		},
 		{
+			houseId: 7,
 			name: '환영펜션',
 			price: '44000원',
 			rating: 4.99,
@@ -70,6 +78,7 @@ const UserHouseList = () => {
 			image: accomodation,
 		},
 		{
+			houseId: 8,
 			name: '환영펜션',
 			price: '44000원',
 			rating: 5,
@@ -77,6 +86,7 @@ const UserHouseList = () => {
 			image: accomodation,
 		},
 		{
+			houseId: 9,
 			name: '환영펜션',
 			price: '44000원',
 			rating: 5.0,
@@ -84,6 +94,7 @@ const UserHouseList = () => {
 			image: accomodation,
 		},
 		{
+			houseId: 10,
 			name: '환영펜션',
 			price: '44000원',
 			rating: 3,
@@ -91,6 +102,7 @@ const UserHouseList = () => {
 			image: accomodation,
 		},
 		{
+			houseId: 11,
 			name: '환영펜션',
 			price: '44000원',
 			rating: 0,
