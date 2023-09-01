@@ -11,7 +11,25 @@ const CommonModal = () => {
 	const size = useAppSelector(modalSize);
 
 	const dispatch = useAppDispatch();
-	const onCloseModal = () => dispatch(closeModal());
+	const onCloseModal = () => {
+		dispatch(closeModal());
+	};
+	//TODO: 차선으로 상태 관리중
+	if (!modalComp) {
+		return (
+			<Modal
+				bodyStyle={{ display: 'flex', justifyContent: 'center' }}
+				open={modalState}
+				footer={null}
+				onCancel={onCloseModal}
+				keyboard
+				centered
+				maskClosable
+				width={size}
+			></Modal>
+		);
+	}
+
 	return (
 		<Modal
 			bodyStyle={{ display: 'flex', justifyContent: 'center' }}
