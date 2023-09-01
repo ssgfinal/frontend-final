@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import { accomodation } from '../../assets/icons';
 
 import { TabMenu } from '../../components/common/TabMenu';
-import { HouseInfo } from '../../components/house/HouseInfo';
+import { HouseInfo } from '../../components/house/HouseDescription';
 import { RoomList } from '../../components/house/RoomList';
 import { HouseReview } from '../../components/house/HouseReview';
 import Rating from '../../components/common/Rating';
