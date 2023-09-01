@@ -4,6 +4,7 @@ import './App.css';
 import { Main } from './pages';
 import { OwnerAuth, OwnerHome, OwnerMain, OwnerManagement, OwnerRegister } from './pages/owner';
 import { UserHome, UserHouseList, UserMain, UserMypage, UserReservationList } from './pages/user';
+import { UserHouseDetail } from './pages/user/UserHouseDetail';
 
 const App = () => {
 	return (
@@ -11,6 +12,7 @@ const App = () => {
 			<Route path="/" element={<Main />} />
 			<Route path="/user" element={<UserHome />}>
 				<Route index element={<UserMain />} />
+				<Route path="/user/house/:houseId" element={<UserHouseDetail />} />
 				<Route path="/user/house" element={<UserHouseList />} />
 				<Route path="/user/mypage" element={<UserMypage />} />
 				<Route path="/user/reservation" element={<UserReservationList />} />
