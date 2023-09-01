@@ -67,6 +67,7 @@ const ReservationList: React.FC<Reservation> = ({ reservation }) => {
 					{/* <Divider orientation="left">Small Size</Divider> */}
 					<Collapse
 						size="small"
+						ghost={true}
 						bordered={false}
 						items={[
 							{
@@ -99,9 +100,11 @@ const ReservationWrapper = styled.div`
 	padding: 0.5rem;
 	border: solid 1.5px ${color.color1};
 	border-radius: 0.5rem;
-	// background-color: blue;
+	//background-color: blue;
 	display: inline-flex;
 	flex-direction: column;
+	position: static;
+	z-index: 1;
 
 	.reservationbox {
 		display: grid;
@@ -122,18 +125,18 @@ const ReservationWrapper = styled.div`
 		align-self: center;
 
 		button {
-			border: 2px solid;
+			border: 1px solid;
 			border-radius: 0.5rem;
-			background-color: ${color.backColor};
-			color: ${color.color1};
+			background-color: ${color.color1};
+			color: ${color.backColor};
 			font-weight: bold;
 		}
 
 		button:hover {
-			border: 2px solid;
+			border: 1px solid;
 			border-radius: 0.5rem;
-			border-color: ${color.color1};
-			background-color: ${color.color1};
+			border-color: ${color.color3};
+			background-color: ${color.color3};
 			color: ${color.backColor};
 			font-weight: bold;
 		}
@@ -217,15 +220,15 @@ const ReservationWrapper = styled.div`
 	}
 
 	@media (min-width: 540px) and (max-width: 768px) {
-		width: 70vw;
+		width: 65vw;
 	}
 
 	@media (min-width: 768px) and (max-width: 1024px) {
-		width: 70vw;
+		width: 52vw;
 	}
 
 	@media (min-width: 1024px) {
-		width: 40vw;
+		width: 30vw;
 	}
 `;
 
@@ -251,11 +254,19 @@ const CollapseContainer = styled.div`
 		color: ${color.color1};
 		text-align: justify;
 		padding: 0px;
+		/* position: absolute;
+		z-index: 1; */
+		background-color: ${color.backColor};
 	}
 
 	.ant-collapse-expand-icon {
 		color: ${color.color1};
 		align-items: right;
+	}
+
+	.ant-collapse-content-active {
+		position: absolute;
+		z-index: 2;
 	}
 
 	@media (max-width: 360px) {
@@ -284,7 +295,7 @@ const CollapseContainer = styled.div`
 
 	@media (min-width: 768px) and (max-width: 1024px) {
 		.ant-collapse-content-box {
-			width: 60vw;
+			width: 47vw;
 			display: inline-flex;
 			transition: width 0.1s;
 		}
@@ -292,7 +303,7 @@ const CollapseContainer = styled.div`
 
 	@media (min-width: 1024px) {
 		.ant-collapse-content-box {
-			width: 37vw;
+			width: 28vw;
 			transition: width 0.1s;
 		}
 	}
@@ -301,7 +312,8 @@ const CollapseContainer = styled.div`
 const ImageBox = styled.div`
 	display: inline-flex;
 	flex-direction: row;
-	padding-right: 0.5rem;
+	padding-left: 2rem;
+	padding-right: 1rem;
 	transition: width 0.1s;
 
 	@media (max-width: 360px) {
@@ -327,7 +339,7 @@ const ImageBox = styled.div`
 
 	@media (min-width: 768px) and (max-width: 1024px) {
 		.imagebox {
-			width: 30vw;
+			width: 25vw;
 			transition: width 0.1s;
 		}
 	}
@@ -413,7 +425,7 @@ const DetailBox = styled.div`
 
 	@media (min-width: 768px) and (max-width: 1024px) {
 		.detailbox {
-			width: 30vw;
+			width: 20vw;
 			font-size: 0.9rem;
 			transition: width 0.1s;
 		}
