@@ -37,6 +37,7 @@ const AuthInput: React.FC<AuthInputType> = ({ title, password, setValue, reg }) 
 				) : (
 					<AuthInputSheet type={isVisible ? 'password' : 'text'} onChange={onChangeInput} />
 				)}
+
 				{password && (
 					<AuthPasswordVisibility onClick={toggleIsPassword}>
 						{!isVisible ? <img src={visible} height="20px" /> : <img src={unvisible} height="20px" />}
