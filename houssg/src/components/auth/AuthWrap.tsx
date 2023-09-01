@@ -1,11 +1,17 @@
 import styled from 'styled-components';
 
 import { Login, SignUp } from '.';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useAppSelector } from '../../hooks';
+import { isModalOpen } from '../../store/redux/modalSlice';
 
-const AuthWrap: React.FC = () => {
+const AuthWrap = () => {
 	const [isLoginComp, setIsLoginComp] = useState(true);
+	const modalState = useAppSelector(isModalOpen);
 
+	useEffect(() => {
+		setIsLoginComp(true);
+	}, [modalState]);
 	return (
 		<AuthWrapper>
 			{isLoginComp ? (
