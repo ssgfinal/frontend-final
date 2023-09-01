@@ -3,9 +3,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
 
 import BriefHouse from '../BriefHouse';
-import Koala from '../../assets/icons/Koala.jpg';
-import Jellyfish from '../../assets/icons/Jellyfish.jpg';
-import Desert from '../../assets/icons/Desert.jpg';
+import { accomodation } from '../../assets/icons';
 
 import 'swiper/css';
 import 'swiper/css/pagination';
@@ -14,39 +12,92 @@ import 'swiper/css/navigation';
 // TODO : 임시 데이터, Map 돌린 후는 삭제
 const house = [
 	{
-		name: '가나다 Hotel',
-		price: '100,000원',
-		rating: 4.5,
-		location: '부산',
-		image: Koala,
+		houseId: 1,
+		name: '무지개멘션',
+		price: '38000원',
+		rating: 1.3,
+		location: '부산시 수영구 센텀',
+		image: accomodation,
 	},
 	{
-		name: '가나다 Hotel',
-		price: '100,000원',
-		rating: 4.5,
-		location: '부산',
-		image: Desert,
+		houseId: 2,
+		name: '무지개떡',
+		price: '44000원',
+		rating: 1.7,
+		location: '부산시 중구 남포',
+		image: accomodation,
 	},
 	{
-		name: '가나다 Hotel',
-		price: '100,000원',
-		rating: 4.5,
-		location: '부산',
-		image: Jellyfish,
+		houseId: 3,
+		name: '파라다이스',
+		price: '44000원',
+		rating: 2.1,
+		location: '부산시 중구 남포',
+		image: accomodation,
 	},
 	{
-		name: '가나다 Hotel',
-		price: '100,000원',
-		rating: 4.5,
-		location: '부산',
-		image: Koala,
+		houseId: 4,
+		name: '환영펜션',
+		price: '44000원',
+		rating: 2.9,
+		location: '부산시 중구 남포',
+		image: accomodation,
 	},
 	{
-		name: '가나다 Hotel',
-		price: '100,000원',
-		rating: 4.5,
-		location: '부산',
-		image: Jellyfish,
+		houseId: 5,
+		name: '환영펜션',
+		price: '44000원',
+		rating: 3.0,
+		location: '부산시 중구 남포',
+		image: accomodation,
+	},
+	{
+		houseId: 6,
+		name: '환영펜션',
+		price: '44000원',
+		rating: 4.01,
+		location: '부산시 중구 남포',
+		image: accomodation,
+	},
+	{
+		houseId: 7,
+		name: '환영펜션',
+		price: '44000원',
+		rating: 4.99,
+		location: '부산시 중구 남포',
+		image: accomodation,
+	},
+	{
+		houseId: 8,
+		name: '환영펜션',
+		price: '44000원',
+		rating: 5,
+		location: '부산시 중구 남포',
+		image: accomodation,
+	},
+	{
+		houseId: 9,
+		name: '환영펜션',
+		price: '44000원',
+		rating: 5.0,
+		location: '부산시 중구 남포',
+		image: accomodation,
+	},
+	{
+		houseId: 10,
+		name: '환영펜션',
+		price: '44000원',
+		rating: 3,
+		location: '부산시 중구 남포',
+		image: accomodation,
+	},
+	{
+		houseId: 11,
+		name: '환영펜션',
+		price: '44000원',
+		rating: 0,
+		location: '부산시 중구 남포',
+		image: accomodation,
 	},
 ];
 

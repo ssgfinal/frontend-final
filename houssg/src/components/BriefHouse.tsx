@@ -1,10 +1,13 @@
-import { styled } from 'styled-components';
-
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
+
 import Rating from './common/Rating';
+
+import { styled } from 'styled-components';
 
 interface House {
 	house: {
+		houseId: number;
 		name: string;
 		price: string;
 		rating: number;
@@ -14,8 +17,14 @@ interface House {
 }
 
 const BriefHouse: React.FC<House> = ({ house }) => {
+	const navigate = useNavigate();
+
 	return (
-		<BriefHouseWrapper>
+		<BriefHouseWrapper
+			onClick={() => {
+				navigate(`/user/house/${house.houseId}`);
+			}}
+		>
 			<ImageBox>
 				<img src={house.image} className="imagebox" />
 			</ImageBox>
