@@ -3,8 +3,11 @@ import { styled } from 'styled-components';
 import BannerSlider from '../../components/common/BannerSlider';
 import HomeSlider from '../../components/common/HomeSlider';
 import { color } from '../../assets/styles/theme';
+import { useKakaoLogin } from '../../hooks/useKaKaoLogin';
 
 const UserMain = () => {
+	useKakaoLogin();
+
 	return (
 		<div>
 			<BannerSlider />

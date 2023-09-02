@@ -11,15 +11,26 @@ export const authLoginFunc = (userId: string, userPw: string, isUser: boolean, n
 		alert('비밀번호를 입력해주세요');
 		return;
 	}
+
 	if (isUser) {
-		api.post(url.login + `?id=${userId}&password=${userPw}&auth=0`).then((resp) => {
-			alert(resp);
-		});
+		api
+			.post(url.login + `?id=${userId}&password=${userPw}&auth=0`)
+			.then((resp) => {
+				alert(resp);
+			})
+			.catch((err) => {
+				alert(err);
+			});
 	} else {
-		api.post(url.login + `?id=${userId}&password=${userPw}&auth=1`).then((resp) => {
-			alert(resp);
-			!isUser && navigate('/owner');
-		});
+		api
+			.post(url.login + `?id=${userId}&password=${userPw}&auth=1`)
+			.then((resp) => {
+				alert(resp);
+				!isUser && navigate('/owner');
+			})
+			.catch((err) => {
+				alert(err);
+			});
 	}
 };
 
@@ -55,14 +66,36 @@ export const authSignUpFunc = (
 	}
 
 	if (isUser) {
-		api.post(url.adduser + `?id=${userId}&password=${userPw}&nickname=${userNick}&phone_number=${userPhone}&auth=0`).then((resp) => {
-			alert(resp);
-			setIsLoginComp(true);
-		});
+		api
+			.post(url.adduser + `?id=${userId}&password=${userPw}&nickname=${userNick}&phone_number=${userPhone}&auth=0`)
+			.then((resp) => {
+				alert(resp);
+				setIsLoginComp(true);
+			})
+			.catch((err) => {
+				alert(err);
+			});
 	} else {
-		api.post(url.adduser + `?id=${userId}&password=${userPw}&nickname=${userNick}&phone_number=${userPhone}&auth=1`).then((resp) => {
-			alert(resp);
-			setIsLoginComp(true);
-		});
+		api
+			.post(url.adduser + `?id=${userId}&password=${userPw}&nickname=${userNick}&phone_number=${userPhone}&auth=1`)
+			.then((resp) => {
+				alert(resp);
+				setIsLoginComp(true);
+			})
+			.catch((err) => {
+				alert(err);
+			});
 	}
+};
+
+export const kakaoLoginFunc = (code: string) => {
+	// TODO: url 수정
+	api
+		.post('serverUrl' + code)
+		.then((res) => {
+			return res;
+		})
+		.catch((err) => {
+			console.log(err);
+		});
 };

@@ -43,7 +43,7 @@ const AuthInput: React.FC<AuthInputType> = ({ title, password, setValue, reg }) 
 
 				{password && (
 					<AuthPasswordVisibility onClick={toggleIsPassword}>
-						{!isVisible ? <img src={visible} height="20px" /> : <img src={unvisible} height="20px" />}
+						{!isVisible ? <VisibilityImg src={visible} /> : <VisibilityImg src={unvisible} />}
 					</AuthPasswordVisibility>
 				)}
 			</AuthInputContainer>
@@ -82,4 +82,9 @@ const AuthInputSheet = styled.input`
 	border-radius: 5px;
 	height: 2.2rem;
 	padding-left: 0.3rem;
+`;
+
+const VisibilityImg = styled.img`
+	height: 1.12rem;
+	cursor: pointer;
 `;
