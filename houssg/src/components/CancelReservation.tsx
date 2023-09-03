@@ -1,15 +1,30 @@
 import { styled } from 'styled-components';
+
+import { closeModal } from '../store/redux/modalSlice';
+import { useAppDispatch } from '../hooks';
+
 import { color } from '../assets/styles';
 
 const CancelReservation = () => {
+	const dispatch = useAppDispatch();
+	const onCloseModal = () => {
+		dispatch(closeModal());
+	};
+
+	const cancelYes = () => {
+		// TODO : 삭제하기 기능구현 추후에 작업
+		alert('삭제되었습니다.');
+		dispatch(closeModal());
+	};
+
 	return (
 		<CancelGrid>
 			<div className="CancelQues">예약을 취소하시겠습니까?</div>
 			<CancelYesButton>
-				<button>예</button>
+				<button onClick={cancelYes}>예</button>
 			</CancelYesButton>
 			<CancelNoButton>
-				<button>아니오</button>
+				<button onClick={onCloseModal}>아니오</button>
 			</CancelNoButton>
 		</CancelGrid>
 	);

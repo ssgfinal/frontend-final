@@ -1,14 +1,12 @@
 import { styled } from 'styled-components';
+import { Collapse } from 'antd';
 
-import React from 'react';
-
+import ReservationCollapseDetail from './ReservationCollapseDetail';
 import { openModal } from '../store/redux/modalSlice';
 import { useAppDispatch } from '../hooks';
 
 import { color } from '../assets/styles';
 import { accomodation } from '../assets/icons';
-import ReservationCollapseDetail from './ReservationCollapseDetail';
-import { Collapse } from 'antd';
 
 interface Reservation {
 	reservation: {
@@ -47,9 +45,36 @@ const detail = [
 	// },
 ];
 
+// 예약상태 0, 1은 각각 무엇인지?, 상태에 따라 색변경 추후에 작업
+// style은 왜 error?
+const reservation_status = document.querySelector('.item_reser_status');
+
+if (reservation_status !== null) {
+	const status = 0;
+	if (status === 0) {
+		reservation_status.style.color = `${color.color1}`;
+		reservation_status.style.backgroundColor = `${color.color5}`;
+	} else if (status === 1) {
+		reservation_status.style.color = `${color.backColor}`;
+		reservation_status.style.backgroundColor = `${color.color2}`;
+	}
+}
+
+// options 왜 error?
 const formatDate = (dateString: string) => {
 	const options = { year: 'numeric', month: 'long', day: 'numeric' };
 	return new Date(dateString).toLocaleDateString(undefined, options);
+};
+
+const getStatusString = (reservationStatus: number): string => {
+	switch (reservationStatus) {
+		case 0:
+			return '예약완료';
+		case 1:
+			return '이용완료';
+		default:
+			return '알 수 없는 상태';
+	}
 };
 
 const ReservationList: React.FC<Reservation> = ({ reservation }) => {
@@ -76,12 +101,13 @@ const ReservationList: React.FC<Reservation> = ({ reservation }) => {
 				<ReservationContainer>
 					<DetailContainer>
 						<ImageBox>
+							{/* TODO : 각 예약번호(reservation_number)에 맞는 상세정보대로 뿌릴 때	수정 */}
 							{/* <img src={item.outdoor_view} className="imagebox" alt="Accomodation"></img> */}
 							<img src={accomodation} className="imagebox" alt="Accomodation"></img>
 						</ImageBox>
 						<DetailBox>
 							<div className="detailbox">
-								<div className="item_reser_status">{reservation.reservation_status}</div>
+								<div className="item_reser_status">{getStatusString(reservation.reservation_status)}</div>
 								<div className="item_reser_name">{reservation.accom_name}</div>
 								<div className="item_room_cate">{reservation.room_category}</div>
 								<div className="item_room_price">{reservation.room_price.toLocaleString()}원</div>
@@ -99,13 +125,22 @@ const ReservationList: React.FC<Reservation> = ({ reservation }) => {
 									) : null,
 								)}
 							</Collapse> */}
-						<Collapse size="small" ghost={true} accordion={false} bordered={false}>
-							{detail.map((item, index) => (
-								<Collapse.Panel key={index} header="상세정보">
-									<ReservationCollapseDetail detail={item} />
-								</Collapse.Panel>
-							))}
-						</Collapse>
+						{...detail.map((item) => (
+							<Collapse
+								key={item.reservation_number}
+								size="small"
+								ghost={true}
+								accordion={true}
+								bordered={false}
+								items={[
+									{
+										key: item.reservation_number,
+										label: '상세정보',
+										children: <ReservationCollapseDetail detail={item} />,
+									},
+								]}
+							/>
+						))}
 					</CollapseContainer>
 				</ReservationContainer>
 			</ReservationWrapper>
@@ -115,6 +150,7 @@ const ReservationList: React.FC<Reservation> = ({ reservation }) => {
 
 export default ReservationList;
 
+// z-index 시 footer 수정해야할 거 같은데 어떻게 할 것인지?
 const ReservationWrapper = styled.div`
 	//margin: 0.5rem;
 	margin-top: 1rem;
@@ -171,10 +207,11 @@ const ReservationWrapper = styled.div`
 		grid-column-end: 3;
 		grid-row-start: 2;
 		grid-row-end: 3;
+		color: ${color.color2};
 		padding-left: 1.3vw;
 		justify-self: left;
 		align-self: flex-end;
-		font-size: 0.9rem;
+		font-size: 0.9vw;
 		font-weight: bold;
 	}
 
@@ -257,7 +294,7 @@ const ReservationWrapper = styled.div`
 	}
 
 	@media (min-width: 360px) and (max-width: 540px) {
-		width: 80vw;
+		width: 70vw;
 	}
 
 	@media (min-width: 540px) and (max-width: 768px) {
@@ -268,8 +305,12 @@ const ReservationWrapper = styled.div`
 		width: 45vw;
 	}
 
-	@media (min-width: 1024px) {
+	@media (min-width: 1024px) and (max-width: 1700px) {
 		width: 25vw;
+	}
+
+	@media (min-width: 1700px) {
+		width: 20vw;
 	}
 `;
 
@@ -414,13 +455,17 @@ const DetailBox = styled.div`
 
 	.item_reser_status {
 		align-self: center;
+		border: none;
 		//border: 1px solid ${color.color3};
-		width: 3rem;
+		font-size: 0.5rem;
+		width: 4rem;
 		height: 1rem;
 		color: ${color.backColor};
-		background-color: ${color.color3};
+		background-color: ${color.color2};
 		border-radius: 1rem;
 		text-align: center;
+		line-height: 1rem;
+		font-weight: bold;
 	}
 
 	.item_reser_name {
@@ -470,7 +515,7 @@ const DetailBox = styled.div`
 
 	@media (min-width: 1024px) {
 		.detailbox {
-			width: 12vw;
+			width: 10vw;
 			font-size: 0.9rem;
 			font-family: Arial;
 			transition: width 0.1s;

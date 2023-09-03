@@ -1,9 +1,11 @@
 import { styled } from 'styled-components';
+
 import ReservationList from '../../components/ReservationList';
 import { accomodation } from '../../assets/icons';
 // TODO : 같은 유저의 예약정보 뿌리기..나중에 수정
 // import { useIsUser } from '../../hooks';
 
+// TODO : 더미 데이터 기능구현 후 지우기
 const reservation = [
 	{
 		user_id: 'abc',
@@ -23,47 +25,47 @@ const reservation = [
 		reservation_start_date: '2023-09-03',
 		accom_name: '가나다 Hotel',
 		room_category: 'Standard',
-		room_price: 100000,
+		room_price: 200000,
 	},
 	{
 		user_id: 'abc',
-		reservation_number: 1345876,
+		reservation_number: 1234567,
 		outdoor_view: accomodation,
-		reservation_status: 1,
-		reservation_start_date: '2023-09-04',
+		reservation_status: 0,
+		reservation_start_date: '2023-09-02',
 		accom_name: '가나다 Hotel',
 		room_category: 'Standard',
 		room_price: 100000,
 	},
 	{
 		user_id: 'abc',
-		reservation_number: 1245676,
+		reservation_number: 7654321,
 		outdoor_view: accomodation,
 		reservation_status: 1,
-		reservation_start_date: '2023-09-05',
+		reservation_start_date: '2023-09-03',
+		accom_name: '가나다 Hotel',
+		room_category: 'Standard',
+		room_price: 200000,
+	},
+	{
+		user_id: 'abc',
+		reservation_number: 1234567,
+		outdoor_view: accomodation,
+		reservation_status: 0,
+		reservation_start_date: '2023-09-02',
 		accom_name: '가나다 Hotel',
 		room_category: 'Standard',
 		room_price: 100000,
 	},
 	{
 		user_id: 'abc',
-		reservation_number: 1245646,
+		reservation_number: 7654321,
 		outdoor_view: accomodation,
 		reservation_status: 1,
-		reservation_start_date: '2023-09-06',
+		reservation_start_date: '2023-09-03',
 		accom_name: '가나다 Hotel',
 		room_category: 'Standard',
-		room_price: 100000,
-	},
-	{
-		user_id: 'abc',
-		reservation_number: 1245672,
-		outdoor_view: accomodation,
-		reservation_status: 1,
-		reservation_start_date: '2023-09-07',
-		accom_name: '가나다 Hotel',
-		room_category: 'Standard',
-		room_price: 100000,
+		room_price: 200000,
 	},
 ];
 
@@ -94,6 +96,7 @@ const UserReservationList = () => {
 
 export default UserReservationList;
 
+// z-index 안 하면 주석 지우기
 const UserReservationWrapper = styled.div`
 	display: grid;
 	//position: absolute;
@@ -123,6 +126,14 @@ const UserReservationWrapper = styled.div`
 		grid-template-columns: 1fr 1fr 1fr;
 		padding-left: 5vw;
 		padding-right: 5vw;
+		//z-index: 2;
+	}
+
+	@media (min-width: 1700px) {
+		grid-template-columns: 1fr 1fr 1fr;
+		grid-gap: 1vw;
+		padding-left: 3vw;
+		padding-right: 3vw;
 		//z-index: 2;
 	}
 `;
