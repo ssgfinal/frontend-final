@@ -2,8 +2,8 @@ import styled from 'styled-components';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Pagination, Navigation } from 'swiper/modules';
 
-import Banner from '../../assets/images/Banner.jpg';
-import House from '../../assets/images/Lighthouse.jpg';
+import Banner from '../assets/images/Banner.jpg';
+import House from '../assets/images/Lighthouse.jpg';
 
 import 'swiper/css';
 import 'swiper/css/pagination';

@@ -7,7 +7,7 @@ import { styled } from 'styled-components';
 
 interface House {
 	house: {
-		houseId: number;
+		houseId?: number;
 		name: string;
 		price: string;
 		rating: number;
