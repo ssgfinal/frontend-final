@@ -14,7 +14,7 @@ export const authLoginFunc = (userId: string, userPw: string, isUser: boolean, n
 
 	if (isUser) {
 		api
-			.post(url.login + `?id=${userId}&password=${userPw}&auth=0`)
+			.post(url.login, { id: userId, password: userPw, auth: 0 })
 			.then((resp) => {
 				alert(resp);
 			})
@@ -23,7 +23,7 @@ export const authLoginFunc = (userId: string, userPw: string, isUser: boolean, n
 			});
 	} else {
 		api
-			.post(url.login + `?id=${userId}&password=${userPw}&auth=1`)
+			.post(url.login, { id: userId, password: userPw, auth: 1 })
 			.then((resp) => {
 				alert(resp);
 				!isUser && navigate('/owner');
@@ -60,7 +60,7 @@ export const authSignUpFunc = (
 		return;
 	}
 
-	if (userPhone.trim() !== '') {
+	if (userPhone.trim() === '') {
 		alert('전화번호를 입력해 주세요.');
 		return;
 	}
