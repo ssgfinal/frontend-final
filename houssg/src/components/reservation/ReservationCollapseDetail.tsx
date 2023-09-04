@@ -1,4 +1,5 @@
 import React from 'react';
+import { styled } from 'styled-components';
 
 interface CollapseDetail {
 	detail: {
@@ -16,7 +17,7 @@ interface CollapseDetail {
 
 const ReservationCollapseDetail: React.FC<CollapseDetail> = ({ detail }) => {
 	return (
-		<div>
+		<CollapseDetailWrapper>
 			{/* TODO : 기능구현할 때, 수정 */}
 			{/* <input type="hidden" value={detail.user_id} />
 			<input type="hidden" value={detail.is_used} /> */}
@@ -28,8 +29,35 @@ const ReservationCollapseDetail: React.FC<CollapseDetail> = ({ detail }) => {
 			</p>
 			<p>할인: {detail.discount}원</p>
 			<p>포인트내역 어디?</p>
-		</div>
+		</CollapseDetailWrapper>
 	);
 };
 
 export default ReservationCollapseDetail;
+
+const CollapseDetailWrapper = styled.div`
+	background-color: red;
+	@media (max-width: 360px) {
+		width: 90vw;
+	}
+
+	@media (min-width: 360px) and (max-width: 540px) {
+		width: 50vw;
+	}
+
+	@media (min-width: 540px) and (max-width: 768px) {
+		width: 27vw;
+	}
+
+	@media (min-width: 768px) and (max-width: 1024px) {
+		width: 40vw;
+	}
+
+	@media (min-width: 1024px) and (max-width: 1700px) {
+		width: 25vw;
+	}
+
+	@media (min-width: 1700px) {
+		width: 20vw;
+	}
+`;

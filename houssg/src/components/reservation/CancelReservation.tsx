@@ -1,9 +1,9 @@
 import { styled } from 'styled-components';
 
-import { closeModal } from '../store/redux/modalSlice';
-import { useAppDispatch } from '../hooks';
+import { closeModal } from '../../store/redux/modalSlice';
+import { useAppDispatch } from '../../hooks';
 
-import { color } from '../assets/styles';
+import { color } from '../../assets/styles';
 
 const CancelReservation = () => {
 	const dispatch = useAppDispatch();

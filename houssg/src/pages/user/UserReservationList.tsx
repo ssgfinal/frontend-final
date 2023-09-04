@@ -1,6 +1,6 @@
 import { styled } from 'styled-components';
 
-import ReservationList from '../../components/ReservationList';
+import ReservationList from '../../components/reservation/ReservationList';
 import { accomodation } from '../../assets/icons';
 // TODO : 같은 유저의 예약정보 뿌리기..나중에 수정
 // import { useIsUser } from '../../hooks';
@@ -97,10 +97,15 @@ const UserReservationList = () => {
 export default UserReservationList;
 
 const UserReservationWrapper = styled.div`
-	display: grid;
-	justify-self: center;
+	display: flex;
+	flex-direction: row;
+	margin-top: 1vw;
+	margin-left: 1vw;
+	margin-right: 1vw;
+	background-color: lightgray;
+
 	@media (max-width: 360px) {
-		grid-template-columns: 1fr;
+		flex-direction: column;
 	}
 	@media (min-width: 360px) and (max-width: 540px) {
 		grid-template-columns: 1fr;
@@ -121,14 +126,16 @@ const UserReservationWrapper = styled.div`
 	}
 
 	@media (min-width: 1024px) and (max-width: 1700px) {
-		grid-template-columns: 1fr 1fr 1fr;
+		display: flex;
+		flex-direction: column;
+		//grid-template-columns: 1fr 1fr 1fr;
 		padding-left: 5vw;
 		padding-right: 5vw;
 	}
 
 	@media (min-width: 1700px) {
-		grid-template-columns: 1fr 1fr 1fr;
-		grid-gap: 1vw;
+		display: flex;
+		flex-direction: row;
 		padding-left: 3vw;
 		padding-right: 3vw;
 	}

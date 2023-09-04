@@ -2,11 +2,11 @@ import { styled } from 'styled-components';
 import { Collapse } from 'antd';
 
 import ReservationCollapseDetail from './ReservationCollapseDetail';
-import { openModal } from '../store/redux/modalSlice';
-import { useAppDispatch } from '../hooks';
+import { openModal } from '../../store/redux/modalSlice';
+import { useAppDispatch } from '../../hooks';
 
-import { color } from '../assets/styles';
-import { accomodation } from '../assets/icons';
+import { color } from '../../assets/styles';
+import { accomodation } from '../../assets/icons';
 
 interface Reservation {
 	reservation: {
@@ -156,7 +156,7 @@ const ReservationWrapper = styled.div`
 	padding: 0.5rem;
 	border: solid 1.5px ${color.color1};
 	border-radius: 0.5rem;
-	display: inline-flex;
+	display: flex;
 	flex-direction: column;
 
 	.reservationbox {
@@ -305,7 +305,8 @@ const ReservationWrapper = styled.div`
 	}
 
 	@media (min-width: 1700px) {
-		width: 20vw;
+		width: 12vw;
+		justify-self: center;
 	}
 `;
 
@@ -319,6 +320,7 @@ const DetailContainer = styled.div`
 
 const CollapseContainer = styled.div`
 	display: grid;
+	background-color: blue;
 	.ant-collapse-header-text {
 		color: ${color.color1};
 		text-align: left;
@@ -351,7 +353,7 @@ const CollapseContainer = styled.div`
 
 	@media (min-width: 360px) and (max-width: 540px) {
 		.ant-collapse-content-box {
-			width: 55vw;
+			width: 50vw;
 			display: inline-flex;
 			transition: width 0.1s;
 		}
@@ -359,7 +361,7 @@ const CollapseContainer = styled.div`
 
 	@media (min-width: 540px) and (max-width: 768px) {
 		.ant-collapse-content-box {
-			width: 30vw;
+			width: 35vw;
 			display: inline-flex;
 			transition: width 0.1s;
 		}
