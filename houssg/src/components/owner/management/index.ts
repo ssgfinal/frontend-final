@@ -1,3 +1,3 @@
-import MyHouseInfo from './MyHouseInfo';
+import ManageWrapComp from './ManageWrapComp';
 
-export { MyHouseInfo };
+export { ManageWrapComp };

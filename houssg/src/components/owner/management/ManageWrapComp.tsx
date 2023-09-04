@@ -1,38 +1,29 @@
+import { useState } from 'react';
 import styled from 'styled-components';
 import { color } from '../../../assets/styles';
+import ManageNav from './ManageNAv';
 
-const MyHouseInfo = () => {
+const ManageWrapComp = () => {
+	const [selectedNav, setSelectedNav] = useState('객실 정보');
+	console.log(selectedNav);
 	return (
 		<HouseInfoWrapper>
 			<HouseInfoContainer>
 				<HouseImg src='https://a.cdn-hotels.com/gdcs/production62/d1770/50e9f242-6f67-48a5-9b77-82aa6d64d78a.jpg?impolicy=fcrop&w=1600&h=1066&q=medium","zip_numbe' />
 				<InfoWrapper>
+					<InfoText>이름 : 영등포 라이프스타일 F HOTEL </InfoText>
+					<InfoText>전화번호 : 0350500001</InfoText>
 					<SubInfoAligner>
-						<div>이름 : 영등포 라이프스타일 F HOTEL </div>
-						<div>전화번호 : 0350500001</div>
+						<InfoText>숙소종류 : 호텔</InfoText>
+						<InfoText>입실/퇴실 시간 : 15:00/13:00 </InfoText>
 					</SubInfoAligner>
-					<SubInfoAligner>
-						<div>호텔</div>
-						<div>입실 시간 15:00 퇴실 시간 13:00 </div>
-						<div>사업자 번호 : 1000000001</div>
-					</SubInfoAligner>
-					<SubInfoAligner>
-						<div>주소 : 3333333333</div>
-					</SubInfoAligner>
-					<SubInfoAligner>
-						<div>시설 및 서비스</div>
-					</SubInfoAligner>
-					<SubInfoAligner>
-						<div>여기는 000입니다. 어서오세요. 반갑습니다. 굿굿굿굿굿굿굿</div>
-					</SubInfoAligner>
+					<InfoText>사업자 번호 : 1000000001</InfoText>
+					<InfoText>주소 : 3333333333</InfoText>
+					<InfoText>시설 및 서비스</InfoText>
+					<InfoText>상세설명 : 여기는 000입니다. 어서오세요. 반갑습니다. 굿굿굿굿굿굿굿</InfoText>
 				</InfoWrapper>
 			</HouseInfoContainer>
-			<HouseInfoDetailNav>
-				<div>객실 정보</div>
-				<div>리뷰 확인</div>
-				<div>객실 추가하기</div>
-				<div>수정 및 삭제</div>
-			</HouseInfoDetailNav>
+			<ManageNav setSelectedNav={setSelectedNav} />
 			<TabContainer>
 				{/* <div>객실 명</div>
 				<div>객실 갯수</div>
@@ -45,7 +36,7 @@ const MyHouseInfo = () => {
 	);
 };
 
-export default MyHouseInfo;
+export default ManageWrapComp;
 
 const HouseInfoWrapper = styled.div`
 	border: 2px solid ${color.color2};
@@ -55,33 +46,31 @@ const HouseInfoContainer = styled.div`
 	display: flex;
 	flex-direction: row;
 	gap: 1.5vw;
-	/* justify-content: center; */
-	align-items: center;
+	/* align-items: center; */
 
 	padding: 0.5rem;
 `;
 
 const HouseImg = styled.img`
-	background-color: red;
-	width: 26rem;
-	height: 15rem;
+	width: 20rem;
 `;
 
 const InfoWrapper = styled.div`
+	margin-top: 0.6rem;
 	display: flex;
 	flex-direction: column;
+	text-align: left;
+	gap: 0.3rem;
 `;
 
 const SubInfoAligner = styled.div`
 	display: flex;
 	flex-direction: row;
-`;
-
-const HouseInfoDetailNav = styled.div`
-	display: flex;
-	flex-direction: row;
-	justify-content: space-evenly;
-	margin-bottom: 0.5rem;
+	gap: 5vw;
 `;
 
 const TabContainer = styled.div``;
+
+const InfoText = styled.div`
+	font-size: 1rem;
+`;

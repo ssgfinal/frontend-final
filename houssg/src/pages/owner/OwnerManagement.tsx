@@ -1,13 +1,13 @@
 import styled from 'styled-components';
-import { MyHouseInfo } from '../../components/owner/management';
+import { ManageWrapComp } from '../../components/owner/management';
 
 const OwnerManagement = () => {
 	const houseList = [1, 2];
 	return (
 		<ManagementWrapper>
 			<HouseList>
-				{houseList.map((detail, index) => (
-					<MyHouseInfo key={index} />
+				{houseList.map((_detail, index) => (
+					<ManageWrapComp key={index} />
 				))}
 			</HouseList>
 			<div>숙소 등록하기</div>
@@ -24,6 +24,7 @@ const ManagementWrapper = styled.div`
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
+	margin-bottom: 1.5rem;
 `;
 
 const HouseList = styled.div``;
