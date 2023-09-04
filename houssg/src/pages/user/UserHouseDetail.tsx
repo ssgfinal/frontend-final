@@ -6,6 +6,7 @@ import { TabMenu } from '../../components/common/TabMenu';
 import { HouseInfo } from '../../components/house/HouseInfo';
 import { RoomList } from '../../components/house/RoomList';
 import { HouseReview } from '../../components/house/HouseReview';
+import { HouseDescription } from '../../components/house/HouseDescription';
 
 export const UserHouseDetail = () => {
 	// 추후 쓸 변수
@@ -18,7 +19,7 @@ export const UserHouseDetail = () => {
 			<HouseInfo />
 			<div>
 				<TabMenu clickTab={clickTab} setClickTab={setClickTab} />
-				<div>{clickTab === 'roominfo' ? <RoomList /> : clickTab === 'description' ? <HouseInfo /> : <HouseReview />}</div>
+				<div>{clickTab === 'info' ? <RoomList /> : clickTab === 'description' ? <HouseDescription /> : <HouseReview />}</div>
 			</div>
 		</Wrapper>
 	);
