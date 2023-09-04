@@ -9,6 +9,7 @@ import { RoomList } from '../../components/house/RoomList';
 import { HouseReview } from '../../components/house/HouseReview';
 import Rating from '../../components/common/Rating';
 import { styled } from 'styled-components';
+import { HouseDescription } from '../../components/house/HouseDescription';
 
 export const UserHouseDetail = () => {
 	const { houseId } = useParams();
@@ -51,7 +52,7 @@ export const UserHouseDetail = () => {
 			</Wrapper>
 			<div>
 				<TabMenu clickTab={clickTab} setClickTab={setClickTab} />
-				<div>{clickTab === 'info' ? <RoomList /> : clickTab === 'description' ? <HouseInfo /> : <HouseReview />}</div>
+				<div>{clickTab === 'info' ? <RoomList /> : clickTab === 'description' ? <HouseDescription /> : <HouseReview />}</div>
 			</div>
 		</>
 	);
