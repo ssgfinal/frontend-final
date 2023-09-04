@@ -1,4 +1,9 @@
 export const url = {
 	login: 'login',
-	adduser: 'adduser',
+	addUser: 'adduser',
+	idCheck: 'idcheck',
+	nickCheck: 'nickname',
+	phoneCheck: 'phonecheck',
+	kakaoLogin: 'kakao',
+	kakaoAdd: 'kakaAdd',
 };

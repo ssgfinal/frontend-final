@@ -67,7 +67,7 @@ export const authSignUpFunc = (
 
 	if (isUser) {
 		api
-			.post(url.adduser + `?id=${userId}&password=${userPw}&nickname=${userNick}&phone_number=${userPhone}&auth=0`)
+			.post(url.addUser + `?id=${userId}&password=${userPw}&nickname=${userNick}&phone_number=${userPhone}&auth=0`)
 			.then((resp) => {
 				alert(resp);
 				setIsLoginComp(true);
@@ -77,7 +77,7 @@ export const authSignUpFunc = (
 			});
 	} else {
 		api
-			.post(url.adduser + `?id=${userId}&password=${userPw}&nickname=${userNick}&phone_number=${userPhone}&auth=1`)
+			.post(url.addUser + `?id=${userId}&password=${userPw}&nickname=${userNick}&phone_number=${userPhone}&auth=1`)
 			.then((resp) => {
 				alert(resp);
 				setIsLoginComp(true);
@@ -88,12 +88,56 @@ export const authSignUpFunc = (
 	}
 };
 
+export const idCheckFunc = (id: string) => {
+	api
+		.post(url.idCheck, { id: id })
+		.then(({ data }) => {
+			console.log(data);
+		})
+		.catch((err) => {
+			console.log(err);
+		});
+};
+
+export const nickCheckFunc = (nickName: string) => {
+	api
+		.post(url.nickCheck, { nickName: nickName })
+		.then(({ data }) => {
+			console.log(data);
+		})
+		.catch((err) => {
+			console.log(err);
+		});
+};
+
 export const kakaoLoginFunc = (code: string) => {
 	// TODO: url 수정
 	api
-		.post('serverUrl' + code)
+		.post(url.kakaoLogin, code)
 		.then((res) => {
 			return res;
+		})
+		.catch((err) => {
+			console.log(err);
+		});
+};
+
+export const kakaoSignUp = (nickName: string) => {
+	api
+		.post(url.kakaoAdd, { nickName: nickName })
+		.then(({ data }) => {
+			console.log(data);
+		})
+		.catch((err) => {
+			console.log(err);
+		});
+};
+
+export const phoneCheck = (number: number) => {
+	api
+		.post(url.phoneCheck, { number })
+		.then(({ data }) => {
+			console.log(data);
 		})
 		.catch((err) => {
 			console.log(err);
