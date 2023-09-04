@@ -1,5 +1,6 @@
 import { styled } from 'styled-components';
 import { Collapse } from 'antd';
+import { useState, useEffect } from 'react';
 
 import ReservationCollapseDetail from './ReservationCollapseDetail';
 import { openModal } from '../../store/redux/modalSlice';
@@ -45,42 +46,62 @@ const detail = [
 	// },
 ];
 
-// 예약상태 0, 1은 각각 무엇인지?, 상태에 따라 색변경 추후에 작업
-// style은 왜 error? => (수정) state로 관리하기
-const reservation_status = document.querySelector('.item_reser_status');
-
-if (reservation_status !== null) {
-	const status = 0;
-	if (status === 0) {
-		reservation_status.style.color = `${color.color1}`;
-		reservation_status.style.backgroundColor = `${color.color5}`;
-	} else if (status === 1) {
-		reservation_status.style.color = `${color.backColor}`;
-		reservation_status.style.backgroundColor = `${color.color2}`;
-	}
-}
-
 const formatDate = (dateString: string) => {
 	const options = { year: 'numeric', month: 'long', day: 'numeric' };
 	return new Date(dateString).toLocaleDateString(undefined, options);
 };
 
-const getStatusString = (reservationStatus: number): string => {
-	switch (reservationStatus) {
-		case 0:
-			return '예약완료';
-		case 1:
-			return '이용완료';
-		default:
-			return '알 수 없는 상태';
-	}
-};
-
+// 예약상태 0, 1은 각각 무엇인지?, 상태에 따라 색변경 추후에 작업
+// (수정) state로 관리하기
 const ReservationList: React.FC<Reservation> = ({ reservation }) => {
+	const getStatusString = (reservationStatus: number): string => {
+		switch (reservationStatus) {
+			case 0:
+				return '예약완료';
+			case 1:
+				return '이용완료';
+			case 2:
+				return '예약취소';
+			default:
+				return '알 수 없는 상태';
+		}
+	};
+
+	// TODO : 서버연결 후 수정, 현재는 하드코딩
+	const [reservation_status, setReservation_status] = useState(null);
+
+	const fetchDataFromServer = async () => {
+		try {
+			const response = 2;
+			//await fetch('http://localhost:3200/');
+			const data = response;
+			// await response.json();
+
+			setReservation_status(data);
+		} catch (error) {
+			console.error('데이터를 불러오는 데 실패했습니다.', error);
+		}
+	};
+
+	useEffect(() => {
+		fetchDataFromServer();
+	}, [reservation_status]);
+
+	const statusStyle = {
+		color: reservation_status === 0 ? color.color1 : reservation_status === 1 ? color.backColor : color.backColor,
+		backgroundColor: reservation_status === 0 ? color.color5 : reservation_status === 1 ? color.color1 : `lightgray`,
+	};
+
+	const cursorStyle = {
+		cursor: reservation_status === 2 ? 'no-drop' : 'pointer',
+		color: reservation_status === 2 ? color.backColor : color.backColor,
+		backgroundColor: reservation_status === 2 ? `lightgray` : color.color1,
+	};
+
 	const dispatch = useAppDispatch();
 
 	const modalOpen = () => {
-		const modalSize = window.inner; //width >= 1000 ? 500 : 400;
+		const modalSize = window.innerWidth >= 1000 ? 500 : 400;
 		dispatch(openModal({ modalComponent: 'cancel', modalSize: modalSize }));
 	};
 
@@ -91,7 +112,9 @@ const ReservationList: React.FC<Reservation> = ({ reservation }) => {
 					<div className="item_reservation_date">{formatDate(reservation.reservation_start_date)}</div>
 					{/* TODO : 이용완료시 예약취소 버튼 비활성화 */}
 					<div className="item_reser_button">
-						<button onClick={modalOpen}>예약취소</button>
+						<button onClick={modalOpen} disabled={reservation_status === 2} style={cursorStyle}>
+							예약취소
+						</button>
 					</div>
 					<div className="item_reservation_number">
 						<span>예약번호 {reservation.reservation_number}</span>
@@ -107,7 +130,9 @@ const ReservationList: React.FC<Reservation> = ({ reservation }) => {
 						</ImageBox>
 						<DetailBox>
 							<div className="detailbox">
-								<div className="item_reser_status">{getStatusString(reservation.reservation_status)}</div>
+								<div className="item_reser_status" style={statusStyle}>
+									{getStatusString(reservation.reservation_status)}
+								</div>
 								<div className="item_reser_name">{reservation.accom_name}</div>
 								<div className="item_room_cate">{reservation.room_category}</div>
 								<div className="item_room_price">{reservation.room_price.toLocaleString()}원</div>
@@ -151,14 +176,15 @@ const ReservationList: React.FC<Reservation> = ({ reservation }) => {
 export default ReservationList;
 
 const ReservationWrapper = styled.div`
+	display: flex;
+	flex-direction: column;
 	width: 100%;
 	margin-top: 1rem;
 	margin-bottom: 1rem;
 	padding: 0.5rem;
 	border: solid 1.5px ${color.color1};
 	border-radius: 0.5rem;
-	display: flex;
-	flex-direction: column;
+	transition: width 0.1s;
 
 	.reservationbox {
 		display: grid;
@@ -214,13 +240,11 @@ const ReservationWrapper = styled.div`
 		.item_reser_button button {
 			font-size: 0.5rem;
 			border: 1px solid;
-			transition: width 0.1s;
 		}
 
 		.item_reser_button button:hover {
 			font-size: 0.5rem;
 			border: 1px solid;
-			transition: width 0.1s;
 		}
 	}
 
@@ -228,25 +252,21 @@ const ReservationWrapper = styled.div`
 		.item_reser_button button {
 			font-size: 0.7rem;
 			border: 1.5px solid;
-			transition: width 0.1s;
 		}
 
 		.item_reser_button button:hover {
 			font-size: 0.7rem;
 			border: 1.5px solid;
-			transition: width 0.1s;
 		}
 	}
 
 	@media (min-width: 1400px) {
 		.item_reser_button button {
 			font-size: 0.9rem;
-			transition: width 0.1s;
 		}
 
 		.item_reser_button button:hover {
 			font-size: 0.9rem;
-			transition: width 0.1s;
 		}
 	}
 `;
