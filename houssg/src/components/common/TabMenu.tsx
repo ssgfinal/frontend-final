@@ -57,7 +57,7 @@ const Clicked = styled(CommonTab)`
 `;
 
 const UnClicked = styled(CommonTab)`
-	color: lightgray;
+	color: ${color.unSelectColor};
 `;
 
 const Hr = styled.hr`
