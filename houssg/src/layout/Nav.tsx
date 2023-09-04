@@ -20,8 +20,8 @@ const Nav = () => {
 	];
 	const ownerNav = [
 		['홈', '/owner'],
-		['숙소 등록', '/owner/register'],
-		['숙소 관리', '/owner/management'],
+		['내 숙소', '/owner/management'],
+		['예약 확인', '/owner/reservation'],
 	];
 
 	const currentNav = isUser ? userNav : ownerNav;

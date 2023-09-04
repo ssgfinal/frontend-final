@@ -2,7 +2,7 @@ import { Routes, Route } from 'react-router-dom';
 import './App.css';
 
 import { Main } from './pages';
-import { OwnerAuth, OwnerHome, OwnerMain, OwnerManagement, OwnerRegister } from './pages/owner';
+import { OwnerAuth, OwnerHome, OwnerMain, OwnerManagement, OwnerReservation } from './pages/owner';
 import { UserHome, UserHouseList, UserMain, UserMypage, UserReservationList } from './pages/user';
 import { UserHouseDetail } from './pages/user/UserHouseDetail';
 
@@ -20,7 +20,7 @@ const App = () => {
 			<Route path="/ownerAuth" element={<OwnerAuth />} />
 			<Route path="/owner" element={<OwnerHome />}>
 				<Route index element={<OwnerMain />} />
-				<Route path="/owner/register" element={<OwnerRegister />} />
+				<Route path="/owner/reservation" element={<OwnerReservation />} />
 				<Route path="/owner/management" element={<OwnerManagement />} />
 			</Route>
 		</Routes>
