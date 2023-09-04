@@ -1,12 +1,14 @@
-import { AuthProps } from '../../types/auth';
-import { AuthContainer, AuthTitle, HeightPositioningDiv } from '../../assets/styles';
+import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import styled from 'styled-components';
 
+import { AuthProps } from '../../types/auth';
+import { AuthContainer, AuthTitle } from '../../assets/styles';
 import { kakaoLogin } from '../../assets/images';
 import { AuthInput, AuthModeBtn, AuthSubmitBtn } from './element';
 import { usePathname } from '../../hooks';
-import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
 import { authLoginFunc } from '../../utils';
+import { KakaoAuthUri } from '../../api';
 
 const Login: React.FC<AuthProps> = ({ isLoginComp, setIsLoginComp }) => {
 	const pathname = usePathname();
@@ -19,15 +21,17 @@ const Login: React.FC<AuthProps> = ({ isLoginComp, setIsLoginComp }) => {
 
 	const onLogin = () => authLoginFunc(userId, userPw, isUser, navigate);
 
+	const onKakaoLogin = () => {
+		location.href = KakaoAuthUri;
+	};
+
 	return (
 		<AuthContainer>
 			<AuthTitle>{isUser ? '로그인' : '사업자 로그인'}</AuthTitle>
 			<AuthInput setValue={setUserId} title="아이디" />
 			<AuthInput setValue={setUserPw} title="비밀번호" password />
 			<AuthSubmitBtn onClick={onLogin}>로그인하기</AuthSubmitBtn>
-			<HeightPositioningDiv height="0.2rem" />
-			<img src={kakaoLogin} width="45%" />
-			<HeightPositioningDiv height="1.3rem" />
+			<KakaoLogin onClick={onKakaoLogin} src={kakaoLogin} />
 			<AuthModeBtn isLoginComp={isLoginComp} setIsLoginComp={setIsLoginComp}>
 				회원가입으로
 			</AuthModeBtn>
@@ -36,3 +40,9 @@ const Login: React.FC<AuthProps> = ({ isLoginComp, setIsLoginComp }) => {
 };
 
 export default Login;
+
+const KakaoLogin = styled.img`
+	margin: 0.5rem 0 1.3rem 0;
+	width: 45%;
+	cursor: pointer;
+`;
