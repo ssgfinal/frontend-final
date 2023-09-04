@@ -80,7 +80,7 @@ const ReservationList: React.FC<Reservation> = ({ reservation }) => {
 	const dispatch = useAppDispatch();
 
 	const modalOpen = () => {
-		const modalSize = window.innerWidth >= 1000 ? 500 : 400;
+		const modalSize = window.inner; //width >= 1000 ? 500 : 400;
 		dispatch(openModal({ modalComponent: 'cancel', modalSize: modalSize }));
 	};
 
@@ -151,6 +151,7 @@ const ReservationList: React.FC<Reservation> = ({ reservation }) => {
 export default ReservationList;
 
 const ReservationWrapper = styled.div`
+	width: 100%;
 	margin-top: 1rem;
 	margin-bottom: 1rem;
 	padding: 0.5rem;
@@ -162,15 +163,13 @@ const ReservationWrapper = styled.div`
 	.reservationbox {
 		display: grid;
 		grid-template-columns: 50fr 50fr;
-		grid-template-rows: repeat(2, 4fr);
-	}
-
-	.reservationbox {
 		color: ${color.color1};
 		padding-left: 1rem;
 		text-align: left;
 		font-weight: bold;
 		font-family: Arial;
+		font-size: 1.2rem;
+		transition: width 0.1s;
 	}
 
 	.item_reser_button {
@@ -188,6 +187,7 @@ const ReservationWrapper = styled.div`
 		}
 
 		button:hover {
+			cursor: pointer;
 			border: 1px solid;
 			border-radius: 0.5rem;
 			border-color: ${color.color3};
@@ -203,19 +203,14 @@ const ReservationWrapper = styled.div`
 		grid-row-start: 2;
 		grid-row-end: 3;
 		color: ${color.color2};
-		padding-left: 1.3vw;
+		padding-left: 1vw;
 		justify-self: left;
 		align-self: flex-end;
-		font-size: 0.9vw;
+		font-size: 1rem;
 		font-weight: bold;
 	}
 
-	@media (max-width: 540px) {
-		.reservationbox {
-			font-size: 0.8rem;
-			transition: width 0.1s;
-		}
-
+	@media (max-width: 700px) {
 		.item_reser_button button {
 			font-size: 0.5rem;
 			border: 1px solid;
@@ -229,12 +224,7 @@ const ReservationWrapper = styled.div`
 		}
 	}
 
-	@media (min-width: 540px) and (max-width: 768px) {
-		.reservationbox {
-			font-size: 0.9rem;
-			transition: width 0.1s;
-		}
-
+	@media (min-width: 700px) and (max-width: 1400px) {
 		.item_reser_button button {
 			font-size: 0.7rem;
 			border: 1.5px solid;
@@ -248,12 +238,7 @@ const ReservationWrapper = styled.div`
 		}
 	}
 
-	@media (min-width: 768px) and (max-width: 1024px) {
-		.reservationbox {
-			font-size: 1rem;
-			transition: width 0.1s;
-		}
-
+	@media (min-width: 1400px) {
 		.item_reser_button button {
 			font-size: 0.9rem;
 			transition: width 0.1s;
@@ -263,50 +248,6 @@ const ReservationWrapper = styled.div`
 			font-size: 0.9rem;
 			transition: width 0.1s;
 		}
-	}
-
-	@media (min-width: 1024px) {
-		.reservationbox {
-			font-size: 1rem;
-			transition: width 0.1s;
-		}
-
-		.item_reser_button button {
-			font-size: 0.8rem;
-			transition: width 0.1s;
-		}
-
-		.item_reser_button button:hover {
-			font-size: 0.8rem;
-			transition: width 0.1s;
-		}
-	}
-
-	// TODO : 반응형 추가
-
-	@media (max-width: 360px) {
-		width: 90vw;
-	}
-
-	@media (min-width: 360px) and (max-width: 540px) {
-		width: 70vw;
-	}
-
-	@media (min-width: 540px) and (max-width: 768px) {
-		width: 43vw;
-	}
-
-	@media (min-width: 768px) and (max-width: 1024px) {
-		width: 45vw;
-	}
-
-	@media (min-width: 1024px) and (max-width: 1700px) {
-		width: 25vw;
-	}
-
-	@media (min-width: 1700px) {
-		width: 12vw;
-		justify-self: center;
 	}
 `;
 
@@ -315,16 +256,17 @@ const ReservationContainer = styled.div`
 `;
 
 const DetailContainer = styled.div`
-	display: inline-flex;
+	display: grid;
+	grid-column-gap: 10px;
+	grid-template-columns: 1fr 1fr;
 `;
 
 const CollapseContainer = styled.div`
-	display: grid;
-	background-color: blue;
+	transition: width 0.1s;
 	.ant-collapse-header-text {
+		font-size: 1rem;
 		color: ${color.color1};
 		text-align: left;
-		font-size: 1rem;
 		align-self: center;
 	}
 
@@ -333,109 +275,54 @@ const CollapseContainer = styled.div`
 	}
 
 	.ant-collapse-content-box {
+		font-size: 1rem;
+		width: 100%;
 		color: ${color.color1};
 		text-align: justify;
-		background-color: ${color.backColor};
 	}
 
 	.ant-collapse-expand-icon {
+		width: 10%;
 		color: ${color.color1};
 		align-items: right;
-	}
-
-	@media (max-width: 360px) {
-		.ant-collapse-content-box {
-			width: 70vw;
-			display: inline-flex;
-			transition: width 0.1s;
-		}
-	}
-
-	@media (min-width: 360px) and (max-width: 540px) {
-		.ant-collapse-content-box {
-			width: 50vw;
-			display: inline-flex;
-			transition: width 0.1s;
-		}
-	}
-
-	@media (min-width: 540px) and (max-width: 768px) {
-		.ant-collapse-content-box {
-			width: 35vw;
-			display: inline-flex;
-			transition: width 0.1s;
-		}
-	}
-
-	@media (min-width: 768px) and (max-width: 1024px) {
-		.ant-collapse-content-box {
-			width: 40vw;
-			display: inline-flex;
-			transition: width 0.1s;
-		}
-	}
-
-	@media (min-width: 1024px) {
-		.ant-collapse-content-box {
-			width: 23vw;
-			display: inline-flex;
-			transition: width 0.1s;
-		}
 	}
 `;
 
 const ImageBox = styled.div`
-	display: inline-flex;
-	flex-direction: row;
-	padding-left: 2rem;
-	padding-right: 1rem;
+	display: grid;
+	grid-template-columns: 1fr;
+	justify-items: center;
+	align-self: center;
 	transition: width 0.1s;
 
-	@media (max-width: 360px) {
+	@media (max-width: 700px) {
 		.imagebox {
-			width: 25vw;
-			transition: width 0.1s;
+			width: 80%;
 		}
 	}
 
-	@media (min-width: 360px) and (max-width: 540px) {
+	@media (min-width: 700px) and (max-width: 1400px) {
 		.imagebox {
-			width: 20vw;
-			transition: width 0.1s;
+			width: 80%;
 		}
 	}
 
-	@media (min-width: 540px) and (max-width: 768px) {
+	@media (min-width: 1400px) {
 		.imagebox {
-			width: 15vw;
-			transition: width 0.1s;
-		}
-	}
-
-	@media (min-width: 768px) and (max-width: 1024px) {
-		.imagebox {
-			width: 17vw;
-			transition: width 0.1s;
-		}
-	}
-
-	@media (min-width: 1024px) {
-		.imagebox {
-			width: 10vw;
-			transition: width 0.1s;
+			width: 80%;
 		}
 	}
 `;
 
 const DetailBox = styled.div`
 	color: ${color.color1};
-	display: inline-flex;
-	flex-direction: row;
 	text-align: left;
-
+	display: grid;
+	transition: width 0.1s;
 	.detailbox {
+		width: 70%;
 		display: grid;
-		grid-template-columns: 70fr;
+		grid-template-columns: 1fr;
 		grid-template-rows: repeat(4, 10fr);
 	}
 
@@ -466,44 +353,21 @@ const DetailBox = styled.div`
 		align-self: flex-start;
 	}
 
-	@media (max-width: 360px) {
+	@media (max-width: 700px) {
 		.detailbox {
-			width: 43vw;
 			font-size: 0.8rem;
-			transition: width 0.1s;
 		}
 	}
 
-	@media (min-width: 360px) and (max-width: 540px) {
+	@media (min-width: 700px) and (max-width: 1400px) {
 		.detailbox {
-			width: 40vw;
 			font-size: 0.8rem;
-			transition: width 0.1s;
 		}
 	}
 
-	@media (min-width: 540px) and (max-width: 768px) {
+	@media (min-width: 1400px) {
 		.detailbox {
-			width: 30vw;
-			font-size: 0.7rem;
-			transition: width 0.1s;
-		}
-	}
-
-	@media (min-width: 768px) and (max-width: 1024px) {
-		.detailbox {
-			width: 20vw;
-			font-size: 0.9rem;
-			transition: width 0.1s;
-		}
-	}
-
-	@media (min-width: 1024px) {
-		.detailbox {
-			width: 10vw;
-			font-size: 0.9rem;
-			font-family: Arial;
-			transition: width 0.1s;
+			font-size: 1rem;
 		}
 	}
 `;

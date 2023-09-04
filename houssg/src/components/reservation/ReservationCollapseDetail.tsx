@@ -36,28 +36,5 @@ const ReservationCollapseDetail: React.FC<CollapseDetail> = ({ detail }) => {
 export default ReservationCollapseDetail;
 
 const CollapseDetailWrapper = styled.div`
-	background-color: red;
-	@media (max-width: 360px) {
-		width: 90vw;
-	}
-
-	@media (min-width: 360px) and (max-width: 540px) {
-		width: 50vw;
-	}
-
-	@media (min-width: 540px) and (max-width: 768px) {
-		width: 27vw;
-	}
-
-	@media (min-width: 768px) and (max-width: 1024px) {
-		width: 40vw;
-	}
-
-	@media (min-width: 1024px) and (max-width: 1700px) {
-		width: 25vw;
-	}
-
-	@media (min-width: 1700px) {
-		width: 20vw;
-	}
+	width: 100%;
 `;

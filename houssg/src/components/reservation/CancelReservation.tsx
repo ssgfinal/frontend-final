@@ -65,6 +65,7 @@ const CancelYesButton = styled.div`
 	}
 
 	button:hover {
+		cursor: pointer;
 		font-weight: bold;
 		border: 1px solid ${color.color3};
 		background-color: ${color.color3};
@@ -89,6 +90,7 @@ const CancelNoButton = styled.div`
 	}
 
 	button:hover {
+		cursor: pointer;
 		font-weight: bold;
 		border: 1px solid ${color.color3};
 		background-color: ${color.color3};

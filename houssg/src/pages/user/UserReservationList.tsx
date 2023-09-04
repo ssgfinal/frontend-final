@@ -85,58 +85,52 @@ const UserReservationList = () => {
 					</div>
 				) : null,
 			)} */}
-			{reservation.map((item, index) => (
-				<div key={index}>
-					<ReservationList reservation={item} />
-				</div>
-			))}
+			<UserReservationContainer>
+				{reservation.map((item, index) => (
+					<div key={index}>
+						<ReservationList reservation={item} />
+					</div>
+				))}
+			</UserReservationContainer>
 		</UserReservationWrapper>
 	);
 };
 
 export default UserReservationList;
 
-const UserReservationWrapper = styled.div`
-	display: flex;
-	flex-direction: row;
-	margin-top: 1vw;
-	margin-left: 1vw;
-	margin-right: 1vw;
-	background-color: lightgray;
+const UserReservationWrapper = styled.div``;
 
-	@media (max-width: 360px) {
-		flex-direction: column;
+const UserReservationContainer = styled.div`
+	grid-area: a;
+	display: grid;
+	margin: 1rem auto;
+	grid-gap: 1rem;
+
+	@media (min-width: 1400px) {
+		width: 80%;
+		grid-template-columns: repeat(3, 1fr);
+		grid-template-areas: 'a a a';
+		justify-content: center;
 	}
-	@media (min-width: 360px) and (max-width: 540px) {
+
+	@media (min-width: 1200px) and (max-width: 1400px) {
+		width: 80%;
+		grid-template-columns: repeat(3, 1fr);
+		grid-template-areas: 'a a a';
+		justify-content: center;
+	}
+
+	@media (min-width: 700px) and (max-width: 1200px) {
+		width: 80%;
+		grid-template-columns: repeat(2, 1fr);
+		grid-template-areas: 'a a';
+		justify-content: center;
+	}
+
+	@media (max-width: 700px) {
+		width: 80%;
 		grid-template-columns: 1fr;
-		justify-self: center;
-		align-self: center;
-	}
-
-	@media (min-width: 540px) and (max-width: 768px) {
-		grid-template-columns: 1fr 1fr;
-		padding-left: 3vw;
-		padding-right: 3vw;
-	}
-
-	@media (min-width: 768px) and (max-width: 1024px) {
-		grid-template-columns: 1fr 1fr;
-		padding-left: 3vw;
-		padding-right: 3vw;
-	}
-
-	@media (min-width: 1024px) and (max-width: 1700px) {
-		display: flex;
-		flex-direction: column;
-		//grid-template-columns: 1fr 1fr 1fr;
-		padding-left: 5vw;
-		padding-right: 5vw;
-	}
-
-	@media (min-width: 1700px) {
-		display: flex;
-		flex-direction: row;
-		padding-left: 3vw;
-		padding-right: 3vw;
+		grid-template-areas: 'a';
+		justify-content: center;
 	}
 `;
