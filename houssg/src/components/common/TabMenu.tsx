@@ -8,7 +8,7 @@ interface TabMenuProps {
 
 export const TabMenu: React.FC<TabMenuProps> = ({ clickTab, setClickTab }) => {
 	const tabObj = [
-		['info', '객실 정보'],
+		['roominfo', '객실 정보'],
 		['description', '숙소 소개'],
 		['review', '후기'],
 	];
@@ -24,6 +24,7 @@ export const TabMenu: React.FC<TabMenuProps> = ({ clickTab, setClickTab }) => {
 							}}
 						>
 							{menu[1]}
+							<Hr />
 						</Clicked>
 					) : (
 						<UnClicked
@@ -48,16 +49,18 @@ const Wrapper = styled.div`
 const CommonTab = styled.div`
 	align-items: center;
 	padding: 1rem;
-	border-radius: 1rem 1rem 0 0;
 	font-weight: bold;
 `;
 
 const Clicked = styled(CommonTab)`
-	color: ${color.color1};
-	box-shadow: -2px -2px 6px rgba(0, 0, 0, 0.1);
+	color: ${color.color2};
 `;
 
 const UnClicked = styled(CommonTab)`
-	background-color: ${color.color2};
-	color: white;
+	color: lightgray;
+`;
+
+const Hr = styled.hr`
+	border: solid 1px ${color.color2};
+	width: 11rem;
 `;
