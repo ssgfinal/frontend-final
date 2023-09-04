@@ -46,7 +46,7 @@ const detail = [
 ];
 
 // 예약상태 0, 1은 각각 무엇인지?, 상태에 따라 색변경 추후에 작업
-// style은 왜 error?
+// style은 왜 error? => (수정) state로 관리하기
 const reservation_status = document.querySelector('.item_reser_status');
 
 if (reservation_status !== null) {
@@ -60,7 +60,6 @@ if (reservation_status !== null) {
 	}
 }
 
-// options 왜 error?
 const formatDate = (dateString: string) => {
 	const options = { year: 'numeric', month: 'long', day: 'numeric' };
 	return new Date(dateString).toLocaleDateString(undefined, options);
@@ -90,6 +89,7 @@ const ReservationList: React.FC<Reservation> = ({ reservation }) => {
 			<ReservationWrapper>
 				<div className="reservationbox">
 					<div className="item_reservation_date">{formatDate(reservation.reservation_start_date)}</div>
+					{/* TODO : 이용완료시 예약취소 버튼 비활성화 */}
 					<div className="item_reser_button">
 						<button onClick={modalOpen}>예약취소</button>
 					</div>
@@ -150,19 +150,14 @@ const ReservationList: React.FC<Reservation> = ({ reservation }) => {
 
 export default ReservationList;
 
-// z-index 시 footer 수정해야할 거 같은데 어떻게 할 것인지?
 const ReservationWrapper = styled.div`
-	//margin: 0.5rem;
 	margin-top: 1rem;
 	margin-bottom: 1rem;
 	padding: 0.5rem;
-	//border: none;
 	border: solid 1.5px ${color.color1};
 	border-radius: 0.5rem;
-	//background-color: rgb(2, 7, 21);
 	display: inline-flex;
 	flex-direction: column;
-	//position: static;
 
 	.reservationbox {
 		display: grid;
@@ -316,7 +311,6 @@ const ReservationWrapper = styled.div`
 
 const ReservationContainer = styled.div`
 	margin-top: 1rem;
-	//background-color: gray;
 `;
 
 const DetailContainer = styled.div`
@@ -325,14 +319,11 @@ const DetailContainer = styled.div`
 
 const CollapseContainer = styled.div`
 	display: grid;
-	//position: absolute;
-	//background-color: ${color.color5};
 	.ant-collapse-header-text {
 		color: ${color.color1};
 		text-align: left;
 		font-size: 1rem;
 		align-self: center;
-		//z-index: -1;
 	}
 
 	.ant-collapse-header-text:hover {
@@ -343,16 +334,11 @@ const CollapseContainer = styled.div`
 		color: ${color.color1};
 		text-align: justify;
 		background-color: ${color.backColor};
-		/* border: 1px solid ${color.color1};
-		border-radius: 1rem; */
-		//background-color: rgb(234, 237, 242);
-		//z-index: 2;
 	}
 
 	.ant-collapse-expand-icon {
 		color: ${color.color1};
 		align-items: right;
-		//z-index: -1;
 	}
 
 	@media (max-width: 360px) {
@@ -444,19 +430,16 @@ const DetailBox = styled.div`
 	display: inline-flex;
 	flex-direction: row;
 	text-align: left;
-	// background-color: orange;
 
 	.detailbox {
 		display: grid;
 		grid-template-columns: 70fr;
 		grid-template-rows: repeat(4, 10fr);
-		//background-color: orange;
 	}
 
 	.item_reser_status {
 		align-self: center;
 		border: none;
-		//border: 1px solid ${color.color3};
 		font-size: 0.5rem;
 		width: 4rem;
 		height: 1rem;

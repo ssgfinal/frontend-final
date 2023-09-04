@@ -96,10 +96,8 @@ const UserReservationList = () => {
 
 export default UserReservationList;
 
-// z-index 안 하면 주석 지우기
 const UserReservationWrapper = styled.div`
 	display: grid;
-	//position: absolute;
 	justify-self: center;
 	@media (max-width: 360px) {
 		grid-template-columns: 1fr;
@@ -126,7 +124,6 @@ const UserReservationWrapper = styled.div`
 		grid-template-columns: 1fr 1fr 1fr;
 		padding-left: 5vw;
 		padding-right: 5vw;
-		//z-index: 2;
 	}
 
 	@media (min-width: 1700px) {
@@ -134,6 +131,5 @@ const UserReservationWrapper = styled.div`
 		grid-gap: 1vw;
 		padding-left: 3vw;
 		padding-right: 3vw;
-		//z-index: 2;
 	}
 `;
