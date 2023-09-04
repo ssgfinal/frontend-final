@@ -1,6 +1,6 @@
 import { styled } from 'styled-components';
 import { Collapse } from 'antd';
-import { useState, useEffect } from 'react';
+//import { useState, useEffect } from 'react';
 
 import ReservationCollapseDetail from './ReservationCollapseDetail';
 import { openModal } from '../../store/redux/modalSlice';
@@ -9,8 +9,8 @@ import { useAppDispatch } from '../../hooks';
 import { color } from '../../assets/styles';
 import { accomodation } from '../../assets/icons';
 
-interface Reservation {
-	reservation: {
+interface UserReservationListProps {
+	reservations: {
 		user_id: string;
 		reservation_number: number; // 예약번호
 		outdoor_view: string[] | string; // 타입 longblob, 숙소이미지
@@ -53,7 +53,7 @@ const formatDate = (dateString: string) => {
 
 // 예약상태 0, 1은 각각 무엇인지?, 상태에 따라 색변경 추후에 작업
 // (수정) state로 관리하기
-const ReservationList: React.FC<Reservation> = ({ reservation }) => {
+const ReservationList: React.FC<UserReservationListProps> = ({ reservations }) => {
 	const getStatusString = (reservationStatus: number): string => {
 		switch (reservationStatus) {
 			case 0:
@@ -67,35 +67,11 @@ const ReservationList: React.FC<Reservation> = ({ reservation }) => {
 		}
 	};
 
-	// TODO : 서버연결 후 수정, 현재는 하드코딩
-	const [reservation_status, setReservation_status] = useState(null);
-
-	const fetchDataFromServer = async () => {
-		try {
-			const response = 2;
-			//await fetch('http://localhost:3200/');
-			const data = response;
-			// await response.json();
-
-			setReservation_status(data);
-		} catch (error) {
-			console.error('데이터를 불러오는 데 실패했습니다.', error);
-		}
-	};
-
-	useEffect(() => {
-		fetchDataFromServer();
-	}, [reservation_status]);
+	// TODO : Detail 부분
 
 	const statusStyle = {
-		color: reservation_status === 0 ? color.color1 : reservation_status === 1 ? color.backColor : color.backColor,
-		backgroundColor: reservation_status === 0 ? color.color5 : reservation_status === 1 ? color.color1 : `lightgray`,
-	};
-
-	const cursorStyle = {
-		cursor: reservation_status === 2 ? 'no-drop' : 'pointer',
-		color: reservation_status === 2 ? color.backColor : color.backColor,
-		backgroundColor: reservation_status === 2 ? `lightgray` : color.color1,
+		color: reservations.reservation_status === 0 ? color.backColor : reservations.reservation_status === 1 ? color.color1 : color.backColor,
+		backgroundColor: reservations.reservation_status === 0 ? color.color1 : reservations.reservation_status === 1 ? color.color5 : `lightgray`,
 	};
 
 	const dispatch = useAppDispatch();
@@ -109,15 +85,16 @@ const ReservationList: React.FC<Reservation> = ({ reservation }) => {
 		<div>
 			<ReservationWrapper>
 				<div className="reservationbox">
-					<div className="item_reservation_date">{formatDate(reservation.reservation_start_date)}</div>
-					{/* TODO : 이용완료시 예약취소 버튼 비활성화 */}
+					<div className="item_reservation_date">{formatDate(reservations.reservation_start_date)}</div>
 					<div className="item_reser_button">
-						<button onClick={modalOpen} disabled={reservation_status === 2} style={cursorStyle}>
-							예약취소
-						</button>
+						{reservations.reservation_status === 0 && (
+							<button hidden={false} onClick={modalOpen}>
+								취소하기
+							</button>
+						)}
 					</div>
 					<div className="item_reservation_number">
-						<span>예약번호 {reservation.reservation_number}</span>
+						<span>예약번호 {reservations.reservation_number}</span>
 						<div></div>
 					</div>
 				</div>
@@ -131,11 +108,11 @@ const ReservationList: React.FC<Reservation> = ({ reservation }) => {
 						<DetailBox>
 							<div className="detailbox">
 								<div className="item_reser_status" style={statusStyle}>
-									{getStatusString(reservation.reservation_status)}
+									{getStatusString(reservations.reservation_status)}
 								</div>
-								<div className="item_reser_name">{reservation.accom_name}</div>
-								<div className="item_room_cate">{reservation.room_category}</div>
-								<div className="item_room_price">{reservation.room_price.toLocaleString()}원</div>
+								<div className="item_reser_name">{reservations.accom_name}</div>
+								<div className="item_room_cate">{reservations.room_category}</div>
+								<div className="item_room_price">{reservations.room_price.toLocaleString()}원</div>
 							</div>
 						</DetailBox>
 					</DetailContainer>

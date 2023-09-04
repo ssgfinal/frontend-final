@@ -2,11 +2,12 @@ import { styled } from 'styled-components';
 
 import ReservationList from '../../components/reservation/ReservationList';
 import { accomodation } from '../../assets/icons';
+import { useEffect, useState } from 'react';
 // TODO : 같은 유저의 예약정보 뿌리기..나중에 수정
 // import { useIsUser } from '../../hooks';
 
 // TODO : 더미 데이터 기능구현 후 지우기
-const reservation = [
+const reservations = [
 	{
 		user_id: 'abc',
 		reservation_number: 1234567,
@@ -75,20 +76,41 @@ const UserReservationList = () => {
 	}
 	//const isUser = useIsUser();
 
+	// TODO : 서버 연결하면 윗줄사용, 현재는 더미데이터
+	// const [reservations, setReservations] = useState([]);
+	const [reservs, setReservs] = useState(reservations);
+
+	const Server = async () => {
+		try {
+			const response = reservs;
+			//await fetch('http://localhost:3200/');
+			const data = response;
+			// await response.json();
+			setReservs(data);
+		} catch (error) {
+			console.error('데이터를 불러오는 데 실패했습니다.', error);
+		}
+	};
+
+	useEffect(() => {
+		Server();
+		console.log(reservations);
+	}, []);
+
 	return (
 		<UserReservationWrapper>
 			{/* TODO : 같은 유저의 예약정보 뿌리기..나중에 수정 */}
 			{/* {reservation.map((item) =>
-				reservation.user_id === isUser ? (
-					<div key={item.reservation_number}>
-						<ReservationList reservation={reservation} />
-					</div>
-				) : null,
-			)} */}
+        reservation.user_id === isUser ? (
+            <div key={item.reservation_number}>
+                <ReservationList reservation={reservation} />
+            </div>
+        ) : null,
+    )} */}
 			<UserReservationContainer>
-				{reservation.map((item, index) => (
+				{reservations.map((item, index) => (
 					<div key={index}>
-						<ReservationList reservation={item} />
+						<ReservationList reservations={item} />
 					</div>
 				))}
 			</UserReservationContainer>
