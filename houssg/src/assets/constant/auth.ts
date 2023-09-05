@@ -1,6 +1,6 @@
 export const regSignUp = {
-	regId: { reg: /^[a-zA-Z0-9]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, tooltip: '이메일 형식의 아이디' },
-	regPw: { reg: /^[a-zA-Z0-9]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$/, tooltip: '영어와 숫자가 섞인 #@!이 가능한 7~10' },
-	regNick: { reg: /^.{3,10}$/, tooltip: '3~10글자 사이의 닉네임' },
+	regId: { reg: /^[a-zA-Z0-9_]{5,10}$/, tooltip: '한,영,_로 구성된 5~10글자' },
+	regPw: { reg: /^(?=.*[a-z])(?=.*\d)(?=.*[!@#_])[A-Za-z\d!@#_]{8,20}$/, tooltip: '소문자,숫자,특수문자(!, @, #, _)가 1개 이상 포함된 8~20글자' },
+	regNick: { reg: /^[가-힣a-zA-Z0-9]{2,8}$/, tooltip: '한영숫자로 된 2~8글자' },
 	regPhone: { reg: /^[0-9]+$/, tooltip: '- 없는 숫자로만 된 번호로 입력해주세요' },
 };
