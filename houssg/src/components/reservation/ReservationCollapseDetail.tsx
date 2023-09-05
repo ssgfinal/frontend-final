@@ -19,16 +19,14 @@ const ReservationCollapseDetail: React.FC<CollapseDetail> = ({ detail }) => {
 	return (
 		<CollapseDetailWrapper>
 			{/* TODO : 기능구현할 때, 수정 */}
-			{/* <input type="hidden" value={detail.user_id} />
-			<input type="hidden" value={detail.is_used} /> */}
-			<p>예약번호: {detail.reservation_number}</p>
-			<p>이용자명: {detail.guest_name}</p>
-			<p>전화번호: {detail.guest_phone}</p>
+			<p>예약번호 : {detail.reservation_number}</p>
+			<p>이용자명 : {detail.guest_name} 님</p>
+			<p>전화번호 : {detail.guest_phone}</p>
 			<p>
-				쿠폰: {detail.coupon_name} ({detail.coupon_number})
+				쿠폰번호 : {detail.coupon_name} ({detail.coupon_number})
 			</p>
-			<p>할인: {detail.discount}원</p>
-			<p>포인트내역 어디?</p>
+			<p>할인내역 : {detail.discount}원</p>
+			<p>포인트내역 : p</p>
 		</CollapseDetailWrapper>
 	);
 };

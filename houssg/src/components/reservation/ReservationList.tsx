@@ -1,7 +1,7 @@
 import { styled } from 'styled-components';
 import { Collapse } from 'antd';
-//import { useState, useEffect } from 'react';
 
+import { useEffect, useState } from 'react';
 import ReservationCollapseDetail from './ReservationCollapseDetail';
 import { openModal } from '../../store/redux/modalSlice';
 import { useAppDispatch } from '../../hooks';
@@ -33,17 +33,36 @@ const detail = [
 		is_used: 0,
 		discount: 50000,
 	},
-	// TODO : 더미 데이터, 각 예약번호에 맞는 상세정보 연결할 때
-	// {
-	// 	user_id: 'abc',
-	// 	reservation_number: 7654321,
-	// 	guest_name: '김철수',
-	// 	guest_phone: '010-1234-5678',
-	// 	coupon_number: 123456789,
-	// 	coupon_name: '9월',
-	// 	is_used: 1,
-	// 	discount: 50000,
-	// },
+	{
+		user_id: 'abc',
+		reservation_number: 7654321,
+		guest_name: '김철수',
+		guest_phone: '010-1234-5678',
+		coupon_number: 123456789,
+		coupon_name: '9월',
+		is_used: 1,
+		discount: 50000,
+	},
+	{
+		user_id: 'cba',
+		reservation_number: 3234567,
+		guest_name: '김철수',
+		guest_phone: '010-1234-5678',
+		coupon_number: 123456789,
+		coupon_name: '9월',
+		is_used: 1,
+		discount: 50000,
+	},
+	{
+		user_id: 'acb',
+		reservation_number: 5654321,
+		guest_name: '김철수',
+		guest_phone: '010-1234-5678',
+		coupon_number: 123456789,
+		coupon_name: '9월',
+		is_used: 1,
+		discount: 50000,
+	},
 ];
 
 const formatDate = (dateString: string) => {
@@ -51,9 +70,28 @@ const formatDate = (dateString: string) => {
 	return new Date(dateString).toLocaleDateString(undefined, options);
 };
 
-// 예약상태 0, 1은 각각 무엇인지?, 상태에 따라 색변경 추후에 작업
-// (수정) state로 관리하기
 const ReservationList: React.FC<UserReservationListProps> = ({ reservations }) => {
+	// TODO : 서버랑 연결 후 수정
+	// const [details, setDetails] = useState([]);
+	const [details, setDetails] = useState(detail);
+
+	const Details = async () => {
+		try {
+			const response = details;
+			//await fetch('http://localhost:3200/');
+			const data = response;
+			// await response.json();
+			setDetails(data);
+		} catch (error) {
+			console.error('데이터를 불러오는 데 실패했습니다.', error);
+		}
+	};
+
+	useEffect(() => {
+		Details();
+	}, []);
+
+	// 예약상태 종류가 추가되면 추가작업 필요
 	const getStatusString = (reservationStatus: number): string => {
 		switch (reservationStatus) {
 			case 0:
@@ -69,9 +107,10 @@ const ReservationList: React.FC<UserReservationListProps> = ({ reservations }) =
 
 	// TODO : Detail 부분
 
+	// 예약상태 배경색 변경
 	const statusStyle = {
-		color: reservations.reservation_status === 0 ? color.backColor : reservations.reservation_status === 1 ? color.color1 : color.backColor,
-		backgroundColor: reservations.reservation_status === 0 ? color.color1 : reservations.reservation_status === 1 ? color.color5 : `lightgray`,
+		color: reservations.reservation_status === 0 ? color.color1 : reservations.reservation_status === 1 ? color.color1 : color.backColor,
+		backgroundColor: reservations.reservation_status === 0 ? color.color5 : reservations.reservation_status === 1 ? `lightgray` : `lightgray`,
 	};
 
 	const dispatch = useAppDispatch();
@@ -102,7 +141,7 @@ const ReservationList: React.FC<UserReservationListProps> = ({ reservations }) =
 					<DetailContainer>
 						<ImageBox>
 							{/* TODO : 각 예약번호(reservation_number)에 맞는 상세정보대로 뿌릴 때	수정 */}
-							{/* <img src={item.outdoor_view} className="imagebox" alt="Accomodation"></img> */}
+							{/* <img src={reservations.outdoor_view} className="imagebox" alt="Accomodation"></img> */}
 							<img src={accomodation} className="imagebox" alt="Accomodation"></img>
 						</ImageBox>
 						<DetailBox>
@@ -117,32 +156,24 @@ const ReservationList: React.FC<UserReservationListProps> = ({ reservations }) =
 						</DetailBox>
 					</DetailContainer>
 					<CollapseContainer>
-						{/* TODO : 각 예약번호(reservation_number)에 맞는 상세정보대로 뿌릴 때	수정 */}
-						{/* <Collapse size="small" ghost={true} accordion={true} bordered={false}>
-								{detail.map((detailItem) =>
-									detailItem.reservation_number === reservation.reservation_number ? (
-										<Collapse.Panel key={detailItem.reservation_number} header={`상세정보`}>
-											<ReservationCollapseDetail detail={detailItem} />
-										</Collapse.Panel>
-									) : null,
-								)}
-							</Collapse> */}
-						{...detail.map((item) => (
-							<Collapse
-								key={item.reservation_number}
-								size="small"
-								ghost={true}
-								accordion={true}
-								bordered={false}
-								items={[
-									{
-										key: item.reservation_number,
-										label: '상세정보',
-										children: <ReservationCollapseDetail detail={item} />,
-									},
-								]}
-							/>
-						))}
+						{detail.map((detailItem) =>
+							detailItem.reservation_number === reservations.reservation_number ? (
+								<Collapse
+									key={detailItem.reservation_number}
+									size="small"
+									ghost={true}
+									accordion={true}
+									bordered={false}
+									items={[
+										{
+											key: reservations.reservation_number,
+											label: '상세정보',
+											children: <ReservationCollapseDetail detail={detailItem} />,
+										},
+									]}
+								/>
+							) : null,
+						)}
 					</CollapseContainer>
 				</ReservationContainer>
 			</ReservationWrapper>

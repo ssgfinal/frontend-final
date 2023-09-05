@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 // import { useIsUser } from '../../hooks';
 
 // TODO : 더미 데이터 기능구현 후 지우기
+
 const reservations = [
 	{
 		user_id: 'abc',
@@ -29,7 +30,7 @@ const reservations = [
 		room_price: 223000,
 	},
 	{
-		user_id: 'abc',
+		user_id: 'cba',
 		reservation_number: 3234567,
 		outdoor_view: accomodation,
 		reservation_status: 0,
@@ -39,7 +40,7 @@ const reservations = [
 		room_price: 178000,
 	},
 	{
-		user_id: 'abc',
+		user_id: 'acb',
 		reservation_number: 5654321,
 		outdoor_view: accomodation,
 		reservation_status: 1,
@@ -47,26 +48,6 @@ const reservations = [
 		accom_name: '가나다 Hotel',
 		room_category: 'Standard',
 		room_price: 212000,
-	},
-	{
-		user_id: 'abc',
-		reservation_number: 4234567,
-		outdoor_view: accomodation,
-		reservation_status: 2,
-		reservation_start_date: '2023-09-02',
-		accom_name: '가나다 Hotel',
-		room_category: 'Standard',
-		room_price: 145000,
-	},
-	{
-		user_id: 'abc',
-		reservation_number: 9654321,
-		outdoor_view: accomodation,
-		reservation_status: 1,
-		reservation_start_date: '2023-09-03',
-		accom_name: '가나다 Hotel',
-		room_category: 'Standard',
-		room_price: 123000,
 	},
 ];
 
@@ -94,23 +75,27 @@ const UserReservationList = () => {
 
 	useEffect(() => {
 		Server();
-		console.log(reservations);
 	}, []);
 
 	return (
 		<UserReservationWrapper>
-			{/* TODO : 같은 유저의 예약정보 뿌리기..나중에 수정 */}
-			{/* {reservation.map((item) =>
-        reservation.user_id === isUser ? (
-            <div key={item.reservation_number}>
-                <ReservationList reservation={reservation} />
-            </div>
-        ) : null,
-    )} */}
 			<UserReservationContainer>
-				{reservations.map((item, index) => (
+				{/* TODO : 같은 유저의 예약정보 뿌리기..나중에 수정 */}
+				{/* {reservations.map((userItem, userIndex) => (
+					<div key={userIndex}>
+						{reservs.map(
+							(reserItem, reserIndex) =>
+								reserItem.user_id === userItem.user_id && (
+									<div key={reserIndex}>
+										<ReservationList reservations={reserItem} />
+									</div>
+								),
+						)}
+					</div>
+				))} */}
+				{reservations.map((reserItem, index) => (
 					<div key={index}>
-						<ReservationList reservations={item} />
+						<ReservationList reservations={reserItem} />
 					</div>
 				))}
 			</UserReservationContainer>
