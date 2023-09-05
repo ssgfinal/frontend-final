@@ -2,8 +2,8 @@ import { styled } from 'styled-components';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
 
-import BriefHouse from './BriefHouse';
-import { accomodation } from '../assets/icons';
+import BriefHouse from '../house/BriefHouse';
+import { accomodation } from '../../assets/icons';
 
 import 'swiper/css';
 import 'swiper/css/pagination';
