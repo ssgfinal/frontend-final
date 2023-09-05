@@ -6,20 +6,26 @@ import { AuthProps } from '../../types/auth';
 import { AuthContainer, AuthTitle } from '../../assets/styles';
 import { kakaoLogin } from '../../assets/images';
 import { AuthInput, AuthModeBtn, AuthSubmitBtn } from './element';
-import { usePathname } from '../../hooks';
+import { useAppDispatch, usePathname } from '../../hooks';
 import { authLoginFunc } from '../../utils';
 import { KakaoAuthUri } from '../../api';
+import { closeModal } from '../../store/redux/modalSlice';
 
 const Login: React.FC<AuthProps> = ({ isLoginComp, setIsLoginComp }) => {
 	const pathname = usePathname();
 	const navigate = useNavigate();
+	const dispatch = useAppDispatch();
+
+	const onCloseModal = () => {
+		dispatch(closeModal());
+	};
 
 	const isUser = pathname.startsWith('/user');
 
 	const [userId, setUserId] = useState('');
 	const [userPw, setUserPw] = useState('');
 
-	const onLogin = () => authLoginFunc(userId, userPw, isUser, navigate);
+	const onLogin = () => authLoginFunc(userId, userPw, isUser, navigate, onCloseModal);
 
 	const onKakaoLogin = () => {
 		location.href = KakaoAuthUri;

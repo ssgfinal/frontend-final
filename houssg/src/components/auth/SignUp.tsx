@@ -34,7 +34,7 @@ const SignUp: React.FC<AuthProps> = ({ isLoginComp, setIsLoginComp }) => {
 			<AuthTitle>회원가입</AuthTitle>
 			<CheckerContainer>
 				<AuthInput setValue={setUserId} title="아이디" reg={regId} />
-				<UseAbilitiyChecker $isUser={isUser} onClick={() => onIdCheck}>
+				<UseAbilitiyChecker $isUser={isUser} onClick={onIdCheck}>
 					본인 확인
 				</UseAbilitiyChecker>
 			</CheckerContainer>

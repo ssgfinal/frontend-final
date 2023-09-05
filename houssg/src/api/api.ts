@@ -1,9 +1,7 @@
 import axios, { InternalAxiosRequestConfig } from 'axios';
 
 const api = axios.create({
-	baseURL: 'http://10.10.10.96:3200/',
-	//TODO: 보근님꺼
-	// baseURL: 'http://10.10.10.120:3100/',
+	baseURL: `${import.meta.env.VITE_SERVER_URL}`,
 	timeout: 100000,
 	headers: {
 		'content-type': 'application/json;charset=UTF-8',
