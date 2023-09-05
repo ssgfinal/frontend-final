@@ -1,5 +1,12 @@
+import MyPage from '../../components/usermypages/MyPage';
+
 const UserMypage = () => {
-	return <div>UserMypage</div>;
+	return (
+		<div>
+			UserMypage
+			<MyPage />
+		</div>
+	);
 };
 
 export default UserMypage;
