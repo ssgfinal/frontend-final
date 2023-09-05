@@ -2,10 +2,10 @@ import { useState } from 'react';
 import { styled } from 'styled-components';
 
 import { HouseInfoContainer, InfoText, InfoTitleText, InfoWrapper, SubInfoAligner, devideOnce } from '../../../assets/styles';
-import { ManageHouseProps } from '../../../types';
 import { ManageNav, ManageTabComp } from '.';
+import { SetStateToggle } from '../../../types';
 
-const ManageHouseRead: React.FC<ManageHouseProps> = ({ setIsEditMode }) => {
+const ManageHouseRead: React.FC<SetStateToggle> = ({ setIsEditMode }) => {
 	const [isRoomSelected, setIsRoomSelected] = useState(true);
 
 	const [isOpenTabComp, setIsOpenTabComp] = useState(false);

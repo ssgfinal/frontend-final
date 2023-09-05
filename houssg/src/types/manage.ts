@@ -1,7 +1,3 @@
-interface ManageHouseProps {
-	setIsEditMode: React.Dispatch<React.SetStateAction<boolean>>;
-}
-
 interface ManageNavProps {
 	isRoomSelected: boolean;
 	setSelectedNav: React.Dispatch<React.SetStateAction<boolean>>;
@@ -10,4 +6,4 @@ interface ManageNavProps {
 	setIsEditMode: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export type { ManageHouseProps, ManageNavProps };
+export type { ManageNavProps };

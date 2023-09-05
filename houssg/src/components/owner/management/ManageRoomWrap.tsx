@@ -1,5 +1,10 @@
+import { useState } from 'react';
+import { RoomCompEdit, RoomCompRead } from './element';
+
 const ManageRoomWrap = () => {
-	return <div>룸입니다</div>;
+	const [isEditMode, setIsEditMode] = useState(false);
+
+	return <div>{!isEditMode ? <RoomCompRead setIsEditMode={setIsEditMode} /> : <RoomCompEdit setIsEditMode={setIsEditMode} />}</div>;
 };
 
 export default ManageRoomWrap;

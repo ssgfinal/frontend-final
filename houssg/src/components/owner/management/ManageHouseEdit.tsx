@@ -1,9 +1,9 @@
 // import { useState } from 'react';
 import { HouseInfoContainer, HouseTabContainer, InfoText, InfoWrapper, NavClickComp, SubInfoAligner, devideOnce } from '../../../assets/styles';
 import { styled } from 'styled-components';
-import { ManageHouseProps } from '../../../types';
+import { SetStateToggle } from '../../../types';
 
-const ManageHouseEdit: React.FC<ManageHouseProps> = ({ setIsEditMode }) => {
+const ManageHouseEdit: React.FC<SetStateToggle> = ({ setIsEditMode }) => {
 	return (
 		<>
 			<HouseInfoContainer>
