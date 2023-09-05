@@ -1,9 +1,9 @@
 import styled from 'styled-components';
 
-import { color } from '.';
+import { color, devideOnce, devideTwice } from '.';
 
 //Auth
-export const AuthTitle = styled.div`
+const AuthTitle = styled.div`
 	width: 100%;
 	padding: 0.5rem;
 	font-size: 2rem;
@@ -13,7 +13,7 @@ export const AuthTitle = styled.div`
 	height: 4rem;
 `;
 
-export const AuthContainer = styled.div`
+const AuthContainer = styled.div`
 	width: 90%;
 	display: flex;
 	flex-direction: column;
@@ -22,14 +22,19 @@ export const AuthContainer = styled.div`
 
 //Manage관련
 
-export const HouseInfoContainer = styled.div`
+const HouseInfoContainer = styled.div`
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
 	align-items: stretch;
+	@media screen and (max-width: ${devideOnce.first}) {
+		flex-direction: column;
+		align-items: center;
+		padding-top: 1rem;
+	}
 `;
 
-export const InfoWrapper = styled.div`
+const InfoWrapper = styled.div`
 	/* margin-top: 0.6rem; */
 	display: flex;
 	flex-direction: column;
@@ -40,20 +45,48 @@ export const InfoWrapper = styled.div`
 	max-width: 30rem;
 `;
 
-export const SubInfoAligner = styled.div`
+const SubInfoAligner = styled.div`
 	display: flex;
 	flex-direction: row;
-	gap: 5vw;
+	gap: 4vw;
+
+	@media screen and (max-width: ${devideTwice.first}) {
+		gap: 3vw;
+	}
+	@media screen and (max-width: ${devideTwice.second}) {
+		gap: 2vw;
+	}
 `;
 
-export const InfoText = styled.div`
+const InfoText = styled.div`
 	font-size: 1rem;
 	white-space: pre-wrap;
+	line-height: 1.2rem;
 `;
 
-export const HouseTabContainer = styled.div`
+const InfoTitleText = styled.span`
+	font-size: 1.1rem;
+	font-weight: 600;
+	color: ${color.color1};
+`;
+
+const HouseTabContainer = styled.div`
 	display: flex;
 	flex-direction: row;
 	justify-content: space-evenly;
-	margin-bottom: 0.5rem;
+	margin: 0.9rem 0;
 `;
+
+const NavClickComp = styled.div`
+	color: ${color.unSelectColor};
+	font-weight: 600;
+	font-size: 1rem;
+	transition: color 0.8s;
+	&:hover {
+		color: ${color.color1};
+	}
+	cursor: pointer;
+`;
+export { AuthContainer, AuthTitle };
+
+export { HouseInfoContainer, HouseTabContainer, InfoWrapper, InfoText, InfoTitleText, SubInfoAligner, NavClickComp };

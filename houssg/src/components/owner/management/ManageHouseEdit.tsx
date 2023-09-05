@@ -1,5 +1,5 @@
 // import { useState } from 'react';
-import { HouseInfoContainer, HouseTabContainer, InfoText, InfoWrapper, SubInfoAligner } from '../../../assets/styles';
+import { HouseInfoContainer, HouseTabContainer, InfoText, InfoWrapper, NavClickComp, SubInfoAligner, devideOnce } from '../../../assets/styles';
 import { styled } from 'styled-components';
 import { ManageHouseProps } from '../../../types';
 
@@ -22,9 +22,9 @@ const ManageHouseEdit: React.FC<ManageHouseProps> = ({ setIsEditMode }) => {
 				</InfoWrapper>
 			</HouseInfoContainer>
 			<HouseTabContainer>
-				<div>수정완료</div>
-				<div onClick={() => setIsEditMode(false)}>취소하기</div>
-				<div>삭제하기</div>
+				<NavClickComp>수정완료</NavClickComp>
+				<NavClickComp onClick={() => setIsEditMode(false)}>취소하기</NavClickComp>
+				<NavClickComp>삭제하기</NavClickComp>
 			</HouseTabContainer>
 		</>
 	);
@@ -33,6 +33,12 @@ const ManageHouseEdit: React.FC<ManageHouseProps> = ({ setIsEditMode }) => {
 export default ManageHouseEdit;
 
 const HouseImg = styled.img`
-	width: 20rem;
+	max-width: 20rem;
 	margin-bottom: 0.5rem;
+	object-fit: contain;
+	border-radius: 0.5rem;
+	@media screen and (max-width: ${devideOnce.first}) {
+		max-width: none;
+		width: 23rem;
+	}
 `;

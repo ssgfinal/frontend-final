@@ -2,5 +2,5 @@
 
 import { AuthProps, AuthInputType, AuthModeType } from './auth';
 import { ManageHouseProps, ManageNavProps } from './manage';
-
-export type { ManageHouseProps, AuthProps, AuthInputType, AuthModeType, ManageNavProps };
+import { StyledActiveProps } from './common';
+export type { ManageHouseProps, AuthProps, AuthInputType, AuthModeType, ManageNavProps, StyledActiveProps };

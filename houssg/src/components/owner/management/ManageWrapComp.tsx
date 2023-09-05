@@ -16,6 +16,12 @@ const ManageWrapComp = () => {
 export default ManageWrapComp;
 
 const HouseInfoWrapper = styled.div`
-	border: 2px solid ${color.color2};
-	margin: 1rem 0;
+	border: 2px solid ${color.color1};
+	margin: 1rem 0rem;
+	padding: 0.4rem;
+	border-radius: 15px;
+
+	@media screen and(max-width:800px) {
+		border-radius: 10px;
+	}
 `;
