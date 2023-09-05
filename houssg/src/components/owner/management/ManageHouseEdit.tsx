@@ -1,5 +1,5 @@
 // import { useState } from 'react';
-import { HouseInfoContainer, InfoText, InfoWrapper, SubInfoAligner } from '../../../assets/styles';
+import { HouseInfoContainer, HouseTabContainer, InfoText, InfoWrapper, SubInfoAligner } from '../../../assets/styles';
 import { styled } from 'styled-components';
 import { ManageHouseProps } from '../../../types';
 
@@ -21,11 +21,11 @@ const ManageHouseEdit: React.FC<ManageHouseProps> = ({ setIsEditMode }) => {
 					<InfoText>상세설명 : 여기는 000입니다. 어서오세요. 반갑습니다. 굿굿굿굿굿굿굿</InfoText>
 				</InfoWrapper>
 			</HouseInfoContainer>
-			<HouseEditButtonContainer>
+			<HouseTabContainer>
 				<div>수정완료</div>
 				<div onClick={() => setIsEditMode(false)}>취소하기</div>
 				<div>삭제하기</div>
-			</HouseEditButtonContainer>
+			</HouseTabContainer>
 		</>
 	);
 };
@@ -34,12 +34,5 @@ export default ManageHouseEdit;
 
 const HouseImg = styled.img`
 	width: 20rem;
-	margin-bottom: 0.5rem;
-`;
-
-const HouseEditButtonContainer = styled.div`
-	display: flex;
-	flex-direction: row;
-	justify-content: space-evenly;
 	margin-bottom: 0.5rem;
 `;

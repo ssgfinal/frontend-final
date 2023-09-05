@@ -50,3 +50,10 @@ export const InfoText = styled.div`
 	font-size: 1rem;
 	white-space: pre-wrap;
 `;
+
+export const HouseTabContainer = styled.div`
+	display: flex;
+	flex-direction: row;
+	justify-content: space-evenly;
+	margin-bottom: 0.5rem;
+`;

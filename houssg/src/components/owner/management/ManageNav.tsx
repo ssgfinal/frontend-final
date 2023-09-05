@@ -1,9 +1,7 @@
-import { styled } from 'styled-components';
 import { ManageNavProps } from '../../../types';
+import { HouseTabContainer } from '../../../assets/styles';
 
 const ManageNav: React.FC<ManageNavProps> = ({ isRoomSelected, setSelectedNav, setIsOpenTabComp, isOpenTabComp, setIsEditMode }) => {
-	console.log(isRoomSelected, isOpenTabComp, ' 선택과 오픈');
-
 	const onNavHandler = (isRoomTab: boolean) => {
 		if (isRoomSelected === isRoomTab && isOpenTabComp) {
 			setIsOpenTabComp(false);
@@ -17,7 +15,7 @@ const ManageNav: React.FC<ManageNavProps> = ({ isRoomSelected, setSelectedNav, s
 	};
 
 	return (
-		<HouseInfoDetailNav>
+		<HouseTabContainer>
 			<div onClick={() => onNavHandler(true)}>객실 정보 {isRoomSelected && isOpenTabComp && '닫기'}</div>
 			<div onClick={() => onNavHandler(false)}>리뷰 확인 {!isRoomSelected && isOpenTabComp && '닫기'}</div>
 			<div>객실 추가하기</div>
@@ -29,15 +27,8 @@ const ManageNav: React.FC<ManageNavProps> = ({ isRoomSelected, setSelectedNav, s
 			>
 				수정 및 삭제
 			</div>
-		</HouseInfoDetailNav>
+		</HouseTabContainer>
 	);
 };
 
 export default ManageNav;
-
-const HouseInfoDetailNav = styled.div`
-	display: flex;
-	flex-direction: row;
-	justify-content: space-evenly;
-	margin-bottom: 0.5rem;
-`;
