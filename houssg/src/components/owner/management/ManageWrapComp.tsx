@@ -1,13 +1,11 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 import { color } from '../../../assets/styles';
-import { ManageHouseRead } from '.';
-import ManageHouseEdit from './ManageHouseEdit';
+import { ManageHouseEdit, ManageHouseRead } from '.';
 
 const ManageWrapComp = () => {
 	const [isEditMode, setIsEditMode] = useState(false);
 
-	console.log(isEditMode, 'isEditMode');
 	return (
 		<HouseInfoWrapper>
 			{!isEditMode ? <ManageHouseRead setIsEditMode={setIsEditMode} /> : <ManageHouseEdit setIsEditMode={setIsEditMode} />}

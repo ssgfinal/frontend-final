@@ -1,11 +1,5 @@
 import { styled } from 'styled-components';
-interface ManageNavProps {
-	isRoomSelected: boolean;
-	setSelectedNav: React.Dispatch<React.SetStateAction<boolean>>;
-	isOpenTabComp: boolean;
-	setIsOpenTabComp: React.Dispatch<React.SetStateAction<boolean>>;
-	setIsEditMode: React.Dispatch<React.SetStateAction<boolean>>;
-}
+import { ManageNavProps } from '../../../types';
 
 const ManageNav: React.FC<ManageNavProps> = ({ isRoomSelected, setSelectedNav, setIsOpenTabComp, isOpenTabComp, setIsEditMode }) => {
 	console.log(isRoomSelected, isOpenTabComp, ' 선택과 오픈');

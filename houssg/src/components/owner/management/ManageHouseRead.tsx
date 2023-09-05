@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { styled } from 'styled-components';
-import ManageNav from './ManageNav';
-import ManageTabComp from './ManageTabComp';
+
 import { HouseInfoContainer, InfoText, InfoWrapper, SubInfoAligner } from '../../../assets/styles';
 import { ManageHouseProps } from '../../../types';
+import { ManageNav, ManageTabComp } from '.';
 
 const ManageHouseRead: React.FC<ManageHouseProps> = ({ setIsEditMode }) => {
 	const [isRoomSelected, setIsRoomSelected] = useState(true);
@@ -24,7 +24,10 @@ const ManageHouseRead: React.FC<ManageHouseProps> = ({ setIsEditMode }) => {
 					<InfoText>사업자 번호 : 1000000001</InfoText>
 					<InfoText>주소 : 3333333333</InfoText>
 					<InfoText>시설 및 서비스</InfoText>
-					<InfoText>상세설명 : 여기는 000입니다. 어서오세요. 반갑습니다. 굿굿굿굿굿굿굿</InfoText>
+					<InfoText>
+						상세설명 : 여기는 000입니다. 어서오세요. 반갑습니다. 굿굿굿굿굿굿 아마도 굿 반갑습니다. 굿굿굿굿굿굿 아마도 반갑습니다. 굿굿굿굿굿굿
+						아마도 반갑습니다. 굿굿굿굿굿굿 아마도
+					</InfoText>
 				</InfoWrapper>
 			</HouseInfoContainer>
 
@@ -35,7 +38,7 @@ const ManageHouseRead: React.FC<ManageHouseProps> = ({ setIsEditMode }) => {
 				isOpenTabComp={isOpenTabComp}
 				setIsEditMode={setIsEditMode}
 			/>
-			{isOpenTabComp && <ManageTabComp isRoomSelected={isRoomSelected}></ManageTabComp>}
+			{isOpenTabComp && <ManageTabComp isRoomSelected={isRoomSelected} />}
 		</>
 	);
 };

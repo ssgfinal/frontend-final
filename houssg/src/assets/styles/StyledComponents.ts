@@ -36,6 +36,8 @@ export const InfoWrapper = styled.div`
 	text-align: left;
 	gap: 0.3rem;
 	padding: 0.5rem;
+	justify-content: space-between;
+	max-width: 30rem;
 `;
 
 export const SubInfoAligner = styled.div`
@@ -46,4 +48,5 @@ export const SubInfoAligner = styled.div`
 
 export const InfoText = styled.div`
 	font-size: 1rem;
+	white-space: pre-wrap;
 `;
