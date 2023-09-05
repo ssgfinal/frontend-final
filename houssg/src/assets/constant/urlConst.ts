@@ -1,4 +1,13 @@
 export const url = {
+	// auth
 	login: 'login',
-	adduser: 'adduser',
+	logout: 'logout',
+	addUser: 'adduser',
+	idCheck: 'idcheck',
+	nickCheck: 'nicknamecheck',
+	phoneCheck: 'phonecheck',
+	kakaoLogin: 'kakao',
+	kakaoAdd: 'kakaAdd',
+
+	//
 };
