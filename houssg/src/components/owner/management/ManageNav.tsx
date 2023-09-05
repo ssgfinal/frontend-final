@@ -9,6 +9,7 @@ interface ManageNavProps {
 
 const ManageNav: React.FC<ManageNavProps> = ({ isRoomSelected, setSelectedNav, setIsOpenTabComp, isOpenTabComp, setIsEditMode }) => {
 	console.log(isRoomSelected, isOpenTabComp, ' 선택과 오픈');
+
 	const onNavHandler = (isRoomTab: boolean) => {
 		if (isRoomSelected === isRoomTab && isOpenTabComp) {
 			setIsOpenTabComp(false);

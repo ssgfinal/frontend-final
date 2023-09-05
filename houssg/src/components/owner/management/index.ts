@@ -1,3 +1,3 @@
 import ManageWrapComp from './ManageWrapComp';
-
-export { ManageWrapComp };
+import ManageHouseRead from './ManageHouseRead';
+export { ManageWrapComp, ManageHouseRead };

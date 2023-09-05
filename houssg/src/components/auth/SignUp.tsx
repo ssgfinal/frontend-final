@@ -1,4 +1,3 @@
-import { AuthProps } from '../../types/auth';
 import { AuthContainer, AuthTitle, color } from '../../assets/styles';
 import { AuthInput, AuthModeBtn, AuthSubmitBtn } from './element';
 import { styled } from 'styled-components';
@@ -6,6 +5,7 @@ import { usePathname } from '../../hooks';
 import { useState } from 'react';
 import { regSignUp } from '../../assets/constant';
 import { authSignUpFunc } from '../../utils';
+import { AuthProps } from '../../types';
 
 const SignUp: React.FC<AuthProps> = ({ isLoginComp, setIsLoginComp }) => {
 	const pathname = usePathname();

@@ -1,5 +1,8 @@
 import { color, basicTheme } from './theme';
 import GlobalStyle from './GlobalStyle';
-import { AuthTitle, AuthContainer, HeightPositioningDiv } from './StyledComponents';
+//Auth관련
+import { AuthTitle, AuthContainer } from './StyledComponents';
+//Manage관련
+import { HouseInfoContainer, InfoText, SubInfoAligner, InfoWrapper } from './StyledComponents';
 
-export { color, basicTheme, GlobalStyle, AuthTitle, AuthContainer, HeightPositioningDiv };
+export { color, basicTheme, GlobalStyle, AuthTitle, AuthContainer, HouseInfoContainer, InfoText, SubInfoAligner, InfoWrapper };
