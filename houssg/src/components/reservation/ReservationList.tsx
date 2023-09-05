@@ -196,13 +196,13 @@ const ReservationWrapper = styled.div`
 
 	.reservationbox {
 		display: grid;
-		grid-template-columns: 50fr 50fr;
+		grid-template-columns: 6.6fr 3.4fr;
 		color: ${color.color1};
 		padding-left: 1rem;
 		text-align: left;
 		font-weight: bold;
 		font-family: Arial;
-		font-size: 1.2rem;
+		font-size: 0.9rem;
 		transition: width 0.1s;
 	}
 
@@ -240,7 +240,7 @@ const ReservationWrapper = styled.div`
 		padding-left: 1vw;
 		justify-self: left;
 		align-self: flex-end;
-		font-size: 1rem;
+		font-size: 0.8rem;
 		font-weight: bold;
 	}
 
@@ -313,6 +313,18 @@ const CollapseContainer = styled.div`
 		width: 10%;
 		color: ${color.color1};
 		align-items: right;
+	}
+
+	@media (max-width: 700px) {
+		.ant-collapse-content-box {
+			font-size: 0.7rem;
+		}
+	}
+
+	@media (min-width: 700px) and (max-width: 1400px) {
+		.ant-collapse-content-box {
+			font-size: 0.8rem;
+		}
 	}
 `;
 
