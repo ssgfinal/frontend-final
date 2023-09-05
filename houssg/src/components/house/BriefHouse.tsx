@@ -1,18 +1,19 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { styled } from 'styled-components';
 
 import Rating from '../common/Rating';
-
-import { styled } from 'styled-components';
+import HeartIcons from '../common/HeartIcons';
 
 interface House {
 	house: {
-		houseId?: number;
+		houseId: number;
 		name: string;
 		price: string;
 		rating: number;
 		location: string;
 		image: string;
+		favorite: boolean;
 	};
 }
 
@@ -20,12 +21,13 @@ const BriefHouse: React.FC<House> = ({ house }) => {
 	const navigate = useNavigate();
 
 	return (
-		<BriefHouseWrapper
-			onClick={() => {
-				navigate(`/user/house/${house.houseId}`);
-			}}
-		>
-			<ImageBox>
+		// 하트 보여드리고 onClick 옮기기 ...여기로 BriefHouseWrapper
+		<BriefHouseWrapper>
+			<ImageBox
+				onClick={() => {
+					navigate(`/user/house/${house.houseId}`);
+				}}
+			>
 				<img src={house.image} className="imagebox" />
 			</ImageBox>
 			<HouseContainer>
@@ -33,9 +35,9 @@ const BriefHouse: React.FC<House> = ({ house }) => {
 					<div>
 						<span>
 							{house.location}&nbsp;
-							{house.name}
+							{house.name}&nbsp;
 						</span>
-						<input type="checkbox"></input>
+						<HeartIcons favorite={house.favorite} />
 					</div>
 					<RateBox>
 						<Rating rate={house.rating} readonly />
@@ -70,6 +72,7 @@ const ImageBox = styled.div`
 	align-items: center;
 
 	.imagebox:hover {
+		cursor: pointer;
 		width: 95%;
 		transition: width 0.2s;
 	}

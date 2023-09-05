@@ -28,6 +28,7 @@ const UserHouseList = () => {
 			rating: 1.3,
 			location: '부산시 수영구 센텀',
 			image: accomodation,
+			favorite: false,
 		},
 		{
 			houseId: 2,
@@ -36,6 +37,7 @@ const UserHouseList = () => {
 			rating: 1.7,
 			location: '부산시 중구 남포',
 			image: accomodation,
+			favorite: true,
 		},
 		{
 			houseId: 3,
@@ -44,6 +46,7 @@ const UserHouseList = () => {
 			rating: 2.1,
 			location: '부산시 중구 남포',
 			image: accomodation,
+			favorite: false,
 		},
 		{
 			houseId: 4,
@@ -52,6 +55,7 @@ const UserHouseList = () => {
 			rating: 2.9,
 			location: '부산시 중구 남포',
 			image: accomodation,
+			favorite: true,
 		},
 		{
 			houseId: 5,
@@ -60,6 +64,7 @@ const UserHouseList = () => {
 			rating: 3.0,
 			location: '부산시 중구 남포',
 			image: accomodation,
+			favorite: false,
 		},
 		{
 			houseId: 6,
@@ -68,6 +73,7 @@ const UserHouseList = () => {
 			rating: 4.01,
 			location: '부산시 중구 남포',
 			image: accomodation,
+			favorite: true,
 		},
 		{
 			houseId: 7,
@@ -76,6 +82,7 @@ const UserHouseList = () => {
 			rating: 4.99,
 			location: '부산시 중구 남포',
 			image: accomodation,
+			favorite: false,
 		},
 		{
 			houseId: 8,
@@ -84,6 +91,7 @@ const UserHouseList = () => {
 			rating: 5,
 			location: '부산시 중구 남포',
 			image: accomodation,
+			favorite: true,
 		},
 		{
 			houseId: 9,
@@ -92,6 +100,7 @@ const UserHouseList = () => {
 			rating: 5.0,
 			location: '부산시 중구 남포',
 			image: accomodation,
+			favorite: false,
 		},
 		{
 			houseId: 10,
@@ -100,6 +109,7 @@ const UserHouseList = () => {
 			rating: 3,
 			location: '부산시 중구 남포',
 			image: accomodation,
+			favorite: false,
 		},
 		{
 			houseId: 11,
@@ -108,6 +118,7 @@ const UserHouseList = () => {
 			rating: 0,
 			location: '부산시 중구 남포',
 			image: accomodation,
+			favorite: true,
 		},
 	];
 

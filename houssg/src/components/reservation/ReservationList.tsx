@@ -65,8 +65,8 @@ const detail = [
 	},
 ];
 
-const formatDate = (dateString: string) => {
-	const options = { year: 'numeric', month: 'long', day: 'numeric' };
+const formatDate = (dateString: string): string => {
+	const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' };
 	return new Date(dateString).toLocaleDateString(undefined, options);
 };
 
@@ -89,6 +89,8 @@ const ReservationList: React.FC<UserReservationListProps> = ({ reservations }) =
 
 	useEffect(() => {
 		Details();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+		// TODO:
 	}, []);
 
 	// 예약상태 종류가 추가되면 추가작업 필요
@@ -110,7 +112,8 @@ const ReservationList: React.FC<UserReservationListProps> = ({ reservations }) =
 	// 예약상태 배경색 변경
 	const statusStyle = {
 		color: reservations.reservation_status === 0 ? color.color1 : reservations.reservation_status === 1 ? color.color1 : color.backColor,
-		backgroundColor: reservations.reservation_status === 0 ? color.color5 : reservations.reservation_status === 1 ? `lightgray` : `lightgray`,
+		backgroundColor:
+			reservations.reservation_status === 0 ? color.color5 : reservations.reservation_status === 1 ? color.unSelectColor : color.unSelectColor,
 	};
 
 	const dispatch = useAppDispatch();
@@ -124,7 +127,7 @@ const ReservationList: React.FC<UserReservationListProps> = ({ reservations }) =
 		<div>
 			<ReservationWrapper>
 				<div className="reservationbox">
-					<div className="item_reservation_date">{formatDate(reservations.reservation_start_date)}</div>
+					<div className="item_reservation_date">결제일로 수정{formatDate(reservations.reservation_start_date)}</div>
 					<div className="item_reser_button">
 						{reservations.reservation_status === 0 && (
 							<button hidden={false} onClick={modalOpen}>
@@ -149,9 +152,11 @@ const ReservationList: React.FC<UserReservationListProps> = ({ reservations }) =
 								<div className="item_reser_status" style={statusStyle}>
 									{getStatusString(reservations.reservation_status)}
 								</div>
-								<div className="item_reser_name">{reservations.accom_name}</div>
-								<div className="item_room_cate">{reservations.room_category}</div>
-								<div className="item_room_price">{reservations.room_price.toLocaleString()}원</div>
+								<div className="item_reser_name">
+									{reservations.accom_name}&nbsp;({reservations.room_category})
+								</div>
+								<div className="item_room_cate">숙박기간으로 수정{reservations.room_category}</div>
+								<div className="item_room_price">방가격{reservations.room_price.toLocaleString()}원</div>
 							</div>
 						</DetailBox>
 					</DetailContainer>
