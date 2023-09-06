@@ -12,7 +12,7 @@ const Nav = () => {
 
 	const userNav = [
 		['홈', '/user'],
-		['숙박업소', '/user/house'],
+		['숙소', '/user/house'],
 		['예약내역', '/user/reservation'],
 		['마이페이지', '/user/mypage'],
 	];

@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { color, devideOnce, devideTwice } from '.';
+import { color, devideOnce } from '.';
 
 //Auth
 const AuthTitle = styled.div`
@@ -29,8 +29,7 @@ const HouseInfoContainer = styled.div`
 	align-items: stretch;
 	@media screen and (max-width: ${devideOnce.first}) {
 		flex-direction: column;
-		align-items: center;
-		padding-top: 1rem;
+		align-items: start;
 	}
 `;
 
@@ -43,18 +42,22 @@ const InfoWrapper = styled.div`
 	padding: 0.5rem;
 	justify-content: space-between;
 	max-width: 30rem;
+	width: 20vw;
+
+	@media screen and (max-width: ${devideOnce.first}) {
+		width: 80vw;
+	}
 `;
 
 const SubInfoAligner = styled.div`
 	display: flex;
-	flex-direction: row;
-	gap: 4vw;
-
-	@media screen and (max-width: ${devideTwice.first}) {
-		gap: 3vw;
-	}
-	@media screen and (max-width: ${devideTwice.second}) {
-		gap: 2vw;
+	flex-direction: column;
+	width: 55vw;
+	max-width: 40rem;
+	text-align: left;
+	@media screen and (max-width: ${devideOnce.first}) {
+		max-width: 30rem;
+		width: auto;
 	}
 `;
 
@@ -62,6 +65,7 @@ const InfoText = styled.div`
 	font-size: 1rem;
 	white-space: pre-wrap;
 	line-height: 1.2rem;
+	/* max-width: 800px; */
 `;
 
 const InfoTitleText = styled.span`
@@ -78,7 +82,7 @@ const HouseTabContainer = styled.div`
 `;
 
 const NavClickComp = styled.div`
-	color: ${color.unSelectColor};
+	color: ${color.basicColor};
 	font-weight: 600;
 	font-size: 1rem;
 	transition: color 0.8s;
