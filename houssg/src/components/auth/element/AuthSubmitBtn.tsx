@@ -1,10 +1,6 @@
 import styled from 'styled-components';
 import { color } from '../../../assets/styles';
-
-interface AuthSubmitType {
-	children: string;
-	onClick?: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
-}
+import { AuthSubmitType } from '../../../types/auth';
 
 const AuthSubmitBtn: React.FC<AuthSubmitType> = ({ children, onClick }) => {
 	return (

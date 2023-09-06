@@ -2,10 +2,8 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom'; // useLocation 추가
 import { color } from '../assets/styles/theme';
 import { useIsUser, usePathname } from '../hooks';
-
-interface NavTextProps {
-	$active: boolean; // active 속성의 타입을 지정
-}
+import { StyledActiveProps } from '../types';
+import { devideOnce } from '../assets/styles';
 
 const Nav = () => {
 	const navigate = useNavigate();
@@ -14,7 +12,7 @@ const Nav = () => {
 
 	const userNav = [
 		['홈', '/user'],
-		['숙박업소', '/user/house'],
+		['숙소', '/user/house'],
 		['예약내역', '/user/reservation'],
 		['마이페이지', '/user/mypage'],
 	];
@@ -47,12 +45,12 @@ const NavContainer = styled.div`
 	justify-content: space-evenly;
 `;
 
-const NavText = styled.div<NavTextProps>`
-	font-size: ${({ $active }) => ($active ? '1.3rem' : '1rem')};
+const NavText = styled.div<StyledActiveProps>`
+	font-size: ${({ $active }) => ($active ? '1.2rem' : '1rem')};
 	font-weight: ${({ $active }) => ($active ? 800 : 500)};
 	color: ${color.backColor};
 	cursor: pointer;
-	@media only screen and (max-width: 765px) {
+	@media only screen and (max-width: ${devideOnce.first}-35) {
 		font-size: ${({ $active }) => ($active ? '1.1rem' : '0.8rem')};
 	}
 `;

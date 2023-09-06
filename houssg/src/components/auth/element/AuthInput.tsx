@@ -4,8 +4,8 @@ import { useEffect, ChangeEvent, useState, memo } from 'react';
 import { color } from '../../../assets/styles';
 import { unvisible, visible } from '../../../assets/icons';
 import { useDebounce } from '../../../hooks';
-import { AuthInputType } from '../../../types/auth';
 import { Tooltip } from 'antd';
+import { AuthInputType } from '../../../types';
 
 const AuthInput: React.FC<AuthInputType> = ({ title, password, setValue, reg }) => {
 	const [isVisible, setIsVisible] = useState(password);

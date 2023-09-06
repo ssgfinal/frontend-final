@@ -3,7 +3,7 @@ import { Modal } from 'antd';
 import { closeModal, isModalOpen, modalComponent, modalSize } from '../../store/redux/modalSlice';
 import { AuthWrap } from '../auth';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import AuthCancelReservation from '../CancelReservation';
+import AuthCancelReservation from '../reservation/CancelReservation';
 
 const CommonModal = () => {
 	const modalState = useAppSelector(isModalOpen);

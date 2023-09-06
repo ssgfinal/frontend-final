@@ -1,11 +1,11 @@
-import { AuthProps } from '../../types/auth';
 import { AuthContainer, AuthTitle, color } from '../../assets/styles';
 import { AuthInput, AuthModeBtn, AuthSubmitBtn } from './element';
 import { styled } from 'styled-components';
 import { usePathname } from '../../hooks';
 import { useState } from 'react';
 import { regSignUp } from '../../assets/constant';
-import { authSignUpFunc } from '../../utils';
+import { authSignUpFunc, idCheckFunc, nickCheckFunc } from '../../utils';
+import { AuthProps } from '../../types';
 
 const SignUp: React.FC<AuthProps> = ({ isLoginComp, setIsLoginComp }) => {
 	const pathname = usePathname();
@@ -21,16 +21,28 @@ const SignUp: React.FC<AuthProps> = ({ isLoginComp, setIsLoginComp }) => {
 	const onSignUp = () => {
 		authSignUpFunc(userId, userNick, userPw, userPwCheck, userPhone, isUser, setIsLoginComp);
 	};
+
+	const onIdCheck = () => {
+		idCheckFunc(userId);
+	};
+
+	const onNickCheck = () => {
+		nickCheckFunc(userNick);
+	};
 	return (
 		<AuthContainer>
 			<AuthTitle>회원가입</AuthTitle>
 			<CheckerContainer>
 				<AuthInput setValue={setUserId} title="아이디" reg={regId} />
-				<UseAbilitiyChecker $isUser={isUser}>본인 확인</UseAbilitiyChecker>
+				<UseAbilitiyChecker $isUser={isUser} onClick={onIdCheck}>
+					본인 확인
+				</UseAbilitiyChecker>
 			</CheckerContainer>
 			<CheckerContainer>
 				<AuthInput setValue={setUserNick} title="닉네임" reg={regNick} />
-				<UseAbilitiyChecker $isUser={isUser}>중복 확인</UseAbilitiyChecker>
+				<UseAbilitiyChecker $isUser={isUser} onClick={onNickCheck}>
+					중복 확인
+				</UseAbilitiyChecker>
 			</CheckerContainer>
 			<AuthInput setValue={setUserPw} title="비밀번호" password reg={regPw} />
 			<AuthInput setValue={setUserPwCheck} title="비밀번호확인" password />

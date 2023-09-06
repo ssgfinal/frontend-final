@@ -1,7 +1,7 @@
 import { styled } from 'styled-components';
 
-import BannerSlider from '../../components/BannerSlider';
-import HomeSlider from '../../components/HomeSlider';
+import BannerSlider from '../../components/usermain/BannerSlider';
+import HomeSlider from '../../components/usermain/HomeSlider';
 import { color } from '../../assets/styles/theme';
 import { useKakaoLogin } from '../../hooks/useKaKaoLogin';
 

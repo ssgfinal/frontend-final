@@ -1,9 +1,9 @@
 import { styled } from 'styled-components';
 
-import { closeModal } from '../store/redux/modalSlice';
-import { useAppDispatch } from '../hooks';
+import { closeModal } from '../../store/redux/modalSlice';
+import { useAppDispatch } from '../../hooks';
 
-import { color } from '../assets/styles';
+import { color } from '../../assets/styles';
 
 const CancelReservation = () => {
 	const dispatch = useAppDispatch();
@@ -65,6 +65,7 @@ const CancelYesButton = styled.div`
 	}
 
 	button:hover {
+		cursor: pointer;
 		font-weight: bold;
 		border: 1px solid ${color.color3};
 		background-color: ${color.color3};
@@ -89,6 +90,7 @@ const CancelNoButton = styled.div`
 	}
 
 	button:hover {
+		cursor: pointer;
 		font-weight: bold;
 		border: 1px solid ${color.color3};
 		background-color: ${color.color3};

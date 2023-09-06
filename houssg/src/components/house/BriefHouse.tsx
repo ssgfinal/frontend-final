@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import Rating from './common/Rating';
+import Rating from '../common/Rating';
 
 import { styled } from 'styled-components';
 

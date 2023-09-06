@@ -2,7 +2,7 @@ import { NavigateFunction } from 'react-router-dom';
 import api from '../api/api';
 import { url } from '../assets/constant';
 
-export const authLoginFunc = (userId: string, userPw: string, isUser: boolean, navigate: NavigateFunction) => {
+const authLoginFunc = (userId: string, userPw: string, isUser: boolean, navigate: NavigateFunction, closeModal: () => void) => {
 	if (userId.trim() === '') {
 		alert('아이디를 입력해주세요');
 		return;
@@ -15,17 +15,20 @@ export const authLoginFunc = (userId: string, userPw: string, isUser: boolean, n
 	if (isUser) {
 		api
 			.post(url.login + `?id=${userId}&password=${userPw}&auth=0`)
-			.then((resp) => {
-				alert(resp);
+			// .post(url.login, { id: userId, password: userPw, auth: 0 })
+			.then(({ data }) => {
+				console.log(data);
+				closeModal();
 			})
 			.catch((err) => {
-				alert(err);
+				alert('서버와 통신이 원활하지 않습니다.');
+				console.log(err);
 			});
 	} else {
 		api
 			.post(url.login + `?id=${userId}&password=${userPw}&auth=1`)
 			.then((resp) => {
-				alert(resp);
+				console.log(resp);
 				!isUser && navigate('/owner');
 			})
 			.catch((err) => {
@@ -34,7 +37,7 @@ export const authLoginFunc = (userId: string, userPw: string, isUser: boolean, n
 	}
 };
 
-export const authSignUpFunc = (
+const authSignUpFunc = (
 	userId: string,
 	userNick: string,
 	userPw: string,
@@ -60,38 +63,63 @@ export const authSignUpFunc = (
 		return;
 	}
 
-	if (userPhone.trim() !== '') {
+	if (userPhone.trim() === '') {
 		alert('전화번호를 입력해 주세요.');
 		return;
 	}
 
 	if (isUser) {
 		api
-			.post(url.adduser + `?id=${userId}&password=${userPw}&nickname=${userNick}&phone_number=${userPhone}&auth=0`)
-			.then((resp) => {
-				alert(resp);
+			.post(url.addUser + `?id=${userId}&password=${userPw}&nickname=${userNick}&phone_number=${userPhone}&auth=0`)
+			.then(({ data }) => {
+				data === 'YES' ? alert('회원가입되었습니다') : alert('유효하지 않습니다.');
 				setIsLoginComp(true);
 			})
 			.catch((err) => {
-				alert(err);
+				console.log(err);
+				alert('중복된 값이 존재합니다');
 			});
 	} else {
 		api
-			.post(url.adduser + `?id=${userId}&password=${userPw}&nickname=${userNick}&phone_number=${userPhone}&auth=1`)
+			.post(url.addUser + `?id=${userId}&password=${userPw}&nickname=${userNick}&phone_number=${userPhone}&auth=1`)
 			.then((resp) => {
-				alert(resp);
+				console.log(resp);
+				alert('회원가입되었습니다.');
 				setIsLoginComp(true);
 			})
 			.catch((err) => {
 				alert(err);
+				console.log(err);
 			});
 	}
 };
 
-export const kakaoLoginFunc = (code: string) => {
+const idCheckFunc = (id: string) => {
+	api
+		.post(url.idCheck + `?id=${id}&auth=0`)
+		.then(({ data }) => {
+			data === 'YES' ? alert('유효한 아이디입니다') : alert('중복된 아이디입니다.');
+		})
+		.catch((err) => {
+			alert(err);
+		});
+};
+
+const nickCheckFunc = (nickName: string) => {
+	api
+		.post(url.nickCheck + `?nickname=${nickName}&auth=0`)
+		.then(({ data }) => {
+			data === 'YES' ? alert('유효한 닉네임입니다') : alert('중복된 닉네임입니다.');
+		})
+		.catch((err) => {
+			console.log(err);
+		});
+};
+
+const kakaoLoginFunc = (code: string) => {
 	// TODO: url 수정
 	api
-		.post('serverUrl' + code)
+		.post(url.kakaoLogin, code)
 		.then((res) => {
 			return res;
 		})
@@ -99,3 +127,27 @@ export const kakaoLoginFunc = (code: string) => {
 			console.log(err);
 		});
 };
+
+const kakaoSignUp = (nickName: string) => {
+	api
+		.post(url.kakaoAdd, { nickName: nickName })
+		.then(({ data }) => {
+			console.log(data);
+		})
+		.catch((err) => {
+			console.log(err);
+		});
+};
+
+const phoneCheck = (number: number) => {
+	api
+		.post(url.phoneCheck + `?number=${number}`)
+		.then(({ data }) => {
+			console.log(data);
+		})
+		.catch((err) => {
+			console.log(err);
+		});
+};
+
+export { authLoginFunc, authSignUpFunc, idCheckFunc, nickCheckFunc, kakaoLoginFunc, kakaoSignUp, phoneCheck };

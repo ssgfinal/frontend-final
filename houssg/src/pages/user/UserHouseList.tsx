@@ -6,7 +6,7 @@ import { Input, Space, DatePicker } from 'antd';
 import styled from 'styled-components';
 import { accomodation } from '../../assets/icons';
 
-import BriefHouse from '../../components/BriefHouse';
+import BriefHouse from '../../components/house/BriefHouse';
 
 const UserHouseList = () => {
 	const handleChange = (value: { value: string; label: React.ReactNode }) => {

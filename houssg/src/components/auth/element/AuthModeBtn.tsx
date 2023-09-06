@@ -1,12 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { color } from '../../../assets/styles';
-
-interface AuthModeType {
-	children: string;
-	isLoginComp: boolean;
-	setIsLoginComp: React.Dispatch<React.SetStateAction<boolean>>;
-}
+import { AuthModeType } from '../../../types';
 
 const AuthModeBtn: React.FC<AuthModeType> = ({ children, isLoginComp, setIsLoginComp }) => {
 	return (
