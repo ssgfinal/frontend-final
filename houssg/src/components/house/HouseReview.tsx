@@ -70,7 +70,6 @@ const Input = styled.div`
 	display: grid;
 	grid-template-columns: 7fr 1fr;
 	grid-gap: 1rem;
-	/* width: 40rem; */
 `;
 
 const Textarea = styled.textarea`
