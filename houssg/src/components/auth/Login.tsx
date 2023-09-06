@@ -2,7 +2,6 @@ import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import styled from 'styled-components';
 
-import { AuthProps } from '../../types/auth';
 import { AuthContainer, AuthTitle } from '../../assets/styles';
 import { kakaoLogin } from '../../assets/images';
 import { AuthInput, AuthModeBtn, AuthSubmitBtn } from './element';
@@ -10,6 +9,7 @@ import { useAppDispatch, usePathname } from '../../hooks';
 import { authLoginFunc } from '../../utils';
 import { KakaoAuthUri } from '../../api';
 import { closeModal } from '../../store/redux/modalSlice';
+import { AuthProps } from '../../types';
 
 const Login: React.FC<AuthProps> = ({ isLoginComp, setIsLoginComp }) => {
 	const pathname = usePathname();
