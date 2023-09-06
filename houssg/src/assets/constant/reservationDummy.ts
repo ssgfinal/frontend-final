@@ -27,21 +27,23 @@ export const ReviewDummy = [
 
 export const RoomList = [
 	{
+		accom_number: 33,
+		room_image:
+			'https://a.cdn-hotels.com/gdcs/production62/d1770/50e9f242-6f67-48a5-9b77-82aa6d64d78a.jpg?impolicy=fcrop&w=1600&h=1066&q=medium","zip_numbe',
 		room_number: 1,
 		room_category: '일반룸',
-		room_detail: '상세정보',
+		room_detail: '상세정보입니다',
 		room_price: 200000,
-		room_availability: 1,
-		room_use: 4,
-		accom_number: 33,
+		room_count: 4,
 	},
 	{
+		accom_number: 33,
+		room_image:
+			'https://a.cdn-hotels.com/gdcs/production62/d1770/50e9f242-6f67-48a5-9b77-82aa6d64d78a.jpg?impolicy=fcrop&w=1600&h=1066&q=medium","zip_numbe',
 		room_number: 2,
 		room_category: '스위트룸',
 		room_detail: '상세정보',
 		room_price: 200000,
-		room_availability: 2,
-		room_use: 4,
-		accom_number: 33,
+		room_count: 4,
 	},
 ];

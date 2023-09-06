@@ -2,6 +2,7 @@ import React from 'react';
 import { styled } from 'styled-components';
 import Rating from '../../../common/Rating';
 import { Button } from 'antd';
+
 interface ReviewType {
 	review: {
 		review_writer: string;
@@ -39,7 +40,7 @@ const RoomReviewComp: React.FC<ReviewType> = ({ review }) => {
 			{review.comment && (
 				<ReviewContainer>
 					<ReviewSubContainer>
-						<div> L사장님 : </div>
+						<div> L 사장님 : </div>
 						<div>{review.comment.text}</div>
 						<div>{review.comment.date}</div>
 					</ReviewSubContainer>
