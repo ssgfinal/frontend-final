@@ -1,43 +1,63 @@
 import { styled } from 'styled-components';
 
-import { closeModal } from '../../store/redux/modalSlice';
-import { useAppDispatch } from '../../hooks';
+import { closeModal, modalComponent } from '../../store/redux/modalSlice';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 
 import { color } from '../../assets/styles';
+import { useEffect, useState } from 'react';
 
-const CancelReservation = () => {
+const CommonInstruction = () => {
+	const modalComp = useAppSelector(modalComponent);
+
+	const [instructionText, setInstructionText] = useState<string>('');
+
+	useEffect(() => {
+		if (modalComp === 'cancel') {
+			setInstructionText('예약을 취소하시겠습니까?');
+		} else {
+			setInstructionText('정보를 수정하시겠습니까?');
+		}
+	}, [modalComp]);
+
 	const dispatch = useAppDispatch();
 	const onCloseModal = () => {
 		dispatch(closeModal());
 	};
 
-	const cancelYes = () => {
-		// TODO : 삭제하기 기능구현 추후에 작업
-		alert('삭제되었습니다.');
+	const instructionYes = () => {
+		if (modalComp === 'cancel') {
+			// TODO: 삭제하기 기능 구현
+			alert('삭제되었습니다.');
+		} else {
+			// TODO: 수정하기 기능 구현
+			alert('수정되었습니다.');
+		}
 		dispatch(closeModal());
 	};
 
 	return (
-		<CancelGrid>
-			<div className="CancelQues">예약을 취소하시겠습니까?</div>
-			<CancelYesButton>
-				<button onClick={cancelYes}>예</button>
-			</CancelYesButton>
-			<CancelNoButton>
+		<InstructionGrid>
+			<div className="instruction">
+				<div>{instructionText}</div>
+			</div>
+			<InstructionYesButton>
+				<button onClick={instructionYes}>예</button>
+			</InstructionYesButton>
+			<InstructionNoButton>
 				<button onClick={onCloseModal}>아니오</button>
-			</CancelNoButton>
-		</CancelGrid>
+			</InstructionNoButton>
+		</InstructionGrid>
 	);
 };
 
-export default CancelReservation;
+export default CommonInstruction;
 
-const CancelGrid = styled.div`
+const InstructionGrid = styled.div`
 	display: grid;
 	grid-template-columns: repeat(2, 1fr);
 	grid-template-rows: repeat(2, 1fr);
 
-	.CancelQues {
+	.instruction {
 		grid-column-start: 1;
 		grid-column-end: 3;
 		grid-row-start: 1;
@@ -47,7 +67,7 @@ const CancelGrid = styled.div`
 	}
 `;
 
-const CancelYesButton = styled.div`
+const InstructionYesButton = styled.div`
 	button {
 		grid-column-start: 1;
 		grid-column-end: 2;
@@ -72,7 +92,7 @@ const CancelYesButton = styled.div`
 	}
 `;
 
-const CancelNoButton = styled.div`
+const InstructionNoButton = styled.div`
 	button {
 		border: 1px solid ${color.color1};
 		border-radius: 1rem;

@@ -1,11 +1,18 @@
+import { styled } from 'styled-components';
+
 import MyPage from '../../components/usermypages/MyPage';
 
 const UserMypage = () => {
 	return (
-		<div>
+		<MyPageWrapper>
 			<MyPage />
-		</div>
+		</MyPageWrapper>
 	);
 };
 
 export default UserMypage;
+
+const MyPageWrapper = styled.div`
+	width: 100%;
+	//background-color: rgba(90, 90, 90, 0.05);
+`;

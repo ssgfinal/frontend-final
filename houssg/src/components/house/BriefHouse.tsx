@@ -13,7 +13,6 @@ interface House {
 		rating: number;
 		location: string;
 		image: string;
-		favorite: boolean;
 	};
 }
 
@@ -21,13 +20,12 @@ const BriefHouse: React.FC<House> = ({ house }) => {
 	const navigate = useNavigate();
 
 	return (
-		// 하트 보여드리고 onClick 옮기기 ...여기로 BriefHouseWrapper
-		<BriefHouseWrapper>
-			<ImageBox
-				onClick={() => {
-					navigate(`/user/house/${house.houseId}`);
-				}}
-			>
+		<BriefHouseWrapper
+			onClick={() => {
+				navigate(`/user/house/${house.houseId}`);
+			}}
+		>
+			<ImageBox>
 				<img src={house.image} className="imagebox" />
 			</ImageBox>
 			<HouseContainer>
@@ -37,7 +35,6 @@ const BriefHouse: React.FC<House> = ({ house }) => {
 							{house.location}&nbsp;
 							{house.name}&nbsp;
 						</span>
-						<HeartIcons favorite={house.favorite} />
 					</div>
 					<RateBox>
 						<Rating rate={house.rating} readonly />
@@ -54,6 +51,7 @@ const BriefHouse: React.FC<House> = ({ house }) => {
 export default BriefHouse;
 
 const BriefHouseWrapper = styled.div`
+	cursor: pointer;
 	margin: 1rem;
 	padding: 1rem;
 	align-items: center;
@@ -72,7 +70,6 @@ const ImageBox = styled.div`
 	align-items: center;
 
 	.imagebox:hover {
-		cursor: pointer;
 		width: 95%;
 		transition: width 0.2s;
 	}

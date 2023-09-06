@@ -3,15 +3,16 @@ import { styled } from 'styled-components';
 
 interface CollapseDetail {
 	detail: {
-		user_id: string;
-		reservation_number: number;
-		guest_name: string;
-		guest_phone: string;
-		coupon_number: number;
-		coupon_name: string;
-		is_used: number;
-		discount: number;
-		// TODO : 포인트는 어디에??
+		userId: string;
+		reservationNumber: number;
+		guestName: string;
+		guestPhone: string;
+		couponNumber: number;
+		couponName: string;
+		isUsed: number;
+		couponDiscount: number;
+		pointDiscount: number;
+		payment: number;
 	};
 }
 
@@ -19,15 +20,15 @@ const ReservationCollapseDetail: React.FC<CollapseDetail> = ({ detail }) => {
 	return (
 		<CollapseDetailWrapper>
 			{/* TODO : 기능구현할 때, 수정 */}
-			<p>삭제예정-예약번호 : {detail.reservation_number}</p>
-			<p>이용자명 : {detail.guest_name} 님</p>
-			<p>전화번호 : {detail.guest_phone}</p>
+			<p>삭제예정-예약번호 : {detail.reservationNumber}</p>
+			<p>이용자명 : {detail.guestName} 님</p>
+			<p>전화번호 : {detail.guestPhone}</p>
 			<p>
-				쿠폰번호 : {detail.coupon_name} ({detail.coupon_number})
+				쿠폰번호 : {detail.couponName} ({detail.couponNumber})
 			</p>
-			<p>쿠폰할인 : {detail.discount}원</p>
-			<p>포인트사용내역 : p</p>
-			<p>결제금액 : </p>
+			<p>쿠폰할인 : {detail.couponDiscount}원</p>
+			<p>포인트사용내역 : {detail.pointDiscount}p</p>
+			<p>결제금액 : {detail.payment}</p>
 		</CollapseDetailWrapper>
 	);
 };
