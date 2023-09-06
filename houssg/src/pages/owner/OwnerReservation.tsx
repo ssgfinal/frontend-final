@@ -1,5 +1,5 @@
 const OwnerReservation = () => {
-	return <div>register</div>;
+	return <div>reservation</div>;
 };
 
 export default OwnerReservation;
