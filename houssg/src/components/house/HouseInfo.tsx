@@ -13,6 +13,12 @@ export const HouseInfo = () => {
 
 	const rate = 3.4;
 	const location = '부산시 수영구 수영동';
+	const reviewCnt = 11400;
+
+	// 숫자를 1000 단위로 포맷하는 함수
+	const formatNumber = (value: number) => {
+		return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+	};
 
 	return (
 		<Container>
@@ -22,6 +28,7 @@ export const HouseInfo = () => {
 				찜하기 컴포넌트
 				<br />
 				<Rating rate={rate} readonly />
+				(후기 : {formatNumber(reviewCnt)}개)
 				<div>{location}</div>
 				<div>
 					<div>
@@ -45,18 +52,19 @@ const Container = styled.div`
 
 	@media (min-width: 750px) {
 		grid-template-columns: 1fr 1fr;
-		grid-gap: 3rem;
+		grid-gap: 2rem;
 	}
 	@media (max-width: 750px) {
+		margin-bottom: 0;
 		grid-template-columns: 1fr;
 	}
 `;
 const Img = styled.img`
 	@media (min-width: 750px) {
-		width: 50vw;
+		width: 40vw;
 	}
 	@media (max-width: 750px) {
-		width: 70vw;
+		width: 68vw;
 	}
 `;
 
