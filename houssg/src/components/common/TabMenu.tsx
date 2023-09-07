@@ -2,16 +2,12 @@ import { color } from '../../assets/styles/theme';
 import { styled } from 'styled-components';
 
 interface TabMenuProps {
+	tabObj: string[][];
 	clickTab: string;
 	setClickTab: React.Dispatch<React.SetStateAction<string>>;
 }
 
-export const TabMenu: React.FC<TabMenuProps> = ({ clickTab, setClickTab }) => {
-	const tabObj = [
-		['roominfo', '객실 정보'],
-		['description', '숙소 소개'],
-		['review', '후기'],
-	];
+export const TabMenu: React.FC<TabMenuProps> = ({ tabObj, clickTab, setClickTab }) => {
 	return (
 		<div>
 			<Wrapper>

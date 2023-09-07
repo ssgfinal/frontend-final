@@ -16,6 +16,5 @@ export const HouseDescription = () => {
 
 const Wrapper = styled.div`
 	white-space: pre-wrap;
-	padding: 1rem 3rem;
 	text-align: left;
 `;
