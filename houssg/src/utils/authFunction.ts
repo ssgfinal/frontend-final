@@ -20,9 +20,9 @@ const authLoginFunc = (userId: string, userPw: string, isUser: boolean, navigate
 				console.log(data);
 				closeModal();
 			})
-			.catch((err) => {
-				alert('서버와 통신이 원활하지 않습니다.');
-				console.log(err);
+			.catch(({ response }) => {
+				// alert('서버와 통신이 원활하지 않습니다.');
+				console.log(response);
 			});
 	} else {
 		api
@@ -75,8 +75,8 @@ const authSignUpFunc = (
 				data === 'YES' ? alert('회원가입되었습니다') : alert('유효하지 않습니다.');
 				setIsLoginComp(true);
 			})
-			.catch((err) => {
-				console.log(err);
+			.catch(({ response }) => {
+				console.log(response);
 				alert('중복된 값이 존재합니다');
 			});
 	} else {
@@ -87,9 +87,8 @@ const authSignUpFunc = (
 				alert('회원가입되었습니다.');
 				setIsLoginComp(true);
 			})
-			.catch((err) => {
-				alert(err);
-				console.log(err);
+			.catch(({ response }) => {
+				console.log(response);
 			});
 	}
 };
@@ -100,8 +99,8 @@ const idCheckFunc = (id: string) => {
 		.then(({ data }) => {
 			data === 'YES' ? alert('유효한 아이디입니다') : alert('중복된 아이디입니다.');
 		})
-		.catch((err) => {
-			alert(err);
+		.catch(({ response }) => {
+			console.log(response);
 		});
 };
 
@@ -111,8 +110,8 @@ const nickCheckFunc = (nickName: string) => {
 		.then(({ data }) => {
 			data === 'YES' ? alert('유효한 닉네임입니다') : alert('중복된 닉네임입니다.');
 		})
-		.catch((err) => {
-			console.log(err);
+		.catch(({ response }) => {
+			console.log(response);
 		});
 };
 
@@ -123,8 +122,8 @@ const kakaoLoginFunc = (code: string) => {
 		.then((res) => {
 			return res;
 		})
-		.catch((err) => {
-			console.log(err);
+		.catch(({ response }) => {
+			console.log(response);
 		});
 };
 
@@ -134,8 +133,8 @@ const kakaoSignUp = (nickName: string) => {
 		.then(({ data }) => {
 			console.log(data);
 		})
-		.catch((err) => {
-			console.log(err);
+		.catch(({ response }) => {
+			console.log(response);
 		});
 };
 
@@ -145,8 +144,8 @@ const phoneCheck = (number: number) => {
 		.then(({ data }) => {
 			console.log(data);
 		})
-		.catch((err) => {
-			console.log(err);
+		.catch(({ response }) => {
+			console.log(response);
 		});
 };
 
