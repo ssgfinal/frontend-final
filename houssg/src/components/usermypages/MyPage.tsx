@@ -13,10 +13,26 @@ import { styled } from 'styled-components';
 // import { openModal } from '../../store/redux/modalSlice';
 // import { useAppDispatch } from '../../hooks';
 import { color } from '../../assets/styles';
-import BriefHouse from '../house/BriefHouse';
-import { accomodation } from '../../assets/icons';
+import { useState } from 'react';
 
-const MyPage = () => {
+import { TabMenu } from '../common/TabMenu';
+import MyInformation from './MyInformation';
+import MyReview from './MyReview';
+import MyFavorite from './MyFavorite';
+
+const MyPage: React.FC = () => {
+	// interface MyPageTabProps {
+	// 	tabObj: string[][];
+	// 	clickTab: string;
+	// 	setClickTab: React.Dispatch<React.SetStateAction<string>>;
+	// }
+	const tabObj = [
+		['MyInformation', '나의 정보'],
+		['MyReview', '나의 리뷰'],
+		['MyFavorite', '찜한 숙소'],
+	];
+
+	const [clickTab, setClickTab] = useState<string>('MyInformation');
 	// const dispatch = useAppDispatch();
 
 	// const modalOpen = () => {
@@ -26,40 +42,19 @@ const MyPage = () => {
 
 	return (
 		<MyPageWrapper>
-			<MyPageWra>
+			<MyPageMainContainer>
+				<MyPageMain>gg</MyPageMain>
+			</MyPageMainContainer>
+			<MyPageTabContainer>
+				<TabContainer>
+					<div></div>
+					<TabMenu tabObj={tabObj} clickTab={clickTab} setClickTab={setClickTab} />
+				</TabContainer>
 				<div></div>
-				<MyPageTabContainer>
-					<MyPageSideBar>
-						<div></div>
-						<MyInformation>나의 정보</MyInformation>
-						<MyReview>나의 리뷰</MyReview>
-						<MyFavorite>찜한 숙소</MyFavorite>
-						<Boundary>
-							<hr />
-						</Boundary>
-						<MyConsultation>1:1상담</MyConsultation>
-						<Withdrawal>회원탈퇴</Withdrawal>
-					</MyPageSideBar>
-				</MyPageTabContainer>
-				<div></div>
-				<MyPageContainer>
-					<ReviewContainer>review</ReviewContainer>
-					<HeartContainer>Heart</HeartContainer>
-					<ComponentBox>
-						<BriefHouse
-							house={{
-								houseId: 9,
-								name: '환영펜션',
-								price: '44000원',
-								rating: 5.0,
-								location: '부산시 중구 남포',
-								image: accomodation,
-							}}
-						/>
-					</ComponentBox>
-				</MyPageContainer>
-				<div></div>
-			</MyPageWra>
+			</MyPageTabContainer>
+			<MyPageContentsContainer>
+				{clickTab === 'MyInformation' ? <MyInformation /> : clickTab === 'MyReview' ? <MyReview /> : <MyFavorite />}
+			</MyPageContentsContainer>
 		</MyPageWrapper>
 	);
 };
@@ -68,149 +63,64 @@ export default MyPage;
 
 const MyPageWrapper = styled.div`
 	width: 100%;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-content: center;
-	//background-color: rgba(90, 90, 90, 0.5);
-	background-color: rgba(90, 90, 90, 0.05);
-
-	@media (max-width: 700px) and (max-height: 300px) {
-		width: 100vw;
-		height: 2500px;
-		justify-content: flex-start;
-	}
-
-	@media (min-width: 700px) and (max-width: 1300px) {
-		width: 100%;
-		//height: 2500px;
-		justify-content: flex-start;
-	}
-
-	@media (min-width: 1400px) {
-		width: 100%;
-		height: 2500px; // px로 해도 되는지 물어보기
-		justify-content: flex-start;
-	}
-`;
-
-const MyPageWra = styled.div`
+	height: 100vh;
 	display: grid;
-	grid-template-columns: 0.3fr 1fr 0.3fr 5fr 0.3fr;
-	justify-items: center;
-	align-items: center;
-
-	/* @media (max-width: 700px) {
-		width: 100%;
-	}
-
-	@media (min-width: 700px) and (max-width: 1400px) {
-		width: 100%;
-	}
-
-	@media (min-width: 1400px) {
-		width: 100%;
-	} */
+	grid-template-columns: 0.2fr 1fr 0.2fr;
+	grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
 `;
 
-const MyPageSideBar = styled.div`
-	height: 100%;
-	margin: auto;
+const MyPageMainContainer = styled.div`
 	display: grid;
-	grid-template-columns: 1fr;
-	grid-template-rows: 1fr repeat(3, 2fr) 5fr 1fr 1fr 1fr;
-	justify-items: center;
-	align-items: end;
-	grid-row-gap: 1rem;
+	grid-column-start: 1;
+	grid-column-end: 4;
+	grid-row-start: 1;
+	grid-row-end: 2;
 `;
 
-const MyInformation = styled.div`
-	//margin-top: 100px;
-	width: 80%;
-	text-align: center;
-	align-self: center;
-	/* line-height: 10vh;
-	border-right: 5px solid ${color.color1}; */
-	//background-color: ${color.unSelectColor};
-
-	&:hover {
-		line-height: 3vw;
-		border-right: 5px solid ${color.color1};
-	}
-`;
-
-const MyReview = styled.div`
-	width: 80%;
-	height: 8vh;
-	text-align: center;
-	line-height: 8vh;
-	//background-color: ${color.unSelectColor};
-`;
-
-const MyFavorite = styled.div`
-	width: 80%;
-	height: 8vh;
-	text-align: center;
-	line-height: 8vh;
-`;
-
-const Boundary = styled.div`
-	width: 80%;
-	margin: 0 auto;
-`;
-
-const MyConsultation = styled.div`
-	width: 80%;
-	align-self: start;
-	text-align: center;
-`;
-
-const Withdrawal = styled.div`
-	width: 80%;
-	align-self: start;
-	text-align: center;
+const MyPageMain = styled.div`
+	border: 1px solid ${color.unSelectColor};
+	border-radius: 1rem;
+	box-shadow: 0px 0px 8px 1px ${color.unSelectColor};
+	background-color: ${color.backColor};
 `;
 
 const MyPageTabContainer = styled.div`
-	/* border-radius: 1rem; */
-	width: 100%;
-	height: 100%;
-	box-shadow: 3px 4px 5px 3px ${color.unSelectColor};
-	background-color: ${color.backColor};
+	display: grid;
+	grid-column-start: 1;
+	grid-column-end: 4;
+	grid-row-start: 2;
+	grid-row-end: 3;
+	justify-content: center;
+	//background-color: gray;
 `;
 
-const MyPageContainer = styled.div`
-	width: 90%;
-	height: 100%;
-	/* margin: 1rem;
-	border: 1px solid ${color.color1};
-	border-radius: 1rem;
-	box-shadow: 0px 0px 8px 1px ${color.color4};
-	background-color: ${color.backColor}; */
+const TabContainer = styled.div`
+	display: grid;
+	grid-template-columns: 1fr 3fr 1fr;
+	grid-template-rows: 1fr;
+	justify-items: center;
 `;
 
-const ReviewContainer = styled.div`
-	height: 200px;
-	margin: 1rem;
-	border: 1px solid ${color.color1};
-	border-radius: 1rem;
-	box-shadow: 0px 0px 8px 1px ${color.color4};
-	background-color: ${color.backColor};
-`;
+// const MyInformation = styled.div`
+// 	align-self: center;
+// `;
 
-const HeartContainer = styled.div`
-	height: 200px;
-	margin: 1rem;
-	border: 1px solid ${color.color1};
-	border-radius: 1rem;
-	box-shadow: 0px 0px 8px 1px ${color.color4};
-	background-color: ${color.backColor};
-`;
+// const MyReview = styled.div`
+// 	align-self: center;
+// `;
 
-const ComponentBox = styled.div`
-	margin: 1rem;
-	border: 1px solid ${color.color1};
+// const MyFavorite = styled.div`
+// 	align-self: center;
+// `;
+
+const MyPageContentsContainer = styled.div`
+	display: grid;
+	grid-column-start: 2;
+	grid-column-end: 3;
+	grid-row-start: 3;
+	grid-row-end: 4;
+	border: 1px solid ${color.unSelectColor};
 	border-radius: 1rem;
-	box-shadow: 0px 0px 8px 1px ${color.color4};
+	box-shadow: 0px 0px 8px 1px ${color.unSelectColor};
 	background-color: ${color.backColor};
 `;

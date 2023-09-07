@@ -14,5 +14,6 @@ export default UserMypage;
 
 const MyPageWrapper = styled.div`
 	width: 100%;
-	//background-color: rgba(90, 90, 90, 0.05);
+	height: 100vh;
+	background-color: rgba(90, 90, 90, 0.05);
 `;
