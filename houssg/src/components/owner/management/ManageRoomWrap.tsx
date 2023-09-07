@@ -1,10 +1,13 @@
-import { useState } from 'react';
-import { RoomCompEdit, RoomCompRead } from './element';
-
+import { RoomList } from '../../../assets/constant/reservationDummy';
+import RoomCompToggler from './element/RoomCompToggler';
 const ManageRoomWrap = () => {
-	const [isEditMode, setIsEditMode] = useState(false);
-
-	return <div>{!isEditMode ? <RoomCompRead setIsEditMode={setIsEditMode} /> : <RoomCompEdit setIsEditMode={setIsEditMode} />}</div>;
+	return (
+		<div>
+			{RoomList.map((room) => (
+				<RoomCompToggler room={room} key={room.room_number} />
+			))}
+		</div>
+	);
 };
 
 export default ManageRoomWrap;
