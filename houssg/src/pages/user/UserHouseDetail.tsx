@@ -12,20 +12,28 @@ export const UserHouseDetail = () => {
 	// 추후 쓸 변수
 	// const { houseId } = useParams();
 
-	const [clickTab, setClickTab] = useState<string>('roominfo');
+	const tabObj = [
+		['description', '숙소 소개'],
+		['roominfo', '객실 정보'],
+		['review', '후기'],
+	];
+
+	const [clickTab, setClickTab] = useState<string>('description');
 
 	return (
 		<Wrapper>
 			<HouseInfo />
 			<div>
-				<TabMenu clickTab={clickTab} setClickTab={setClickTab} />
-				<div>{clickTab === 'info' ? <RoomList /> : clickTab === 'description' ? <HouseDescription /> : <HouseReview />}</div>
+				<TabMenu tabObj={tabObj} clickTab={clickTab} setClickTab={setClickTab} />
+				<div>{clickTab === 'description' ? <HouseDescription /> : clickTab === 'roominfo' ? <RoomList /> : <HouseReview />}</div>
 			</div>
 		</Wrapper>
 	);
 };
 
 const Wrapper = styled.div`
-	width: 80vw;
+	width: 70vw;
 	margin: 0 auto;
+	display: grid;
+	grid-template-columns: 1fr;
 `;
