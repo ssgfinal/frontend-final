@@ -1,6 +1,4 @@
 import React from 'react';
-import { useEffect } from 'react';
-// import { useState } from 'react';
 import { Rate } from 'antd';
 import { styled } from 'styled-components';
 
@@ -20,8 +18,6 @@ const Rating: React.FC<Props> = ({ readonly, rate = 0, setRate }) => {
 			setRate(rate);
 		}
 	};
-
-	useEffect(() => {}, [rate]);
 
 	return (
 		<Wrapper>
