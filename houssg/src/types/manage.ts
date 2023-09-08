@@ -1,6 +1,6 @@
 interface ManageNavProps {
-	isRoomSelected: boolean;
-	setSelectedNav: React.Dispatch<React.SetStateAction<boolean>>;
+	isRoomSelected: number;
+	setSelectedNav: React.Dispatch<React.SetStateAction<number>>;
 	isOpenTabComp: boolean;
 	setIsOpenTabComp: React.Dispatch<React.SetStateAction<boolean>>;
 }
