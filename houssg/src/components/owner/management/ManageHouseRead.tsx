@@ -6,8 +6,7 @@ import { ManageNav, ManageTabComp } from '.';
 import { SetStateToggle } from '../../../types';
 
 const ManageHouseRead: React.FC<SetStateToggle> = ({ setIsEditMode }) => {
-	const [isRoomSelected, setIsRoomSelected] = useState(true);
-
+	const [isRoomSelected, setIsRoomSelected] = useState(0); // 처음 0 room 1 , review 2
 	const [isOpenTabComp, setIsOpenTabComp] = useState(false);
 
 	return (

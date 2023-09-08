@@ -2,8 +2,8 @@ import { styled } from 'styled-components';
 import { ManageNavProps, StyledActiveProps } from '../../../types';
 import { HouseTabContainer, color } from '../../../assets/styles';
 
-const ManageNav: React.FC<ManageNavProps> = ({ isRoomSelected, setSelectedNav, setIsOpenTabComp, isOpenTabComp }) => {
-	const onNavHandler = (isRoomTab: boolean) => {
+const ManageNav: React.FC<ManageNavProps> = ({ isRoomSelected, isOpenTabComp, setSelectedNav, setIsOpenTabComp }) => {
+	const onNavHandler = (isRoomTab: number) => {
 		if (isRoomSelected === isRoomTab && isOpenTabComp) {
 			setIsOpenTabComp(false);
 		}
@@ -17,11 +17,11 @@ const ManageNav: React.FC<ManageNavProps> = ({ isRoomSelected, setSelectedNav, s
 
 	return (
 		<HouseTabContainer>
-			<NavStateComp $active={isRoomSelected} onClick={() => onNavHandler(true)}>
-				객실 정보 {isRoomSelected && isOpenTabComp && '닫기'}
+			<NavStateComp $active={isRoomSelected === 1} onClick={() => onNavHandler(1)}>
+				객실 정보 {isRoomSelected === 1 && isOpenTabComp && '닫기'}
 			</NavStateComp>
-			<NavStateComp $active={!isRoomSelected} onClick={() => onNavHandler(false)}>
-				리뷰 확인 {!isRoomSelected && isOpenTabComp && '닫기'}
+			<NavStateComp $active={isRoomSelected === 2} onClick={() => onNavHandler(2)}>
+				리뷰 확인 {isRoomSelected === 2 && isOpenTabComp && '닫기'}
 			</NavStateComp>
 		</HouseTabContainer>
 	);
@@ -36,5 +36,8 @@ const NavStateComp = styled.div<StyledActiveProps>`
 	font-weight: ${({ $active }) => ($active ? 800 : 600)};
 	cursor: pointer;
 	border-color: ${({ $active }) => ($active ? color.color1 : color.unSelectColor)};
-	/* border-collapse: collapse; */
+	transition: color 0.18s;
+	&:hover {
+		color: ${color.color1};
+	}
 `;

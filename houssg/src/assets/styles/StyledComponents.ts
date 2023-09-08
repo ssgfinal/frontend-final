@@ -91,6 +91,16 @@ const NavClickComp = styled.div`
 	}
 	cursor: pointer;
 `;
+
+const ManageReadTitle = styled.div`
+	text-align: center;
+	font-size: 1.5rem;
+	font-weight: 700;
+	color: ${color.color1};
+	margin-bottom: 0.8rem;
+`;
 export { AuthContainer, AuthTitle };
 
 export { HouseInfoContainer, HouseTabContainer, InfoWrapper, InfoText, InfoTitleText, SubInfoAligner, NavClickComp };
+
+export { ManageReadTitle };

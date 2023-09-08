@@ -17,7 +17,7 @@ export const ReviewDummy = [
 		review_number: 2,
 		reservation_number: 123,
 		review_content: '좋은 숙소입니다.',
-		rating: 5,
+		rating: 3,
 		report_status: 0,
 		creation_time: '2023-08-28 10:00:00',
 		comment: null,
