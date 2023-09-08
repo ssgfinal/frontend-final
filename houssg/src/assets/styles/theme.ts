@@ -10,6 +10,7 @@ export const color = {
 	basicColor: '#000000',
 	backColor: '#FFFFFF',
 	unSelectColor: 'lightgray',
+	darkGrayColor: 'rgba(90, 90, 90, 0.8)',
 };
 
 // 추후 테마색 결정

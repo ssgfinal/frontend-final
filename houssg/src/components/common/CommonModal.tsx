@@ -3,7 +3,7 @@ import { Modal } from 'antd';
 import { closeModal, isModalOpen, modalComponent, modalSize } from '../../store/redux/modalSlice';
 import { AuthWrap } from '../auth';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import AuthCancelReservation from '../reservation/CancelReservation';
+import AuthInstruction from './CommonInstruction';
 
 const CommonModal = () => {
 	const modalState = useAppSelector(isModalOpen);
@@ -27,7 +27,9 @@ const CommonModal = () => {
 			width={size}
 		>
 			{modalComp === 'auth' && <AuthWrap />}
-			{modalComp === 'cancel' && <AuthCancelReservation />}
+			{modalComp === 'cancel' && <AuthInstruction />}
+			{modalComp === 'update' && <AuthInstruction />}
+			{modalComp === 'couponregistration' && <AuthInstruction />}
 		</Modal>
 	);
 };

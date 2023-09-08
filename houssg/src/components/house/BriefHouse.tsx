@@ -1,13 +1,13 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { styled } from 'styled-components';
 
 import Rating from '../common/Rating';
-
-import { styled } from 'styled-components';
+import HeartIcons from '../common/HeartIcons';
 
 interface House {
 	house: {
-		houseId?: number;
+		houseId: number;
 		name: string;
 		price: string;
 		rating: number;
@@ -33,9 +33,8 @@ const BriefHouse: React.FC<House> = ({ house }) => {
 					<div>
 						<span>
 							{house.location}&nbsp;
-							{house.name}
+							{house.name}&nbsp;
 						</span>
-						<input type="checkbox"></input>
 					</div>
 					<RateBox>
 						<Rating rate={house.rating} readonly />
@@ -52,6 +51,7 @@ const BriefHouse: React.FC<House> = ({ house }) => {
 export default BriefHouse;
 
 const BriefHouseWrapper = styled.div`
+	cursor: pointer;
 	margin: 1rem;
 	padding: 1rem;
 	align-items: center;
