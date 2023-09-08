@@ -1,31 +1,24 @@
 import { styled } from 'styled-components';
-// import {
-// 	MyHeartIcon,
-// 	HeartIcon,
-// 	FullHeartIcon,
-// 	PointIcon,
-// 	CouponIcon,
-// 	EditIcon,
-// 	ReviewIcon,
-// 	MyPointIcon,
-// 	accomodation,
-// } from '../../assets/icons/index';
-// import { openModal } from '../../store/redux/modalSlice';
-// import { useAppDispatch } from '../../hooks';
-import { color } from '../../assets/styles';
-import { useState } from 'react';
 
+import { useState } from 'react';
+import { useAppDispatch } from '../../hooks';
+import { openModal } from '../../store/redux/modalSlice';
 import { TabMenu } from '../common/TabMenu';
+
 import MyInformation from './MyInformation';
 import MyReview from './MyReview';
 import MyFavorite from './MyFavorite';
 
+import { color } from '../../assets/styles';
+import { CouponIcon, MyPointIcon, ProfileCircle } from '../../assets/icons';
+
 const MyPage: React.FC = () => {
-	// interface MyPageTabProps {
-	// 	tabObj: string[][];
-	// 	clickTab: string;
-	// 	setClickTab: React.Dispatch<React.SetStateAction<string>>;
-	// }
+	const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+	const toggleDropdown = () => {
+		setIsDropdownOpen(!isDropdownOpen);
+	};
+
 	const tabObj = [
 		['MyInformation', '나의 정보'],
 		['MyReview', '나의 리뷰'],
@@ -33,17 +26,45 @@ const MyPage: React.FC = () => {
 	];
 
 	const [clickTab, setClickTab] = useState<string>('MyInformation');
-	// const dispatch = useAppDispatch();
 
-	// const modalOpen = () => {
-	// 	const modalSize = window.innerWidth >= 1000 ? 500 : 400;
-	// 	dispatch(openModal({ modalComponent: 'update', modalSize: modalSize }));
-	// };
+	const dispatch = useAppDispatch();
+
+	const modalOpen = () => {
+		const modalSize = window.innerWidth >= 1000 ? 500 : 400;
+		dispatch(openModal({ modalComponent: 'couponregistration', modalSize: modalSize }));
+	};
 
 	return (
 		<MyPageWrapper>
+			<MyPageIconContainer>1:1문의</MyPageIconContainer>
 			<MyPageMainContainer>
-				<MyPageMain>gg</MyPageMain>
+				<MyPageMainBox>
+					<MyNickName>
+						<ProfileImg src={ProfileCircle} />
+						<span>홍길동님</span>
+					</MyNickName>
+					<MyPoint>
+						<PointImg src={MyPointIcon} />
+						<span>1000P</span>
+					</MyPoint>
+					<MyCoupon>
+						<CouponImg src={CouponIcon} />
+						<div>
+							쿠폰함<CouponList onClick={toggleDropdown}>{isDropdownOpen ? <>&#9650;</> : <>&#9660;</>}</CouponList>
+						</div>
+						<CouponRegistration>
+							<button onClick={modalOpen}>쿠폰등록</button>
+						</CouponRegistration>
+					</MyCoupon>
+					{isDropdownOpen && (
+						<DropdownContent>
+							<div>
+								<div>쿠폰명 쿠폰번호</div>
+								<span>쿠폰가격</span>
+							</div>
+						</DropdownContent>
+					)}
+				</MyPageMainBox>
 			</MyPageMainContainer>
 			<MyPageTabContainer>
 				<TabContainer>
@@ -66,61 +87,129 @@ const MyPageWrapper = styled.div`
 	height: 100vh;
 	display: grid;
 	grid-template-columns: 0.2fr 1fr 0.2fr;
-	grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+	grid-template-rows: 0.2fr 0.5fr 0.1fr 0.1fr 1fr 0.5fr;
+	justify-content: center;
+`;
+
+const MyPageIconContainer = styled.div`
+	grid-column-start: 2;
+	grid-column-end: 3;
+	grid-row-start: 1;
+	grid-row-end: 2;
+	justify-self: right;
+	align-self: center;
+	font-size: 0.4rem;
 `;
 
 const MyPageMainContainer = styled.div`
 	display: grid;
-	grid-column-start: 1;
-	grid-column-end: 4;
-	grid-row-start: 1;
-	grid-row-end: 2;
+	grid-column-start: 2;
+	grid-column-end: 3;
+	grid-row-start: 2;
+	grid-row-end: 3;
 `;
 
-const MyPageMain = styled.div`
-	border: 1px solid ${color.unSelectColor};
+const MyPageMainBox = styled.div`
+	padding: 0.7rem;
 	border-radius: 1rem;
-	box-shadow: 0px 0px 8px 1px ${color.unSelectColor};
+	box-shadow: 0px 0px 5px 0.5px ${color.unSelectColor};
 	background-color: ${color.backColor};
+	display: grid;
+	grid-template-columns: 1fr;
+	grid-template-rows: repeat(3, 1fr);
+	align-items: center;
+	color: ${color.darkGrayColor};
+`;
+
+const MyNickName = styled.div`
+	width: 100%;
+	padding: 0.5rem;
+	padding-bottom: 0.8rem;
+	text-align: left;
+	border-bottom: 1px solid ${color.unSelectColor};
+	display: grid;
+	grid-template-columns: 1fr 20fr;
+	align-items: end;
+	letter-spacing: -0.9px;
+`;
+
+const ProfileImg = styled.img`
+	width: 1.2rem;
+`;
+
+const MyPoint = styled.div`
+	width: 100%;
+	padding: 0.5rem;
+	padding-top: 1rem;
+	padding-bottom: 1rem;
+	text-align: left;
+	border-bottom: 1px solid ${color.unSelectColor};
+	display: grid;
+	grid-template-columns: 1fr 20fr;
+	align-items: center;
+	letter-spacing: -0.9px;
+`;
+
+const PointImg = styled.img`
+	width: 1.2rem;
+`;
+
+const MyCoupon = styled.div`
+	width: 100%;
+	padding: 0.5rem;
+	text-align: left;
+	display: grid;
+	grid-template-columns: 1fr 15fr 2fr;
+	align-items: center;
+	letter-spacing: -0.9px;
+`;
+
+const CouponImg = styled.img`
+	width: 1.2rem;
+`;
+
+const CouponList = styled.button`
+	color: ${color.darkGrayColor};
+	background-color: ${color.backColor};
+	border: none;
+`;
+
+const DropdownContent = styled.div``;
+
+const CouponRegistration = styled.div`
+	justify-self: right;
+	button {
+		cursor: pointer;
+		color: ${color.color1};
+		border: 1px solid ${color.unSelectColor};
+		border-radius: 0.4rem;
+	}
 `;
 
 const MyPageTabContainer = styled.div`
 	display: grid;
-	grid-column-start: 1;
-	grid-column-end: 4;
-	grid-row-start: 2;
-	grid-row-end: 3;
+	grid-column-start: 2;
+	grid-column-end: 3;
+	grid-row-start: 4;
+	grid-row-end: 5;
 	justify-content: center;
-	//background-color: gray;
+	align-content: end;
 `;
 
 const TabContainer = styled.div`
 	display: grid;
-	grid-template-columns: 1fr 3fr 1fr;
+	grid-template-columns: 1fr;
 	grid-template-rows: 1fr;
 	justify-items: center;
 `;
-
-// const MyInformation = styled.div`
-// 	align-self: center;
-// `;
-
-// const MyReview = styled.div`
-// 	align-self: center;
-// `;
-
-// const MyFavorite = styled.div`
-// 	align-self: center;
-// `;
 
 const MyPageContentsContainer = styled.div`
 	display: grid;
 	grid-column-start: 2;
 	grid-column-end: 3;
-	grid-row-start: 3;
-	grid-row-end: 4;
-	border: 1px solid ${color.unSelectColor};
+	grid-row-start: 5;
+	grid-row-end: 6;
 	border-radius: 1rem;
-	box-shadow: 0px 0px 8px 1px ${color.unSelectColor};
+	box-shadow: 0px 0px 5px 0.5px ${color.color3};
 	background-color: ${color.backColor};
 `;

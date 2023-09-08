@@ -5,6 +5,7 @@ import MyPage from '../../components/usermypages/MyPage';
 const UserMypage = () => {
 	return (
 		<MyPageWrapper>
+			<div></div>
 			<MyPage />
 		</MyPageWrapper>
 	);
@@ -14,6 +15,6 @@ export default UserMypage;
 
 const MyPageWrapper = styled.div`
 	width: 100%;
-	height: 100vh;
-	background-color: rgba(90, 90, 90, 0.05);
+	display: grid;
+	grid-template-columns: 1fr 4fr 1fr;
 `;

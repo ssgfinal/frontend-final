@@ -29,6 +29,7 @@ const CommonModal = () => {
 			{modalComp === 'auth' && <AuthWrap />}
 			{modalComp === 'cancel' && <AuthInstruction />}
 			{modalComp === 'update' && <AuthInstruction />}
+			{modalComp === 'couponregistration' && <AuthInstruction />}
 		</Modal>
 	);
 };
