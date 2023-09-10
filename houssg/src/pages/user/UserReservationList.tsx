@@ -75,6 +75,8 @@ const UserReservationList = () => {
 
 	useEffect(() => {
 		Server();
+		// TODO: 서버 연결 후 수정
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	return (

@@ -73,7 +73,7 @@ const MyPage = () => {
 					{isDropdownOpen && (
 						<DropdownContent>
 							<CouponRegistration>
-								<input type="text" placeholder="0000-0000-0000-0000" />
+								<input type="text" placeholder="쿠폰번호 입력" />
 								<button onClick={modalOpen}>등록</button>
 							</CouponRegistration>
 							<DropCouponList>
@@ -105,11 +105,38 @@ export default MyPage;
 
 const MyPageWrapper = styled.div`
 	width: 100%;
-	height: 100vh;
 	display: grid;
 	grid-template-columns: 0.2fr 1fr 0.2fr;
 	grid-template-rows: 0.2fr 0.5fr 0.1fr 0.1fr 1fr 0.5fr;
 	justify-content: center;
+
+	@media (max-width: 900px) {
+		font-size: 1rem;
+	}
+
+	@media (max-width: 430px) {
+		font-size: 0.8rem;
+	}
+
+	@media (max-width: 320px) {
+		font-size: 0.5rem;
+	}
+
+	img {
+		@media (max-width: 900px) {
+			width: 1rem;
+		}
+
+		@media (max-width: 430px) {
+			width: 0.8rem;
+			margin-right: 1vw;
+		}
+
+		@media (max-width: 320px) {
+			width: 0.7rem;
+			margin-right: 1vw;
+		}
+	}
 `;
 
 const MyPageIconContainer = styled.div`
@@ -211,11 +238,35 @@ const CouponRegistration = styled.div`
 	display: grid;
 	grid-template-columns: 5fr 1fr;
 
+	@media (max-width: 900px) {
+		grid-template-columns: 5fr 1fr;
+	}
+
+	@media (max-width: 430px) {
+		grid-template-columns: 5fr 1fr;
+	}
+
+	@media (max-width: 320px) {
+		grid-template-columns: 4fr 2fr;
+	}
+
 	button {
 		justify-self: center;
 		color: ${color.color1};
 		border: 1px solid ${color.unSelectColor};
 		border-radius: 0.4rem;
+
+		@media (max-width: 900px) {
+			font-size: 0.8rem;
+		}
+
+		@media (max-width: 430px) {
+			font-size: 0.5rem;
+		}
+
+		@media (max-width: 320px) {
+			font-size: 0.05rem;
+		}
 	}
 
 	button:hover {
@@ -235,6 +286,21 @@ const CouponRegistration = styled.div`
 		padding: 0.5rem;
 		font-size: 1rem;
 		text-align: center;
+
+		@media (max-width: 900px) {
+			font-size: 0.8rem;
+		}
+
+		@media (max-width: 430px) {
+			justify-self: center;
+			font-size: 0.5rem;
+		}
+
+		@media (max-width: 320px) {
+			justify-self: center;
+			width: 90%;
+			font-size: 0.05rem;
+		}
 	}
 `;
 
@@ -253,6 +319,27 @@ const TabContainer = styled.div`
 	grid-template-columns: 1fr;
 	grid-template-rows: 1fr;
 	justify-items: center;
+
+	@media (max-width: 900px) {
+		font-size: 1rem;
+		hr {
+			width: 100%;
+		}
+	}
+
+	@media (max-width: 430px) {
+		font-size: 0.5rem;
+		hr {
+			width: 100%;
+		}
+	}
+
+	@media (max-width: 320px) {
+		font-size: 0.8rem;
+		hr {
+			width: 100%;
+		}
+	}
 `;
 
 const MyPageContentsContainer = styled.div`
