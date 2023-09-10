@@ -128,7 +128,7 @@ const ReservationList: React.FC<UserReservationListProps> = ({ reservations }) =
 
 	const modalOpen = () => {
 		const modalSize = window.innerWidth >= 1000 ? 500 : 400;
-		dispatch(openModal({ modalComponent: 'cancel', modalSize: modalSize }));
+		dispatch(openModal({ modalComponent: 'instruction', modalSize: modalSize, modalText: '예약을 취소하시겠습니까?' }));
 	};
 
 	return (
