@@ -48,7 +48,7 @@ const MyPage = () => {
 
 	const modalOpen = () => {
 		const modalSize = window.innerWidth >= 1000 ? 500 : 400;
-		dispatch(openModal({ modalComponent: 'couponregistration', modalSize: modalSize }));
+		dispatch(openModal({ modalComponent: 'couponRegistration', modalSize: modalSize, modalText: '쿠폰번호를 입력하세요.' }));
 	};
 
 	return (
