@@ -10,7 +10,6 @@ const CommonInstruction = () => {
 	const modalComp = useAppSelector(modalComponent);
 
 	const text = useAppSelector(modalText);
-	console.log(text);
 	const instrunctionFunc = useAppSelector(modalFunc);
 	const [couponNumber, setCouponNumber] = useState<string>('');
 
