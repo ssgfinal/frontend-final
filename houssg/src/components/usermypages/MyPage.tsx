@@ -1,6 +1,6 @@
 import { styled } from 'styled-components';
-
 import { useState } from 'react';
+
 import { useAppDispatch } from '../../hooks';
 import { openModal } from '../../store/redux/modalSlice';
 import { TabMenu } from '../common/TabMenu';
@@ -11,8 +11,25 @@ import MyFavorite from './MyFavorite';
 
 import { color } from '../../assets/styles';
 import { CouponIcon, MyPointIcon, ProfileCircle } from '../../assets/icons';
+import MyCoupons from './MyCoupons';
 
-const MyPage: React.FC = () => {
+const coupons = [
+	{
+		userId: 'abc',
+		couponNumber: 123456724124,
+		couponName: '9월 이벤트',
+		isUsed: 0,
+		couponDiscount: 10000,
+	},
+	{
+		userId: 'abc',
+		couponNumber: 231721984721,
+		couponName: '9월 빅세일',
+		isUsed: 0,
+		couponDiscount: 50000,
+	},
+];
+const MyPage = () => {
 	const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
 	const toggleDropdown = () => {
@@ -52,16 +69,20 @@ const MyPage: React.FC = () => {
 						<div>
 							쿠폰함<CouponList onClick={toggleDropdown}>{isDropdownOpen ? <>&#9650;</> : <>&#9660;</>}</CouponList>
 						</div>
-						<CouponRegistration>
-							<button onClick={modalOpen}>쿠폰등록</button>
-						</CouponRegistration>
 					</MyCoupon>
 					{isDropdownOpen && (
 						<DropdownContent>
-							<div>
-								<div>쿠폰명 쿠폰번호</div>
-								<span>쿠폰가격</span>
-							</div>
+							<CouponRegistration>
+								<input type="text" placeholder="0000-0000-0000-0000" />
+								<button onClick={modalOpen}>등록</button>
+							</CouponRegistration>
+							<DropCouponList>
+								{coupons.map((coupon, index) => (
+									<div key={index}>
+										<MyCoupons coupons={coupon} />
+									</div>
+								))}
+							</DropCouponList>
 						</DropdownContent>
 					)}
 				</MyPageMainBox>
@@ -174,15 +195,46 @@ const CouponList = styled.button`
 	border: none;
 `;
 
-const DropdownContent = styled.div``;
+const DropdownContent = styled.div`
+	border-top: 1px solid ${color.unSelectColor};
+	padding: 1vw;
+`;
+
+const DropCouponList = styled.div`
+	margin-top: 1vw;
+	padding-left: 2vw;
+	padding-right: 2vw;
+	text-align: left;
+`;
 
 const CouponRegistration = styled.div`
-	justify-self: right;
+	display: grid;
+	grid-template-columns: 5fr 1fr;
+
 	button {
-		cursor: pointer;
+		justify-self: center;
 		color: ${color.color1};
 		border: 1px solid ${color.unSelectColor};
 		border-radius: 0.4rem;
+	}
+
+	button:hover {
+		cursor: pointer;
+		border: 1px solid ${color.color3};
+		color: ${color.backColor};
+		background-color: ${color.color3};
+	}
+
+	input {
+		justify-self: right;
+		outline: none;
+		color: ${color.color1};
+		border: 1px solid ${color.unSelectColor};
+		border-radius: 1rem;
+		width: 95%;
+		padding: 0.5rem;
+		font-size: 1rem;
+		text-align: center;
 	}
 `;
 
