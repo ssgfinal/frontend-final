@@ -5,9 +5,13 @@ export interface ModalState {
 	isModalOpen: boolean;
 	modalComponent: string;
 	modalSize: string | number;
+	modalText?: string;
 	modalProps?: {
 		[key: string]: string | number | boolean;
 	};
+	//TODO: 추후 타입지정
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	modalFunc?: any;
 }
 
 const initialState: ModalState = {
@@ -15,6 +19,8 @@ const initialState: ModalState = {
 	modalComponent: '',
 	modalSize: '500px',
 	modalProps: {},
+	modalFunc: '함수가 실행되었습니다.',
+	modalText: '',
 };
 
 export const modalSlice = createSlice({
@@ -32,11 +38,16 @@ export const modalSlice = createSlice({
 			if (action.payload.modalProps) {
 				state.modalProps = action.payload.modalProps;
 			}
+			if (action.payload.modalText) {
+				state.modalText = action.payload.modalText;
+			}
 		},
 		closeModal: (state) => {
 			state.modalComponent = '';
 			state.isModalOpen = false;
 			state.modalProps = {};
+			state.modalFunc = '';
+			state.modalText = '';
 		},
 	},
 });
@@ -47,5 +58,7 @@ export const isModalOpen = (state: RootState) => state.modal.isModalOpen;
 export const modalComponent = (state: RootState) => state.modal.modalComponent;
 export const modalSize = (state: RootState) => state.modal.modalSize;
 export const modalProps = (state: RootState) => state.modal.modalProps;
+export const modalFunc = (state: RootState) => state.modal.modalFunc;
+export const modalText = (state: RootState) => state.modal.modalText;
 
 export default modalSlice.reducer;

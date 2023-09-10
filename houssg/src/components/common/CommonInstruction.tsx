@@ -1,27 +1,17 @@
 import { styled } from 'styled-components';
 
-import { closeModal, modalComponent } from '../../store/redux/modalSlice';
+import { closeModal, modalComponent, modalFunc, modalText } from '../../store/redux/modalSlice';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 
 import { color } from '../../assets/styles';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 const CommonInstruction = () => {
 	const modalComp = useAppSelector(modalComponent);
 
-	const [instructionText, setInstructionText] = useState<string>('');
-
+	const text = useAppSelector(modalText);
+	const instrunctionFunc = useAppSelector(modalFunc);
 	const [couponNumber, setCouponNumber] = useState<string>('');
-
-	useEffect(() => {
-		if (modalComp === 'cancel') {
-			setInstructionText('예약을 취소하시겠습니까?');
-		} else if (modalComp === 'update') {
-			setInstructionText('정보를 수정하시겠습니까?');
-		} else if (modalComp === 'couponregistration') {
-			setInstructionText('쿠폰번호를 입력하세요.');
-		}
-	}, [modalComp]);
 
 	const dispatch = useAppDispatch();
 	const onCloseModal = () => {
@@ -29,16 +19,7 @@ const CommonInstruction = () => {
 	};
 
 	const instructionYes = () => {
-		if (modalComp === 'cancel') {
-			// TODO: 삭제하기 기능 구현
-			alert('삭제되었습니다.');
-		} else if (modalComp === 'update') {
-			// TODO: 수정하기 기능 구현
-			alert('수정되었습니다.');
-		} else if (modalComp === 'couponregistration') {
-			// TODO: 쿠폰등록 기능 구현
-			alert('등록되었습니다.');
-		}
+		alert(instrunctionFunc);
 		dispatch(closeModal());
 	};
 
@@ -49,8 +30,8 @@ const CommonInstruction = () => {
 	return (
 		<InstructionGrid>
 			<div className="instruction">
-				<div>{instructionText}</div>
-				<div>{modalComp === 'couponregistration' && <CouponNumberBox type="text" value={couponNumber} onChange={handleCouponNumberChange} />}</div>
+				<div>{text}</div>
+				<div>{modalComp === 'couponRegistration' && <CouponNumberBox type="text" value={couponNumber} onChange={handleCouponNumberChange} />}</div>
 			</div>
 			<InstructionYesButton>
 				<button onClick={instructionYes}>예</button>
