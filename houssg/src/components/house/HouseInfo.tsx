@@ -4,6 +4,7 @@ import { styled } from 'styled-components';
 import { accomodation } from '../../assets/icons';
 import Rating from '../common/Rating';
 
+import { nosmoke } from '../../assets/icons';
 export const HouseInfo = () => {
 	const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
@@ -14,6 +15,8 @@ export const HouseInfo = () => {
 	const rate = 3.4;
 	const location = '부산시 수영구 수영동';
 	const reviewCnt = 11400;
+	const startTime = 13;
+	const endTime = 11;
 
 	// 숫자를 1000 단위로 포맷하는 함수
 	const formatNumber = (value: number) => {
@@ -32,7 +35,9 @@ export const HouseInfo = () => {
 				<div>{location}</div>
 				<div>
 					<div>
-						시설 및 서비스 더보기
+						시설 및 서비스
+						<br />
+						{nosmoke}
 						<MoreService onClick={toggleDropdown}>{isDropdownOpen ? '▲' : '▼'}</MoreService>
 					</div>
 					{isDropdownOpen && (
@@ -40,6 +45,9 @@ export const HouseInfo = () => {
 							<p>더 많은 시설 및 서비스</p>
 						</DropdownContent>
 					)}
+				</div>
+				<div>
+					입실 ~ 퇴실 : {startTime}시 ~ {endTime}시
 				</div>
 			</Info>
 		</Container>
