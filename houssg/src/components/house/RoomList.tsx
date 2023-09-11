@@ -38,7 +38,7 @@ export const RoomList = () => {
 	return (
 		<Wrapper>
 			{rooms.map((room) => (
-				<RoomDetail room={room} key={room.id} />
+				<RoomDetail key={room.id} room={room} />
 			))}
 		</Wrapper>
 	);
@@ -47,13 +47,19 @@ export const RoomList = () => {
 const Wrapper = styled.div`
 	padding: 1rem 0;
 	display: grid;
-	grid-template-columns: 1fr 1fr;
 
-	@media (min-width: 800px) {
+	@media (min-width: 930px) {
+		grid-template-columns: 1fr 1fr;
 		grid-gap: 5rem;
 	}
 
-	@media (max-width: 800px) {
-		grid-gap: 1rem;
+	@media (min-width: 650px) and (max-width: 930px) {
+		grid-template-columns: 1fr 1fr;
+		grid-gap: 2rem;
+	}
+
+	@media (max-width: 650px) {
+		grid-template-columns: 1fr;
+		/* grid-gap: 1rem; */
 	}
 `;

@@ -79,11 +79,25 @@ const Between = styled.div`
 	justify-content: space-between;
 `;
 const Center = styled.div`
+	@media (min-width: 950px) {
+		width: 65%;
+	}
+
+	@media (max-width: 950px) {
+		width: 55%;
+	}
+
 	align-self: center;
 `;
 
 const Button = styled.button`
-	width: 30%;
+	@media (min-width: 950px) {
+		width: 35%;
+	}
+
+	@media (max-width: 950px) {
+		width: 45%;
+	}
 	height: 2.5rem;
 	background-color: ${color.color2};
 	border: none;
