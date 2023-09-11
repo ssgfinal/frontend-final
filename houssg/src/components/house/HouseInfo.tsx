@@ -60,12 +60,7 @@ const Container = styled.div`
 	}
 `;
 const Img = styled.img`
-	@media (min-width: 750px) {
-		width: 40vw;
-	}
-	@media (max-width: 750px) {
-		width: 68vw;
-	}
+	width: 100%;
 `;
 
 const Info = styled.div`
