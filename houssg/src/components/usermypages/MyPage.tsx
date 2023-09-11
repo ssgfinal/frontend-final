@@ -10,8 +10,9 @@ import MyReview from './MyReview';
 import MyFavorite from './MyFavorite';
 
 import { color } from '../../assets/styles';
-import { CouponIcon, MyPointIcon, ProfileCircle } from '../../assets/icons';
+import { CouponIcon, MyPointIcon, ProfileCircle, accomodation } from '../../assets/icons';
 import MyCoupons from './MyCoupons';
+//import { Review } from '../house/Review';
 
 const coupons = [
 	{
@@ -29,6 +30,42 @@ const coupons = [
 		couponDiscount: 50000,
 	},
 ];
+
+const reviews = [
+	{
+		reservationNumber: 1234567,
+		houseId: 7689,
+		accomName: '가나다 Hotel',
+		userId: 'abc',
+		writedate: '2023-09-11',
+		outdoorView: accomodation,
+		rating: 4.5,
+		content: '야호 후기 좀 보여줭~',
+	},
+	{
+		reservationNumber: 7654321,
+		houseId: 1234,
+		accomName: '라마바 Hotel',
+		userId: 'abc',
+		writedate: '2023-09-12',
+		outdoorView: accomodation,
+		rating: 3.5,
+		content:
+			'보통이네용ggggsaddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddggggggggggggggggggffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffggggggggggggggggggggggggggggggggggggggggggggg',
+	},
+	{
+		reservationNumber: 7664371,
+		houseId: 1234,
+		accomName: '사자 Hotel',
+		userId: 'abc',
+		writedate: '2023-09-12',
+		outdoorView: undefined,
+		rating: 4.0,
+		content:
+			'사진이 없네욯ㅎㅎfsafasfasfagasdgregaregraaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaasfsafafsfasfasfasfasfasfasfㅎ리뷰테스트 길게 써보기~~~~~~gdsgssfaaaaaaaaaaaaaaaaaaaaaaaadgsdgsdgsdgsdsgsg~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~',
+	},
+];
+
 const MyPage = () => {
 	const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
@@ -38,7 +75,7 @@ const MyPage = () => {
 
 	const tabObj = [
 		['MyInformation', '나의 정보'],
-		['MyReview', '나의 리뷰'],
+		['MyReview', '나의 후기'],
 		['MyFavorite', '찜한 숙소'],
 	];
 
@@ -95,7 +132,7 @@ const MyPage = () => {
 				<div></div>
 			</MyPageTabContainer>
 			<MyPageContentsContainer>
-				{clickTab === 'MyInformation' ? <MyInformation /> : clickTab === 'MyReview' ? <MyReview /> : <MyFavorite />}
+				{clickTab === 'MyInformation' ? <MyInformation /> : clickTab === 'MyReview' ? <MyReview reviews={reviews} /> : <MyFavorite />}
 			</MyPageContentsContainer>
 		</MyPageWrapper>
 	);
@@ -107,7 +144,7 @@ const MyPageWrapper = styled.div`
 	width: 100%;
 	display: grid;
 	grid-template-columns: 0.2fr 1fr 0.2fr;
-	grid-template-rows: 0.2fr 0.5fr 0.1fr 0.1fr 1fr 0.5fr;
+	grid-template-rows: 50px 0.3fr 0.01fr 0.03fr 1fr 50px;
 	justify-content: center;
 
 	@media (max-width: 900px) {
@@ -335,7 +372,14 @@ const TabContainer = styled.div`
 	}
 
 	@media (max-width: 320px) {
-		font-size: 0.8rem;
+		font-size: 0.9rem;
+		hr {
+			width: 100%;
+		}
+	}
+
+	@media (max-width: 255px) {
+		font-size: 0.5rem;
 		hr {
 			width: 100%;
 		}
