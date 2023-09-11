@@ -4,7 +4,7 @@ import { styled } from 'styled-components';
 import { accomodation } from '../../assets/icons';
 import Rating from '../common/Rating';
 
-import { nosmoke } from '../../assets/icons';
+import { nosmoke, ott } from '../../assets/icons';
 export const HouseInfo = () => {
 	const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
@@ -34,20 +34,24 @@ export const HouseInfo = () => {
 				(후기 : {formatNumber(reviewCnt)}개)
 				<div>{location}</div>
 				<div>
+					입실 ~ 퇴실 : {startTime}시 ~ {endTime}시
+				</div>
+				<div>
 					<div>
 						시설 및 서비스
 						<br />
-						<img src={nosmoke} />
-						<MoreService onClick={toggleDropdown}>{isDropdownOpen ? '▲' : '▼'}</MoreService>
+						<Service>
+							<Icon src={nosmoke} />
+							<Icon src={ott} />
+
+							<MoreService onClick={toggleDropdown}>{isDropdownOpen ? '▲' : '▼'}</MoreService>
+						</Service>
 					</div>
 					{isDropdownOpen && (
 						<DropdownContent>
 							<p>더 많은 시설 및 서비스</p>
 						</DropdownContent>
 					)}
-				</div>
-				<div>
-					입실 ~ 퇴실 : {startTime}시 ~ {endTime}시
 				</div>
 			</Info>
 		</Container>
@@ -91,4 +95,13 @@ const MoreService = styled.button`
 
 const DropdownContent = styled.div`
 	position: absolute;
+`;
+
+const Icon = styled.img`
+	margin: 0.5rem;
+	width: 1.5rem;
+`;
+
+const Service = styled.div`
+	display: flex;
 `;
