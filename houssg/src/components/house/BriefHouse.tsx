@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
 
 import Rating from '../common/Rating';
-import HeartIcons from '../common/HeartIcons';
 
 interface House {
 	house: {
