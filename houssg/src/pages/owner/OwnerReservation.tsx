@@ -1,5 +1,11 @@
+import { CommonCalendar } from '../../components/common';
+
 const OwnerReservation = () => {
-	return <div>reservation</div>;
+	return (
+		<div>
+			<CommonCalendar />
+		</div>
+	);
 };
 
 export default OwnerReservation;
