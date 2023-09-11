@@ -4,6 +4,7 @@ import { styled } from 'styled-components';
 import { accomodation } from '../../assets/icons';
 import Rating from '../common/Rating';
 
+import { nosmoke, ott } from '../../assets/icons';
 export const HouseInfo = () => {
 	const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
@@ -14,6 +15,8 @@ export const HouseInfo = () => {
 	const rate = 3.4;
 	const location = '부산시 수영구 수영동';
 	const reviewCnt = 11400;
+	const startTime = 13;
+	const endTime = 11;
 
 	// 숫자를 1000 단위로 포맷하는 함수
 	const formatNumber = (value: number) => {
@@ -31,9 +34,18 @@ export const HouseInfo = () => {
 				(후기 : {formatNumber(reviewCnt)}개)
 				<div>{location}</div>
 				<div>
+					입실 ~ 퇴실 : {startTime}시 ~ {endTime}시
+				</div>
+				<div>
 					<div>
-						시설 및 서비스 더보기
-						<MoreService onClick={toggleDropdown}>{isDropdownOpen ? '▲' : '▼'}</MoreService>
+						시설 및 서비스
+						<br />
+						<Service>
+							<Icon src={nosmoke} />
+							<Icon src={ott} />
+
+							<MoreService onClick={toggleDropdown}>{isDropdownOpen ? '▲' : '▼'}</MoreService>
+						</Service>
 					</div>
 					{isDropdownOpen && (
 						<DropdownContent>
@@ -78,4 +90,13 @@ const MoreService = styled.button`
 
 const DropdownContent = styled.div`
 	position: absolute;
+`;
+
+const Icon = styled.img`
+	margin: 0.5rem;
+	width: 1.5rem;
+`;
+
+const Service = styled.div`
+	display: flex;
 `;
