@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { color } from '../../assets/styles/theme';
@@ -15,6 +16,8 @@ interface RoomProps {
 }
 
 export const RoomDetail: React.FC<RoomProps> = ({ room }) => {
+	const navigate = useNavigate();
+
 	// 숫자를 1000 단위로 포맷하는 함수
 	const formatNumber = (value: number) => {
 		return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
@@ -37,7 +40,13 @@ export const RoomDetail: React.FC<RoomProps> = ({ room }) => {
 				</div>
 				<Between>
 					<Center>{formatNumber(room.price)}원</Center>
-					<Button>예약하기</Button>
+					<Button
+						onClick={() => {
+							navigate(`/user/reservation/${room.id}`);
+						}}
+					>
+						예약하기
+					</Button>
 				</Between>
 			</Info>
 		</Wrapper>
