@@ -37,7 +37,7 @@ export const HouseInfo = () => {
 					<div>
 						시설 및 서비스
 						<br />
-						{nosmoke}
+						<img src={nosmoke} />
 						<MoreService onClick={toggleDropdown}>{isDropdownOpen ? '▲' : '▼'}</MoreService>
 					</div>
 					{isDropdownOpen && (
