@@ -22,7 +22,7 @@ interface ReviewList {
 
 const MyReview: React.FC<ReviewList> = ({ reviews }) => {
 	const navigate = useNavigate();
-	console.log('📌🏚️🏢🏬🚨💌💡💜');
+	//console.log('📌🏚️🏢🏬🚨💌💡💜');
 	const handleTextareaChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
 		const textarea = event.target;
 		textarea.style.height = 'auto'; // 높이를 자동으로 조절하기 위해 초기화
@@ -97,6 +97,17 @@ const CommentContainer = styled.div`
 	background-color: ${color.lightGrayColor};
 	color: ${color.basicColor};
 	border-radius: 0.5rem;
+	@media (max-width: 900px) {
+		font-size: 0.8rem;
+	}
+
+	@media (max-width: 430px) {
+		font-size: 0.5rem;
+	}
+
+	@media (max-width: 320px) {
+		font-size: 0.5rem;
+	}
 `;
 
 const HouseReviewNickName = styled.div`
@@ -112,7 +123,7 @@ const HouseReviewDate = styled.div`
 
 const HouseReviewContent = styled.div`
 	text-align: left;
-	padding: 1vw 2.5vw 0vw 2.5vw;
+	padding: 1vw 0vw 0vw 0vw;
 `;
 
 const MyReviewBox = styled.div`
@@ -152,6 +163,22 @@ const HouseBox = styled.div`
 	text-align: left;
 	display: grid;
 	grid-template-columns: 10fr 1fr;
+
+	&:hover {
+		cursor: pointer;
+	}
+
+	@media (max-width: 900px) {
+		font-size: 1rem;
+	}
+
+	@media (max-width: 430px) {
+		font-size: 0.8rem;
+	}
+
+	@media (max-width: 320px) {
+		font-size: 0.5rem;
+	}
 `;
 
 const ArrowBox = styled.div`
@@ -277,14 +304,14 @@ const TextareaField = styled.textarea`
 	background-color: transparent;
 	resize: none;
 	font-family: monospace;
-	font-size: 0.8rem;
+	font-size: 1rem;
 
 	@media (max-width: 900px) {
-		font-size: 1rem;
+		font-size: 0.8rem;
 	}
 
 	@media (max-width: 430px) {
-		font-size: 0.8rem;
+		font-size: 0.5rem;
 	}
 
 	@media (max-width: 320px) {
@@ -316,14 +343,14 @@ const NonImageField = styled.textarea`
 	background-color: transparent;
 	resize: none;
 	font-family: monospace;
-	font-size: 0.8rem;
+	font-size: 1rem;
 
 	@media (max-width: 900px) {
-		font-size: 1rem;
+		font-size: 0.8rem;
 	}
 
 	@media (max-width: 430px) {
-		font-size: 0.8rem;
+		font-size: 0.5rem;
 	}
 
 	@media (max-width: 320px) {

@@ -55,25 +55,45 @@ const reviews = [
 		reviewImage: accomodation,
 		rating: 3.5,
 		content:
-			'보통이네용ggggsadddddddddddd dddddddddddddddddddddddddddd ddddddddddddddddddddddddddddddggggggggggggggggggffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffggggggggggggggggggggggggggggggggggggggggggggg',
+			'보통이네용 후기를 작성해야 하는데 작성하기 싫어용 근데 써야해요 어쩌죠? 쓸 내용이 없습니다. 이제 없음 진짜 없음 어떡하지ㅠㅠㅠㅠ하지만 써야하겠죠 가나다라마바사아자차카타파하',
 		commentDate: '2023-09-13',
 		commentContent: '감사용~~~',
 	},
 	{
 		reservationNumber: 7664371,
-		houseId: 1234,
-		accomName: '사자 Hotel',
+		houseId: 1235,
+		accomName: '사아자 Hotel',
 		userId: 'abc',
 		roomType: '스위트룸',
 		writeDate: '2023-09-13',
 		reviewImage: null,
 		rating: 4.0,
 		content:
-			'사진이 없네욯ㅎㅎfsafasfasfagasdgregaregraaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaasfsafafsfasfasfasfasfasfasfㅎ리뷰테스트 길게 써보기~~~~~~gdsgssfaaaaaaaaaaaaaaaaaaaaaaaadgsdgsdgsdgsdsgsg~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~',
+			'Lorem ipsum dolor sit amet consectetur adipisicing elit. Itaque, fugiat adipisci deserunt porro quia totam provident animi nemo labore temporibus voluptatem mollitia nostrum assumenda enim similique in doloribus eos consequatur.',
 		commentDate: '2023-09-14',
 		commentContent: '감사해용~~~',
 	},
 ];
+
+const favorites = [
+	{
+		houseId: 1235,
+		accomName: '사아자 Hotel',
+		houseAddress: '강원도 영월군 무릉도원면 명마동길 44-37',
+		userId: 'abc',
+		rating: 4.0,
+		favorite: true,
+	},
+	{
+		houseId: 1234,
+		accomName: '라마바 Hotel',
+		houseAddress: '전라북도 전주시 완산구 향교길 23-3',
+		userId: 'abc',
+		rating: 3.5,
+		favorite: true,
+	},
+];
+// lorem 하고 tab하면 예시내용이 나온다!치지말자!
 
 const MyPage = () => {
 	const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -141,7 +161,13 @@ const MyPage = () => {
 				<div></div>
 			</MyPageTabContainer>
 			<MyPageContentsContainer>
-				{clickTab === 'MyInformation' ? <MyInformation /> : clickTab === 'MyReview' ? <MyReview reviews={reviews} /> : <MyFavorite />}
+				{clickTab === 'MyInformation' ? (
+					<MyInformation />
+				) : clickTab === 'MyReview' ? (
+					<MyReview reviews={reviews} />
+				) : (
+					<MyFavorite favorites={favorites} />
+				)}
 			</MyPageContentsContainer>
 		</MyPageWrapper>
 	);
