@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { AddressFinder } from '../../components/owner/register';
 
 const OwnerHouseRegister = () => {
 	return (
@@ -9,9 +10,8 @@ const OwnerHouseRegister = () => {
 			<div>
 				숙소명 : <input />
 			</div>
-			<div>
-				숙소위치 : <KakaoMap />
-			</div>
+			<div>숙소위치</div>
+			<AddressFinder />
 			<div>
 				숙소 전화 번호 : <input />
 			</div>

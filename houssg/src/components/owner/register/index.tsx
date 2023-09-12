@@ -1,3 +1,2 @@
-// import KakaoMap from './KakaoMap';
-
-// export { KakaoMap };
+import AddressFinder from './AddressFinder';
+export { AddressFinder };
