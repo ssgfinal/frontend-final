@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { KakaoMap } from '../../components/owner/register';
 
 const OwnerHouseRegister = () => {
 	return (

@@ -1,3 +1,3 @@
-import KakaoMap from './KakaoMap';
+// import KakaoMap from './KakaoMap';
 
-export { KakaoMap };
+// export { KakaoMap };
