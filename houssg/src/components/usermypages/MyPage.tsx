@@ -37,8 +37,9 @@ const reviews = [
 		houseId: 7689,
 		accomName: '가나다 Hotel',
 		userId: 'abc',
+		roomtype: '패밀리룸',
 		writedate: '2023-09-11',
-		outdoorView: accomodation,
+		reviewImage: accomodation,
 		rating: 4.5,
 		content: '야호 후기 좀 보여줭~',
 	},
@@ -47,19 +48,21 @@ const reviews = [
 		houseId: 1234,
 		accomName: '라마바 Hotel',
 		userId: 'abc',
+		roomtype: '더블룸',
 		writedate: '2023-09-12',
-		outdoorView: accomodation,
+		reviewImage: accomodation,
 		rating: 3.5,
 		content:
-			'보통이네용ggggsaddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddggggggggggggggggggffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffggggggggggggggggggggggggggggggggggggggggggggg',
+			'보통이네용ggggsadddddddddddd dddddddddddddddddddddddddddd ddddddddddddddddddddddddddddddggggggggggggggggggffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffggggggggggggggggggggggggggggggggggggggggggggg',
 	},
 	{
 		reservationNumber: 7664371,
 		houseId: 1234,
 		accomName: '사자 Hotel',
 		userId: 'abc',
+		roomtype: '스위트룸',
 		writedate: '2023-09-12',
-		outdoorView: undefined,
+		reviewImage: null,
 		rating: 4.0,
 		content:
 			'사진이 없네욯ㅎㅎfsafasfasfagasdgregaregraaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaasfsafafsfasfasfasfasfasfasfㅎ리뷰테스트 길게 써보기~~~~~~gdsgssfaaaaaaaaaaaaaaaaaaaaaaaadgsdgsdgsdgsdsgsg~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~',
@@ -158,22 +161,6 @@ const MyPageWrapper = styled.div`
 	@media (max-width: 320px) {
 		font-size: 0.5rem;
 	}
-
-	img {
-		@media (max-width: 900px) {
-			width: 1rem;
-		}
-
-		@media (max-width: 430px) {
-			width: 0.8rem;
-			margin-right: 1vw;
-		}
-
-		@media (max-width: 320px) {
-			width: 0.7rem;
-			margin-right: 1vw;
-		}
-	}
 `;
 
 const MyPageIconContainer = styled.div`
@@ -220,6 +207,21 @@ const MyNickName = styled.div`
 
 const ProfileImg = styled.img`
 	width: 1.2rem;
+	img {
+		@media (max-width: 900px) {
+			width: 1rem;
+		}
+
+		@media (max-width: 430px) {
+			width: 0.8rem;
+			margin-right: 1vw;
+		}
+
+		@media (max-width: 320px) {
+			width: 0.7rem;
+			margin-right: 1vw;
+		}
+	}
 `;
 
 const MyPoint = styled.div`
@@ -237,6 +239,21 @@ const MyPoint = styled.div`
 
 const PointImg = styled.img`
 	width: 1.2rem;
+	img {
+		@media (max-width: 900px) {
+			width: 1rem;
+		}
+
+		@media (max-width: 430px) {
+			width: 0.8rem;
+			margin-right: 1vw;
+		}
+
+		@media (max-width: 320px) {
+			width: 0.7rem;
+			margin-right: 1vw;
+		}
+	}
 `;
 
 const MyCoupon = styled.div`
@@ -251,6 +268,21 @@ const MyCoupon = styled.div`
 
 const CouponImg = styled.img`
 	width: 1.2rem;
+	img {
+		@media (max-width: 900px) {
+			width: 1rem;
+		}
+
+		@media (max-width: 430px) {
+			width: 0.8rem;
+			margin-right: 1vw;
+		}
+
+		@media (max-width: 320px) {
+			width: 0.7rem;
+			margin-right: 1vw;
+		}
+	}
 `;
 
 const CouponList = styled.button`
