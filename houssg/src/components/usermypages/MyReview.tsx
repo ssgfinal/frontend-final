@@ -10,17 +10,19 @@ interface ReviewList {
 		houseId: number;
 		accomName: string;
 		userId: string;
-		roomtype: string;
-		writedate: string;
+		roomType: string;
+		writeDate: string;
 		reviewImage: string | null;
 		rating: number;
 		content: string;
+		commentDate: string | null;
+		commentContent: string | null;
 	}>;
 }
 
 const MyReview: React.FC<ReviewList> = ({ reviews }) => {
 	const navigate = useNavigate();
-
+	console.log('📌🏚️🏢🏬🚨💌💡💜');
 	const handleTextareaChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
 		const textarea = event.target;
 		textarea.style.height = 'auto'; // 높이를 자동으로 조절하기 위해 초기화
@@ -41,27 +43,34 @@ const MyReview: React.FC<ReviewList> = ({ reviews }) => {
 								{review.accomName}&nbsp;({review.reservationNumber})<input type="hidden" value={review.houseId} />
 								<ArrowBox>&gt;</ArrowBox>
 							</HouseBox>
-							<RoomBox>{review.roomtype}</RoomBox>
+							<RoomBox>{review.roomType}</RoomBox>
 							<RateBox>
 								<Rating rate={review.rating} readonly />
 							</RateBox>
-							<DateBox>{review.writedate}</DateBox>
+							<DateBox>{review.writeDate}</DateBox>
 							<ContentsBox>
 								<ContentBox>
 									<ImageBox>{review.reviewImage && <img src={review.reviewImage} />}</ImageBox>
 
 									{review.reviewImage ? (
-										<TextareaField cols={63} rows={5} onChange={handleTextareaChange} value={review.content} readOnly={true}>
+										<TextareaField cols={63} rows={8} onChange={handleTextareaChange} value={review.content} readOnly={true}>
 											{review.content}
 										</TextareaField>
 									) : (
-										<NonImageField cols={120} rows={10} onChange={handleTextareaChange} value={review.content} readOnly={true}>
+										<NonImageField cols={120} rows={8} onChange={handleTextareaChange} value={review.content} readOnly={true}>
 											{review.content}
 										</NonImageField>
 									)}
 								</ContentBox>
 							</ContentsBox>
 						</MyReviewBox>
+						{review.commentContent && (
+							<CommentContainer>
+								<HouseReviewNickName>💌숙소답변</HouseReviewNickName>
+								<HouseReviewDate>{review.commentDate}</HouseReviewDate>
+								<HouseReviewContent>{review.commentContent}</HouseReviewContent>
+							</CommentContainer>
+						)}
 					</div>
 				))}
 			</MyReviewContainer>
@@ -71,9 +80,40 @@ const MyReview: React.FC<ReviewList> = ({ reviews }) => {
 
 export default MyReview;
 
-const MyReviewWrapper = styled.div``;
+const MyReviewWrapper = styled.div`
+	width: 100%;
+`;
 
-const MyReviewContainer = styled.div``;
+const MyReviewContainer = styled.div`
+	width: 100%;
+`;
+
+const CommentContainer = styled.div`
+	margin: 0vw 3vw 3vw 3vw;
+	padding: 1vw 1vw 1vw 1vw;
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	grid-template-rows: 1fr 2fr;
+	background-color: ${color.lightGrayColor};
+	color: ${color.basicColor};
+	border-radius: 0.5rem;
+`;
+
+const HouseReviewNickName = styled.div`
+	text-align: left;
+	padding: 0vw 0vw 1vw 0vw;
+	font-weight: bold;
+`;
+
+const HouseReviewDate = styled.div`
+	text-align: right;
+	padding: 0vw 0vw 1vw 0vw;
+`;
+
+const HouseReviewContent = styled.div`
+	text-align: left;
+	padding: 1vw 2.5vw 0vw 2.5vw;
+`;
 
 const MyReviewBox = styled.div`
 	margin: 1vw;
@@ -82,6 +122,7 @@ const MyReviewBox = styled.div`
 	display: grid;
 	grid-template-columns: 1fr 0.5fr 1fr;
 	grid-template-rows: 1fr 1fr 1fr 5fr;
+	//background-color: green;
 
 	@media (max-width: 900px) {
 		font-size: 1rem;
@@ -101,7 +142,10 @@ const HouseBox = styled.div`
 	grid-column-end: 4;
 	grid-row-start: 1;
 	grid-row-end: 2;
-	background-color: ${color.unSelectColor};
+	background-color: ${color.color1};
+	color: ${color.backColor};
+	font-weight: bold;
+	//background-color: ${color.unSelectColor};
 	border-radius: 0.3rem;
 	align-self: center;
 	padding: 1vw;
@@ -121,7 +165,7 @@ const RoomBox = styled.div`
 	grid-row-end: 3;
 	text-align: left;
 	font-weight: bold;
-	color: ${color.color1};
+	//color: ${color.color1};
 	padding: 1vw 1vw 0vw 1vw;
 `;
 
@@ -191,7 +235,7 @@ const ImageBox = styled.div`
 	grid-column-end: 2;
 
 	img {
-		width: 25vw;
+		width: 100%;
 		justify-self: center;
 	}
 
