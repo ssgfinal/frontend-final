@@ -4,7 +4,6 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 // import timeGridPlugin from "@fullcalendar/timegrid";
 // import listMonth from "@fullcalendar/list";
 import interactionPlugin, { DateClickArg } from '@fullcalendar/interaction';
-import { EventClickArg } from '@fullcalendar/core/index.js';
 
 const CommonCalendar = () => {
 	const eventList = [
@@ -40,14 +39,10 @@ const CommonCalendar = () => {
 
 	// 날짜를 클릭시
 	const handleDateClick = (args: DateClickArg) => {
-		console.log(args);
-		// console.log(args.dateStr);
-		// console.log(args);
+		console.log(args.dateStr); // 날짜정보
+		console.log(args.dayEl.innerText); // 이벤트가 있으면 innerText가 /n이 들어가 있음
 	};
 
-	const eventClick = (info: EventClickArg) => {
-		console.log(info);
-	};
 	return (
 		<div className="calendar">
 			<FullCalendar
@@ -58,12 +53,10 @@ const CommonCalendar = () => {
 					// end: 'dayGridMonth timeGridWeek timeGridDay listMonth',
 				}}
 				locale={'ko'} // 한국어
-				navLinks={true} // 오른쪽 상단의 day 클릭 대신 날짜를 클릭
 				businessHours={true} // 주말을 다른 색으로
 				// plugins={[dayGridPlugin, timeGridPlugin, listMonth, interactionPlugin]}
 				plugins={[dayGridPlugin, interactionPlugin]}
 				initialView="dayGridMonth"
-				eventClick={eventClick}
 				dateClick={handleDateClick}
 				events={eventList}
 				// eventBackgroundColor={'red'}
