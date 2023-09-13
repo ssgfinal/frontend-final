@@ -5,4 +5,9 @@ interface SetStateToggle {
 	[key: string]: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export type { StyledActiveProps, SetStateToggle };
+type userType = 'user' | 'owner' | 'manager';
+
+interface userTypeObject {
+	type: userType;
+}
+export type { StyledActiveProps, SetStateToggle, userType, userTypeObject };
