@@ -1,0 +1,8 @@
+.fc-daygrid-day-frame {
+	cursor: pointer;
+}
+
+.calendar-unable {
+	background-color: lavenderblush;
+	cursor: not-allowed;
+}

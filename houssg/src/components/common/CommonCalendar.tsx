@@ -1,41 +1,30 @@
 // import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 // import timeGridPlugin from "@fullcalendar/timegrid";
 // import listMonth from "@fullcalendar/list";
 import interactionPlugin, { DateClickArg } from '@fullcalendar/interaction';
+import { eventList } from '../../assets/constant/reservationDummy';
+import './CommonCalendar.css';
 
 const CommonCalendar = () => {
-	const eventList = [
-		{
-			title: '점심약속',
-			date: new Date(), //'2023-08-16'
-			allDay: true,
-		},
-		{
-			title: '점심약속',
-			date: '2023-09-13',
-			allDay: true,
-		},
-		{
-			title: '비지니스',
-			start: '2023-08-18 12:30:00',
-			constraint: '김사장과 복싱',
-			end: '2023-08-20 12:30',
-			allDay: true,
-		},
-		{
-			title: '워크샵',
-			start: '2023-08-17 12:30:00',
-			constraint: '팔협지 또 일등이야',
-			end: '2023-08-22 12:30',
-		},
-		{
-			title: '데이트',
-			start: '2023-08-27 12:30:00',
-			constraint: '영화관람',
-		},
-	];
+	const calendarRef = useRef<FullCalendar>(null);
+	useEffect(() => {
+		const parentDiv = document.getElementsByClassName('fc-daygrid-day-frame');
+		console.log(parentDiv);
+		for (let i = 0; i < parentDiv.length; i++) {
+			// console.log(parentDiv[i].children);
+			console.log(parentDiv[i].children[0].children[0].ariaLabel);
+			console.log(parentDiv[i].children[1].children);
+			if (parentDiv[i].children[1].children.length > 1) {
+				// 이 조건을 변경해야할듯
+				parentDiv[i].classList.add('calendar-unable');
+			}
+		}
+	}, []);
+
+	const events = eventList;
 
 	// 날짜를 클릭시
 	const handleDateClick = (args: DateClickArg) => {
@@ -58,7 +47,8 @@ const CommonCalendar = () => {
 				plugins={[dayGridPlugin, interactionPlugin]}
 				initialView="dayGridMonth"
 				dateClick={handleDateClick}
-				events={eventList}
+				events={events}
+				ref={calendarRef}
 				// eventBackgroundColor={'red'}
 			/>
 

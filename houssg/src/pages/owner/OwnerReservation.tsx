@@ -3,7 +3,7 @@ import { CommonCalendar } from '../../components/common';
 const OwnerReservation = () => {
 	return (
 		<div>
-			<CommonCalendar />
+			<CommonCalendar type="owner" />
 		</div>
 	);
 };
