@@ -123,15 +123,15 @@ const MyPage = () => {
 			<MyPageMainContainer>
 				<MyPageMainBox>
 					<MyNickName>
-						<ProfileImg src={ProfileCircle} />
+						<IconImg src={ProfileCircle} />
 						<span>홍길동님</span>
 					</MyNickName>
 					<MyPoint>
-						<PointImg src={MyPointIcon} />
+						<IconImg src={MyPointIcon} />
 						<span>1000P</span>
 					</MyPoint>
 					<MyCoupon>
-						<CouponImg src={CouponIcon} />
+						<IconImg src={CouponIcon} />
 						<div>
 							쿠폰함<CouponList onClick={toggleDropdown}>{isDropdownOpen ? <>&#9650;</> : <>&#9660;</>}</CouponList>
 						</div>
@@ -178,7 +178,7 @@ export default MyPage;
 const MyPageWrapper = styled.div`
 	margin: 1rem;
 	display: grid;
-	grid-template-columns: 0.2fr 1fr 0.2fr;
+	grid-template-columns: 0.1fr 1fr 0.1fr;
 	justify-content: center;
 
 	@media (max-width: 900px) {
@@ -236,7 +236,7 @@ const MyNickName = styled.div`
 	letter-spacing: -0.9px;
 `;
 
-const ProfileImg = styled.img`
+const IconImg = styled.img`
 	width: 1.2rem;
 	img {
 		@media (max-width: 900px) {
@@ -268,25 +268,6 @@ const MyPoint = styled.div`
 	letter-spacing: -0.9px;
 `;
 
-const PointImg = styled.img`
-	width: 1.2rem;
-	img {
-		@media (max-width: 900px) {
-			width: 1rem;
-		}
-
-		@media (max-width: 430px) {
-			width: 0.8rem;
-			margin-right: 1vw;
-		}
-
-		@media (max-width: 320px) {
-			width: 0.7rem;
-			margin-right: 1vw;
-		}
-	}
-`;
-
 const MyCoupon = styled.div`
 	width: 100%;
 	padding: 0.5rem;
@@ -295,25 +276,6 @@ const MyCoupon = styled.div`
 	grid-template-columns: 1fr 15fr 2fr;
 	align-items: center;
 	letter-spacing: -0.9px;
-`;
-
-const CouponImg = styled.img`
-	width: 1.2rem;
-	img {
-		@media (max-width: 900px) {
-			width: 1rem;
-		}
-
-		@media (max-width: 430px) {
-			width: 0.8rem;
-			margin-right: 1vw;
-		}
-
-		@media (max-width: 320px) {
-			width: 0.7rem;
-			margin-right: 1vw;
-		}
-	}
 `;
 
 const CouponList = styled.button`
@@ -427,22 +389,22 @@ const TabContainer = styled.div`
 		}
 	}
 
-	@media (max-width: 430px) {
+	@media (max-width: 460px) {
+		font-size: 0.8rem;
+		hr {
+			width: 100%;
+		}
+	}
+
+	@media (max-width: 350px) {
 		font-size: 0.5rem;
 		hr {
 			width: 100%;
 		}
 	}
 
-	@media (max-width: 320px) {
-		font-size: 0.9rem;
-		hr {
-			width: 100%;
-		}
-	}
-
-	@media (max-width: 255px) {
-		font-size: 0.5rem;
+	@media (max-width: 310px) {
+		font-size: 1rem;
 		hr {
 			width: 100%;
 		}
