@@ -47,3 +47,50 @@ export const RoomList = [
 		room_count: 4,
 	},
 ];
+
+export const eventList = [
+	{
+		title: '점심약속',
+		date: '2023-09-13',
+		allDay: true,
+	},
+	{
+		title: '점심약속',
+		date: '2023-09-12',
+		allDay: true,
+	},
+	{
+		title: '점심3약속',
+		date: '2023-09-12',
+		allDay: true,
+	},
+	{
+		title: '점심4약속',
+		date: '2023-09-12',
+		allDay: true,
+	},
+	{
+		title: '점심약속',
+		date: '2023-09-12',
+		allDay: true,
+	},
+	{
+		title: '점심약속',
+		date: '2023-09-11',
+		allDay: true,
+	},
+	{
+		title: '비지니스',
+		start: '2023-09-18 12:30:00',
+		constraint: '김사장과 복싱',
+		end: '2023-09-20 12:30',
+		allDay: true,
+	},
+	{
+		title: '비지니스',
+		start: '2023-09-22 12:30:00',
+		constraint: '김사장과 복싱',
+		end: '2023-09-25 12:30',
+		allDay: true,
+	},
+];
