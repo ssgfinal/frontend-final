@@ -6,6 +6,7 @@ import { eventList } from '../../assets/constant/reservationDummy';
 import { userTypeObject } from '../../types';
 import styled from 'styled-components';
 import useCalendarStyle from '../../hooks/useCalendarStyle';
+import { color } from '../../assets/styles';
 
 const CommonCalendar: React.FC<userTypeObject> = ({ type }) => {
 	useCalendarStyle(type);
@@ -32,6 +33,11 @@ const CommonCalendar: React.FC<userTypeObject> = ({ type }) => {
 				initialView="dayGridMonth"
 				dateClick={handleDateClick}
 				events={events}
+				aspectRatio={2}
+				dayMaxEvents={3}
+				eventBackgroundColor={color.color3}
+				eventBorderColor="transparent"
+				// contentHeight={800}
 			/>
 		</CalendarContainer>
 	);
@@ -40,8 +46,10 @@ const CommonCalendar: React.FC<userTypeObject> = ({ type }) => {
 export default CommonCalendar;
 
 const CalendarContainer = styled.div`
+	padding: 0 0.5rem;
 	.fc-daygrid-day-frame {
 		cursor: pointer;
+		height: 5.5rem;
 	}
 
 	.calendar-unable {
