@@ -53,12 +53,14 @@ const MyInformation = () => {
 					}}
 				/>
 			</EditIconContainer>
-			<Withdrawal
-				onClick={() => {
-					modalOpen('instruction', '회원을 탈퇴하시겠습니까?');
-				}}
-			>
-				회원탈퇴 &gt;
+			<Withdrawal>
+				<button
+					onClick={() => {
+						modalOpen('instruction', '회원을 탈퇴하시겠습니까?');
+					}}
+				>
+					회원탈퇴 &gt;
+				</button>
 			</Withdrawal>
 		</MyInformationWrapper>
 	);
@@ -144,22 +146,31 @@ const EditIconContainer = styled.div`
 
 const Withdrawal = styled.div`
 	grid-column-start: 1;
-	grid-column-end: 3;
-	cursor: pointer;
+	grid-column-end: 4;
 	padding-top: 5vw;
-	color: ${color.darkGrayColor};
-	font-size: 0.8rem;
-	text-align: left;
+	justify-self: left;
 
-	@media (max-width: 900px) {
-		font-size: 0.7rem;
-	}
+	button {
+		cursor: pointer;
+		padding-left: 0px;
+		padding-right: 0px;
+		outline: none;
+		border: none;
+		background-color: transparent;
+		resize: none;
+		color: ${color.darkGrayColor};
+		font-size: 0.8rem;
+		text-align: left;
+		@media (max-width: 900px) {
+			font-size: 0.7rem;
+		}
 
-	@media (max-width: 650px) {
-		font-size: 0.5rem;
-	}
+		@media (max-width: 650px) {
+			font-size: 0.5rem;
+		}
 
-	@media (max-width: 530px) {
-		font-size: 0.3rem;
+		@media (max-width: 530px) {
+			font-size: 0.3rem;
+		}
 	}
 `;

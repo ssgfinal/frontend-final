@@ -1,8 +1,6 @@
 import { styled } from 'styled-components';
 import { useState } from 'react';
 
-import { useAppDispatch } from '../../hooks';
-import { openModal } from '../../store/redux/modalSlice';
 import { TabMenu } from '../common/TabMenu';
 
 import MyInformation from './MyInformation';
@@ -110,13 +108,6 @@ const MyPage = () => {
 
 	const [clickTab, setClickTab] = useState<string>('MyInformation');
 
-	const dispatch = useAppDispatch();
-
-	const modalOpen = () => {
-		const modalSize = window.innerWidth >= 1000 ? 500 : 400;
-		dispatch(openModal({ modalComponent: 'couponRegistration', modalSize: modalSize, modalText: '쿠폰번호를 입력하세요.' }));
-	};
-
 	return (
 		<MyPageWrapper>
 			<MyPageIconContainer>1:1문의</MyPageIconContainer>
@@ -140,7 +131,7 @@ const MyPage = () => {
 						<DropdownContent>
 							<CouponRegistration>
 								<input type="text" placeholder="쿠폰번호 입력" />
-								<button onClick={modalOpen}>등록</button>
+								<button>등록</button>
 							</CouponRegistration>
 							<DropCouponList>
 								{coupons.map((coupon, index) => (
