@@ -4,6 +4,8 @@ import { closeModal, isModalOpen, modalComponent, modalSize } from '../../store/
 import { AuthWrap } from '../auth';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { CommonInstruction } from '.';
+import EditPhoneNumber from '../usermypages/EditPhoneNumber';
+import EditPassword from '../usermypages/EditPassword';
 
 const CommonModal = () => {
 	const modalState = useAppSelector(isModalOpen);
@@ -27,6 +29,8 @@ const CommonModal = () => {
 			width={size}
 		>
 			{modalComp === 'auth' && <AuthWrap />}
+			{modalComp === 'editPhoneNumber' && <EditPhoneNumber />}
+			{modalComp === 'editPassword' && <EditPassword />}
 			{(modalComp === 'instruction' || modalComp === 'couponRegistration') && <CommonInstruction />}
 		</Modal>
 	);

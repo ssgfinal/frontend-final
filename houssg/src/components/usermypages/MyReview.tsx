@@ -66,7 +66,7 @@ const MyReview: React.FC<ReviewList> = ({ reviews }) => {
 						</MyReviewBox>
 						{review.commentContent && (
 							<CommentContainer>
-								<HouseReviewNickName>💌숙소답변</HouseReviewNickName>
+								<HouseReviewNickName>💌 숙소 답변</HouseReviewNickName>
 								<HouseReviewDate>{review.commentDate}</HouseReviewDate>
 								<HouseReviewContent>{review.commentContent}</HouseReviewContent>
 							</CommentContainer>

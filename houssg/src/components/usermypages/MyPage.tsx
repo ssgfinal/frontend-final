@@ -75,7 +75,7 @@ const reviews = [
 	},
 ];
 
-const favorites = [
+const favorites: { houseId: number; accomName: string; houseAddress: string; userId: string; rating: number; favorite: boolean }[] = [
 	{
 		houseId: 1235,
 		accomName: '사아자 Hotel',
@@ -176,10 +176,9 @@ const MyPage = () => {
 export default MyPage;
 
 const MyPageWrapper = styled.div`
-	width: 100%;
+	margin: 1rem;
 	display: grid;
 	grid-template-columns: 0.2fr 1fr 0.2fr;
-	grid-template-rows: 50px 0.3fr 0.01fr 0.03fr 1fr 50px;
 	justify-content: center;
 
 	@media (max-width: 900px) {
@@ -451,6 +450,7 @@ const TabContainer = styled.div`
 `;
 
 const MyPageContentsContainer = styled.div`
+	min-height: 100px;
 	display: grid;
 	grid-column-start: 2;
 	grid-column-end: 3;
