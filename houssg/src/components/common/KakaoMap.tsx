@@ -8,16 +8,18 @@ const KakaoMap = () => {
 	useEffect(() => {
 		const container = document.getElementById('map');
 		console.log(container, 'container');
+		const kakaoMaps = kakao.maps;
+		console.log(kakaoMaps);
 		const options = {
-			center: new kakao.maps.LatLng(33.450701, 126.570667),
+			center: new kakaoMaps.LatLng(33.450701, 126.570667),
 			level: 3,
 		};
-		const map = new kakao.maps.Map(container, options);
+		const map = new kakaoMaps.Map(container, options);
 
-		const geocoder = new kakao.maps.services.Geocoder();
+		const geocoder = new kakaoMaps.services.Geocoder();
 		//마커를 미리 생성
-		const marker = new kakao.maps.Marker({
-			position: new kakao.maps.LatLng(33.450701, 126.570667),
+		const marker = new kakaoMaps.Marker({
+			position: new kakaoMaps.LatLng(33.450701, 126.570667),
 			map: map,
 		});
 	}, []);

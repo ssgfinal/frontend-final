@@ -6,10 +6,9 @@ const AddressFinder = () => {
 	const [isOpen, setIsOpen] = useState(false);
 	const [targetAddress, setTargetAddress] = useState('');
 	const handleComplete = (data: Address) => {
-		console.log(data);
+		console.log(data, 'data');
 		let fullAddress = data.address;
 		let extraAddress = '';
-		// console.log(data);
 		if (data.addressType === 'R') {
 			if (data.bname !== '') {
 				extraAddress += data.bname;
