@@ -6,7 +6,7 @@ const AddressFinder = () => {
 	const [isOpen, setIsOpen] = useState(false);
 	const [targetAddress, setTargetAddress] = useState('');
 	const handleComplete = (data: Address) => {
-		console.log(data, 'data');
+		// console.log(data, 'data');
 		let fullAddress = data.address;
 		let extraAddress = '';
 		if (data.addressType === 'R') {
@@ -31,7 +31,7 @@ const AddressFinder = () => {
 			<input readOnly placeholder="검색해주세요" value={targetAddress} />
 			<input onClick={openDaumPost} value="검색" type="button" />
 			{isOpen && <DaumPostcode autoClose={false} onComplete={handleComplete} />}
-			<KakaoMap />
+			{targetAddress && <KakaoMap location={targetAddress} />}
 		</div>
 	);
 };

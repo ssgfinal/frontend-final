@@ -4,25 +4,48 @@ import styled from 'styled-components';
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const { kakao }: any = window;
 
-const KakaoMap = () => {
-	useEffect(() => {
-		const container = document.getElementById('map');
-		console.log(container, 'container');
-		const kakaoMaps = kakao.maps;
-		console.log(kakaoMaps);
-		const options = {
-			center: new kakaoMaps.LatLng(33.450701, 126.570667),
-			level: 3,
-		};
-		const map = new kakaoMaps.Map(container, options);
+interface locationType {
+	location: string;
+}
 
-		const geocoder = new kakaoMaps.services.Geocoder();
-		//마커를 미리 생성
-		const marker = new kakaoMaps.Marker({
-			position: new kakaoMaps.LatLng(33.450701, 126.570667),
-			map: map,
-		});
-	}, []);
+const KakaoMap: React.FC<locationType> = ({ location }) => {
+	const kakaoMaps = kakao.maps;
+
+	useEffect(() => {
+		if (location) {
+			// const container = document.getElementById('map');
+			const container = document.getElementsByClassName('mapStyle')[0]; // ?
+			// console.log(container, 'container');
+			// console.log(kakaoMaps);
+
+			const geocoder = new kakaoMaps.services.Geocoder();
+
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
+			geocoder.addressSearch(location, function (result: { x: any; y: any }[], status: any) {
+				// 정상적으로 검색이 완료됐으면
+				if (status === kakao.maps.services.Status.OK) {
+					const coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+					// console.log(coords);
+					const options = {
+						center: coords,
+						level: 3,
+					};
+
+					const map = new kakaoMaps.Map(container, options);
+					map.setCenter(coords);
+
+					// 결과값으로 받은 위치를 마커로 표시합니다
+					new kakao.maps.Marker({
+						// map: map,
+						map: map,
+						position: coords,
+					});
+
+					// console.log(marker, 'marker');
+				}
+			});
+		}
+	}, [location, kakaoMaps]);
 	return (
 		<MapContainer>
 			{/* 스타일드 컴퍼넌트의 스타일이 map에 적용 안됨 */}
@@ -39,7 +62,7 @@ const MapContainer = styled.div`
 	justify-content: center;
 
 	.mapStyle {
-		width: 500px;
-		height: 400px;
+		width: 400px;
+		height: 350px;
 	}
 `;
