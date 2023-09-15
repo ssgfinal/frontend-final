@@ -8,10 +8,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      VITE_KAKAO_JS_KEY: ${{VITE_KAKAO_JS_KEY}}
-      VITE_KAKAO_KEY: ${{VITE_KAKAO_KEY}}
-      VITE_SERVER_URL: ${{VITE_SERVER_URL}}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -43,4 +39,8 @@ jobs:
             docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }} 
             docker pull ${{ secrets.DOCKERHUB_USERNAME }}/houssg-front:latest  
             docker rm -f houssg-front
-            docker run -d -p 80:8080 --name houssg-front ${{ secrets.DOCKERHUB_USERNAME }}/houssg-front :latest
+            docker run -d -p 80:8080  \
+            -e VITE_KAKAO_JS_KEY=${{ env.VITE_KAKAO_JS_KEY }} \
+            -e VITE_KAKAO_KEY=${{ env.VITE_KAKAO_KEY }} \
+            -e VITE_SERVER_URL=${{ env.VITE_SERVER_URL }} \
+            ${{ secrets.DOCKERHUB_USERNAME }}/houssg-front:latest --name houssg-front ${{ secrets.DOCKERHUB_USERNAME }}/houssg-front :latest
