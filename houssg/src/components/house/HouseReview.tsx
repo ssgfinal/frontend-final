@@ -5,6 +5,7 @@ import { styled } from 'styled-components';
 import Rating from '../common/Rating';
 import { color } from '../../assets/styles';
 import { Review } from './Review';
+import { accomodation } from '../../assets/icons';
 
 export const HouseReview = () => {
 	// const { houseId } = useParams();
@@ -20,6 +21,7 @@ export const HouseReview = () => {
 			roomtype: 'family',
 			rate: 3.1,
 			content: '리뷰만 지금 몇번 적는건지\n힘들다\n정말\n지긋지긋해',
+			img: accomodation,
 		},
 		{ id: 2, writedate: '2023-12-34', writer: '눕고싶다', roomtype: 'standard', rate: 3.5, content: '리뷰만 지금 2번째 \n진빠진다\n정말\n웩' },
 		{
@@ -29,6 +31,7 @@ export const HouseReview = () => {
 			roomtype: 'twin',
 			rate: 3.7,
 			content: '아무말 대잔치\n주리님\n오늘따라\n침대가 그리워요',
+			img: accomodation,
 		},
 	];
 
