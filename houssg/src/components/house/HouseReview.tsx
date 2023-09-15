@@ -12,11 +12,6 @@ export const HouseReview = () => {
 	const [activeReview, setActiveReview] = useState('');
 	const [activeRate, setActiveRate] = useState<number>(0);
 
-	const handleReveiwTxt = () => {
-		console.log(activeRate);
-		console.log(activeReview);
-	};
-
 	const reviews = [
 		{
 			id: 1,
@@ -37,17 +32,30 @@ export const HouseReview = () => {
 		},
 	];
 
+	const submit = (e) => {
+		e.preventDefault();
+
+		const formData = new FormData();
+		formData.append('review', activeReview);
+
+		formData.append('uploadFile', e.target.uploadFile.files[0]);
+	};
 	return (
 		<Wrapper>
 			<InputBox>
 				{/* 하우스 번호 : {houseId}{' '} */}
 
 				<Rating rate={activeRate} setRate={setActiveRate} />
-				<Input style={{ whiteSpace: 'pre-wrap' }}>
-					<Textarea placeholder="후기를 작성해주세요" onChange={(e) => setActiveReview(e.target.value)} />
-
-					<Button onClick={handleReveiwTxt}>등록</Button>
-				</Input>
+				<form name="frm" onSubmit={submit} encType="multipart/form-data">
+					<Input>
+						<Textarea placeholder="후기를 작성해주세요" onChange={(e) => setActiveReview(e.target.value)} />
+						<AddPhoto>
+							<FileInput type="file" name="uploadFile" />
+							<Text> + 사진</Text>
+						</AddPhoto>
+						<Enroll type="submit" value="등록" />
+					</Input>
+				</form>
 			</InputBox>
 			<ReviewList>
 				{reviews.map((review) => (
@@ -67,12 +75,22 @@ const InputBox = styled.div`
 const Input = styled.div`
 	margin: 1rem 0;
 	display: grid;
-	grid-template-columns: 7fr 1fr;
 	grid-gap: 1rem;
+	white-space: 'pre-wrap';
+
+	@media (min-width: 1500px) {
+		grid-template-columns: 8fr 1fr 1.5fr;
+	}
+	@media (min-width: 750px) and (max-width: 1500px) {
+		grid-template-columns: 3fr 1fr 1fr;
+	}
+	@media (max-width: 750px) {
+		grid-template-columns: 1fr 1fr;
+	}
 `;
 
 const Textarea = styled.textarea`
-	padding: 10px;
+	padding: 0.5rem;
 	border-color: ${color.color1};
 	border-radius: 0.5rem;
 	resize: none;
@@ -87,14 +105,43 @@ const Textarea = styled.textarea`
 		border-radius: 0.5rem;
 		box-shadow: inset 0px 0px 5px white;
 	}
+	@media (max-width: 750px) {
+		grid-column-start: 1;
+		grid-column-end: 3;
+	}
 `;
 
-const Button = styled.button`
+const AddPhoto = styled.label`
+	padding: 1rem 1rem;
+	display: grid;
+	@media (min-width: 750px) {
+		grid-template-columns: 8fr 1fr 1.5fr;
+	}
+	grid-template-rows: 14fr 1fr;
+	background-color: ${color.color1};
+	color: white;
+	border: none;
+	border-radius: 1rem;
+	cursor: pointer;
+`;
+
+const FileInput = styled.input`
+	display: none;
+`;
+
+const Text = styled.div`
+	align-self: center;
+	text-align: center;
+`;
+
+const Enroll = styled.input`
 	background-color: ${color.color1};
 	color: white;
 	border: solid;
 	border-radius: 1rem;
 	border-color: ${color.color1};
+	font-size: 1rem;
+	cursor: pointer;
 `;
 
 const ReviewList = styled.div`
