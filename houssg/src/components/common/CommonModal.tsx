@@ -7,6 +7,7 @@ import { CommonInstruction } from '.';
 import EditNickName from '../usermypages/EditNickName';
 import EditPhoneNumber from '../usermypages/EditPhoneNumber';
 import EditPassword from '../usermypages/EditPassword';
+import Terms from '../reservation/Terms';
 
 const CommonModal = () => {
 	const modalState = useAppSelector(isModalOpen);
@@ -33,6 +34,7 @@ const CommonModal = () => {
 			{modalComp === 'editNickName' && <EditNickName />}
 			{modalComp === 'editPhoneNumber' && <EditPhoneNumber />}
 			{modalComp === 'editPassword' && <EditPassword />}
+			{modalComp === 'test' && <Terms />}
 			{(modalComp === 'instruction' || modalComp === 'couponRegistration') && <CommonInstruction />}
 		</Modal>
 	);
