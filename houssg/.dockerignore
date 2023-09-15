@@ -2,3 +2,5 @@ node_modules
 dist
 .dockerignore
 Dockerfile
+Dockerfile.prod
+.env
