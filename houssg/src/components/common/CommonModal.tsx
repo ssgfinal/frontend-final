@@ -4,6 +4,7 @@ import { closeModal, isModalOpen, modalComponent, modalSize } from '../../store/
 import { AuthWrap } from '../auth';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { CommonInstruction } from '.';
+import Terms from '../reservation/Terms';
 
 const CommonModal = () => {
 	const modalState = useAppSelector(isModalOpen);
@@ -27,6 +28,7 @@ const CommonModal = () => {
 			width={size}
 		>
 			{modalComp === 'auth' && <AuthWrap />}
+			{modalComp === 'test' && <Terms />}
 			{(modalComp === 'instruction' || modalComp === 'couponRegistration') && <CommonInstruction />}
 		</Modal>
 	);
