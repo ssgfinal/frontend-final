@@ -29,14 +29,12 @@ export const RoomDetail: React.FC<RoomProps> = ({ room }) => {
 			<Info>
 				<Type>{room.type}</Type>
 				<div>
-					{room.icon.map((iconSrc, index) => {
-						return (
-							<>
-								<Icon key={index} src={iconSrc} />
-								&nbsp;&nbsp;&nbsp;
-							</>
-						);
-					})}
+					{room.icon.map((iconSrc, index) => (
+						<React.Fragment key={index}>
+							<Icon src={iconSrc} />
+							&nbsp;&nbsp;&nbsp;
+						</React.Fragment>
+					))}
 				</div>
 				<Between>
 					<Center>{formatNumber(room.price)}원</Center>
