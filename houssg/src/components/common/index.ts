@@ -2,4 +2,5 @@
 import CommonModal from './CommonModal';
 import CheckboxGroup from './CheckboxGroup';
 import CommonInstruction from './CommonInstruction';
-export { CommonModal, CheckboxGroup, CommonInstruction };
+import CommonCalendar from './CommonCalendar';
+export { CommonModal, CheckboxGroup, CommonInstruction, CommonCalendar };
