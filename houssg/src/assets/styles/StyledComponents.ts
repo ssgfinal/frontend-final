@@ -99,8 +99,32 @@ const ManageReadTitle = styled.div`
 	color: ${color.color1};
 	margin-bottom: 0.8rem;
 `;
+
+// UserReservation.tsx
+
+const ReservationCommonBox = styled.div`
+	padding: 0.5rem 2rem 2rem 2rem;
+	display: grid;
+`;
+
+const UserReservationTitle = styled.div`
+	background-color: ${color.color2};
+	color: white;
+	margin-bottom: 2rem;
+	padding: 0.5rem;
+	font-weight: bold;
+	border-radius: 1rem;
+`;
+
+const UserReservationLeft = styled.div`
+	text-align: left;
+	margin: 0.5rem 0;
+`;
+
 export { AuthContainer, AuthTitle };
 
 export { HouseInfoContainer, HouseTabContainer, InfoWrapper, InfoText, InfoTitleText, SubInfoAligner, NavClickComp };
 
 export { ManageReadTitle };
+
+export { ReservationCommonBox, UserReservationTitle, UserReservationLeft };

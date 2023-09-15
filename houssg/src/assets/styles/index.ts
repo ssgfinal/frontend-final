@@ -3,7 +3,7 @@ import GlobalStyle from './GlobalStyle';
 import { devideOnce, devideTwice, devideThird } from './size';
 //Auth관련
 import { AuthTitle, AuthContainer } from './StyledComponents';
-//Manage관련
+//OwnerManage관련
 import {
 	HouseInfoContainer,
 	InfoText,
@@ -14,6 +14,9 @@ import {
 	NavClickComp,
 	ManageReadTitle,
 } from './StyledComponents';
+
+//UserReservation.tsx
+import { ReservationCommonBox, UserReservationTitle, UserReservationLeft } from './StyledComponents';
 
 // 색 크기 theme
 export { color, basicTheme, devideOnce, devideTwice, devideThird, GlobalStyle };
@@ -31,3 +34,6 @@ export {
 	NavClickComp,
 	ManageReadTitle,
 };
+
+//UserReservation
+export { ReservationCommonBox, UserReservationTitle, UserReservationLeft };
