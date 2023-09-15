@@ -4,7 +4,16 @@ import { EditIcon } from '../../assets/icons';
 import { useAppDispatch } from '../../hooks';
 import { openModal } from '../../store/redux/modalSlice';
 
-const MyInformation = () => {
+interface MyInformations {
+	informations: {
+		userId: string;
+		userNickName: string;
+		userPhoneNumber: string;
+		userPassword: number;
+	}[];
+}
+
+const MyInformation: React.FC<MyInformations> = ({ informations }) => {
 	const dispatch = useAppDispatch();
 
 	const modalOpen = (component: string, message: string | null) => {
@@ -14,54 +23,59 @@ const MyInformation = () => {
 
 	return (
 		<MyInformationWrapper>
-			<TitleContainer>아이디</TitleContainer>
-			<InputContainer>
-				<div>abc</div>
-			</InputContainer>
-			<TitleContainer>닉네임</TitleContainer>
-			<InputContainer>
-				<div>집에가고싶다</div>
-			</InputContainer>
-			<EditIconContainer>
-				<img
-					src={EditIcon}
-					onClick={() => {
-						modalOpen('editNickName', null);
-					}}
-				/>
-			</EditIconContainer>
-			<TitleContainer>전화번호</TitleContainer>
-			<InputContainer>
-				<div>010-1111-2222</div>
-				{/* <input type="tel" value="010-1111-2222" readOnly required /> */}
-			</InputContainer>
-			<EditIconContainer>
-				<img
-					src={EditIcon}
-					onClick={() => {
-						modalOpen('editPhoneNumber', null);
-					}}
-				/>
-			</EditIconContainer>
-			<TitleContainer>비밀번호</TitleContainer>
-			<div></div>
-			<EditIconContainer>
-				<img
-					src={EditIcon}
-					onClick={() => {
-						modalOpen('editPassword', null);
-					}}
-				/>
-			</EditIconContainer>
-			<Withdrawal>
-				<button
-					onClick={() => {
-						modalOpen('instruction', '회원을 탈퇴하시겠습니까?');
-					}}
-				>
-					회원탈퇴 &gt;
-				</button>
-			</Withdrawal>
+			{informations.map((informationsItem, index) => (
+				<MyInformationContainer key={index}>
+					<TitleContainer>아이디</TitleContainer>
+					<InputContainer>
+						<div>{informationsItem.userId}</div>
+					</InputContainer>
+					<TitleContainer>닉네임</TitleContainer>
+					<InputContainer>
+						<div>{informationsItem.userNickName}</div>
+					</InputContainer>
+					<EditIconContainer>
+						<img
+							src={EditIcon}
+							onClick={() => {
+								modalOpen('editNickName', null);
+							}}
+						/>
+					</EditIconContainer>
+					<TitleContainer>전화번호</TitleContainer>
+					<InputContainer>
+						<div>{informationsItem.userPhoneNumber}</div>
+						{/* <input type="tel" value="010-1111-2222" readOnly required /> */}
+					</InputContainer>
+					<EditIconContainer>
+						<img
+							src={EditIcon}
+							onClick={() => {
+								modalOpen('editPhoneNumber', null);
+							}}
+						/>
+					</EditIconContainer>
+					<TitleContainer>비밀번호</TitleContainer>
+					<div></div>
+					<EditIconContainer>
+						<img
+							src={EditIcon}
+							onClick={() => {
+								modalOpen('editPassword', null);
+							}}
+						/>
+					</EditIconContainer>
+
+					<Withdrawal>
+						<button
+							onClick={() => {
+								modalOpen('instruction', '회원을 탈퇴하시겠습니까?');
+							}}
+						>
+							회원탈퇴 &gt;
+						</button>
+					</Withdrawal>
+				</MyInformationContainer>
+			))}
 		</MyInformationWrapper>
 	);
 };
@@ -69,6 +83,10 @@ const MyInformation = () => {
 export default MyInformation;
 
 const MyInformationWrapper = styled.div`
+	width: 100%;
+`;
+
+const MyInformationContainer = styled.div`
 	margin: 5vw 15vw 5vw 15vw;
 	display: grid;
 	grid-template-columns: 1fr 2fr 1fr;

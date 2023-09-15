@@ -2,17 +2,27 @@ import styled from 'styled-components';
 import { color } from '../../assets/styles';
 import { useAppDispatch } from '../../hooks';
 import { closeModal } from '../../store/redux/modalSlice';
+import { useRef } from 'react';
 
 const EditNickName = () => {
 	const dispatch = useAppDispatch();
 
+	const newNickName = useRef<HTMLInputElement | null>(null);
+
 	const editNickName = () => {
+		// TODO : 서버로 보내기 추후 수정
+		if (newNickName.current) {
+			console.log(newNickName.current.value);
+		}
+		// TODO : api 요청이 성공했을 떄
+		// newNickName.current.value = '';
 		dispatch(closeModal());
 	};
 
 	return (
 		<EditNickNameWrapper>
-			<NewNickNameBox type="text" placeholder="새로운 닉네임 입력" />
+			<NewNickNameBox type="text" ref={newNickName} placeholder="새로운 닉네임 입력" />
+
 			<EditButton onClick={editNickName}>수정완료</EditButton>
 		</EditNickNameWrapper>
 	);

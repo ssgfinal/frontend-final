@@ -12,6 +12,23 @@ import { CouponIcon, MyPointIcon, ProfileCircle, accomodation } from '../../asse
 import MyCoupons from './MyCoupons';
 //import { Review } from '../house/Review';
 
+interface MyPageMain {
+	mypagemain: {
+		userId: string;
+		userNickName: string;
+		userPoint: number;
+	};
+}
+
+const informations = [
+	{
+		userId: 'abc',
+		userNickName: '홍길동',
+		userPhoneNumber: '01012345678',
+		userPassword: 1234,
+	},
+];
+
 const coupons = [
 	{
 		userId: 'abc',
@@ -93,7 +110,7 @@ const favorites: { houseId: number; accomName: string; houseAddress: string; use
 ];
 // lorem 하고 tab하면 예시내용이 나온다!치지말자!
 
-const MyPage = () => {
+const MyPage: React.FC<MyPageMain> = ({ mypagemain }) => {
 	const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
 	const toggleDropdown = () => {
@@ -115,11 +132,11 @@ const MyPage = () => {
 				<MyPageMainBox>
 					<MyNickName>
 						<IconImg src={ProfileCircle} />
-						<span>홍길동님</span>
+						<span>{mypagemain.userNickName}님</span>
 					</MyNickName>
 					<MyPoint>
 						<IconImg src={MyPointIcon} />
-						<span>1000P</span>
+						<span>{mypagemain.userPoint}P</span>
 					</MyPoint>
 					<MyCoupon>
 						<IconImg src={CouponIcon} />
@@ -153,7 +170,7 @@ const MyPage = () => {
 			</MyPageTabContainer>
 			<MyPageContentsContainer>
 				{clickTab === 'MyInformation' ? (
-					<MyInformation />
+					<MyInformation informations={informations} />
 				) : clickTab === 'MyReview' ? (
 					<MyReview reviews={reviews} />
 				) : (
