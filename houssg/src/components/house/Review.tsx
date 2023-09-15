@@ -2,6 +2,7 @@ import React from 'react';
 import Rating from '../common/Rating';
 import { styled } from 'styled-components';
 import { color } from '../../assets/styles';
+
 interface ReviewProps {
 	review: {
 		id: number;
@@ -10,24 +11,25 @@ interface ReviewProps {
 		roomtype: string;
 		rate: number;
 		content: string;
+		img?: string;
 	};
 }
 
 export const Review: React.FC<ReviewProps> = ({ review }) => {
 	return (
 		<Wrapper key={review.id}>
-			<ReviewHeader>
-				<Left>
-					<CommonTitle>작성자</CommonTitle>
-					<WriterContent>{review.writer}</WriterContent>
-					<CommonTitle>객실 종류</CommonTitle>
-					<CommonContent>{review.roomtype}</CommonContent>
-				</Left>
-				{/* <CommonTitle>작성 일자</CommonTitle> */}
-				<CommonContent>{review.writedate}</CommonContent>
-			</ReviewHeader>
+			<WriteDate>{review.writedate}</WriteDate>
+			<OneLine>
+				<Title>작성자</Title>
+				<Content>{review.writer}</Content>
+				<Title>객실</Title>
+				<Content>{review.roomtype}</Content>
+			</OneLine>
 			<Rating readonly rate={review.rate} />
-			<ReviewContent>{review.content}</ReviewContent>
+			<ReviewContent>
+				{review.img ? <Img src={review.img} /> : <></>}
+				<ReviewText>{review.content}</ReviewText>
+			</ReviewContent>
 		</Wrapper>
 	);
 };
@@ -36,40 +38,62 @@ const Wrapper = styled.div`
 	border: solid 0.05rem ${color.color1};
 	border-radius: 1rem;
 	margin: 1rem 0;
+	padding: 2rem;
+`;
 
-	& > div {
-		padding: 0.5rem; /* 원하는 패딩 값으로 설정하세요 */
+const WriteDate = styled.div`
+	text-align: left;
+	margin: 0.5rem;
+	margin-top: 0;
+`;
+
+const OneLine = styled.div`
+	@media (min-width: 650px) {
+		display: flex;
 	}
+	@media (max-width: 650px) {
+		display: grid;
+		grid-template-columns: 1fr 2fr;
+		font-size: 0.7rem;
+	}
+
+	margin-bottom: 0.5rem;
 `;
 
-const ReviewHeader = styled.div`
-	display: flex;
-	justify-content: space-between;
-	font-size: 0.8rem;
-`;
-
-const Left = styled.div`
-	display: flex;
-	width: 25rem;
-`;
-
-const CommonTitle = styled.div`
+const Title = styled.div`
 	background-color: ${color.color1};
 	border: solid;
 	color: white;
 	border-radius: 0.5rem;
-
-	padding: 0.3rem;
+	padding: 0.7rem;
 `;
 
-const CommonContent = styled.div`
+const Content = styled.div`
+	align-self: center;
 	padding: 0.5rem;
 `;
 
-const WriterContent = styled(CommonContent)`
-	text-align: left;
-	width: 10rem;
-`;
 const ReviewContent = styled.div`
+	margin-top: 1rem;
+	display: grid;
+	grid-gap: 2rem;
+	@media (min-width: 650px) {
+		grid-template-columns: 1fr 2fr;
+	}
+	@media (max-width: 650px) {
+		grid-template-columns: 1fr;
+	}
+`;
+
+const Img = styled.img`
+	width: 100%;
+	border-radius: 1rem;
+`;
+
+const ReviewText = styled.div`
+	@media (min-width: 650px) {
+		padding: 1rem;
+	}
+
 	text-align: left;
 `;
