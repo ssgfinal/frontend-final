@@ -129,11 +129,9 @@ const HouseReviewContent = styled.div`
 const MyReviewBox = styled.div`
 	margin: 1vw;
 	padding: 1vw;
-	//border-bottom: 1px solid ${color.unSelectColor};
 	display: grid;
 	grid-template-columns: 1fr 0.5fr 1fr;
 	grid-template-rows: 1fr 1fr 1fr 5fr;
-	//background-color: green;
 
 	@media (max-width: 900px) {
 		font-size: 1rem;
@@ -156,7 +154,6 @@ const HouseBox = styled.div`
 	background-color: ${color.color1};
 	color: ${color.backColor};
 	font-weight: bold;
-	//background-color: ${color.unSelectColor};
 	border-radius: 0.3rem;
 	align-self: center;
 	padding: 1vw;
@@ -192,7 +189,6 @@ const RoomBox = styled.div`
 	grid-row-end: 3;
 	text-align: left;
 	font-weight: bold;
-	//color: ${color.color1};
 	padding: 1vw 1vw 0vw 1vw;
 `;
 

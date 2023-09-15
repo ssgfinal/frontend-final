@@ -186,7 +186,7 @@ export default MyPage;
 const MyPageWrapper = styled.div`
 	margin: 1rem;
 	display: grid;
-	grid-template-columns: 0.1fr 1fr 0.1fr;
+	grid-template-columns: 0.3fr 1fr 0.3fr;
 	justify-content: center;
 
 	@media (max-width: 900px) {
@@ -198,6 +198,7 @@ const MyPageWrapper = styled.div`
 	}
 
 	@media (max-width: 320px) {
+		grid-template-columns: 0.1fr 1fr 0.1fr;
 		font-size: 0.5rem;
 	}
 `;

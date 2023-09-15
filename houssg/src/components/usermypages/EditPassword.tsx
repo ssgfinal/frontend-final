@@ -9,41 +9,69 @@ import { unvisible, visible } from '../../assets/icons';
 const EditPassword = () => {
 	const dispatch = useAppDispatch();
 
-	const [isVisible, setIsVisible] = useState(false);
-	const [newpassword, setNewPassword] = useState('');
+	const [isVisibleArray, setIsVisibleArray] = useState([false, false, false]);
+	const [password, setPassword] = useState('');
+	const [newPassword, setNewPassword] = useState('');
+	const [newPasswordCheck, setNewPasswordCheck] = useState('');
 
-	const isVisiblePass = () => {
-		setIsVisible(!isVisible);
+	const isVisiblePass = (index: number) => {
+		return () => {
+			setIsVisibleArray((prevArray) => {
+				const newArray = [...prevArray];
+				newArray[index] = !newArray[index];
+				console.log(newArray);
+				return newArray;
+			});
+		};
 	};
-
 	const [isValidPassword, setIsValidPassword] = useState(false);
 
-	const handlePasswordChange = (e) => {
-		const inputValue = e.target.value;
-		setNewPassword(inputValue);
+	const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const inputValuePassword = e.target.value;
+		setPassword(inputValuePassword);
+	};
 
-		const isValid = regSignUp.regPw.reg.test(inputValue);
-		setIsValidPassword(isValid);
+	const handleNewPasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const inputValueNewPassword = e.target.value;
+		setNewPassword(inputValueNewPassword);
+	};
+
+	const handleNewPasswordCheckChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const inputValue = e.target.value;
+		setNewPasswordCheck(inputValue);
+		const isValidPassword = regSignUp.regPw.reg.test(inputValue) && inputValue === inputValue;
+		console.log(isValidPassword);
+		setIsValidPassword(isValidPassword);
 	};
 
 	const onEditPass = () => {
-		dispatch(closeModal());
+		alert(isValidPassword);
+		if (isValidPassword) {
+			// 서버에 전달
+			dispatch(closeModal());
+		}
 	};
 
 	return (
 		<EditPasswordWrapper>
 			<EditPasswordTitle>현재 비밀번호</EditPasswordTitle>
-			{<EditPasswordInput type="password"></EditPasswordInput> && (
-				<VisibleImage onClick={isVisiblePass}>{!isVisible ? <img src={visible} /> : <img src={unvisible} />}</VisibleImage>
-			)}
+			<EditPasswordInput type={isVisibleArray[0] ? 'text' : 'password'} value={password} onChange={handlePasswordChange}></EditPasswordInput>
+			<VisibleImage onClick={isVisiblePass(0)}>{!isVisibleArray[0] ? <img src={unvisible} /> : <img src={visible} />}</VisibleImage>
 			<EditPasswordTitle>새 비밀번호</EditPasswordTitle>
-			<EditPasswordInput type="password" value={newpassword} onChange={handlePasswordChange} />
-			<VisibleImage onClick={isVisiblePass}>{!isVisible ? <img src={visible} /> : <img src={unvisible} />}</VisibleImage>
+			<EditPasswordInput type={isVisibleArray[1] ? 'text' : 'password'} value={newPassword} onChange={handleNewPasswordChange} />
+			<VisibleImage onClick={isVisiblePass(1)}>{!isVisibleArray[1] ? <img src={unvisible} /> : <img src={visible} />}</VisibleImage>
 			<EditPasswordTitle>새 비밀번호 확인</EditPasswordTitle>
-			<EditPasswordInput type="password" value={newpassword} onChange={handlePasswordChange} />
-			<VisibleImage onClick={isVisiblePass}>{!isVisible ? <img src={visible} /> : <img src={unvisible} />}</VisibleImage>
+			<EditPasswordInput type={isVisibleArray[2] ? 'text' : 'password'} value={newPasswordCheck} onChange={handleNewPasswordCheckChange} />
+			<VisibleImage onClick={isVisiblePass(2)}>{!isVisibleArray[2] ? <img src={unvisible} /> : <img src={visible} />}</VisibleImage>
 			<PasswordInstruction>{regSignUp.regPw.tooltip}</PasswordInstruction>
-			{isValidPassword ? <EditPasswordButton onClick={onEditPass}>수정완료</EditPasswordButton> : <EditPasswordButton>수정불가</EditPasswordButton>}
+			{/* TODO : 왜 세 개 전부 다른 값인데...수정완료로 바뀌지? */}
+			{isValidPassword ? (
+				<EditPasswordButton onClick={onEditPass} disabled={false}>
+					수정완료
+				</EditPasswordButton>
+			) : (
+				<EditPasswordButton disabled={true}>수정불가</EditPasswordButton>
+			)}
 		</EditPasswordWrapper>
 	);
 };
@@ -51,50 +79,49 @@ const EditPassword = () => {
 export default EditPassword;
 
 const EditPasswordWrapper = styled.div`
-	margin: 5vw 0 1vw 0;
-	display: grid;
-	grid-template-columns: 1fr 2fr;
-	grid-gap: 3vw;
+	margin: 5vw 5vw 3vw 5vw;
+	display: flex;
+	flex-direction: column;
+	width: 100%;
 `;
 
 const EditPasswordTitle = styled.div`
+	margin: 0 0 1vw 0;
 	color: ${color.color1};
 	font-weight: bold;
 `;
 
 const EditPasswordInput = styled.input`
+	margin-bottom: 1vw;
 	outline: none;
 	color: ${color.color1};
 	border: 1px solid ${color.unSelectColor};
 	border-radius: 1rem;
-	font-size: 1rem;
+	font-size: 1.5rem;
 	text-align: center;
-	display: grid;
-	grid-template-columns: 5fr 1fr;
-	z-index: 1;
 `;
 
 const VisibleImage = styled.div`
-	grid-column-start: 2;
-	grid-column-end: 3;
+	display: flex;
+	flex-direction: column;
+	justify-content: end;
+	align-items: flex-end;
 
 	img {
-		width: 4vw;
+		width: 1.2rem;
+		height: 1.2rem;
 		position: absolute;
-		z-index: 2;
+		z-index: 1;
+		margin: 0 1vw 1.5vw 0;
 	}
 `;
 
 const PasswordInstruction = styled.div`
-	grid-column-start: 1;
-	grid-column-end: 3;
 	color: ${color.darkGrayColor};
 	font-size: 0.5rem;
 `;
 
 const EditPasswordButton = styled.button`
-	grid-column-start: 1;
-	grid-column-end: 3;
 	border: 1px solid ${color.color1};
 	border-radius: 1rem;
 	background-color: ${color.color1};
