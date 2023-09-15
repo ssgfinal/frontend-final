@@ -16,15 +16,12 @@ const EditPassword = () => {
 		setIsVisible(!isVisible);
 	};
 
-	// 입력값이 유효한지 여부를 나타내는 상태 추가
 	const [isValidPassword, setIsValidPassword] = useState(false);
 
-	// 입력값이 변경될 때마다 검사하고 상태 업데이트
 	const handlePasswordChange = (e) => {
 		const inputValue = e.target.value;
 		setNewPassword(inputValue);
 
-		// 입력값을 정규 표현식과 비교하여 유효성을 판단
 		const isValid = regSignUp.regPw.reg.test(inputValue);
 		setIsValidPassword(isValid);
 	};
