@@ -1,2 +1,3 @@
 import AddressFinder from './AddressFinder';
-export { AddressFinder };
+import BusinessRegi from './BusinessRegi';
+export { AddressFinder, BusinessRegi };
