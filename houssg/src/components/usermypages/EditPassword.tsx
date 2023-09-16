@@ -25,29 +25,54 @@ const EditPassword = () => {
 		};
 	};
 	const [isValidPassword, setIsValidPassword] = useState(false);
+	const [errorMessage, setErrorMessage] = useState('');
 
 	const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const inputValuePassword = e.target.value;
 		setPassword(inputValuePassword);
+		const isPassword = regSignUp.regPw.reg.test(inputValuePassword);
+		if (isPassword) {
+			setErrorMessage('');
+		} else {
+			setErrorMessage('비밀번호를 잘못 입력하셨습니다.');
+		}
 	};
 
 	const handleNewPasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const inputValueNewPassword = e.target.value;
 		setNewPassword(inputValueNewPassword);
+		const isValidNewPassword = regSignUp.regPw.reg.test(inputValueNewPassword) && newPassword !== password;
+
+		if (isValidNewPassword) {
+			setErrorMessage('');
+		} else if (newPassword === password) {
+			setErrorMessage('비밀번호가 같습니다.');
+		} else {
+			setErrorMessage('비밀번호를 잘못 입력하셨습니다.');
+		}
 	};
 
 	const handleNewPasswordCheckChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		const inputValue = e.target.value;
-		setNewPasswordCheck(inputValue);
-		const isValidPassword = regSignUp.regPw.reg.test(inputValue) && inputValue === inputValue;
-		console.log(isValidPassword);
-		setIsValidPassword(isValidPassword);
+		const inputValueNewPasswordCheck = e.target.value;
+		setNewPasswordCheck(inputValueNewPasswordCheck);
+		const isValidPassword = regSignUp.regPw.reg.test(inputValueNewPasswordCheck) && inputValueNewPasswordCheck === newPassword;
+		if (isValidPassword) {
+			setIsValidPassword(isValidPassword);
+			setErrorMessage('');
+		} else if (inputValueNewPasswordCheck !== newPassword) {
+			setErrorMessage('비밀번호가 일치하지 않습니다.');
+		} else {
+			setErrorMessage('비밀번호를 잘못 입력하셨습니다.');
+		}
 	};
 
 	const onEditPass = () => {
 		alert(isValidPassword);
 		if (isValidPassword) {
 			// 서버에 전달
+			setPassword('');
+			setNewPassword('');
+			setNewPasswordCheck('');
 			dispatch(closeModal());
 		}
 	};
@@ -55,16 +80,27 @@ const EditPassword = () => {
 	return (
 		<EditPasswordWrapper>
 			<EditPasswordTitle>현재 비밀번호</EditPasswordTitle>
-			<EditPasswordInput type={isVisibleArray[0] ? 'text' : 'password'} value={password} onChange={handlePasswordChange}></EditPasswordInput>
+			<EditPasswordInput
+				type={isVisibleArray[0] ? 'text' : 'password'}
+				value={password}
+				onChange={handlePasswordChange}
+				disabled={false}
+			></EditPasswordInput>
 			<VisibleImage onClick={isVisiblePass(0)}>{!isVisibleArray[0] ? <img src={unvisible} /> : <img src={visible} />}</VisibleImage>
 			<EditPasswordTitle>새 비밀번호</EditPasswordTitle>
-			<EditPasswordInput type={isVisibleArray[1] ? 'text' : 'password'} value={newPassword} onChange={handleNewPasswordChange} />
+			<EditPasswordInput type={isVisibleArray[1] ? 'text' : 'password'} value={newPassword} onChange={handleNewPasswordChange} disabled={false} />
 			<VisibleImage onClick={isVisiblePass(1)}>{!isVisibleArray[1] ? <img src={unvisible} /> : <img src={visible} />}</VisibleImage>
 			<EditPasswordTitle>새 비밀번호 확인</EditPasswordTitle>
-			<EditPasswordInput type={isVisibleArray[2] ? 'text' : 'password'} value={newPasswordCheck} onChange={handleNewPasswordCheckChange} />
+			<EditPasswordInput
+				type={isVisibleArray[2] ? 'text' : 'password'}
+				value={newPasswordCheck}
+				onChange={handleNewPasswordCheckChange}
+				disabled={false}
+			/>
 			<VisibleImage onClick={isVisiblePass(2)}>{!isVisibleArray[2] ? <img src={unvisible} /> : <img src={visible} />}</VisibleImage>
+			{errorMessage ? <ErrorMessage>{errorMessage}</ErrorMessage> : null}
 			<PasswordInstruction>{regSignUp.regPw.tooltip}</PasswordInstruction>
-			{/* TODO : 왜 세 개 전부 다른 값인데...수정완료로 바뀌지? */}
+
 			{isValidPassword ? (
 				<EditPasswordButton onClick={onEditPass} disabled={false}>
 					수정완료
@@ -108,12 +144,19 @@ const VisibleImage = styled.div`
 	align-items: flex-end;
 
 	img {
+		cursor: pointer;
 		width: 1.2rem;
 		height: 1.2rem;
 		position: absolute;
 		z-index: 1;
 		margin: 0 1vw 1.5vw 0;
 	}
+`;
+
+const ErrorMessage = styled.div`
+	color: red;
+	font-size: 0.5rem;
+	margin: 0.5rem 0 0.5rem 0;
 `;
 
 const PasswordInstruction = styled.div`

@@ -144,9 +144,9 @@ const InputContainer = styled.div`
 `;
 
 const EditIconContainer = styled.div`
-	cursor: pointer;
 	text-align: right;
 	img {
+		cursor: pointer;
 		width: 1.3rem;
 		@media (max-width: 900px) {
 			width: 1.2rem;
