@@ -28,8 +28,10 @@ const AddressFinder = () => {
 
 	return (
 		<div>
-			<input readOnly placeholder="검색해주세요" value={targetAddress} />
-			<input onClick={openDaumPost} value="검색" type="button" />
+			<div>숙소위치</div>
+
+			<input onClick={openDaumPost} value="검색하기" type="button" />
+			<div>{targetAddress}</div>
 			{isOpen && <DaumPostcode autoClose={false} onComplete={handleComplete} />}
 			{targetAddress && <KakaoMap location={targetAddress} />}
 		</div>
