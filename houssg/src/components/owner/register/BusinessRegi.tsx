@@ -1,31 +1,19 @@
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import { ownerRegiImg } from '../../../assets/images';
+import { useImageConverter } from '../../../hooks';
 
 const BusinessRegi = () => {
 	const [isRegistered, setIsRegistered] = useState(false);
-	const imgRef = useRef<HTMLInputElement | null>(null);
-	const [imgFile, setImgFile] = useState<string | null>(null);
-
-	const saveImgFile = () => {
-		if (imgRef.current?.files) {
-			const file = imgRef.current.files[0];
-
-			const reader = new FileReader();
-			reader.readAsDataURL(file);
-			reader.onloadend = () => {
-				setImgFile(reader.result + ''); //string으로 buffer형식 타입변환
-			};
-		}
-	};
+	const { imgRef, imgFile, setIncodedImg } = useImageConverter();
 
 	return (
 		<div>
 			{!isRegistered ? (
 				<div>
-					<input type="file" accept="image/*" onChange={saveImgFile} ref={imgRef} />
+					<input type="file" accept="image/*" onChange={setIncodedImg} ref={imgRef} />
 
 					<br />
-					<img src={imgFile ? imgFile : ownerRegiImg} alt="프로필 이미지" width="300px" object-fit="contain" />
+					<img src={imgFile ? imgFile : ownerRegiImg} alt="사업자 이미지" width="300px" object-fit="contain" />
 					<button onClick={() => setIsRegistered(true)}>이미지전송</button>
 				</div>
 			) : (
