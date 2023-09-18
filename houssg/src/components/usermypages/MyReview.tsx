@@ -1,8 +1,8 @@
 import styled from 'styled-components';
-import { color } from '../../assets/styles';
-import Rating from '../common/Rating';
-import { ChangeEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { ChangeEvent } from 'react';
+import Rating from '../common/Rating';
+import { color } from '../../assets/styles';
 
 interface ReviewList {
 	reviews: Array<{

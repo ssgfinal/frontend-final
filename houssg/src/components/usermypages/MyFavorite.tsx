@@ -1,11 +1,9 @@
 import styled from 'styled-components';
-
 import { useNavigate } from 'react-router-dom';
-
+import Rating from '../common/Rating';
 import { color } from '../../assets/styles';
 import { MapMarker } from '../../assets/icons';
 import HeartIcons from '../common/HeartIcons';
-import Rating from '../common/Rating';
 
 interface MyFavoriteList {
 	favorites: {

@@ -1,9 +1,9 @@
 import styled from 'styled-components';
-import { color } from '../../assets/styles';
 import { useState } from 'react';
-import { regSignUp } from '../../assets/constant';
 import { useAppDispatch } from '../../hooks';
 import { closeModal } from '../../store/redux/modalSlice';
+import { color } from '../../assets/styles';
+import { regSignUp } from '../../assets/constant';
 import { unvisible, visible } from '../../assets/icons';
 
 const EditPassword = () => {
@@ -58,14 +58,15 @@ const EditPassword = () => {
 	const handleNewPasswordCheckChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const inputValueNewPasswordCheck = e.target.value;
 		setNewPasswordCheck(inputValueNewPasswordCheck);
-		const isValidPassword = regSignUp.regPw.reg.test(inputValueNewPasswordCheck) && inputValueNewPasswordCheck === newPassword;
+
+		const isValidPassword = inputValueNewPasswordCheck === newPassword;
+
 		if (isValidPassword) {
 			setIsValidPassword(isValidPassword);
 			setErrorMessage('');
 		} else if (inputValueNewPasswordCheck !== newPassword) {
+			setIsValidPassword(isValidPassword);
 			setErrorMessage('비밀번호가 일치하지 않습니다.');
-		} else {
-			setErrorMessage('비밀번호를 잘못 입력하셨습니다.');
 		}
 	};
 
@@ -104,13 +105,9 @@ const EditPassword = () => {
 			{errorMessage ? <ErrorMessage>{errorMessage}</ErrorMessage> : null}
 			<PasswordInstruction>{regSignUp.regPw.tooltip}</PasswordInstruction>
 
-			{isValidPassword ? (
-				<EditPasswordButton onClick={onEditPass} disabled={false}>
-					수정완료
-				</EditPasswordButton>
-			) : (
-				<EditPasswordButton disabled={true}>수정불가</EditPasswordButton>
-			)}
+			<EditPasswordButton onClick={onEditPass} disabled={isValidPassword}>
+				{isValidPassword ? '수정완료' : '수정불가'}
+			</EditPasswordButton>
 		</EditPasswordWrapper>
 	);
 };

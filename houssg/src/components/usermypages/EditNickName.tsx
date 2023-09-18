@@ -1,8 +1,8 @@
 import styled from 'styled-components';
-import { color } from '../../assets/styles';
+import { useRef } from 'react';
 import { useAppDispatch } from '../../hooks';
 import { closeModal } from '../../store/redux/modalSlice';
-import { useRef } from 'react';
+import { color } from '../../assets/styles';
 
 const EditNickName = () => {
 	const dispatch = useAppDispatch();

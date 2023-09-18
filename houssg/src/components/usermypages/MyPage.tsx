@@ -1,16 +1,12 @@
 import { styled } from 'styled-components';
 import { useState } from 'react';
-
 import { TabMenu } from '../common/TabMenu';
-
+import MyCoupons from './MyCoupons';
 import MyInformation from './MyInformation';
 import MyReview from './MyReview';
 import MyFavorite from './MyFavorite';
-
 import { color } from '../../assets/styles';
 import { CouponIcon, MyPointIcon, ProfileCircle, accomodation } from '../../assets/icons';
-import MyCoupons from './MyCoupons';
-//import { Review } from '../house/Review';
 
 interface MyPageMain {
 	mypagemain: {
@@ -108,13 +104,22 @@ const favorites: { houseId: number; accomName: string; houseAddress: string; use
 		favorite: true,
 	},
 ];
-// lorem 하고 tab하면 예시내용이 나온다!치지말자!
 
 const MyPage: React.FC<MyPageMain> = ({ mypagemain }) => {
 	const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
 	const toggleDropdown = () => {
 		setIsDropdownOpen(!isDropdownOpen);
+	};
+
+	const onCouponNumber = (e: React.ChangeEvent<HTMLInputElement>) => {
+		// TODO : 쿠폰번호 입력..렌더링 생각하기ㅠ, couponNumber
+		const couponNumber = e.target.value;
+		console.log(couponNumber);
+	};
+
+	const onRegistration = () => {
+		// TODO : 입력한 쿠폰번호 등록하기
 	};
 
 	const tabObj = [
@@ -147,8 +152,8 @@ const MyPage: React.FC<MyPageMain> = ({ mypagemain }) => {
 					{isDropdownOpen && (
 						<DropdownContent>
 							<CouponRegistration>
-								<input type="text" placeholder="쿠폰번호 입력" />
-								<button>등록</button>
+								<input type="text" onChange={onCouponNumber} placeholder="쿠폰번호 입력" />
+								<button onClick={onRegistration}>등록</button>
 							</CouponRegistration>
 							<DropCouponList>
 								{coupons.map((coupon, index) => (

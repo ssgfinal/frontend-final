@@ -1,8 +1,8 @@
 import styled from 'styled-components';
-import { color } from '../../assets/styles';
-import { EditIcon } from '../../assets/icons';
 import { useAppDispatch } from '../../hooks';
 import { openModal } from '../../store/redux/modalSlice';
+import { color } from '../../assets/styles';
+import { EditIcon } from '../../assets/icons';
 
 interface MyInformations {
 	informations: {
