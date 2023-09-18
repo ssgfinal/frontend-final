@@ -7,7 +7,6 @@ const OwnerHouseRegister = () => {
 			<BusinessRegi />
 			<AddressFinder />
 			<HouseImageRegi />
-
 			<div>
 				숙소 전화 번호 : <input />
 			</div>

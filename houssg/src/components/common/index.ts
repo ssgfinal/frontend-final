@@ -3,4 +3,6 @@ import CommonModal from './CommonModal';
 import CheckboxGroup from './CheckboxGroup';
 import CommonInstruction from './CommonInstruction';
 import CommonCalendar from './CommonCalendar';
-export { CommonModal, CheckboxGroup, CommonInstruction, CommonCalendar };
+import ImageUploader from './ImageUploader';
+
+export { CommonModal, CheckboxGroup, CommonInstruction, CommonCalendar, ImageUploader };
