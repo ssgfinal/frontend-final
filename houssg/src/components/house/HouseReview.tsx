@@ -5,17 +5,13 @@ import { styled } from 'styled-components';
 import Rating from '../common/Rating';
 import { color } from '../../assets/styles';
 import { Review } from './Review';
+import { accomodation } from '../../assets/icons';
 
 export const HouseReview = () => {
 	// const { houseId } = useParams();
 
 	const [activeReview, setActiveReview] = useState('');
 	const [activeRate, setActiveRate] = useState<number>(0);
-
-	const handleReveiwTxt = () => {
-		console.log(activeRate);
-		console.log(activeReview);
-	};
 
 	const reviews = [
 		{
@@ -25,6 +21,7 @@ export const HouseReview = () => {
 			roomtype: 'family',
 			rate: 3.1,
 			content: '리뷰만 지금 몇번 적는건지\n힘들다\n정말\n지긋지긋해',
+			img: accomodation,
 		},
 		{ id: 2, writedate: '2023-12-34', writer: '눕고싶다', roomtype: 'standard', rate: 3.5, content: '리뷰만 지금 2번째 \n진빠진다\n정말\n웩' },
 		{
@@ -34,20 +31,34 @@ export const HouseReview = () => {
 			roomtype: 'twin',
 			rate: 3.7,
 			content: '아무말 대잔치\n주리님\n오늘따라\n침대가 그리워요',
+			img: accomodation,
 		},
 	];
 
+	const submit = (e) => {
+		e.preventDefault();
+
+		const formData = new FormData();
+		formData.append('review', activeReview);
+
+		formData.append('uploadFile', e.target.uploadFile.files[0]);
+	};
 	return (
 		<Wrapper>
 			<InputBox>
 				{/* 하우스 번호 : {houseId}{' '} */}
 
 				<Rating rate={activeRate} setRate={setActiveRate} />
-				<Input style={{ whiteSpace: 'pre-wrap' }}>
-					<Textarea placeholder="후기를 작성해주세요" onChange={(e) => setActiveReview(e.target.value)} />
-
-					<Button onClick={handleReveiwTxt}>등록</Button>
-				</Input>
+				<form name="frm" onSubmit={submit} encType="multipart/form-data">
+					<Input>
+						<Textarea placeholder="후기를 작성해주세요" onChange={(e) => setActiveReview(e.target.value)} />
+						<AddPhoto>
+							<FileInput type="file" name="uploadFile" />
+							<Text> + 사진</Text>
+						</AddPhoto>
+						<Enroll type="submit" value="등록" />
+					</Input>
+				</form>
 			</InputBox>
 			<ReviewList>
 				{reviews.map((review) => (
@@ -67,12 +78,22 @@ const InputBox = styled.div`
 const Input = styled.div`
 	margin: 1rem 0;
 	display: grid;
-	grid-template-columns: 7fr 1fr;
 	grid-gap: 1rem;
+	white-space: 'pre-wrap';
+
+	@media (min-width: 1500px) {
+		grid-template-columns: 8fr 1fr 1.5fr;
+	}
+	@media (min-width: 750px) and (max-width: 1500px) {
+		grid-template-columns: 3fr 1fr 1fr;
+	}
+	@media (max-width: 750px) {
+		grid-template-columns: 1fr 1fr;
+	}
 `;
 
 const Textarea = styled.textarea`
-	padding: 10px;
+	padding: 0.5rem;
 	border-color: ${color.color1};
 	border-radius: 0.5rem;
 	resize: none;
@@ -87,14 +108,43 @@ const Textarea = styled.textarea`
 		border-radius: 0.5rem;
 		box-shadow: inset 0px 0px 5px white;
 	}
+	@media (max-width: 750px) {
+		grid-column-start: 1;
+		grid-column-end: 3;
+	}
 `;
 
-const Button = styled.button`
+const AddPhoto = styled.label`
+	padding: 1rem 1rem;
+	display: grid;
+	@media (min-width: 750px) {
+		grid-template-columns: 8fr 1fr 1.5fr;
+	}
+	grid-template-rows: 14fr 1fr;
+	background-color: ${color.color1};
+	color: white;
+	border: none;
+	border-radius: 1rem;
+	cursor: pointer;
+`;
+
+const FileInput = styled.input`
+	display: none;
+`;
+
+const Text = styled.div`
+	align-self: center;
+	text-align: center;
+`;
+
+const Enroll = styled.input`
 	background-color: ${color.color1};
 	color: white;
 	border: solid;
 	border-radius: 1rem;
 	border-color: ${color.color1};
+	font-size: 1rem;
+	cursor: pointer;
 `;
 
 const ReviewList = styled.div`

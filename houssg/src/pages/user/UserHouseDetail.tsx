@@ -13,8 +13,8 @@ export const UserHouseDetail = () => {
 	// const { houseId } = useParams();
 
 	const tabObj = [
-		['description', '숙소 소개'],
-		['roominfo', '객실 정보'],
+		['description', '소개'],
+		['roominfo', '객실'],
 		['review', '후기'],
 	];
 
@@ -24,7 +24,9 @@ export const UserHouseDetail = () => {
 		<Wrapper>
 			<HouseInfo />
 			<div>
-				<TabMenu tabObj={tabObj} clickTab={clickTab} setClickTab={setClickTab} />
+				<Tab>
+					<TabMenu tabObj={tabObj} clickTab={clickTab} setClickTab={setClickTab} />
+				</Tab>
 				<div>{clickTab === 'description' ? <HouseDescription /> : clickTab === 'roominfo' ? <RoomList /> : <HouseReview />}</div>
 			</div>
 		</Wrapper>
@@ -36,4 +38,11 @@ const Wrapper = styled.div`
 	margin: 0 auto;
 	display: grid;
 	grid-template-columns: 1fr;
+`;
+
+const Tab = styled.div`
+	width: 100%;
+	hr {
+		width: 100%;
+	}
 `;
