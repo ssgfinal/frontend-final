@@ -62,7 +62,14 @@ const MapContainer = styled.div`
 	justify-content: center;
 
 	.mapStyle {
-		width: 400px;
-		height: 350px;
+		width: 350px;
+		height: 320px;
+	}
+
+	@media screen and (max-width: 800px) {
+		.mapStyle {
+			width: 270px;
+			height: 200px;
+		}
 	}
 `;
