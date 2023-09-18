@@ -13,7 +13,7 @@ interface UserReservationListProps {
 	reservations: {
 		userId: string;
 		reservationNumber: number; // 예약번호
-		outdoorView: string[] | string; // 타입 longblob, 숙소이미지
+		outdoorView: string; // 타입 longblob, 숙소이미지
 		reservationStatus: number; // 예약상태
 		reservationStartDate: string; // 예약시작날짜
 		accomName: string; // 숙소명

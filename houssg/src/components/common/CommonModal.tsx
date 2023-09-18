@@ -4,6 +4,10 @@ import { closeModal, isModalOpen, modalComponent, modalSize } from '../../store/
 import { AuthWrap } from '../auth';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { CommonInstruction } from '.';
+import EditNickName from '../usermypages/EditNickName';
+import EditPhoneNumber from '../usermypages/EditPhoneNumber';
+import EditPassword from '../usermypages/EditPassword';
+import WithdrawalInstruction from '../usermypages/WithdrawalInstruction';
 import Terms from '../reservation/Terms';
 
 const CommonModal = () => {
@@ -28,6 +32,10 @@ const CommonModal = () => {
 			width={size}
 		>
 			{modalComp === 'auth' && <AuthWrap />}
+			{modalComp === 'editNickName' && <EditNickName />}
+			{modalComp === 'editPhoneNumber' && <EditPhoneNumber />}
+			{modalComp === 'editPassword' && <EditPassword />}
+			{modalComp === 'withdrawal' && <WithdrawalInstruction />}
 			{modalComp === 'test' && <Terms />}
 			{(modalComp === 'instruction' || modalComp === 'couponRegistration') && <CommonInstruction />}
 		</Modal>

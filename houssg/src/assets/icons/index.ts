@@ -1,3 +1,4 @@
+import MapMarker from './mapmarker.svg';
 import ProfileCircle from './profilecircle.svg';
 import ReviewIcon from './review.svg';
 import EditIcon from './edit.svg';
@@ -19,6 +20,6 @@ import nosmoke from './nosmoke.svg';
 import ott from './ott.svg';
 import pc from './pc.svg';
 
-export { ProfileCircle, ReviewIcon, EditIcon, CouponIcon, MyPointIcon, FullHeartIcon, HeartIcon, MyHeartIcon };
+export { MapMarker, ProfileCircle, ReviewIcon, EditIcon, CouponIcon, MyPointIcon, FullHeartIcon, HeartIcon, MyHeartIcon };
 
 export { Desert, accomodation, unvisible, visible, logo, login, bed, cityview, seaview, nosmoke, ott, pc };
