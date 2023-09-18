@@ -7,6 +7,9 @@ import { closeModal } from '../../store/redux/modalSlice';
 import { unvisible, visible } from '../../assets/icons';
 
 const EditPassword = () => {
+	// TODO : 이미 입력한 값을 수정하면 true로 인식함
+	// 유효성 검사 부분을 useEffect로 빼서 input 값이 바뀔 때마다 실행되게 하면 고쳐질까요??
+	// 아니면 전체를 다 useEffect로??
 	const dispatch = useAppDispatch();
 
 	const [isVisibleArray, setIsVisibleArray] = useState([false, false, false]);

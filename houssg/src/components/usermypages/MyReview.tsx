@@ -22,7 +22,6 @@ interface ReviewList {
 
 const MyReview: React.FC<ReviewList> = ({ reviews }) => {
 	const navigate = useNavigate();
-	//console.log('📌🏚️🏢🏬🚨💌💡💜');
 	const handleTextareaChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
 		const textarea = event.target;
 		textarea.style.height = 'auto'; // 높이를 자동으로 조절하기 위해 초기화

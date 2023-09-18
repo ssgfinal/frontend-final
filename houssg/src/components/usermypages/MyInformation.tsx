@@ -68,7 +68,7 @@ const MyInformation: React.FC<MyInformations> = ({ informations }) => {
 					<Withdrawal>
 						<button
 							onClick={() => {
-								modalOpen('instruction', '회원을 탈퇴하시겠습니까?');
+								modalOpen('withdrawal', null);
 							}}
 						>
 							회원탈퇴 &gt;
