@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { color, devideOnce } from '.';
+import { color, devideOnce, flexCenter } from '.';
 
 //Auth
 const AuthTitle = styled.div`
@@ -121,6 +121,12 @@ const UserReservationLeft = styled.div`
 	margin: 0.5rem 0;
 `;
 
+const HouseRegiEachWrapper = styled.div`
+	${flexCenter}
+	flex-direction: column;
+	margin: 0.5rem 0;
+`;
+
 export { AuthContainer, AuthTitle };
 
 export { HouseInfoContainer, HouseTabContainer, InfoWrapper, InfoText, InfoTitleText, SubInfoAligner, NavClickComp };
@@ -128,3 +134,5 @@ export { HouseInfoContainer, HouseTabContainer, InfoWrapper, InfoText, InfoTitle
 export { ManageReadTitle };
 
 export { ReservationCommonBox, UserReservationTitle, UserReservationLeft };
+
+export { HouseRegiEachWrapper };

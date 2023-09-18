@@ -4,8 +4,8 @@ export const webpImageIncoder = (file: File) =>
 	new Promise((resolve) => {
 		Resizer.imageFileResizer(
 			file, // Is the file of the image which will resized.
-			800, // Is the maxWidth of the resized new image.
-			800, // Is the maxHeight of the resized new image.
+			1000, // Is the maxWidth of the resized new image.
+			1000, // Is the maxHeight of the resized new image.
 			'webp', // Is the compressFormat of the resized new image.
 			100, // Is the quality of the resized new image.
 			0, // Is the degree of clockwise rotation to apply to uploaded image.
