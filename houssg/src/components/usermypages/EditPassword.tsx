@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useAppDispatch } from '../../hooks';
 import { closeModal } from '../../store/redux/modalSlice';
 import { color } from '../../assets/styles';
@@ -7,9 +7,6 @@ import { regSignUp } from '../../assets/constant';
 import { unvisible, visible } from '../../assets/icons';
 
 const EditPassword = () => {
-	// TODO : 이미 입력한 값을 수정하면 true로 인식함
-	// 유효성 검사 부분을 useEffect로 빼서 input 값이 바뀔 때마다 실행되게 하면 고쳐질까요??
-	// 아니면 전체를 다 useEffect로??
 	const dispatch = useAppDispatch();
 
 	const [isVisibleArray, setIsVisibleArray] = useState([false, false, false]);
@@ -33,52 +30,69 @@ const EditPassword = () => {
 	const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const inputValuePassword = e.target.value;
 		setPassword(inputValuePassword);
-		const isPassword = regSignUp.regPw.reg.test(inputValuePassword);
-		if (isPassword) {
-			setErrorMessage('');
-		} else {
-			setErrorMessage('비밀번호를 잘못 입력하셨습니다.');
-		}
 	};
 
 	const handleNewPasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const inputValueNewPassword = e.target.value;
 		setNewPassword(inputValueNewPassword);
-		const isValidNewPassword = regSignUp.regPw.reg.test(inputValueNewPassword) && newPassword !== password;
-
-		if (isValidNewPassword) {
-			setErrorMessage('');
-		} else if (newPassword === password) {
-			setErrorMessage('비밀번호가 같습니다.');
-		} else {
-			setErrorMessage('비밀번호를 잘못 입력하셨습니다.');
-		}
 	};
 
 	const handleNewPasswordCheckChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const inputValueNewPasswordCheck = e.target.value;
 		setNewPasswordCheck(inputValueNewPasswordCheck);
-
-		const isValidPassword = inputValueNewPasswordCheck === newPassword;
-
-		if (isValidPassword) {
-			setIsValidPassword(isValidPassword);
-			setErrorMessage('');
-		} else if (inputValueNewPasswordCheck !== newPassword) {
-			setIsValidPassword(isValidPassword);
-			setErrorMessage('비밀번호가 일치하지 않습니다.');
-		}
 	};
 
+	useEffect(() => {
+		if (newPassword === password && newPassword) {
+			setIsValidPassword(false);
+			setErrorMessage('비밀번호가 같습니다.');
+			return;
+		}
+
+		if (newPasswordCheck === '') {
+			setErrorMessage('');
+		} else {
+			const isValidNewPassword = regSignUp.regPw.reg.test(newPassword) && newPassword !== password;
+
+			if (isValidNewPassword) {
+				setErrorMessage('');
+			} else {
+				setIsValidPassword(false);
+				setErrorMessage('비밀번호를 잘못 입력하셨습니다.');
+			}
+
+			const isValidPassword = newPassword === newPasswordCheck;
+
+			if (isValidPassword) {
+				setIsValidPassword(isValidPassword);
+				setErrorMessage('');
+			} else if (newPasswordCheck !== newPassword) {
+				setIsValidPassword(false);
+				setErrorMessage('비밀번호가 일치하지 않습니다.');
+			}
+		}
+	}, [isValidPassword, newPassword, newPasswordCheck, password]);
+
 	const onEditPass = () => {
-		alert(isValidPassword);
+		console.log(isValidPassword + '>> 새로운 비밀번호는 ' + newPassword);
 		if (isValidPassword) {
 			// 서버에 전달
+
+			// 닫으면서 초기화
+			setIsVisibleArray([false, false, false]);
 			setPassword('');
 			setNewPassword('');
 			setNewPasswordCheck('');
+			setIsValidPassword(false);
+			setErrorMessage('');
 			dispatch(closeModal());
 		}
+	};
+
+	const cannotEdit = {
+		border: !isValidPassword ? color.darkGrayColor : color.color1,
+		color: !isValidPassword ? color.darkGrayColor : color.backColor,
+		backgroundColor: !isValidPassword ? color.unSelectColor : color.color1,
 	};
 
 	return (
@@ -105,7 +119,7 @@ const EditPassword = () => {
 			{errorMessage ? <ErrorMessage>{errorMessage}</ErrorMessage> : null}
 			<PasswordInstruction>{regSignUp.regPw.tooltip}</PasswordInstruction>
 
-			<EditPasswordButton onClick={onEditPass} disabled={isValidPassword}>
+			<EditPasswordButton onClick={onEditPass} disabled={!isValidPassword} style={cannotEdit}>
 				{isValidPassword ? '수정완료' : '수정불가'}
 			</EditPasswordButton>
 		</EditPasswordWrapper>
@@ -165,10 +179,8 @@ const PasswordInstruction = styled.div`
 `;
 
 const EditPasswordButton = styled.button`
-	border: 1px solid ${color.color1};
+	border: 1px solid;
 	border-radius: 1rem;
-	background-color: ${color.color1};
-	color: ${color.backColor};
 	width: 80px;
 	height: 30px;
 	margin: 1rem;
