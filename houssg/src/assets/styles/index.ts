@@ -1,6 +1,9 @@
 import { color, basicTheme } from './theme';
 import GlobalStyle from './GlobalStyle';
 import { devideOnce, devideTwice, devideThird } from './size';
+// commonStyle
+import { flexCenter } from './commonStyle';
+
 //Auth관련
 import { AuthTitle, AuthContainer } from './StyledComponents';
 //OwnerManage관련
@@ -17,7 +20,8 @@ import {
 
 //UserReservation.tsx
 import { ReservationCommonBox, UserReservationTitle, UserReservationLeft } from './StyledComponents';
-
+//OwnerRegi
+import { HouseRegiEachWrapper } from './StyledComponents';
 // 색 크기 theme
 export { color, basicTheme, devideOnce, devideTwice, devideThird, GlobalStyle };
 
@@ -37,3 +41,9 @@ export {
 
 //UserReservation
 export { ReservationCommonBox, UserReservationTitle, UserReservationLeft };
+
+//commonStyle
+export { flexCenter };
+
+// RegiStyle
+export { HouseRegiEachWrapper };

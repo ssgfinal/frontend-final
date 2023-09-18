@@ -3,7 +3,7 @@ name: Build Image
 on:
   push:
     branches:
-      - "main"
+      - 'main'
 
 jobs:
   build:
@@ -30,7 +30,7 @@ jobs:
       - name: SSH Remote Commands
         uses: appleboy/ssh-action@v0.1.4
         with:
-          host: mc.modutech.win # TODO: 아직 aws못함
+          host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
           password: ${{ secrets.SSH_PASSWORD }}
           port: 22

@@ -1,22 +1,15 @@
 import styled from 'styled-components';
-import { AddressFinder } from '../../components/owner/register';
+import { AddressFinder, BusinessRegi, HouseImageRegi } from '../../components/owner/register';
 
 const OwnerHouseRegister = () => {
 	return (
 		<RegisterWrapper>
-			<div>
-				상호 : <input />
-			</div>
-			<div>
-				숙소명 : <input />
-			</div>
-			<div>숙소위치</div>
+			<BusinessRegi />
 			<AddressFinder />
+			<HouseImageRegi />
+
 			<div>
 				숙소 전화 번호 : <input />
-			</div>
-			<div>
-				숙소 이미지 : <input />
 			</div>
 			<div>
 				숙소 종류 : <input />

@@ -1,10 +1,13 @@
 import { useState } from 'react';
 import DaumPostcode, { Address } from 'react-daum-postcode';
 import KakaoMap from '../../common/KakaoMap';
+import { HouseRegiEachWrapper, flexCenter } from '../../../assets/styles';
+import styled from 'styled-components';
 
 const AddressFinder = () => {
 	const [isOpen, setIsOpen] = useState(false);
 	const [targetAddress, setTargetAddress] = useState('');
+
 	const handleComplete = (data: Address) => {
 		// console.log(data, 'data');
 		let fullAddress = data.address;
@@ -19,6 +22,7 @@ const AddressFinder = () => {
 			fullAddress += extraAddress !== '' ? ` (${extraAddress})` : '';
 		}
 		setIsOpen(false);
+		console.log('되나');
 		setTargetAddress(fullAddress);
 	};
 
@@ -27,13 +31,24 @@ const AddressFinder = () => {
 	};
 
 	return (
-		<div>
-			<input readOnly placeholder="검색해주세요" value={targetAddress} />
-			<input onClick={openDaumPost} value="검색" type="button" />
-			{isOpen && <DaumPostcode autoClose={false} onComplete={handleComplete} />}
+		<HouseRegiEachWrapper>
+			<div>숙소위치</div>
+
+			<input onClick={openDaumPost} value="검색하기" type="button" />
+			<div>{targetAddress}</div>
+			{isOpen && (
+				<DaumPostContainer>
+					<DaumPostcode autoClose={false} onComplete={handleComplete} />
+				</DaumPostContainer>
+			)}
 			{targetAddress && <KakaoMap location={targetAddress} />}
-		</div>
+		</HouseRegiEachWrapper>
 	);
 };
 
 export default AddressFinder;
+
+const DaumPostContainer = styled.div`
+	${flexCenter}
+	max-width: 30rem;
+`;
