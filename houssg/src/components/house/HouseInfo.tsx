@@ -18,11 +18,6 @@ export const HouseInfo = () => {
 	const startTime = 13;
 	const endTime = 11;
 
-	// 숫자를 1000 단위로 포맷하는 함수
-	const formatNumber = (value: number) => {
-		return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-	};
-
 	return (
 		<Container>
 			<Img src={accomodation} />
@@ -31,7 +26,7 @@ export const HouseInfo = () => {
 				찜하기 컴포넌트
 				<br />
 				<Rating rate={rate} readonly />
-				(후기 : {formatNumber(reviewCnt)}개)
+				(후기 : {reviewCnt.toLocaleString()}개)
 				<div>{location}</div>
 				<div>
 					입실 ~ 퇴실 : {startTime}시 ~ {endTime}시
@@ -61,7 +56,6 @@ export const HouseInfo = () => {
 const Container = styled.div`
 	margin: 5rem 0;
 	display: grid;
-
 	@media (min-width: 750px) {
 		grid-template-columns: 1fr 1fr;
 		grid-gap: 2rem;
