@@ -39,7 +39,7 @@ jobs:
             docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }} 
             docker pull ${{ secrets.DOCKERHUB_USERNAME }}/houssg-front:latest  
             docker rm -f houssg-front
-            docker run -d -p 80:8080  \
+            docker run -d -p 80:80  \
             -e VITE_KAKAO_JS_KEY=${{ secrets.VITE_KAKAO_JS_KEY }} \
             -e VITE_KAKAO_KEY=${{ secrets.VITE_KAKAO_KEY }} \
             -e VITE_SERVER_URL=${{ secrets.VITE_SERVER_URL }} \
