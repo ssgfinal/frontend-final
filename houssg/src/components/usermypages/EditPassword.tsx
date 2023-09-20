@@ -74,7 +74,6 @@ const EditPassword = () => {
 	}, [isValidPassword, newPassword, newPasswordCheck, password]);
 
 	const onEditPass = () => {
-		console.log(isValidPassword + '>> 새로운 비밀번호는 ' + newPassword);
 		if (isValidPassword) {
 			// 서버에 전달
 
@@ -147,7 +146,7 @@ const EditPasswordInput = styled.input`
 	color: ${color.color1};
 	border: 1px solid ${color.unSelectColor};
 	border-radius: 1rem;
-	font-size: 1.5rem;
+	font-size: 1.1rem;
 	text-align: center;
 `;
 
@@ -165,10 +164,34 @@ const VisibleImage = styled.div`
 		z-index: 1;
 		margin: 0 1vw 1.5vw 0;
 	}
+
+	@media (min-width: 900px) {
+		img {
+			margin: 0 1vw 1.2vw 0;
+		}
+	}
+
+	@media (max-width: 900px) {
+		img {
+			margin: 0 1vw 1.5vw 0;
+		}
+	}
+
+	@media (max-width: 430px) {
+		img {
+			margin: 0 1vw 2vw 0;
+		}
+	}
+
+	@media (max-width: 320px) {
+		img {
+			margin: 0 1vw 2vw 0;
+		}
+	}
 `;
 
 const ErrorMessage = styled.div`
-	color: red;
+	color: ${color.red};
 	font-size: 0.5rem;
 	margin: 0.5rem 0 0.5rem 0;
 `;
