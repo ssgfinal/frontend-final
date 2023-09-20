@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { ownerRegiImg } from '../../../assets/images';
 import { useImageConverter } from '../../../hooks';
 import styled from 'styled-components';
-import { HouseRegiEachWrapper, color } from '../../../assets/styles';
+import { HouseRegiEachWrapper, UserReservationTitle, color } from '../../../assets/styles';
 
 const BusinessRegi = () => {
 	const [isRegistered, setIsRegistered] = useState(false);
@@ -10,6 +10,8 @@ const BusinessRegi = () => {
 
 	return (
 		<HouseRegiEachWrapper>
+			<UserReservationTitle>사업자 등록</UserReservationTitle>
+
 			{!isRegistered ? (
 				<div>
 					<InputWrapper>

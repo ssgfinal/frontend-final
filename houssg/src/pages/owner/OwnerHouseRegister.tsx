@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { AddressFinder, BusinessRegi, HouseImageRegi } from '../../components/owner/register';
+import { AddressFinder, BusinessRegi, HouseImageRegi, HouseInfoRegi } from '../../components/owner/register';
 
 const OwnerHouseRegister = () => {
 	return (
@@ -7,15 +7,8 @@ const OwnerHouseRegister = () => {
 			<BusinessRegi />
 			<AddressFinder />
 			<HouseImageRegi />
-			<div>
-				숙소 전화 번호 : <input />
-			</div>
-			<div>
-				숙소 종류 : <input />
-			</div>
-			<div>
-				서비스 및 시절 : <input />
-			</div>
+			<HouseInfoRegi />
+
 			<div>등록완료</div>
 		</RegisterWrapper>
 	);

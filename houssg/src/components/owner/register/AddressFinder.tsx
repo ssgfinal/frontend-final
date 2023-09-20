@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import DaumPostcode, { Address } from 'react-daum-postcode';
 import KakaoMap from '../../common/KakaoMap';
-import { HouseRegiEachWrapper, flexCenter } from '../../../assets/styles';
+import { HouseRegiEachWrapper, UserReservationTitle, flexCenter } from '../../../assets/styles';
 import styled from 'styled-components';
 
 const AddressFinder = () => {
@@ -32,7 +32,7 @@ const AddressFinder = () => {
 
 	return (
 		<HouseRegiEachWrapper>
-			<div>숙소위치</div>
+			<UserReservationTitle>숙소위치</UserReservationTitle>
 
 			<input onClick={openDaumPost} value="검색하기" type="button" />
 			<div>{targetAddress}</div>
