@@ -3,8 +3,9 @@ import { ownerRegiImg } from '../../../assets/images';
 import { useImageConverter } from '../../../hooks';
 import styled from 'styled-components';
 import { HouseRegiEachWrapper, UserReservationTitle, color } from '../../../assets/styles';
+import { RegiStepProps } from '../../../types';
 
-const BusinessRegi = () => {
+const BusinessRegi: React.FC<RegiStepProps> = ({ goStep, step }) => {
 	const [isRegistered, setIsRegistered] = useState(false);
 	const { imgRef, imgFile, setIncodedImg } = useImageConverter();
 
@@ -31,6 +32,8 @@ const BusinessRegi = () => {
 					<div>숙소명 :서버로 부터 받은 값</div>
 				</div>
 			)}
+
+			<button onClick={() => goStep('address')}>{step}에서 다음 단계로</button>
 		</HouseRegiEachWrapper>
 	);
 };

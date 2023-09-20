@@ -3,5 +3,16 @@
 import { AuthProps, AuthInputType, AuthModeType } from './auth';
 import { ManageNavProps, RoomComp } from './manage';
 import { StyledActiveProps, SetStateToggle, UserType, UserTypeObject } from './common';
-
-export type { SetStateToggle, AuthProps, AuthInputType, AuthModeType, ManageNavProps, StyledActiveProps, RoomComp, UserType, UserTypeObject };
+import { RegiStepProps } from './regi';
+export type {
+	SetStateToggle,
+	AuthProps,
+	AuthInputType,
+	AuthModeType,
+	ManageNavProps,
+	StyledActiveProps,
+	RoomComp,
+	UserType,
+	UserTypeObject,
+	RegiStepProps,
+};

@@ -3,8 +3,9 @@ import DaumPostcode, { Address } from 'react-daum-postcode';
 import KakaoMap from '../../common/KakaoMap';
 import { HouseRegiEachWrapper, UserReservationTitle, flexCenter } from '../../../assets/styles';
 import styled from 'styled-components';
+import { RegiStepProps } from '../../../types';
 
-const AddressFinder = () => {
+const AddressFinder: React.FC<RegiStepProps> = ({ goStep, step }) => {
 	const [isOpen, setIsOpen] = useState(false);
 	const [targetAddress, setTargetAddress] = useState('');
 
@@ -42,6 +43,13 @@ const AddressFinder = () => {
 				</DaumPostContainer>
 			)}
 			{targetAddress && <KakaoMap location={targetAddress} />}
+			<button
+				onClick={() => {
+					goStep('image');
+				}}
+			>
+				{step}에서 이미지로
+			</button>
 		</HouseRegiEachWrapper>
 	);
 };

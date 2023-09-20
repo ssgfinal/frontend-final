@@ -39,10 +39,6 @@ const houseServiceCategory = [
 		text: '와이파이',
 	},
 	{
-		value: 'family',
-		text: '패밀리가멀까요?',
-	},
-	{
 		value: 'twin_bed',
 		text: '트윈베드',
 	},
