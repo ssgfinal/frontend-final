@@ -87,9 +87,12 @@ const MyInformationWrapper = styled.div`
 `;
 
 const MyInformationContainer = styled.div`
-	margin: 5vw 15vw 5vw 15vw;
 	display: grid;
 	grid-template-columns: 1fr 2fr 1fr;
+
+	@media (min-width: 900px) {
+		margin: 1vw 5vw 1vw 5vw;
+	}
 
 	@media (max-width: 900px) {
 		margin: 3vw 12vw 3vw 12vw;
