@@ -1,5 +1,5 @@
 // import { useParams } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, FormEvent } from 'react';
 import { styled } from 'styled-components';
 
 import Rating from '../common/Rating';
@@ -35,13 +35,16 @@ export const HouseReview = () => {
 		},
 	];
 
-	const submit = (e) => {
+	const submit = (e: FormEvent) => {
 		e.preventDefault();
 
 		const formData = new FormData();
 		formData.append('review', activeReview);
+		const formElement = e.target as HTMLFormElement;
 
-		formData.append('uploadFile', e.target.uploadFile.files[0]);
+		if (formElement.uploadFile.files.length > 0) {
+			formData.append('uploadFile', formElement.uploadFile.files[0]);
+		}
 	};
 	return (
 		<Wrapper>

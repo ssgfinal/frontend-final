@@ -5,9 +5,15 @@ interface SetStateToggle {
 	[key: string]: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-type userType = 'user' | 'owner' | 'manager';
+type UserType = 'user' | 'owner' | 'manager';
 
-interface userTypeObject {
-	type: userType;
+interface UserTypeObject {
+	type: UserType;
 }
-export type { StyledActiveProps, SetStateToggle, userType, userTypeObject };
+
+interface UploaderSize {
+	height: string;
+	width: string;
+}
+
+export type { StyledActiveProps, SetStateToggle, UserType, UserTypeObject, UploaderSize };

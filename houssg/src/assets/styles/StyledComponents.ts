@@ -100,6 +100,15 @@ const ManageReadTitle = styled.div`
 	margin-bottom: 0.8rem;
 `;
 
+//common
+const SmallIndicatorText = styled.div`
+	margin: 0 0.5rem;
+	font-size: 0.7rem;
+	color: ${color.unSelectColor};
+	margin: 0.5rem 0;
+	font-weight: 600;
+`;
+
 // UserReservation.tsx
 
 const ReservationCommonBox = styled.div`
@@ -132,6 +141,8 @@ export { AuthContainer, AuthTitle };
 export { HouseInfoContainer, HouseTabContainer, InfoWrapper, InfoText, InfoTitleText, SubInfoAligner, NavClickComp };
 
 export { ManageReadTitle };
+
+export { SmallIndicatorText };
 
 export { ReservationCommonBox, UserReservationTitle, UserReservationLeft };
 

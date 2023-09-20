@@ -71,6 +71,11 @@ html, body, div, span, applet, object, iframe,
   a {
     text-decoration: none;
   }
+  
+  input[type="password"]::-ms-reveal,
+  input[type="password"]::-ms-clear {
+    display: none;
+  }
 	`;
 
 export default GlobalStyle;
