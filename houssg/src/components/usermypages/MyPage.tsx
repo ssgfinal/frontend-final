@@ -199,6 +199,7 @@ const MyPageWrapper = styled.div`
 	}
 
 	@media (max-width: 430px) {
+		grid-template-columns: 0.1fr 1fr 0.1fr;
 		font-size: 0.8rem;
 	}
 
@@ -252,20 +253,19 @@ const MyNickName = styled.div`
 
 const IconImg = styled.img`
 	width: 1.2rem;
-	img {
-		@media (max-width: 900px) {
-			width: 1rem;
-		}
 
-		@media (max-width: 430px) {
-			width: 0.8rem;
-			margin-right: 1vw;
-		}
+	@media (max-width: 900px) {
+		width: 1rem;
+	}
 
-		@media (max-width: 320px) {
-			width: 0.7rem;
-			margin-right: 1vw;
-		}
+	@media (max-width: 430px) {
+		width: 0.8rem;
+		margin-right: 1vw;
+	}
+
+	@media (max-width: 320px) {
+		width: 0.7rem;
+		margin-right: 1vw;
 	}
 `;
 
@@ -403,25 +403,24 @@ const TabContainer = styled.div`
 		}
 	}
 
-	@media (max-width: 460px) {
+	@media (max-width: 700px) {
 		font-size: 0.8rem;
-		hr {
-			width: 100%;
-		}
+	}
+
+	@media (max-width: 460px) {
+		font-size: 0.5rem;
+	}
+
+	@media (max-width: 400px) {
+		font-size: 0.8rem;
 	}
 
 	@media (max-width: 350px) {
 		font-size: 0.5rem;
-		hr {
-			width: 100%;
-		}
 	}
 
 	@media (max-width: 310px) {
 		font-size: 1rem;
-		hr {
-			width: 100%;
-		}
 	}
 `;
 

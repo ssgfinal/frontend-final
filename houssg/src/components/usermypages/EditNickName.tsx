@@ -15,7 +15,7 @@ const EditNickName = () => {
 			console.log(newNickName.current.value);
 		}
 		// TODO : api 요청이 성공했을 떄
-		// newNickName.current.value = '';
+		// newNickName.current!.value = '';
 		dispatch(closeModal());
 	};
 
@@ -32,16 +32,21 @@ export default EditNickName;
 
 const EditNickNameWrapper = styled.div`
 	display: grid;
-	grid-template-rows: 1.5fr 2fr;
+	grid-template-rows: 1.2fr 2fr;
+
+	@media (max-width: 500px) {
+		margin-top: 8vw;
+	}
 `;
 
 const NewNickNameBox = styled.input`
+	width: 100%;
 	outline: none;
 	color: ${color.color1};
 	border: 1px solid ${color.unSelectColor};
 	border-radius: 1rem;
 	padding: 0.5rem;
-	font-size: 1rem;
+	font-size: 1.1rem;
 	text-align: center;
 `;
 
