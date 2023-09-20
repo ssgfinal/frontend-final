@@ -11,40 +11,48 @@ import { useEffect, useState } from 'react';
 const reservations = [
 	{
 		userId: 'abc',
+		paymentDate: '2023-08-01',
 		reservationNumber: 1234567,
 		outdoorView: accomodation,
 		reservationStatus: 0,
 		reservationStartDate: '2023-09-02',
+		reservationEndDate: '2023-09-03',
 		accomName: '가나다 Hotel',
 		roomCategory: 'Standard',
 		roomPrice: 100000,
 	},
 	{
 		userId: 'abc',
+		paymentDate: '2023-08-01',
 		reservationNumber: 7654321,
 		outdoorView: accomodation,
 		reservationStatus: 2,
 		reservationStartDate: '2023-09-03',
+		reservationEndDate: '2023-09-05',
 		accomName: '가나다 Hotel',
 		roomCategory: 'Standard',
 		roomPrice: 223000,
 	},
 	{
 		userId: 'abc',
+		paymentDate: '2023-08-02',
 		reservationNumber: 3234567,
 		outdoorView: accomodation,
 		reservationStatus: 0,
 		reservationStartDate: '2023-09-02',
+		reservationEndDate: '2023-09-03',
 		accomName: '가나다 Hotel',
 		roomCategory: 'Standard',
 		roomPrice: 178000,
 	},
 	{
 		userId: 'abc',
+		paymentDate: '2023-08-03',
 		reservationNumber: 5654321,
 		outdoorView: accomodation,
 		reservationStatus: 1,
 		reservationStartDate: '2023-09-03',
+		reservationEndDate: '2023-09-08',
 		accomName: '가나다 Hotel',
 		roomCategory: 'Standard',
 		roomPrice: 212000,
@@ -110,36 +118,30 @@ export default UserReservationList;
 const UserReservationWrapper = styled.div``;
 
 const UserReservationContainer = styled.div`
+	width: 80%;
 	grid-area: a;
 	display: grid;
+	justify-content: center;
 	margin: 1rem auto;
 	grid-gap: 1rem;
 
 	@media (min-width: 1400px) {
-		width: 80%;
 		grid-template-columns: repeat(3, 1fr);
 		grid-template-areas: 'a a a';
-		justify-content: center;
 	}
 
 	@media (min-width: 1200px) and (max-width: 1400px) {
-		width: 80%;
 		grid-template-columns: repeat(3, 1fr);
 		grid-template-areas: 'a a a';
-		justify-content: center;
 	}
 
 	@media (min-width: 700px) and (max-width: 1200px) {
-		width: 80%;
 		grid-template-columns: repeat(2, 1fr);
 		grid-template-areas: 'a a';
-		justify-content: center;
 	}
 
 	@media (max-width: 700px) {
-		width: 80%;
 		grid-template-columns: 1fr;
 		grid-template-areas: 'a';
-		justify-content: center;
 	}
 `;
