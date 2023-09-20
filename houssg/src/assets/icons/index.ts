@@ -19,7 +19,10 @@ import seaview from './seaview.svg';
 import nosmoke from './nosmoke.svg';
 import ott from './ott.svg';
 import pc from './pc.svg';
+import rotateR from './rotateR.svg';
+import rotateL from './rotateL.svg';
+import capture from './capture.svg';
 
-export { MapMarker, ProfileCircle, ReviewIcon, EditIcon, CouponIcon, MyPointIcon, FullHeartIcon, HeartIcon, MyHeartIcon };
+export { MapMarker, ProfileCircle, ReviewIcon, EditIcon, CouponIcon, MyPointIcon, FullHeartIcon, HeartIcon, MyHeartIcon, rotateR, rotateL, capture };
 
 export { Desert, accomodation, unvisible, visible, logo, login, bed, cityview, seaview, nosmoke, ott, pc };
