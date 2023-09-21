@@ -1,6 +1,6 @@
 interface RegiStepProps {
-	goStep: (stepName: string) => void;
-	step: string | undefined;
+	goStep: (step: number) => void;
+	step: number;
 }
 
 export type { RegiStepProps };

@@ -10,7 +10,14 @@ const HouseImageRegi: React.FC<RegiStepProps> = ({ goStep, step }) => {
 			<ImageUploader width="300px" height="400px" />
 			<button
 				onClick={() => {
-					goStep('info');
+					goStep(1);
+				}}
+			>
+				{step}에서 이전
+			</button>
+			<button
+				onClick={() => {
+					goStep(3);
 				}}
 			>
 				{step}에서 다음

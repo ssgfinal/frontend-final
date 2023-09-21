@@ -1,26 +1,22 @@
 import styled from 'styled-components';
+import { useState } from 'react';
 import { AddressFinder, BusinessRegi, HouseImageRegi, HouseInfoRegi } from '../../components/owner/register';
-import { houseServiceCategory } from '../../assets/constant';
-import { useLocation, useNavigate } from 'react-router';
 
 const OwnerHouseRegister = () => {
-	const checkedList = new Array(houseServiceCategory.length).fill(0);
-	const stepName = ['', 'address', 'image', 'info'];
-	const navigate = useNavigate();
-	const location = useLocation();
-	const step = location.search.substring(1);
+	// const stepName = ['bussiness', 'address', 'image', 'info'];
 
-	const goStep = (stepName: string) => {
-		navigate('/owner/register?' + stepName);
+	const [step, setStep] = useState<number>(0);
+	const goStep = (step: number) => {
+		setStep(step);
 	};
 
 	return (
 		<RegisterWrapper>
-			{step === stepName[0] && <BusinessRegi goStep={goStep} step={step} />}
-			{step === stepName[1] && <AddressFinder goStep={goStep} step={step} />}
-			{step === stepName[2] && <HouseImageRegi goStep={goStep} step={step} />}
-			{step === stepName[3] && <HouseInfoRegi checkedList={checkedList} goStep={goStep} step={step} />}
-			<div onClick={() => goStep('test')}>등록완료</div>
+			{step === 0 && <BusinessRegi goStep={goStep} step={step} />}
+			{step === 1 && <AddressFinder goStep={goStep} step={step} />}
+			{step === 2 && <HouseImageRegi goStep={goStep} step={step} />}
+			{step === 3 && <HouseInfoRegi goStep={goStep} step={step} />}
+			<div onClick={() => goStep(0)}>등록완료</div>
 		</RegisterWrapper>
 	);
 };

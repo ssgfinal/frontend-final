@@ -45,7 +45,14 @@ const AddressFinder: React.FC<RegiStepProps> = ({ goStep, step }) => {
 			{targetAddress && <KakaoMap location={targetAddress} />}
 			<button
 				onClick={() => {
-					goStep('image');
+					goStep(0);
+				}}
+			>
+				이전으로
+			</button>
+			<button
+				onClick={() => {
+					goStep(2);
 				}}
 			>
 				{step}에서 이미지로

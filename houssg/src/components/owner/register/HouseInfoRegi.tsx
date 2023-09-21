@@ -6,11 +6,7 @@ import styled from 'styled-components';
 import { CheckBox } from './element';
 import { RegiStepProps } from '../../../types';
 
-interface HouseInfoProps extends RegiStepProps {
-	checkedList: number[];
-}
-
-const HouseInfoRegi: React.FC<HouseInfoProps> = ({ checkedList, step, goStep }) => {
+const HouseInfoRegi: React.FC<RegiStepProps> = ({ step, goStep }) => {
 	const [currentType, setCurrentType] = useState<{ value: string; label: string }>(houseCategory[0]);
 	const handleChange = (value: { value: string; label: string }) => {
 		setCurrentType(value);
@@ -37,7 +33,14 @@ const HouseInfoRegi: React.FC<HouseInfoProps> = ({ checkedList, step, goStep }) 
 			</ServiceContainer>
 			<button
 				onClick={() => {
-					goStep('');
+					goStep(2);
+				}}
+			>
+				뒤로
+			</button>
+			<button
+				onClick={() => {
+					goStep(0);
 				}}
 			>
 				{step}에서 종료

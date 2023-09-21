@@ -33,7 +33,7 @@ const BusinessRegi: React.FC<RegiStepProps> = ({ goStep, step }) => {
 				</div>
 			)}
 
-			<button onClick={() => goStep('address')}>{step}에서 다음 단계로</button>
+			<button onClick={() => goStep(1)}>{step}에서 다음 단계로</button>
 		</HouseRegiEachWrapper>
 	);
 };
