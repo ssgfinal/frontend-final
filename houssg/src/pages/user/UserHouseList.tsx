@@ -154,14 +154,7 @@ const UserHouseList = () => {
 					</Space>
 				</Date>
 				<SearchInput>
-					<Search
-						// id="search"
-						placeholder=" 키워드로 찾아보세요."
-						onSearch={onSearch}
-						enterButton
-						// size="large"
-						// style={{ width: '100%' }}
-					/>
+					<Search placeholder=" 키워드로 찾아보세요." onSearch={onSearch} enterButton />
 				</SearchInput>
 			</SearchWrapper>
 
@@ -222,6 +215,9 @@ const Date = styled.div`
 
 const SearchInput = styled.div`
 	grid-area: c;
+	button {
+		background-color: ${color.color1};
+	}
 `;
 
 const SearchResultBar = styled.div`
