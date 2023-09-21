@@ -65,7 +65,7 @@ const Right = styled.div`
 	color: ${color.darkGrayColor};
 
 	&:hover {
-		cursor: pointer; /* 또는 'cursor: grab;' 또는 'cursor: pointer;' 등 원하는 커서 스타일로 변경하세요. */
+		cursor: pointer;
 	}
 `;
 
@@ -74,7 +74,7 @@ const MoreInfo = styled.button`
 	border-width: 0;
 
 	&:hover {
-		cursor: pointer; /* 또는 'cursor: grab;' 또는 'cursor: pointer;' 등 원하는 커서 스타일로 변경하세요. */
+		cursor: pointer;
 	}
 `;
 

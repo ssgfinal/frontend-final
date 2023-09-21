@@ -80,6 +80,10 @@ const Info = styled.div`
 	align-items: center;
 `;
 const MoreService = styled.button`
+	&:hover {
+		cursor: pointer;
+	}
+
 	background-color: white;
 	border-width: 0;
 `;

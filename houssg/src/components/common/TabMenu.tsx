@@ -38,6 +38,9 @@ export const TabMenu: React.FC<TabMenuProps> = ({ tabObj, clickTab, setClickTab 
 	);
 };
 const Wrapper = styled.div`
+	&:hover {
+		cursor: pointer;
+	}
 	display: grid;
 	grid-template-columns: repeat(3, 1fr);
 `;
