@@ -3,12 +3,12 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin, { DateClickArg } from '@fullcalendar/interaction';
 
 import { eventList } from '../../assets/constant/reservationDummy';
-import { userTypeObject } from '../../types';
+import { UserTypeObject } from '../../types';
 import styled from 'styled-components';
 import useCalendarStyle from '../../hooks/useCalendarStyle';
 import { color } from '../../assets/styles';
 
-const CommonCalendar: React.FC<userTypeObject> = ({ type }) => {
+const CommonCalendar: React.FC<UserTypeObject> = ({ type }) => {
 	useCalendarStyle(type);
 
 	const events = eventList;
