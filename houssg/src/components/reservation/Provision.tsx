@@ -11,7 +11,7 @@ export const Provision = () => {
 
 	const modalOpen = () => {
 		const modalSize = window.innerWidth >= 1000 ? 500 : 400;
-		dispatch(openModal({ modalComponent: 'test', modalSize: modalSize }));
+		dispatch(openModal({ modalComponent: 'provision', modalSize: modalSize }));
 	};
 
 	const refundPolicy = '취소 수수료 \n예약일 1달 전 : 100% 환불\n예약일 1달~ 1주 전 : 50% 환불\n예약일 1주 미만 : 0% 환불';
