@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
-import { userType } from '../types';
+import { UserType } from '../types';
 
-const useCalendarStyle = (type: userType) => {
+const useCalendarStyle = (type: UserType) => {
 	useEffect(() => {
 		if (type === 'owner') {
 			const parentDiv = document.getElementsByClassName('fc-daygrid-day-frame');

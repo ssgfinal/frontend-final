@@ -36,7 +36,7 @@ const CommonModal = () => {
 			{modalComp === 'editPhoneNumber' && <EditPhoneNumber />}
 			{modalComp === 'editPassword' && <EditPassword />}
 			{modalComp === 'withdrawal' && <WithdrawalInstruction />}
-			{modalComp === 'test' && <Terms />}
+			{modalComp === 'provision' && <Terms />}
 			{(modalComp === 'instruction' || modalComp === 'couponRegistration') && <CommonInstruction />}
 		</Modal>
 	);

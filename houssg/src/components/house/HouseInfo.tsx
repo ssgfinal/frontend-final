@@ -25,7 +25,9 @@ export const HouseInfo = () => {
 				<div>숙소명</div>
 				찜하기 컴포넌트
 				<br />
-				<Rating rate={rate} readonly />
+				<RateBox>
+					<Rating rate={rate} readonly />
+				</RateBox>
 				(후기 : {reviewCnt.toLocaleString()}개)
 				<div>{location}</div>
 				<div>
@@ -91,6 +93,9 @@ const Icon = styled.img`
 	width: 1.5rem;
 `;
 
+const RateBox = styled.div`
+	width: 30%;
+`;
 const Service = styled.div`
 	display: flex;
 `;

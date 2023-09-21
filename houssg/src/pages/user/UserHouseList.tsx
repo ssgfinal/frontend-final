@@ -4,6 +4,7 @@ import { Select } from 'antd';
 import { Input, Space, DatePicker } from 'antd';
 
 import styled from 'styled-components';
+import { color } from '../../assets/styles';
 import { accomodation } from '../../assets/icons';
 
 import BriefHouse from '../../components/house/BriefHouse';
@@ -25,7 +26,7 @@ const UserHouseList = () => {
 		{
 			houseId: 1,
 			name: '무지개멘션',
-			price: '38000원',
+			price: 38000,
 			rating: 1.3,
 			location: '부산시 수영구 센텀',
 			image: accomodation,
@@ -33,7 +34,7 @@ const UserHouseList = () => {
 		{
 			houseId: 2,
 			name: '무지개떡',
-			price: '44000원',
+			price: 44000,
 			rating: 1.7,
 			location: '부산시 중구 남포',
 			image: accomodation,
@@ -41,7 +42,7 @@ const UserHouseList = () => {
 		{
 			houseId: 3,
 			name: '파라다이스',
-			price: '44000원',
+			price: 44000,
 			rating: 2.1,
 			location: '부산시 중구 남포',
 			image: accomodation,
@@ -49,7 +50,7 @@ const UserHouseList = () => {
 		{
 			houseId: 4,
 			name: '환영펜션',
-			price: '44000원',
+			price: 44000,
 			rating: 2.9,
 			location: '부산시 중구 남포',
 			image: accomodation,
@@ -57,7 +58,7 @@ const UserHouseList = () => {
 		{
 			houseId: 5,
 			name: '환영펜션',
-			price: '44000원',
+			price: 44000,
 			rating: 3.0,
 			location: '부산시 중구 남포',
 			image: accomodation,
@@ -65,7 +66,7 @@ const UserHouseList = () => {
 		{
 			houseId: 6,
 			name: '환영펜션',
-			price: '44000원',
+			price: 44000,
 			rating: 4.01,
 			location: '부산시 중구 남포',
 			image: accomodation,
@@ -73,7 +74,7 @@ const UserHouseList = () => {
 		{
 			houseId: 7,
 			name: '환영펜션',
-			price: '44000원',
+			price: 44000,
 			rating: 4.99,
 			location: '부산시 중구 남포',
 			image: accomodation,
@@ -81,7 +82,7 @@ const UserHouseList = () => {
 		{
 			houseId: 8,
 			name: '환영펜션',
-			price: '44000원',
+			price: 44000,
 			rating: 5,
 			location: '부산시 중구 남포',
 			image: accomodation,
@@ -89,7 +90,7 @@ const UserHouseList = () => {
 		{
 			houseId: 9,
 			name: '환영펜션',
-			price: '44000원',
+			price: 44000,
 			rating: 5.0,
 			location: '부산시 중구 남포',
 			image: accomodation,
@@ -97,7 +98,7 @@ const UserHouseList = () => {
 		{
 			houseId: 10,
 			name: '환영펜션',
-			price: '44000원',
+			price: 44000,
 			rating: 3,
 			location: '부산시 중구 남포',
 			image: accomodation,
@@ -105,7 +106,7 @@ const UserHouseList = () => {
 		{
 			houseId: 11,
 			name: '환영펜션',
-			price: '44000원',
+			price: 44000,
 			rating: 0,
 			location: '부산시 중구 남포',
 			image: accomodation,
@@ -190,8 +191,7 @@ export default UserHouseList;
 // 라이브러리에서 들고온 태그의 스타일은 스타일드 컴포넌트로 해서 안 먹힐 수 있음-> 라이브러리에서 들고온 태그의 스타일은인라인으로 해야함
 const SearchWrapper = styled.div`
 	display: grid;
-
-	margin: 1rem auto;
+	margin: 3rem auto;
 	grid-gap: 1rem;
 
 	@media (min-width: 1400px) {
@@ -222,41 +222,40 @@ const Date = styled.div`
 `;
 
 const SearchInput = styled.div`
-	//width: 100%;
 	grid-area: c;
 `;
 
 const SearchResultBar = styled.div`
-	margin: 1rem;
 	display: flex;
 	justify-content: space-between;
 	padding: 1vw 5vw;
-	background-color: #dcb0ff;
+	color: ${color.color1};
+	border: 1px solid ${color.color3};
+	border-left: none;
+	border-right: none;
 
-	.ant-select-selector:hover {
-		border: 1px solid ${color.color1};
-		background-color: #dcb0ff;
+	.ant-select-selector {
+		color: ${color.color1};
 	}
 `;
 
 const SearchResultContents = styled.div`
 	padding: 2rem;
 	display: grid;
-	grid-gap: 3rem;
 
 	@media (min-width: 1400px) {
-		grid-template-columns: repeat(4, 1fr);
+		grid-template-columns: repeat(4, 25%);
 	}
 
 	@media (min-width: 1100px) and (max-width: 1400px) {
-		grid-template-columns: repeat(3, 1fr);
+		grid-template-columns: repeat(3, 33%);
 	}
 
 	@media (min-width: 700px) and (max-width: 1100px) {
-		grid-template-columns: repeat(2, 1fr);
+		grid-template-columns: repeat(2, 50%);
 	}
 
 	@media (max-width: 700px) {
-		grid-template-columns: repeat(1, 1fr);
+		grid-template-columns: 100%;
 	}
 `;
