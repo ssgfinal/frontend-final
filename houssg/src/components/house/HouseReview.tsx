@@ -65,7 +65,7 @@ export const HouseReview = () => {
 				</RateBox>
 				<form name="frm" onSubmit={submit} encType="multipart/form-data">
 					<Input>
-						<Textarea placeholder={`후기를 작성해주세요\n( 최대 100자 )`} onChange={(e) => handleWriteReview(e.target.value)} value={activeReview} />
+						<Textarea placeholder={`후기를 작성해주세요\n( 최대 250자 )`} onChange={(e) => handleWriteReview(e.target.value)} value={activeReview} />
 						<AddPhoto>
 							<FileInput type="file" name="uploadFile" />
 							<Text> + 사진</Text>
