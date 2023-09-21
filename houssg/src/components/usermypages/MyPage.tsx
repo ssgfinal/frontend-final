@@ -113,7 +113,7 @@ const MyPage: React.FC<MyPageMain> = ({ mypagemain }) => {
 	};
 
 	const onCouponNumber = (e: React.ChangeEvent<HTMLInputElement>) => {
-		// TODO : 쿠폰번호 입력..렌더링 생각하기ㅠ, couponNumber
+		// TODO : 쿠폰번호 입력..렌더링 생각하기ㅠ, couponNumber >> useRef로 바꾸기?
 		const couponNumber = e.target.value;
 		console.log(couponNumber);
 	};

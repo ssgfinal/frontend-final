@@ -8,7 +8,6 @@ import { color } from '../../assets/styles';
 import { accomodation } from '../../assets/icons';
 
 import BriefHouse from '../../components/house/BriefHouse';
-import { color } from '../../assets/styles';
 
 const UserHouseList = () => {
 	const handleChange = (value: { value: string; label: React.ReactNode }) => {

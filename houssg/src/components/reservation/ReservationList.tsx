@@ -20,11 +20,11 @@ const detail = [
 		paymentDate: '2023-08-01',
 		guestName: '홍길동',
 		guestPhone: '010-1234-5678',
-		couponName: '9월 할인',
-		couponNumber: 123456789,
+		couponName: '',
+		couponNumber: 0,
 		isUsed: 0,
-		couponDiscount: 10000,
-		pointDiscount: 5000,
+		couponDiscount: 0,
+		pointDiscount: 0,
 		payment: 90000,
 	},
 	{
@@ -130,9 +130,9 @@ const ReservationList: React.FC<UserReservationListProps> = ({ reservations }) =
 
 	const dispatch = useAppDispatch();
 
-	const modalOpen = () => {
+	const modalOpen = (component: string, message: string | null) => {
 		const modalSize = window.innerWidth >= 1000 ? 500 : 400;
-		dispatch(openModal({ modalComponent: 'instruction', modalSize: modalSize, modalText: '예약을 취소하시겠습니까?' }));
+		dispatch(openModal({ modalComponent: component, modalSize: modalSize, modalText: message }));
 	};
 
 	return (
@@ -140,7 +140,12 @@ const ReservationList: React.FC<UserReservationListProps> = ({ reservations }) =
 			<ReservationContainer>
 				<ReservationBox>
 					{reservations.reservationStatus === 0 ? (
-						<ReservationButton hidden={false} onClick={modalOpen}>
+						<ReservationButton
+							hidden={false}
+							onClick={() => {
+								modalOpen('cancelReservation', null);
+							}}
+						>
 							취소하기
 						</ReservationButton>
 					) : (
@@ -300,10 +305,7 @@ const ReservationStatusBox = styled.div`
 
 const ReservationNameBox = styled.div``;
 
-const ReservationStartDateBox = styled.div`
-	// 크기 어떻게 할 지....ㅠ
-	//font-size: 0.5rem;
-`;
+const ReservationStartDateBox = styled.div``;
 
 const ReservationEndDateBox = styled.div``;
 
@@ -369,6 +371,7 @@ const DetailBox = styled.div`
 	grid-column-end: 3;
 	grid-row-start: 2;
 	grid-row-end: 3;
+	font-size: 0.8rem;
 	color: ${color.color1};
 	text-align: left;
 	display: grid;
@@ -376,7 +379,7 @@ const DetailBox = styled.div`
 	transition: width 0.1s;
 
 	@media (max-width: 700px) {
-		font-size: 0.8rem;
+		font-size: 0.7rem;
 	}
 
 	@media (min-width: 700px) and (max-width: 1400px) {
@@ -384,6 +387,6 @@ const DetailBox = styled.div`
 	}
 
 	@media (min-width: 1400px) {
-		font-size: 1rem;
+		font-size: 0.9rem;
 	}
 `;

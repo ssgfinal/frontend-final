@@ -25,11 +25,16 @@ const ReservationCollapseDetail: React.FC<CollapseDetail> = ({ detail }) => {
 			<PaymentContainer>
 				<PaymentDateBox>{formatDate(detail.paymentDate)}</PaymentDateBox>
 				{/* TODO : 쿠폰 미사용시 안 보이게 삼항 */}
-				<p>
-					사용쿠폰 : {detail.couponName}({detail.couponNumber})
-				</p>
-				<p>쿠폰할인 : {detail.couponDiscount.toLocaleString()}원</p>
-				<p>포인트사용 : {detail.pointDiscount.toLocaleString()}p</p>
+				{detail.couponName ? (
+					<p>
+						사용쿠폰 : {detail.couponName}({detail.couponNumber})
+					</p>
+				) : (
+					<p>사용쿠폰 : 사용안함</p>
+				)}
+				{detail.couponDiscount ? <p>쿠폰할인 : {detail.couponDiscount.toLocaleString()}원</p> : <p>쿠폰할인 : 0원</p>}
+				{detail.pointDiscount ? <p>포인트사용 : {detail.pointDiscount.toLocaleString()}p</p> : <p>포인트사용 : 0p</p>}
+
 				<p>결제금액 : {detail.payment.toLocaleString()}원</p>
 			</PaymentContainer>
 		</CollapseDetailWrapper>
