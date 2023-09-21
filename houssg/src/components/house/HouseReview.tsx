@@ -81,7 +81,7 @@ const InputBox = styled.div`
 `;
 
 const RateBox = styled.div`
-	width: 15%;
+	width: 25%;
 `;
 const Input = styled.div`
 	margin: 1rem 0;
