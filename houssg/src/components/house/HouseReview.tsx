@@ -11,7 +11,9 @@ export const HouseReview = () => {
 	// const { houseId } = useParams();
 
 	const [activeReview, setActiveReview] = useState('');
+	console.log('적힌 글자 > ' + activeReview);
 	const [activeRate, setActiveRate] = useState<number>(0);
+	const [overReview, setOverReview] = useState(false);
 
 	const reviews = [
 		{
@@ -20,7 +22,7 @@ export const HouseReview = () => {
 			writer: '니가 알아서 머할라고',
 			roomtype: 'family',
 			rate: 3.1,
-			content: '리뷰만 지금 몇번 적는건지\n힘들다\n정말\n지긋지긋해',
+			content: `ㅁㄷ럼;재댜럼재ㅑㄷ러매ㅑㄷㅈ러;맺댜럼;ㅐ쟈덞;ㅐㅈ댜ㅓㄻ;ㅐㅈ댜러;ㅁ재댜러\nㅐㅁ냐덞;ㅐㅈ댜ㅓㄹ;매쟈덞;재댜럼;재댜러\nㅁ니ㅣ아러;매쟏ㄻ;ㅐ쟏러;맺댜럼;재댜러\nㅁ;ㅈ대러ㅑ;ㅁ재댜러;매쟏러;맺댜러\nㅁ;ㅐㅈ댜럼;재댜럼;ㅐㅈ댜ㅓㄹ;ㅁ잳랴ㅓㅁ;ㅈ대랴ㅓㅁ;ㅐㅈ댤더ㅐ\n맺덜;매쟏러;ㅁ재댜럼;재댜러;매쟈ㅓㄷㄹ;맺댜러\nㅁ;재ㅐㄷㄹ더ㅐㅑㅁ;잳랴ㅓㅁ;잳러ㅑ;맺댜러;ㅁ재댜러\n;ㅐㅈ댜`,
 			img: accomodation,
 		},
 		{ id: 2, writedate: '2023-12-34', writer: '눕고싶다', roomtype: 'standard', rate: 3.5, content: '리뷰만 지금 2번째 \n진빠진다\n정말\n웩' },
@@ -35,6 +37,14 @@ export const HouseReview = () => {
 		},
 	];
 
+	const handleWriteReview = (text: string) => {
+		if (text.length > 250) {
+			setOverReview(true);
+		} else {
+			setOverReview(false);
+			setActiveReview(text);
+		}
+	};
 	const submit = (e: FormEvent) => {
 		e.preventDefault();
 
@@ -55,13 +65,14 @@ export const HouseReview = () => {
 				</RateBox>
 				<form name="frm" onSubmit={submit} encType="multipart/form-data">
 					<Input>
-						<Textarea placeholder="후기를 작성해주세요" onChange={(e) => setActiveReview(e.target.value)} />
+						<Textarea placeholder={`후기를 작성해주세요\n( 최대 100자 )`} onChange={(e) => handleWriteReview(e.target.value)} value={activeReview} />
 						<AddPhoto>
 							<FileInput type="file" name="uploadFile" />
 							<Text> + 사진</Text>
 						</AddPhoto>
 						<Enroll type="submit" value="등록" />
 					</Input>
+					<OverTextWarning>{overReview ? <> ※ 최대 글자수 250자를 초과하였습니다.</> : <></>}</OverTextWarning>
 				</form>
 			</InputBox>
 			<ReviewList>
@@ -155,6 +166,12 @@ const Enroll = styled.input`
 	cursor: pointer;
 `;
 
+const OverTextWarning = styled.div`
+	color: red;
+	opacity: 0.8;
+	text-align: left;
+	font-size: small;
+`;
 const ReviewList = styled.div`
 	white-space: pre-wrap;
 `;
