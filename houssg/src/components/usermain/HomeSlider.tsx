@@ -14,7 +14,7 @@ const house = [
 	{
 		houseId: 1,
 		name: '무지개멘션',
-		price: '38000원',
+		price: 38000,
 		rating: 1.3,
 		location: '부산시 수영구 센텀',
 		image: accomodation,
@@ -22,7 +22,7 @@ const house = [
 	{
 		houseId: 2,
 		name: '무지개떡',
-		price: '44000원',
+		price: 44000,
 		rating: 1.7,
 		location: '부산시 중구 남포',
 		image: accomodation,
@@ -30,7 +30,7 @@ const house = [
 	{
 		houseId: 3,
 		name: '파라다이스',
-		price: '44000원',
+		price: 44000,
 		rating: 2.1,
 		location: '부산시 중구 남포',
 		image: accomodation,
@@ -38,7 +38,7 @@ const house = [
 	{
 		houseId: 4,
 		name: '환영펜션',
-		price: '44000원',
+		price: 44000,
 		rating: 2.9,
 		location: '부산시 중구 남포',
 		image: accomodation,
@@ -46,7 +46,7 @@ const house = [
 	{
 		houseId: 5,
 		name: '환영펜션',
-		price: '44000원',
+		price: 44000,
 		rating: 3.0,
 		location: '부산시 중구 남포',
 		image: accomodation,
@@ -54,7 +54,7 @@ const house = [
 	{
 		houseId: 6,
 		name: '환영펜션',
-		price: '44000원',
+		price: 44000,
 		rating: 4.01,
 		location: '부산시 중구 남포',
 		image: accomodation,
@@ -62,7 +62,7 @@ const house = [
 	{
 		houseId: 7,
 		name: '환영펜션',
-		price: '44000원',
+		price: 44000,
 		rating: 4.99,
 		location: '부산시 중구 남포',
 		image: accomodation,
@@ -70,7 +70,7 @@ const house = [
 	{
 		houseId: 8,
 		name: '환영펜션',
-		price: '44000원',
+		price: 44000,
 		rating: 5,
 		location: '부산시 중구 남포',
 		image: accomodation,
@@ -78,7 +78,7 @@ const house = [
 	{
 		houseId: 9,
 		name: '환영펜션',
-		price: '44000원',
+		price: 44000,
 		rating: 5.0,
 		location: '부산시 중구 남포',
 		image: accomodation,
@@ -86,7 +86,7 @@ const house = [
 	{
 		houseId: 10,
 		name: '환영펜션',
-		price: '44000원',
+		price: 44000,
 		rating: 3,
 		location: '부산시 중구 남포',
 		image: accomodation,
@@ -94,7 +94,7 @@ const house = [
 	{
 		houseId: 11,
 		name: '환영펜션',
-		price: '44000원',
+		price: 44000,
 		rating: 0,
 		location: '부산시 중구 남포',
 		image: accomodation,

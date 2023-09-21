@@ -50,8 +50,9 @@ export const HouseReview = () => {
 		<Wrapper>
 			<InputBox>
 				{/* 하우스 번호 : {houseId}{' '} */}
-
-				<Rating rate={activeRate} setRate={setActiveRate} />
+				<RateBox>
+					<Rating rate={activeRate} setRate={setActiveRate} />
+				</RateBox>
 				<form name="frm" onSubmit={submit} encType="multipart/form-data">
 					<Input>
 						<Textarea placeholder="후기를 작성해주세요" onChange={(e) => setActiveReview(e.target.value)} />
@@ -77,6 +78,10 @@ const Wrapper = styled.div`
 `;
 const InputBox = styled.div`
 	margin-bottom: 3rem;
+`;
+
+const RateBox = styled.div`
+	width: 25%;
 `;
 const Input = styled.div`
 	margin: 1rem 0;
