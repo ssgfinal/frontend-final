@@ -7,6 +7,7 @@ import styled from 'styled-components';
 import { accomodation } from '../../assets/icons';
 
 import BriefHouse from '../../components/house/BriefHouse';
+import { color } from '../../assets/styles';
 
 const UserHouseList = () => {
 	const handleChange = (value: { value: string; label: React.ReactNode }) => {
@@ -231,6 +232,11 @@ const SearchResultBar = styled.div`
 	justify-content: space-between;
 	padding: 1vw 5vw;
 	background-color: #dcb0ff;
+
+	.ant-select-selector:hover {
+		border: 1px solid ${color.color1};
+		background-color: #dcb0ff;
+	}
 `;
 
 const SearchResultContents = styled.div`

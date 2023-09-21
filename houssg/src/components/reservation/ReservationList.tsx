@@ -8,50 +8,40 @@ import { useAppDispatch } from '../../hooks';
 
 import { color } from '../../assets/styles';
 import { accomodation } from '../../assets/icons';
+import { ReservationsType } from '../../types';
 
 interface UserReservationListProps {
-	reservations: {
-		userId: string;
-		paymentDate: string; // 결제일
-		reservationNumber: number; // 예약번호
-		outdoorView: string; // 숙소이미지
-		reservationStatus: number; // 예약상태
-		reservationStartDate: string; // 예약시작날짜
-		reservationEndDate: string; // 예약종료날짜
-		accomName: string; // 숙소명
-		roomCategory: string; // 객실 종류
-		roomPrice: number; // 객실 가격
-	};
+	reservations: ReservationsType;
 }
 
 const detail = [
 	{
-		userId: 'abc',
 		reservationNumber: 1234567,
+		paymentDate: '2023-08-01',
 		guestName: '홍길동',
 		guestPhone: '010-1234-5678',
-		couponNumber: 123456789,
 		couponName: '9월 할인',
+		couponNumber: 123456789,
 		isUsed: 0,
 		couponDiscount: 10000,
 		pointDiscount: 5000,
 		payment: 90000,
 	},
 	{
-		userId: 'abc',
 		reservationNumber: 7654321,
+		paymentDate: '2023-08-02',
 		guestName: '김철수',
 		guestPhone: '010-1234-5678',
-		couponNumber: 123456789,
 		couponName: '9월 반값~',
+		couponNumber: 123456789,
 		isUsed: 1,
 		couponDiscount: 50000,
 		pointDiscount: 5000,
 		payment: 100000,
 	},
 	{
-		userId: 'cba',
 		reservationNumber: 3234567,
+		paymentDate: '2023-08-03',
 		guestName: '김철수',
 		guestPhone: '010-1234-5678',
 		couponNumber: 123456789,
@@ -62,8 +52,8 @@ const detail = [
 		payment: 98000,
 	},
 	{
-		userId: 'acb',
 		reservationNumber: 5654321,
+		paymentDate: '2023-08-04',
 		guestName: '김철수',
 		guestPhone: '010-1234-5678',
 		couponNumber: 123456789,
@@ -89,7 +79,7 @@ const formatPeriod = (reservationStartDate: string, reservationEndDate: string) 
 
 	const duration = parseInt(endDate, 10) - parseInt(startDate, 10) + 1;
 
-	return duration > 1 ? `(${duration - 1}박 ${duration}일)` : '';
+	return duration > 1 ? `(${duration - 1}박)` : '';
 };
 
 const ReservationList: React.FC<UserReservationListProps> = ({ reservations }) => {
@@ -147,18 +137,18 @@ const ReservationList: React.FC<UserReservationListProps> = ({ reservations }) =
 
 	return (
 		<ReservationWrapper>
-			<ReservationMainContainer>
-				<PaymentDateBox>{formatDate(reservations.paymentDate)}</PaymentDateBox>
-
-				{reservations.reservationStatus === 0 && (
-					<ReservationButton hidden={false} onClick={modalOpen}>
-						취소하기
-					</ReservationButton>
-				)}
-
+			<ReservationContainer>
+				<ReservationBox>
+					{reservations.reservationStatus === 0 ? (
+						<ReservationButton hidden={false} onClick={modalOpen}>
+							취소하기
+						</ReservationButton>
+					) : (
+						<div></div>
+					)}
+				</ReservationBox>
 				<ReservationNumberBox>예약번호 {reservations.reservationNumber}</ReservationNumberBox>
-			</ReservationMainContainer>
-			<ReservationDetailContainer>
+
 				<DetailContainer>
 					<ImageBox>
 						{/* TODO : 각 예약번호(reservation_number)에 맞는 상세정보대로 뿌릴 때	수정 */}
@@ -170,35 +160,35 @@ const ReservationList: React.FC<UserReservationListProps> = ({ reservations }) =
 						<ReservationNameBox>
 							{reservations.accomName}&nbsp;({reservations.roomCategory})
 						</ReservationNameBox>
-						<ReservationDateBox>
-							{formatDate(reservations.reservationStartDate)}~{formatDate(reservations.reservationEndDate)}
-							<br />
+						<ReservationStartDateBox>{formatDate(reservations.reservationStartDate)}~</ReservationStartDateBox>
+						<ReservationEndDateBox>
+							{formatDate(reservations.reservationEndDate)}
 							{formatPeriod(reservations.reservationStartDate, reservations.reservationEndDate)}
-						</ReservationDateBox>
+						</ReservationEndDateBox>
 						<RoomPriceBox>{reservations.roomPrice.toLocaleString()}원</RoomPriceBox>
 					</DetailBox>
 				</DetailContainer>
-				<CollapseContainer>
-					{detail.map((detailItem) =>
-						detailItem.reservationNumber === reservations.reservationNumber ? (
-							<Collapse
-								key={detailItem.reservationNumber}
-								size="small"
-								ghost={true}
-								accordion={true}
-								bordered={false}
-								items={[
-									{
-										key: reservations.reservationNumber,
-										label: '상세정보',
-										children: <ReservationCollapseDetail detail={detailItem} />,
-									},
-								]}
-							/>
-						) : null,
-					)}
-				</CollapseContainer>
-			</ReservationDetailContainer>
+			</ReservationContainer>
+			<CollapseContainer>
+				{detail.map((detailItem) =>
+					detailItem.reservationNumber === reservations.reservationNumber ? (
+						<Collapse
+							key={detailItem.reservationNumber}
+							size="small"
+							ghost={true}
+							accordion={true}
+							bordered={false}
+							items={[
+								{
+									key: reservations.reservationNumber,
+									label: '상세정보',
+									children: <ReservationCollapseDetail detail={detailItem} />,
+								},
+							]}
+						/>
+					) : null,
+				)}
+			</CollapseContainer>
 		</ReservationWrapper>
 	);
 };
@@ -206,33 +196,25 @@ const ReservationList: React.FC<UserReservationListProps> = ({ reservations }) =
 export default ReservationList;
 
 const ReservationWrapper = styled.div`
-	display: flex;
-	flex-direction: column;
-	width: 100%;
-	margin-top: 1rem;
-	margin-bottom: 1rem;
 	padding: 0.5rem;
 	border: solid 1.5px ${color.color1};
 	border-radius: 0.5rem;
 	transition: width 0.1s;
 `;
 
-const ReservationMainContainer = styled.div`
+const ReservationContainer = styled.div`
 	display: grid;
-	grid-template-columns: 6.6fr 3.4fr;
-	color: ${color.color1};
-	padding-left: 1rem;
-	text-align: left;
-	font-weight: bold;
-	font-size: 0.9rem;
-	transition: width 0.1s;
 `;
 
-const PaymentDateBox = styled.div``;
-
-const ReservationButton = styled.button`
+const ReservationBox = styled.div`
+	text-align: right;
 	grid-column-start: 2;
 	grid-column-end: 3;
+	grid-row-start: 1;
+	grid-row-end: 2;
+`;
+
+const ReservationButton = styled.button`
 	justify-self: right;
 	align-self: center;
 	border: 1px solid;
@@ -282,25 +264,25 @@ const ReservationButton = styled.button`
 
 const ReservationNumberBox = styled.div`
 	grid-column-start: 1;
-	grid-column-end: 3;
-	grid-row-start: 2;
-	grid-row-end: 3;
+	grid-column-end: 2;
+	grid-row-start: 1;
+	grid-row-end: 2;
 	color: ${color.color2};
 	padding-left: 1vw;
+	padding-bottom: 1vw;
 	justify-self: left;
 	align-self: flex-end;
 	font-size: 0.8rem;
 	font-weight: bold;
 `;
 
-const ReservationDetailContainer = styled.div`
-	margin-top: 1rem;
-`;
-
 const DetailContainer = styled.div`
 	display: grid;
-	grid-column-gap: 10px;
-	grid-template-columns: 1fr 1fr;
+	grid-template-columns: 1fr 1.5fr;
+	grid-column-start: 1;
+	grid-column-end: 3;
+	grid-row-start: 2;
+	grid-row-end: 3;
 `;
 
 const ReservationStatusBox = styled.div`
@@ -308,7 +290,6 @@ const ReservationStatusBox = styled.div`
 	border: none;
 	font-size: 0.5rem;
 	width: 4rem;
-	height: 1rem;
 	color: ${color.backColor};
 	background-color: ${color.color2};
 	border-radius: 1rem;
@@ -319,10 +300,12 @@ const ReservationStatusBox = styled.div`
 
 const ReservationNameBox = styled.div``;
 
-const ReservationDateBox = styled.div`
+const ReservationStartDateBox = styled.div`
 	// 크기 어떻게 할 지....ㅠ
-	font-size: 0.5rem;
+	//font-size: 0.5rem;
 `;
+
+const ReservationEndDateBox = styled.div``;
 
 const RoomPriceBox = styled.div`
 	font-weight: bold;
@@ -368,8 +351,10 @@ const CollapseContainer = styled.div`
 `;
 
 const ImageBox = styled.div`
-	display: grid;
-	grid-template-columns: 1fr;
+	grid-column-start: 1;
+	grid-column-end: 2;
+	grid-row-start: 2;
+	grid-row-end: 3;
 	justify-items: center;
 	align-self: center;
 	transition: width 0.1s;
@@ -380,13 +365,15 @@ const OutdoorViewBox = styled.img`
 `;
 
 const DetailBox = styled.div`
+	grid-column-start: 2;
+	grid-column-end: 3;
+	grid-row-start: 2;
+	grid-row-end: 3;
 	color: ${color.color1};
 	text-align: left;
 	display: grid;
+
 	transition: width 0.1s;
-	width: 70%;
-	grid-template-columns: 1fr;
-	grid-template-rows: repeat(4, 10fr);
 
 	@media (max-width: 700px) {
 		font-size: 0.8rem;
