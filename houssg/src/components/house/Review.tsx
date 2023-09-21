@@ -25,7 +25,9 @@ export const Review: React.FC<ReviewProps> = ({ review }) => {
 				<Title>객실</Title>
 				<Content>{review.roomtype}</Content>
 			</OneLine>
-			<Rating readonly rate={review.rate} />
+			<RateBox>
+				<Rating readonly rate={review.rate} />
+			</RateBox>
 			<ReviewContent>
 				{review.img ? <Img src={review.img} /> : <></>}
 				<ReviewText>{review.content}</ReviewText>
@@ -58,6 +60,10 @@ const OneLine = styled.div`
 	}
 
 	margin-bottom: 0.5rem;
+`;
+
+const RateBox = styled.div`
+	width: 25%;
 `;
 
 const Title = styled.div`
