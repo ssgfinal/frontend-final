@@ -2,12 +2,35 @@ import { useState } from 'react';
 import { ownerRegiImg } from '../../../assets/images';
 import { useImageConverter } from '../../../hooks';
 import styled from 'styled-components';
+import { useEffect } from 'react';
 import { HouseRegiEachWrapper, UserReservationTitle, color } from '../../../assets/styles';
 import { RegiStepProps } from '../../../types';
 
-const BusinessRegi: React.FC<RegiStepProps> = ({ goStep, step }) => {
+const BusinessRegi: React.FC<RegiStepProps> = ({ goStep, step, funnelState }) => {
+	const [isLoading, setIsLoading] = useState(true);
 	const [isRegistered, setIsRegistered] = useState(false);
 	const { imgRef, imgFile, setIncodedImg } = useImageConverter();
+	const [businessData, setBusinessData] = useState<{ name: string; house: string }>({
+		name: '',
+		house: '',
+	});
+
+	useEffect(() => {
+		if (funnelState?.name) {
+			setBusinessData({ name: funnelState.name, house: funnelState.house });
+			setIsRegistered(true);
+		}
+		setIsLoading(false);
+	}, [funnelState]);
+
+	const onRegister = () => {
+		setIsRegistered(true);
+		setBusinessData({ name: '숙소에서 받은 상호', house: '숙소에서받은 이름' });
+	};
+
+	if (isLoading) {
+		return null;
+	}
 
 	return (
 		<HouseRegiEachWrapper>
@@ -23,17 +46,18 @@ const BusinessRegi: React.FC<RegiStepProps> = ({ goStep, step }) => {
 					{!imgFile ? (
 						<InstructionBottomText>이미지 등록시 유의해야 할 조건들을 대충 나열한 글,, 나중에 구체화 되면 반영할듯</InstructionBottomText>
 					) : (
-						<button onClick={() => setIsRegistered(true)}>사업자 등록</button>
+						<button onClick={onRegister}>사업자 등록</button>
 					)}
 				</div>
 			) : (
 				<div>
-					<div>상호 : 서버로 부터 받은 값 </div>
-					<div>숙소명 :서버로 부터 받은 값</div>
+					<div>상호 :{businessData.name} </div>
+					<div>숙소명 : {businessData.house}</div>
 				</div>
 			)}
+			<button onClick={() => goStep(step - 1)}>이전</button>
 
-			<button onClick={() => goStep(1)}>{step}에서 다음 단계로</button>
+			<button onClick={() => goStep(step + 1, businessData)}>다음 단계로</button>
 		</HouseRegiEachWrapper>
 	);
 };

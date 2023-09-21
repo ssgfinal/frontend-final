@@ -12,6 +12,8 @@ const HouseInfoRegi: React.FC<RegiStepProps> = ({ step, goStep }) => {
 		setCurrentType(value);
 	};
 
+	const checkedList = new Array(houseServiceCategory.length).fill(0);
+
 	return (
 		<HouseRegiEachWrapper>
 			<UserReservationTitle>숙소 정보</UserReservationTitle>
