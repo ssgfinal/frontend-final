@@ -98,6 +98,11 @@ const ManageReadTitle = styled.div`
 	font-weight: 700;
 	color: ${color.color1};
 	margin-bottom: 0.8rem;
+
+	@media (max-width: 300px) {
+		font-size: 0.8rem;
+		transition: width 0.2s;
+	}
 `;
 
 //common

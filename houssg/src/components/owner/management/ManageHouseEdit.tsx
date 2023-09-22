@@ -2,10 +2,11 @@
 import { HouseTabContainer, InfoText, InfoWrapper, ManageReadTitle, NavClickComp, color, devideOnce } from '../../../assets/styles';
 import { styled } from 'styled-components';
 import { SetStateToggle } from '../../../types';
-import { CheckboxGroup } from '../../common';
+// import { CheckboxGroup } from '../../common';
+import { houseServiceCategory } from '../../../assets/constant';
 
 const ManageHouseEdit: React.FC<SetStateToggle> = ({ setIsEditMode }) => {
-	const plainOptions = ['Apple', 'Pear', 'Orange'];
+	// const plainOptions = ['Apple', 'Pear', 'Orange'];
 
 	return (
 		<>
@@ -29,9 +30,16 @@ const ManageHouseEdit: React.FC<SetStateToggle> = ({ setIsEditMode }) => {
 					<InfoText>
 						<ManageHouseEditTitle>시설 및 서비스</ManageHouseEditTitle>
 					</InfoText>
-					<CheckBox>
-						<CheckboxGroup list={plainOptions} />
-					</CheckBox>
+					<CheckBoxContainer>
+						{houseServiceCategory.map((service) => (
+							<div key={service.value}>
+								<input type="checkbox" value={service.value} />
+								{service.text}
+							</div>
+						))}
+						{/* TODO: 없애도 되나요?? */}
+						{/* <CheckboxGroup list={plainOptions} /> */}
+					</CheckBoxContainer>
 					<InfoText>
 						<ManageHouseBox>
 							<ManageHouseEditTitle>상세설명</ManageHouseEditTitle> <ManageHouseText />
@@ -58,12 +66,22 @@ const HouseImg = styled.img`
 		max-width: none;
 		width: 23rem;
 	}
+
+	@media (max-width: 300px) {
+		width: 85vw;
+		transition: width 0.2s;
+	}
 `;
 
 const ManageHouseContainer = styled.div`
-	width: 100%;
-	display: grid;
-	justify-self: center;
+	display: flex;
+	flex-direction: column;
+
+	@media (max-width: 300px) {
+		margin-left: 30vw;
+		width: 100%;
+		font-size: 0.5rem;
+	}
 `;
 
 const ManageHouseTelBox = styled.div`
@@ -75,16 +93,33 @@ const ManageHouseTimeBox = styled.div`
 	width: 30rem;
 	display: grid;
 	justify-content: left;
+	@media (max-width: 300px) {
+		font-size: 0.5rem;
+	}
 `;
 
 const ManageHouseEditTitle = styled.div`
-	width: 7rem;
+	/* width: 7rem; */
 	padding-bottom: 2vw;
 	color: ${color.color1};
 	font-weight: bold;
+
+	@media (max-width: 300px) {
+		/* width: 100%; */
+		font-size: 0.5rem;
+	}
 `;
 
-const CheckBox = styled.div`
+const CheckBoxContainer = styled.div`
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	padding-bottom: 2vw;
+
+	@media (min-width: 800px) {
+		width: 25rem;
+	}
+
 	input[type='checkbox']:checked {
 		width: 15px;
 		height: 15px;
@@ -103,6 +138,12 @@ const ManageHouseCheckinInput = styled.input`
 	border-radius: 0.3rem;
 	justify-self: left;
 	outline: none;
+
+	@media (max-width: 300px) {
+		/* width: 100%; */
+		height: 1.3rem;
+		font-size: 0.5rem;
+	}
 `;
 
 const ManageHouseCheckoutInput = styled.input`
@@ -113,6 +154,12 @@ const ManageHouseCheckoutInput = styled.input`
 	border: 1px solid ${color.darkGrayColor};
 	border-radius: 0.3rem;
 	outline: none;
+
+	@media (max-width: 300px) {
+		width: 100%;
+		height: 1.3rem;
+		font-size: 0.5rem;
+	}
 `;
 
 const ManageHouseInput = styled.input`
@@ -129,6 +176,12 @@ const ManageHouseInput = styled.input`
 	background-color: transparent;
 	resize: none;
 	height: 2rem;
+
+	@media (max-width: 300px) {
+		width: 100%;
+		height: 1.3rem;
+		font-size: 0.5rem;
+	}
 `;
 
 const ManageHouseText = styled.textarea`
@@ -153,5 +206,10 @@ const ManageHouseText = styled.textarea`
 	&::-webkit-scrollbar-track {
 		border-radius: 10px;
 		box-shadow: inset 0px 0px 5px ${color.backColor};
+	}
+
+	@media (max-width: 300px) {
+		width: 100%;
+		font-size: 0.5rem;
 	}
 `;
