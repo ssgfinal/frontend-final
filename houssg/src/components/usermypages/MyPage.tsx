@@ -28,14 +28,14 @@ const informations = [
 const coupons = [
 	{
 		userId: 'abc',
-		couponNumber: 123456724124,
+		couponNumber: '123456724124',
 		couponName: '9월 이벤트',
 		isUsed: 0,
 		couponDiscount: 10000,
 	},
 	{
 		userId: 'abc',
-		couponNumber: 231721984721,
+		couponNumber: '231721984721',
 		couponName: '9월 빅세일',
 		isUsed: 0,
 		couponDiscount: 50000,
