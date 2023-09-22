@@ -9,7 +9,7 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 
-// TODO : 임시 데이터, Map 돌린 후는 삭제
+// TODO: 임시 데이터, Map 돌린 후는 삭제
 const house = [
 	{
 		houseId: 1,

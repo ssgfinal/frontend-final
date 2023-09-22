@@ -113,13 +113,13 @@ const MyPage: React.FC<MyPageMain> = ({ mypagemain }) => {
 	};
 
 	const onCouponNumber = (e: React.ChangeEvent<HTMLInputElement>) => {
-		// TODO : 쿠폰번호 입력..렌더링 생각하기ㅠ, couponNumber
+		// TODO: 쿠폰번호 입력..렌더링 생각하기ㅠ, couponNumber >> useRef로 바꾸기?
 		const couponNumber = e.target.value;
-		console.log(couponNumber);
+		console.log(couponNumber); // TODO: 나중에 지우기
 	};
 
 	const onRegistration = () => {
-		// TODO : 입력한 쿠폰번호 등록하기
+		// TODO: 입력한 쿠폰번호 등록하기
 	};
 
 	const tabObj = [

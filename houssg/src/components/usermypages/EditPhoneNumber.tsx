@@ -14,19 +14,19 @@ const EditPhoneNumber = () => {
 	const authentication = useRef<HTMLInputElement | null>(null);
 
 	const onAuthentication = () => {
-		// TODO : 문자전송 요청
+		// TODO: 문자전송 요청
 		if (phoneNumber.current) {
-			console.log(phoneNumber.current.value);
+			// console.log(phoneNumber.current.value);
 		}
 
-		// TODO : 문자전송완료 status?를 받으면 3분 타이머 실행
-		// TODO : 시간연장없이 다시 재발급으로
-		// TODO : 재발급 시 3분 타이머도 리셋, 변경 누른 후도 리셋
+		// TODO: 문자전송완료 status?를 받으면 3분 타이머 실행
+		// TODO: 시간연장없이 다시 재발급으로
+		// TODO: 재발급 시 3분 타이머도 리셋, 변경 누른 후도 리셋
 		setMessage(true);
 	};
 
 	const onEditPhoneNumber = () => {
-		// TODO : 전화번호 변경
+		// TODO: 전화번호 변경
 		if (authentication.current) {
 			phoneNumber.current!.value = '';
 			authentication.current.value = '';

@@ -19,7 +19,7 @@ const EditPassword = () => {
 			setIsVisibleArray((prevArray) => {
 				const newArray = [...prevArray];
 				newArray[index] = !newArray[index];
-				console.log(newArray);
+				// console.log(newArray);
 				return newArray;
 			});
 		};

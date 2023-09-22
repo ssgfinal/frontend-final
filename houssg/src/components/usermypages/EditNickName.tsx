@@ -10,11 +10,11 @@ const EditNickName = () => {
 	const newNickName = useRef<HTMLInputElement | null>(null);
 
 	const editNickName = () => {
-		// TODO : 서버로 보내기 추후 수정
+		// TODO: 서버로 보내기 추후 수정
 		if (newNickName.current) {
-			console.log(newNickName.current.value);
+			// console.log(newNickName.current.value);
 		}
-		// TODO : api 요청이 성공했을 떄
+		// TODO: api 요청이 성공했을 떄
 		// newNickName.current!.value = '';
 		dispatch(closeModal());
 	};
