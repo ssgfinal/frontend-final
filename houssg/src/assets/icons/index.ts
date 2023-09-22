@@ -1,3 +1,4 @@
+import houssg from './houssg.svg';
 import MapMarker from './mapmarker.svg';
 import ProfileCircle from './profilecircle.svg';
 import ReviewIcon from './review.svg';
@@ -25,4 +26,4 @@ import capture from './capture.svg';
 
 export { MapMarker, ProfileCircle, ReviewIcon, EditIcon, CouponIcon, MyPointIcon, FullHeartIcon, HeartIcon, MyHeartIcon, rotateR, rotateL, capture };
 
-export { Desert, accomodation, unvisible, visible, logo, login, bed, cityview, seaview, nosmoke, ott, pc };
+export { houssg, Desert, accomodation, unvisible, visible, logo, login, bed, cityview, seaview, nosmoke, ott, pc };

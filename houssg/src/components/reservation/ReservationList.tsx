@@ -7,7 +7,7 @@ import { openModal } from '../../store/redux/modalSlice';
 import { useAppDispatch } from '../../hooks';
 
 import { color } from '../../assets/styles';
-import { accomodation } from '../../assets/icons';
+import { accomodation, houssg } from '../../assets/icons';
 import { ReservationsType } from '../../types';
 
 interface UserReservationListProps {
