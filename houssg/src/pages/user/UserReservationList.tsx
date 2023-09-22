@@ -3,10 +3,10 @@ import { styled } from 'styled-components';
 import ReservationList from '../../components/reservation/ReservationList';
 import { accomodation } from '../../assets/icons';
 import { useEffect, useState } from 'react';
-// TODO : 같은 유저의 예약정보 뿌리기..나중에 수정
+// TODO: 같은 유저의 예약정보 뿌리기..나중에 수정
 // import { useIsUser } from '../../hooks';
 
-// TODO : 더미 데이터 기능구현 후 지우기
+// TODO: 더미 데이터 기능구현 후 지우기
 
 const reservations = [
 	{
@@ -93,11 +93,11 @@ const reservations = [
 
 const UserReservationList = () => {
 	{
-		/* TODO : 같은 유저의 예약정보 뿌리기..나중에 수정 */
+		/* TODO: 같은 유저의 예약정보 뿌리기..나중에 수정 */
 	}
 	//const isUser = useIsUser();
 
-	// TODO : 서버 연결하면 윗줄사용, 현재는 더미데이터
+	// TODO: 서버 연결하면 윗줄사용, 현재는 더미데이터
 	// const [reservations, setReservations] = useState([]);
 	const [reservs, setReservs] = useState(reservations);
 
@@ -122,7 +122,7 @@ const UserReservationList = () => {
 	return (
 		<UserReservationWrapper>
 			<UserReservationContainer>
-				{/* TODO : 같은 유저의 예약정보 뿌리기..나중에 수정 */}
+				{/* TODO: 같은 유저의 예약정보 뿌리기..나중에 수정 */}
 				{/* {reservations.map((userItem, userIndex) => (
 					<div key={userIndex}>
 						{reservs.map(

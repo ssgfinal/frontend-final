@@ -9,7 +9,7 @@ import EditPhoneNumber from '../usermypages/EditPhoneNumber';
 import EditPassword from '../usermypages/EditPassword';
 import WithdrawalInstruction from '../usermypages/WithdrawalInstruction';
 import Terms from '../reservation/Terms';
-import CancelReservation from '../reservation/cancelReservation';
+import CancelReservation from '../reservation/CancelReservation';
 
 const CommonModal = () => {
 	const modalState = useAppSelector(isModalOpen);

@@ -7,7 +7,7 @@ const CancelReservation = () => {
 	const dispatch = useAppDispatch();
 
 	const instructionYes = () => {
-		// TODO : 예약 취소
+		// TODO: 예약 취소
 		dispatch(closeModal());
 	};
 
@@ -17,7 +17,7 @@ const CancelReservation = () => {
 			<ChargeContentsBox>
 				<div>예약일 1달 전 : 100% 환불</div>
 				<div>예약일 1달~ 1주 전 : 50% 환불</div>
-				<div>예약일 1주 미만 : 취소 및 환불 불가</div>
+				<div>예약일 1주 미만 : 환불 불가</div>
 			</ChargeContentsBox>
 			<InstructionYesButton onClick={instructionYes}>예약 취소</InstructionYesButton>
 		</CancelReservationWrapper>
