@@ -8,7 +8,7 @@ interface House {
 	house: {
 		houseId: number;
 		name: string;
-		price: string;
+		price: number;
 		rating: number;
 		location: string;
 		image: string;
@@ -24,9 +24,7 @@ const BriefHouse: React.FC<House> = ({ house }) => {
 				navigate(`/user/house/${house.houseId}`);
 			}}
 		>
-			<ImageBox>
-				<img src={house.image} className="imagebox" />
-			</ImageBox>
+			<Img src={house.image} className="imagebox" />
 			<HouseContainer>
 				<HouseDetailContainer>
 					<div>
@@ -40,7 +38,7 @@ const BriefHouse: React.FC<House> = ({ house }) => {
 					</RateBox>
 				</HouseDetailContainer>
 				<PriceBox>
-					<div>{house.price}</div>
+					<div>{house.price.toLocaleString()}원</div>
 				</PriceBox>
 			</HouseContainer>
 		</BriefHouseWrapper>
@@ -64,41 +62,18 @@ const HouseContainer = styled.div`
 	align-items: center;
 `;
 
-const ImageBox = styled.div`
-	padding: 0.5;
-	align-items: center;
+const Img = styled.img`
+	margin: 0.5;
+	width: 100%;
 
-	.imagebox:hover {
+	&:hover {
 		width: 95%;
 		transition: width 0.2s;
-	}
-
-	@media (max-width: 540px) {
-		.imagebox {
-			width: 100%;
-		}
-	}
-
-	@media (min-width: 540px) and (max-width: 768px) {
-		.imagebox {
-			width: 100%;
-		}
-	}
-
-	@media (min-width: 768px) and (max-width: 1024px) {
-		.imagebox {
-			width: 100%;
-		}
-	}
-
-	@media (min-width: 1024px) {
-		.imagebox {
-			width: 100%;
-		}
 	}
 `;
 
 const RateBox = styled.div`
+	width: 70%;
 	text-align: left;
 `;
 

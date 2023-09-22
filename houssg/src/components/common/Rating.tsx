@@ -35,7 +35,6 @@ const Rating: React.FC<Props> = ({ readonly, rate = 0, setRate }) => {
 export default Rating;
 
 const Wrapper = styled.div`
-	width: 18vw;
 	display: grid;
 	grid-template-columns: 2fr 1fr;
 	align-items: center;

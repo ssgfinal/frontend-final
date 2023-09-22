@@ -98,6 +98,9 @@ const Center = styled.div`
 `;
 
 const Button = styled.button`
+	&:hover {
+		cursor: pointer;
+	}
 	@media (min-width: 950px) {
 		width: 35%;
 	}
