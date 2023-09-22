@@ -14,7 +14,7 @@ export const Provision = () => {
 		dispatch(openModal({ modalComponent: 'provision', modalSize: modalSize }));
 	};
 
-	const refundPolicy = '취소 수수료 \n예약일 1달 전 : 100% 환불\n예약일 1달~ 1주 전 : 50% 환불\n예약일 1주 미만 : 0% 환불';
+	const refundPolicy = '취소 수수료 \n예약일 1달 전 : 100% 환불\n예약일 1달~ 1주 전 : 50% 환불\n예약일 1주 미만 : 취소 및 환불 불가';
 
 	const [isAgreed, setIsAgreed] = useState(false);
 

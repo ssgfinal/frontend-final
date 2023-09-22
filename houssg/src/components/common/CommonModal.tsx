@@ -9,6 +9,7 @@ import EditPhoneNumber from '../usermypages/EditPhoneNumber';
 import EditPassword from '../usermypages/EditPassword';
 import WithdrawalInstruction from '../usermypages/WithdrawalInstruction';
 import Terms from '../reservation/Terms';
+import CancelReservation from '../reservation/cancelReservation';
 
 const CommonModal = () => {
 	const modalState = useAppSelector(isModalOpen);
@@ -37,6 +38,7 @@ const CommonModal = () => {
 			{modalComp === 'editPassword' && <EditPassword />}
 			{modalComp === 'withdrawal' && <WithdrawalInstruction />}
 			{modalComp === 'provision' && <Terms />}
+			{modalComp === 'cancelReservation' && <CancelReservation />}
 			{(modalComp === 'instruction' || modalComp === 'couponRegistration') && <CommonInstruction />}
 		</Modal>
 	);

@@ -206,7 +206,7 @@ const RateBox = styled.div`
 	grid-row-start: 3;
 	grid-row-end: 4;
 	padding: 0vw 0vw 0vw 1vw;
-	text-align: left;
+	width: 50%;
 	font-size: 1rem;
 
 	@media (max-width: 900px) {
