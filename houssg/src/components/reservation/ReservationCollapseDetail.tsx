@@ -9,14 +9,14 @@ interface CollapseDetail {
 
 const formatDate = (dateString: string): string => {
 	const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' };
-	console.log('•', '💜');
+
 	return new Date(dateString).toLocaleDateString(undefined, options);
 };
 
 const ReservationCollapseDetail: React.FC<CollapseDetail> = ({ detail }) => {
 	return (
 		<CollapseDetailWrapper>
-			{/* TODO : 기능구현할 때, 수정 */}
+			{/* TODO: 기능구현할 때, 수정 */}
 
 			<CollapseDetailContainer>
 				<p>• 이용자명 : {detail.guestName} 님</p>
@@ -24,7 +24,7 @@ const ReservationCollapseDetail: React.FC<CollapseDetail> = ({ detail }) => {
 			</CollapseDetailContainer>
 			<PaymentContainer>
 				<PaymentDateBox>{formatDate(detail.paymentDate)}</PaymentDateBox>
-				{/* TODO : 쿠폰 미사용시 안 보이게 삼항 */}
+				{/* TODO: 쿠폰 미사용시 안 보이게 삼항 */}
 				{detail.couponName ? (
 					<p>
 						사용쿠폰 : {detail.couponName}({detail.couponNumber})

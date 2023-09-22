@@ -7,7 +7,7 @@ import { openModal } from '../../store/redux/modalSlice';
 import { useAppDispatch } from '../../hooks';
 
 import { color } from '../../assets/styles';
-import { accomodation, houssg } from '../../assets/icons';
+import { accomodation } from '../../assets/icons';
 import { ReservationsType } from '../../types';
 
 interface UserReservationListProps {
@@ -83,7 +83,7 @@ const formatPeriod = (reservationStartDate: string, reservationEndDate: string) 
 };
 
 const ReservationList: React.FC<UserReservationListProps> = ({ reservations }) => {
-	// TODO : 서버랑 연결 후 수정
+	// TODO: 서버랑 연결 후 수정
 	// const [details, setDetails] = useState([]);
 	const [details, setDetails] = useState(detail);
 
@@ -119,7 +119,7 @@ const ReservationList: React.FC<UserReservationListProps> = ({ reservations }) =
 		}
 	};
 
-	// TODO : Detail 부분
+	// TODO: Detail 부분
 
 	// 예약상태 배경색 변경
 	const statusStyle = {
@@ -156,7 +156,7 @@ const ReservationList: React.FC<UserReservationListProps> = ({ reservations }) =
 
 				<DetailContainer>
 					<ImageBox>
-						{/* TODO : 각 예약번호(reservation_number)에 맞는 상세정보대로 뿌릴 때	수정 */}
+						{/* TODO: 각 예약번호(reservation_number)에 맞는 상세정보대로 뿌릴 때	수정 */}
 						{/* <OutdoorViewBox src={reservations.outdoor_view} alt="Accomodation"></OutdoorViewBox> */}
 						<OutdoorViewBox src={accomodation} alt="Accomodation"></OutdoorViewBox>
 					</ImageBox>
