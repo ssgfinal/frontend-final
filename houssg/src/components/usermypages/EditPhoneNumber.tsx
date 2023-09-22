@@ -28,7 +28,6 @@ const EditPhoneNumber = () => {
 	const onEditPhoneNumber = () => {
 		// TODO : 전화번호 변경
 		if (authentication.current) {
-			console.log(authentication.current.value);
 			phoneNumber.current!.value = '';
 			authentication.current.value = '';
 			dispatch(closeModal());

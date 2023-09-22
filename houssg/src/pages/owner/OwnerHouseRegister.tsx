@@ -2,13 +2,12 @@ import styled from 'styled-components';
 // import { useState } from 'react';
 import { AddressFinder, BusinessRegi, HouseImageRegi, HouseInfoRegi } from '../../components/owner/register';
 import { useLocation, useNavigate } from 'react-router';
-import { windowWarningState } from '../../utils';
+import useWindowWarning from '../../hooks/useWindowWarning';
 
 const OwnerHouseRegister = () => {
 	const navigate = useNavigate();
 
-	windowWarningState();
-
+	useWindowWarning();
 	const location = useLocation();
 	const funnelState = location.state;
 
