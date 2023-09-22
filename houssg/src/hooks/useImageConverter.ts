@@ -10,7 +10,7 @@ export const useImageConverter = () => {
 			const file = imgRef.current.files[0];
 			const webpfile = await webpImageIncoder(file);
 			setImgFile(webpfile + ''); // unknown type을 string으로 변환
-			return 'incode';
+			return webpfile + '';
 		}
 		return 'cancle';
 	};

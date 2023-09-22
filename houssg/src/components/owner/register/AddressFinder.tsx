@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import DaumPostcode, { Address } from 'react-daum-postcode';
 import KakaoMap from '../../common/KakaoMap';
-import { HouseRegiEachWrapper, flexCenter } from '../../../assets/styles';
+import { HouseRegiEachWrapper, UserReservationTitle, flexCenter } from '../../../assets/styles';
 import styled from 'styled-components';
+import { RegiStepProps } from '../../../types';
 
-const AddressFinder = () => {
+const AddressFinder: React.FC<RegiStepProps> = ({ goStep, step }) => {
 	const [isOpen, setIsOpen] = useState(false);
 	const [targetAddress, setTargetAddress] = useState('');
 
@@ -32,7 +33,7 @@ const AddressFinder = () => {
 
 	return (
 		<HouseRegiEachWrapper>
-			<div>숙소위치</div>
+			<UserReservationTitle>숙소위치</UserReservationTitle>
 
 			<input onClick={openDaumPost} value="검색하기" type="button" />
 			<div>{targetAddress}</div>
@@ -42,6 +43,20 @@ const AddressFinder = () => {
 				</DaumPostContainer>
 			)}
 			{targetAddress && <KakaoMap location={targetAddress} />}
+			<button
+				onClick={() => {
+					goStep(0);
+				}}
+			>
+				이전으로
+			</button>
+			<button
+				onClick={() => {
+					goStep(2);
+				}}
+			>
+				{step}에서 이미지로
+			</button>
 		</HouseRegiEachWrapper>
 	);
 };

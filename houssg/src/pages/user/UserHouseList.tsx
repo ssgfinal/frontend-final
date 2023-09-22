@@ -8,6 +8,7 @@ import { color } from '../../assets/styles';
 import { accomodation } from '../../assets/icons';
 
 import BriefHouse from '../../components/house/BriefHouse';
+import { houseCategory } from '../../assets/constant';
 
 const UserHouseList = () => {
 	const handleChange = (value: { value: string; label: React.ReactNode }) => {
@@ -113,18 +114,6 @@ const UserHouseList = () => {
 	];
 
 	// <Select>에 필요한 배열
-	const category = [
-		{
-			value: '호텔',
-			label: '호텔',
-		},
-		{
-			value: '펜션',
-			label: '펜션',
-		},
-	];
-
-	// <Select>에 필요한 배열
 	const order = [
 		{
 			value: '평점 높은순',
@@ -144,7 +133,7 @@ const UserHouseList = () => {
 						labelInValue
 						defaultValue={{ value: '카테고리', label: '카테고리' }}
 						onChange={handleChange}
-						options={category}
+						options={houseCategory}
 						style={{ width: '100%' }}
 					/>
 				</Category>
