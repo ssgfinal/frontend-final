@@ -8,6 +8,7 @@ const OwnerHouseRegister = () => {
 	const navigate = useNavigate();
 
 	useWindowWarning();
+
 	const location = useLocation();
 	const funnelState = location.state;
 
@@ -15,6 +16,7 @@ const OwnerHouseRegister = () => {
 	const goStep = (step: number, newState?: { [key: string]: string | number }) => {
 		navigate('', { state: { ...funnelState, step, ...newState } });
 	};
+	console.log(funnelState);
 
 	return (
 		<RegisterWrapper>

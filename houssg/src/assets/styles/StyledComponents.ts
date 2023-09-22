@@ -133,7 +133,7 @@ const UserReservationLeft = styled.div`
 const HouseRegiEachWrapper = styled.div`
 	${flexCenter}
 	flex-direction: column;
-	margin: 0.5rem 0;
+	margin: 1rem 0;
 `;
 
 export { AuthContainer, AuthTitle };
