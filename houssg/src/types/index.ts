@@ -3,7 +3,19 @@
 import { AuthProps, AuthInputType, AuthModeType } from './auth';
 import { ManageNavProps, RoomComp } from './manage';
 import { StyledActiveProps, SetStateToggle, UserType, UserTypeObject } from './common';
+import { RegiStepProps } from './regi';
 import { ReservationDetailType, ReservationsType } from './reservation';
-export type { SetStateToggle, AuthProps, AuthInputType, AuthModeType, ManageNavProps, StyledActiveProps, RoomComp, UserType, UserTypeObject };
+export type {
+	SetStateToggle,
+	AuthProps,
+	AuthInputType,
+	AuthModeType,
+	ManageNavProps,
+	StyledActiveProps,
+	RoomComp,
+	UserType,
+	UserTypeObject,
+	RegiStepProps,
+};
 
 export type { ReservationDetailType, ReservationsType };

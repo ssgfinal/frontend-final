@@ -4,7 +4,11 @@ import { authLoginFunc, authSignUpFunc, kakaoLoginFunc, kakaoSignUp, nickCheckFu
 
 //utils
 import { webpImageIncoder } from './utilFunction';
+import { windowWarningState, removeWindowWarningState } from './windowEvent';
 export { authLoginFunc, authSignUpFunc, kakaoLoginFunc, kakaoSignUp, nickCheckFunc, idCheckFunc, phoneCheck };
 
 //utils
 export { webpImageIncoder };
+
+// window
+export { windowWarningState, removeWindowWarningState };
