@@ -31,6 +31,15 @@ const HouseInfoContainer = styled.div`
 		flex-direction: column;
 		align-items: start;
 	}
+	@media (max-width: 300px) {
+		width: 85vw;
+		transition: width 0.2s;
+	}
+
+	@media (min-width: 300px) and (max-width: 500px) {
+		width: 70vw;
+		transition: width 0.2s;
+	}
 `;
 
 const InfoWrapper = styled.div`
@@ -102,6 +111,10 @@ const ManageReadTitle = styled.div`
 	@media (max-width: 300px) {
 		font-size: 0.8rem;
 		transition: width 0.2s;
+	}
+
+	@media (min-width: 300px) and (max-width: 500px) {
+		font-size: 1rem;
 	}
 `;
 

@@ -1,61 +1,50 @@
 // import { useState } from 'react';
-import { HouseTabContainer, InfoText, InfoWrapper, ManageReadTitle, NavClickComp, color, devideOnce } from '../../../assets/styles';
+import { HouseTabContainer, ManageReadTitle, NavClickComp, color, devideOnce } from '../../../assets/styles';
 import { styled } from 'styled-components';
 import { SetStateToggle } from '../../../types';
-// import { CheckboxGroup } from '../../common';
 import { houseServiceCategory } from '../../../assets/constant';
+import { CheckBox } from '../register/element';
 
 const ManageHouseEdit: React.FC<SetStateToggle> = ({ setIsEditMode }) => {
-	// const plainOptions = ['Apple', 'Pear', 'Orange'];
+	const checkedList = new Array(houseServiceCategory.length).fill(0);
 
 	return (
-		<>
+		<ManageWrapper>
 			<ManageReadTitle>[리조트] 영등포 라이프스타일 F HOTEL</ManageReadTitle>
 			<HouseImg src='https://a.cdn-hotels.com/gdcs/production62/d1770/50e9f242-6f67-48a5-9b77-82aa6d64d78a.jpg?impolicy=fcrop&w=1600&h=1066&q=medium","zip_numbe' />
-			<InfoWrapper>
+			<ManageHouseWrapper>
 				<ManageHouseContainer>
-					<InfoText>
-						<ManageHouseTelBox>
-							<ManageHouseEditTitle>전화번호</ManageHouseEditTitle>
-							<ManageHouseInput type="number" />
-						</ManageHouseTelBox>
-					</InfoText>
-					<InfoText>
-						<ManageHouseTimeBox>
-							<ManageHouseEditTitle>입퇴실 시간</ManageHouseEditTitle> <ManageHouseCheckinInput type="time" />
-							<span> &amp; </span>
-							<ManageHouseCheckoutInput type="time" />
-						</ManageHouseTimeBox>
-					</InfoText>
-					<InfoText>
-						<ManageHouseEditTitle>시설 및 서비스</ManageHouseEditTitle>
-					</InfoText>
+					<ManageHouseEditTitle>전화번호</ManageHouseEditTitle>
+					<ManageHouseInput type="number" placeholder="예시) 01012345678" />
+					<ManageHouseEditTitle>입퇴실 시간</ManageHouseEditTitle> <ManageHouseCheckinInput type="time" />
+					<ManageHouseSpan>&amp;</ManageHouseSpan>
+					<ManageHouseCheckoutInput type="time" />
+					<ManageHouseEditTitle>시설 및 서비스</ManageHouseEditTitle>
 					<CheckBoxContainer>
-						{houseServiceCategory.map((service) => (
-							<div key={service.value}>
-								<input type="checkbox" value={service.value} />
-								{service.text}
-							</div>
+						{houseServiceCategory.map((service, i) => (
+							<CheckBox key={service.value} element={service} index={i} checkedList={checkedList} />
 						))}
-						{/* TODO: 없애도 되나요?? */}
-						{/* <CheckboxGroup list={plainOptions} /> */}
 					</CheckBoxContainer>
-					<InfoText>
-						<ManageHouseBox>
-							<ManageHouseEditTitle>상세설명</ManageHouseEditTitle> <ManageHouseText />
-						</ManageHouseBox>
-					</InfoText>
+					{/* TODO: 상세설명 글자수 제한은 있는지? */}
+					<ManageHouseEditTitle>상세설명</ManageHouseEditTitle> <ManageHouseText rows={8} />
 				</ManageHouseContainer>
-			</InfoWrapper>
+			</ManageHouseWrapper>
 			<HouseTabContainer>
 				<NavClickComp>수정완료</NavClickComp>
 				<NavClickComp onClick={() => setIsEditMode(false)}>취소하기</NavClickComp>
 			</HouseTabContainer>
-		</>
+		</ManageWrapper>
 	);
 };
 
 export default ManageHouseEdit;
+
+const ManageWrapper = styled.div`
+	max-width: 40rem;
+	@media (min-width: 500px) {
+		padding: 0 5vw 0 5vw;
+	}
+`;
 
 const HouseImg = styled.img`
 	max-width: 20rem;
@@ -68,89 +57,82 @@ const HouseImg = styled.img`
 	}
 
 	@media (max-width: 300px) {
-		width: 85vw;
+		width: 85%;
+		transition: width 0.2s;
+	}
+
+	@media (min-width: 300px) and (max-width: 500px) {
+		width: 80%;
 		transition: width 0.2s;
 	}
 `;
 
+const ManageHouseWrapper = styled.div`
+	text-align: left;
+	padding: 0.3rem;
+`;
+
 const ManageHouseContainer = styled.div`
-	display: flex;
-	flex-direction: column;
-
-	@media (max-width: 300px) {
-		margin-left: 30vw;
-		width: 100%;
-		font-size: 0.5rem;
-	}
-`;
-
-const ManageHouseTelBox = styled.div`
-	justify-content: left;
 	display: grid;
-`;
 
-const ManageHouseTimeBox = styled.div`
-	width: 30rem;
-	display: grid;
-	justify-content: left;
 	@media (max-width: 300px) {
 		font-size: 0.5rem;
 	}
 `;
 
-const ManageHouseEditTitle = styled.div`
-	/* width: 7rem; */
-	padding-bottom: 2vw;
+const ManageHouseEditTitle = styled.span`
+	grid-column-start: 1;
+	grid-column-end: 5;
+	justify-self: left;
+	padding: 2vw 0 2vw 0;
 	color: ${color.color1};
 	font-weight: bold;
 
 	@media (max-width: 300px) {
-		/* width: 100%; */
 		font-size: 0.5rem;
 	}
 `;
 
 const CheckBoxContainer = styled.div`
+	color: ${color.darkGrayColor};
+	grid-column-start: 1;
+	grid-column-end: 6;
 	display: flex;
-	flex-direction: row;
 	flex-wrap: wrap;
-	padding-bottom: 2vw;
-
+	justify-content: space-between;
+	padding-bottom: 1vw;
+	/* 
 	@media (min-width: 800px) {
 		width: 25rem;
-	}
-
-	input[type='checkbox']:checked {
-		width: 15px;
-		height: 15px;
-	}
-`;
-
-const ManageHouseBox = styled.div`
-	display: grid;
+	} */
 `;
 
 const ManageHouseCheckinInput = styled.input`
-	grid-column-start: 2;
+	grid-column-start: 1;
 	grid-column-end: 3;
 	height: 2rem;
+	color: ${color.darkGrayColor};
 	border: 1px solid ${color.darkGrayColor};
 	border-radius: 0.3rem;
-	justify-self: left;
 	outline: none;
 
 	@media (max-width: 300px) {
-		/* width: 100%; */
 		height: 1.3rem;
 		font-size: 0.5rem;
 	}
 `;
 
+const ManageHouseSpan = styled.span`
+	color: ${color.darkGrayColor};
+	justify-self: center;
+	align-self: center;
+`;
+
 const ManageHouseCheckoutInput = styled.input`
 	grid-column-start: 4;
-	grid-column-end: 5;
+	grid-column-end: 6;
 	height: 2rem;
-	justify-self: left;
+	color: ${color.darkGrayColor};
 	border: 1px solid ${color.darkGrayColor};
 	border-radius: 0.3rem;
 	outline: none;
@@ -168,9 +150,11 @@ const ManageHouseInput = styled.input`
 		-webkit-appearance: none;
 		margin: 0;
 	}
-	grid-column-start: 2;
-	grid-column-end: 3;
+	grid-column-start: 1;
+	grid-column-end: 6;
+
 	outline: none;
+	color: ${color.darkGrayColor};
 	border: 1px solid ${color.darkGrayColor};
 	border-radius: 0.3rem;
 	background-color: transparent;
@@ -178,38 +162,30 @@ const ManageHouseInput = styled.input`
 	height: 2rem;
 
 	@media (max-width: 300px) {
-		width: 100%;
 		height: 1.3rem;
 		font-size: 0.5rem;
+		text-align: center;
 	}
 `;
 
 const ManageHouseText = styled.textarea`
 	grid-column-start: 1;
-	grid-column-end: 3;
+	grid-column-end: 6;
 	outline: none;
+	color: ${color.darkGrayColor};
 	border: 1px solid ${color.darkGrayColor};
-	border-radius: 0.4rem;
+	border-radius: 0.3rem;
 	background-color: transparent;
 	resize: none;
 
 	&::-webkit-scrollbar {
-		width: 5px;
+		display: none;
 	}
 	&::-webkit-scrollbar {
-		height: 5px;
-	}
-	&::-webkit-scrollbar-thumb {
-		background-color: ${color.unSelectColor};
-		border-radius: 10px;
-	}
-	&::-webkit-scrollbar-track {
-		border-radius: 10px;
-		box-shadow: inset 0px 0px 5px ${color.backColor};
+		display: none;
 	}
 
 	@media (max-width: 300px) {
-		width: 100%;
 		font-size: 0.5rem;
 	}
 `;
