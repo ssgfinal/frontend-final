@@ -1,4 +1,3 @@
-import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import styled from 'styled-components';
 
@@ -12,7 +11,6 @@ import { closeModal } from '../../store/redux/modalSlice';
 import { AuthProps } from '../../types';
 
 const Login: React.FC<AuthProps> = ({ isLoginComp, setIsLoginComp }) => {
-	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
 
 	const onCloseModal = () => {
@@ -22,7 +20,7 @@ const Login: React.FC<AuthProps> = ({ isLoginComp, setIsLoginComp }) => {
 	const [userId, setUserId] = useState('');
 	const [userPw, setUserPw] = useState('');
 
-	const onLogin = () => authLoginFunc(userId, userPw, navigate, onCloseModal);
+	const onLogin = () => authLoginFunc(userId, userPw, onCloseModal);
 
 	const onKakaoLogin = () => {
 		location.href = KakaoAuthUri;

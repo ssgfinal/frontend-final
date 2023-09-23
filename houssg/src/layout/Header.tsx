@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { openModal } from '../store/redux/modalSlice';
 import { useAppDispatch, useIsUser } from '../hooks';
 import { login, logo } from '../assets/icons';
+import { ownerRoute, userRoute } from '../assets/constant';
 
 const Header = () => {
 	const dispatch = useAppDispatch();
@@ -14,16 +15,21 @@ const Header = () => {
 	const navigate = useNavigate();
 	const isUser = useIsUser();
 	const goHomeHandler = () => {
-		isUser ? navigate('/') : navigate('/owner');
+		isUser ? navigate(userRoute.main) : navigate(ownerRoute.main);
 	};
 
-	const onChangeUserType = () => {};
+	const onChangeUserType = () => {
+		navigate(isUser ? ownerRoute.main : userRoute.main);
+	};
 
 	return (
 		<HeaderContainer>
 			<LogoImg onClick={goHomeHandler} src={logo} />
 			<RightIconContainer>
-				{isUser ? <div onClick={onChangeUserType}>사업자로</div> : <div onClick={onChangeUserType}>유저로</div>}
+				{/* TODO: 스타일혹은 아이콘 */}
+				<div style={{ cursor: 'pointer' }} onClick={onChangeUserType}>
+					{isUser ? '사업자로' : '유저로'}
+				</div>
 				<LoginImg onClick={modalOpen} src={login} />
 			</RightIconContainer>
 		</HeaderContainer>

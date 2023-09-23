@@ -1,18 +1,18 @@
 const userRoute = {
-	userMain: '/',
-	userHouseList: '/user/house',
-	userHouseDetail: '/user/house/:houseId',
-	userMyPage: '/user/mypage',
-	userReservationList: '/user/reservation',
-	userReservation: '/user/reservation/:roomId',
+	main: '/',
+	houseList: '/user/house',
+	houseDetail: '/user/house/:houseId',
+	myPage: '/user/mypage',
+	reservationList: '/user/reservation',
+	reservation: '/user/reservation/:roomId',
 };
 
 const ownerRoute = {
-	ownerMain: '/owner',
-	ownerReservation: '/owner/reservation',
-	ownerRegister: '/owner/register',
-	ownerManagement: '/owner/management',
-	ownerIncome: '/owner/income',
+	main: '/owner',
+	reservation: '/owner/reservation',
+	register: '/owner/register',
+	management: '/owner/management',
+	income: '/owner/income',
 };
 
 export { userRoute, ownerRoute };

@@ -1,8 +1,7 @@
-import { NavigateFunction } from 'react-router-dom';
 import api from '../api/api';
 import { url } from '../assets/constant';
 
-const authLoginFunc = (userId: string, userPw: string, navigate: NavigateFunction, closeModal: () => void) => {
+const authLoginFunc = (userId: string, userPw: string, closeModal: () => void) => {
 	if (userId.trim() === '') {
 		alert('아이디를 입력해주세요');
 		return;
