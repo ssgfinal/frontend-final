@@ -43,7 +43,7 @@ const CommonInstruction = () => {
 	);
 };
 
-export default CommonInstruction;
+export default Instruction;
 
 const InstructionGrid = styled.div`
 	display: grid;
