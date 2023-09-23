@@ -19,7 +19,7 @@ const SignUp: React.FC<AuthProps> = ({ isLoginComp, setIsLoginComp }) => {
 	const { regId, regPw, regNick, regPhone } = regSignUp;
 
 	const onSignUp = () => {
-		authSignUpFunc(userId, userNick, userPw, userPwCheck, userPhone, isUser, setIsLoginComp);
+		authSignUpFunc(userId, userNick, userPw, userPwCheck, userPhone, setIsLoginComp);
 	};
 
 	const onIdCheck = () => {
