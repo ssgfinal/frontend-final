@@ -3,7 +3,7 @@ name: Build Image
 on:
   push:
     branches:
-      - "main"
+      - 'main'
 
 jobs:
   build:
@@ -43,4 +43,5 @@ jobs:
             -e VITE_KAKAO_JS_KEY=${{ secrets.VITE_KAKAO_JS_KEY }} \
             -e VITE_KAKAO_KEY=${{ secrets.VITE_KAKAO_KEY }} \
             -e VITE_SERVER_URL=${{ secrets.VITE_SERVER_URL }} \
+            -e VITE_MY_URL=${{secrets.VITE_MY_URL}} \
             --name houssg-front ${{ secrets.DOCKERHUB_USERNAME }}/houssg-front:latest

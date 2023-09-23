@@ -4,6 +4,7 @@ import { color } from '../assets/styles/theme';
 import { useIsUser, usePathname } from '../hooks';
 import { StyledActiveProps } from '../types';
 import { devideOnce } from '../assets/styles';
+import { ownerRoute, userRoute } from '../assets/constant';
 
 const Nav = () => {
 	const navigate = useNavigate();
@@ -11,15 +12,16 @@ const Nav = () => {
 	const isUser = useIsUser();
 
 	const userNav = [
-		['홈', '/user'],
-		['숙소', '/user/house'],
-		['예약내역', '/user/reservation'],
-		['마이페이지', '/user/mypage'],
+		['홈', userRoute.main],
+		['숙소', userRoute.houseList],
+		['예약내역', userRoute.reservationList],
+		['마이페이지', userRoute.myPage],
 	];
 	const ownerNav = [
-		['홈', '/owner'],
-		['내 숙소', '/owner/management'],
-		['예약 확인', '/owner/reservation'],
+		['홈', ownerRoute.main],
+		['내 숙소', ownerRoute.management],
+		['예약 확인', ownerRoute.reservation],
+		['정산 내역', ownerRoute.income],
 	];
 
 	const currentNav = isUser ? userNav : ownerNav;
