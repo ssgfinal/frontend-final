@@ -2,7 +2,7 @@ import { NavigateFunction } from 'react-router-dom';
 import api from '../api/api';
 import { url } from '../assets/constant';
 
-const authLoginFunc = (userId: string, userPw: string, isUser: boolean, navigate: NavigateFunction, closeModal: () => void) => {
+const authLoginFunc = (userId: string, userPw: string, navigate: NavigateFunction, closeModal: () => void) => {
 	if (userId.trim() === '') {
 		alert('아이디를 입력해주세요');
 		return;
@@ -12,29 +12,17 @@ const authLoginFunc = (userId: string, userPw: string, isUser: boolean, navigate
 		return;
 	}
 
-	if (isUser) {
-		api
-			.post(url.login + `?id=${userId}&password=${userPw}&auth=0`)
-			// .post(url.login, { id: userId, password: userPw, auth: 0 })
-			.then(({ data }) => {
-				console.log(data);
-				closeModal();
-			})
-			.catch(({ response }) => {
-				// alert('서버와 통신이 원활하지 않습니다.');
-				console.log(response);
-			});
-	} else {
-		api
-			.post(url.login + `?id=${userId}&password=${userPw}&auth=1`)
-			.then((resp) => {
-				console.log(resp);
-				!isUser && navigate('/owner');
-			})
-			.catch((err) => {
-				alert(err);
-			});
-	}
+	api
+		.post(url.login + `?id=${userId}&password=${userPw}&auth=0`)
+		// .post(url.login, { id: userId, password: userPw, auth: 0 })
+		.then(({ data }) => {
+			console.log(data);
+			closeModal();
+		})
+		.catch(({ response }) => {
+			// alert('서버와 통신이 원활하지 않습니다.');
+			console.log(response);
+		});
 };
 
 const authSignUpFunc = (
@@ -43,7 +31,6 @@ const authSignUpFunc = (
 	userPw: string,
 	userPwCheck: string,
 	userPhone: string,
-	isUser: boolean,
 	setIsLoginComp: React.Dispatch<React.SetStateAction<boolean>>,
 ) => {
 	if (userId.trim() === '') {
@@ -68,29 +55,16 @@ const authSignUpFunc = (
 		return;
 	}
 
-	if (isUser) {
-		api
-			.post(url.addUser + `?id=${userId}&password=${userPw}&nickname=${userNick}&phone_number=${userPhone}&auth=0`)
-			.then(({ data }) => {
-				data === 'YES' ? alert('회원가입되었습니다') : alert('유효하지 않습니다.');
-				setIsLoginComp(true);
-			})
-			.catch(({ response }) => {
-				console.log(response);
-				alert('중복된 값이 존재합니다');
-			});
-	} else {
-		api
-			.post(url.addUser + `?id=${userId}&password=${userPw}&nickname=${userNick}&phone_number=${userPhone}&auth=1`)
-			.then((resp) => {
-				console.log(resp);
-				alert('회원가입되었습니다.');
-				setIsLoginComp(true);
-			})
-			.catch(({ response }) => {
-				console.log(response);
-			});
-	}
+	api
+		.post(url.addUser + `?id=${userId}&password=${userPw}&nickname=${userNick}&phone_number=${userPhone}&auth=0`)
+		.then(({ data }) => {
+			data === 'YES' ? alert('회원가입되었습니다') : alert('유효하지 않습니다.');
+			setIsLoginComp(true);
+		})
+		.catch(({ response }) => {
+			console.log(response);
+			alert('중복된 값이 존재합니다');
+		});
 };
 
 const idCheckFunc = (id: string) => {

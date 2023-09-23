@@ -20,6 +20,7 @@ const Nav = () => {
 		['홈', '/owner'],
 		['내 숙소', '/owner/management'],
 		['예약 확인', '/owner/reservation'],
+		['정산 내역', '/owner/income'],
 	];
 
 	const currentNav = isUser ? userNav : ownerNav;

@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { openModal } from '../store/redux/modalSlice';
-import { useAppDispatch, useIsUser, usePathname } from '../hooks';
+import { useAppDispatch, useIsUser } from '../hooks';
 import { login, logo } from '../assets/icons';
 
 const Header = () => {
@@ -12,16 +12,20 @@ const Header = () => {
 		dispatch(openModal({ modalComponent: 'auth', modalSize: modalSize }));
 	};
 	const navigate = useNavigate();
-	const pathname = usePathname();
 	const isUser = useIsUser();
 	const goHomeHandler = () => {
-		pathname === '/user' || pathname === '/owner' ? navigate('/') : isUser ? navigate('/user') : navigate('/owner');
+		isUser ? navigate('/') : navigate('/owner');
 	};
+
+	const onChangeUserType = () => {};
 
 	return (
 		<HeaderContainer>
 			<LogoImg onClick={goHomeHandler} src={logo} />
-			{isUser && <LoginImg onClick={modalOpen} src={login} />}
+			<RightIconContainer>
+				{isUser ? <div onClick={onChangeUserType}>사업자로</div> : <div onClick={onChangeUserType}>유저로</div>}
+				<LoginImg onClick={modalOpen} src={login} />
+			</RightIconContainer>
 		</HeaderContainer>
 	);
 };
@@ -44,4 +48,10 @@ const LoginImg = styled.img`
 	height: 3.2rem;
 	cursor: pointer;
 	padding-bottom: 0.5rem;
+`;
+
+const RightIconContainer = styled.div`
+	display: flex;
+	flex-direction: row;
+	align-items: flex-end;
 `;
