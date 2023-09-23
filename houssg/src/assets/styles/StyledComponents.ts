@@ -20,6 +20,69 @@ const AuthContainer = styled.div`
 	align-items: center;
 `;
 
+const AuthFindingBtn = styled.div`
+	margin: 0 0.5rem;
+	font-size: 0.9rem;
+	color: ${color.darkGrayColor};
+	opacity: 0.5;
+	&:hover {
+		opacity: 1;
+	}
+	margin: 0.5rem 0;
+	font-weight: 600;
+	cursor: pointer;
+	@media screen and (max-width: 400px) {
+		font-size: 0.65rem;
+	}
+`;
+
+const FinderRouteAligner = styled.div`
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	width: 100%;
+	gap: 1rem;
+	margin-bottom: 0.8rem;
+	@media screen and (max-width: 330px) {
+		gap: 0.5rem;
+	}
+`;
+
+const FindInputAligner = styled.div`
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	align-items: center;
+	height: 100%;
+	margin-top: 1rem;
+	gap: 0.5rem;
+`;
+
+const CheckerContainer = styled.div`
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: relative;
+`;
+
+const UseAbilitiyChecker = styled.div`
+	position: absolute;
+	padding: 0.3rem 0.5rem;
+	right: calc(12% + 0.2rem);
+	bottom: 0;
+	transform: translateY(-40.5%);
+	font-size: 0.7rem;
+	color: ${color.backColor};
+	background-color: ${color.color3};
+	border-radius: 3px;
+	cursor: pointer;
+	opacity: 1;
+	height: 1.7rem;
+	justify-content: center;
+	align-items: center;
+`;
+
 //Manage관련
 
 const HouseInfoContainer = styled.div`
@@ -136,7 +199,7 @@ const HouseRegiEachWrapper = styled.div`
 	margin: 1rem 0;
 `;
 
-export { AuthContainer, AuthTitle };
+export { AuthContainer, AuthTitle, AuthFindingBtn, CheckerContainer, UseAbilitiyChecker, FinderRouteAligner, FindInputAligner };
 
 export { HouseInfoContainer, HouseTabContainer, InfoWrapper, InfoText, InfoTitleText, SubInfoAligner, NavClickComp };
 

@@ -3,10 +3,17 @@ import styled from 'styled-components';
 import { color } from '../../../assets/styles';
 import { AuthModeType } from '../../../types';
 
-const AuthModeBtn: React.FC<AuthModeType> = ({ children, isLoginComp, setIsLoginComp }) => {
+const AuthModeBtn: React.FC<AuthModeType> = ({ children, authStep, setAuthStep }) => {
+	const nextStep = authStep === 'login' ? 'signUp' : authStep.startsWith('to') ? authStep.substring(2) : 'login';
 	return (
 		<AuthModeBtnContainer>
-			<HoverText onClick={() => setIsLoginComp(!isLoginComp)}>{children}</HoverText>
+			<HoverText
+				onClick={() => {
+					setAuthStep(nextStep);
+				}}
+			>
+				{children}
+			</HoverText>
 		</AuthModeBtnContainer>
 	);
 };
@@ -17,6 +24,7 @@ const AuthModeBtnContainer = styled.div`
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	height: 1rem;
 `;
 
 const HoverText = styled.div`

@@ -1,6 +1,12 @@
 interface AuthProps {
-	isLoginComp: boolean;
-	setIsLoginComp: React.Dispatch<React.SetStateAction<boolean>>;
+	authStep: string;
+	setAuthStep: React.Dispatch<React.SetStateAction<string>>;
+}
+
+interface AuthPropsWithState {
+	authStep: string;
+	setAuthStep: React.Dispatch<React.SetStateAction<string>>;
+	setState: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 interface AuthInputType {
@@ -10,10 +16,8 @@ interface AuthInputType {
 	reg?: { reg: RegExp; tooltip: string };
 }
 
-interface AuthModeType {
+interface AuthModeType extends AuthProps {
 	children: string;
-	isLoginComp: boolean;
-	setIsLoginComp: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 interface AuthSubmitType {
@@ -21,4 +25,4 @@ interface AuthSubmitType {
 	onClick?: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
 }
 
-export type { AuthProps, AuthInputType, AuthModeType, AuthSubmitType };
+export type { AuthProps, AuthInputType, AuthModeType, AuthSubmitType, AuthPropsWithState };

@@ -5,7 +5,15 @@ import { devideOnce, devideTwice, devideThird } from './size';
 import { flexCenter } from './commonStyle';
 
 //Auth관련
-import { AuthTitle, AuthContainer } from './StyledComponents';
+import {
+	AuthTitle,
+	AuthContainer,
+	AuthFindingBtn,
+	CheckerContainer,
+	UseAbilitiyChecker,
+	FinderRouteAligner,
+	FindInputAligner,
+} from './StyledComponents';
 //OwnerManage관련
 import {
 	HouseInfoContainer,
@@ -27,6 +35,7 @@ export { color, basicTheme, devideOnce, devideTwice, devideThird, GlobalStyle };
 
 //Auth,Manage Comp
 export {
+	AuthFindingBtn,
 	AuthTitle,
 	AuthContainer,
 	HouseInfoContainer,
@@ -37,6 +46,10 @@ export {
 	InfoTitleText,
 	NavClickComp,
 	ManageReadTitle,
+	CheckerContainer,
+	UseAbilitiyChecker,
+	FinderRouteAligner,
+	FindInputAligner,
 };
 
 //UserReservation
