@@ -3,5 +3,5 @@
 import Header from './Header';
 import Footer from './Footer';
 import Nav from './Nav';
-
-export { Header, Footer, Nav };
+import RouteWrap from './RouteWrap';
+export { Header, Footer, Nav, RouteWrap };

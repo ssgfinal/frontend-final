@@ -1,10 +1,10 @@
 import { Outlet } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { Footer, Header, Nav } from '../../layout';
-import { CommonModal } from '../../components/common';
+import { Footer, Header, Nav } from '.';
+import { CommonModal } from '../components/common';
 
-const UserHome = () => {
+const RouteWrap = () => {
 	return (
 		<LayoutWrapper>
 			<Header />
@@ -17,7 +17,7 @@ const UserHome = () => {
 	);
 };
 
-export default UserHome;
+export default RouteWrap;
 
 const LayoutWrapper = styled.div`
 	min-height: 100vh;

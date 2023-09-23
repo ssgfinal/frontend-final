@@ -4,4 +4,6 @@ import OwnerMain from './OwnerMain';
 import OwnerManagement from './OwnerManagement';
 import OwnerReservation from './OwnerReservation';
 import OwnerHouseRegister from './OwnerHouseRegister';
-export { OwnerAuth, OwnerHome, OwnerMain, OwnerManagement, OwnerReservation, OwnerHouseRegister };
+import OwnerIncome from './OwnerIncome';
+
+export { OwnerAuth, OwnerHome, OwnerMain, OwnerManagement, OwnerReservation, OwnerHouseRegister, OwnerIncome };
