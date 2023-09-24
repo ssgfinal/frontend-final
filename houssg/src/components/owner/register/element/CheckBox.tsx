@@ -12,7 +12,6 @@ interface CheckBoxProps {
 }
 
 const CheckBox: React.FC<CheckBoxProps> = ({ element, index, checkedList }) => {
-	console.log(checkedList);
 	const [isChecked, setIsChecked] = useState(!!checkedList[index]);
 	const onCheckFunc = () => {
 		!isChecked ? (checkedList[index] = 1) : (checkedList[index] = 0);

@@ -1,24 +1,27 @@
-import { Select } from 'antd';
 import { useState } from 'react';
+import { Select } from 'antd';
+import styled from 'styled-components';
+
 import { HouseRegiEachWrapper, UserReservationTitle, color, flexCenter } from '../../../assets/styles';
 import { houseCategory, houseServiceCategory } from '../../../assets/constant';
-import styled from 'styled-components';
 import { CheckBox, StepMover } from './element';
 import { RegiStepProps } from '../../../types';
 
 const HouseInfoRegi: React.FC<RegiStepProps> = ({ step, goStep, funnelState }) => {
-	const [currentType, setCurrentType] = useState<{ value: string; label: string }>(houseCategory[0]);
-	const handleChange = (value: { value: string; label: string }) => {
+	const [currentType, setCurrentType] = useState<string>(houseCategory[0].value);
+	const [houseNumber, setHouseNumber] = useState<string>('');
+
+	const handleChange = (value: string) => {
+		console.log(value);
 		setCurrentType(value);
 	};
-	console.log(funnelState);
-	const checkedList = new Array(houseServiceCategory.length).fill(0);
-
+	//TODO: 수정
+	const checkedList: number[] = new Array(houseServiceCategory.length).fill(0);
 	return (
 		<HouseRegiEachWrapper>
 			<UserReservationTitle>숙소 정보</UserReservationTitle>
 			<div>
-				숙소 전화 번호 : <input placeholder="ex) 01012345678" />
+				숙소 전화 번호 : <input placeholder="ex) 01012345678" onChange={(e) => setHouseNumber(e.target.value)} />
 			</div>
 			<HouseType>
 				<div>숙소 종류 : </div>
@@ -33,7 +36,13 @@ const HouseInfoRegi: React.FC<RegiStepProps> = ({ step, goStep, funnelState }) =
 					))}
 				</CheckBoxContainer>
 			</ServiceContainer>
-			<StepMover inactive={false} goStep={goStep} step={step} last data={{}} />
+			<StepMover
+				inactive={false}
+				goStep={goStep}
+				step={step}
+				last
+				data={{ ...funnelState, houseService: checkedList, houseNumber, houseType: currentType }}
+			/>
 		</HouseRegiEachWrapper>
 	);
 };

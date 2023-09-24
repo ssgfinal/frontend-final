@@ -6,6 +6,7 @@ import { useEffect } from 'react';
 import { HouseRegiEachWrapper, UserReservationTitle, color } from '../../../assets/styles';
 import { RegiStepProps } from '../../../types';
 import { StepMover } from './element';
+import { SmallIndicatorText } from '../../../assets/styles/StyledComponents';
 
 const BusinessRegi: React.FC<RegiStepProps> = ({ goStep, step, funnelState }) => {
 	const [isLoading, setIsLoading] = useState(true);
@@ -66,7 +67,7 @@ const BusinessRegi: React.FC<RegiStepProps> = ({ goStep, step, funnelState }) =>
 				) : !isRegistered ? (
 					<button onClick={onRegister}>사업자 등록</button>
 				) : (
-					<div>이미지 클릭으로 수정</div>
+					<SmallIndicatorText>이미지 클릭으로 수정</SmallIndicatorText>
 				)}
 			</div>
 			{isRegistered && (

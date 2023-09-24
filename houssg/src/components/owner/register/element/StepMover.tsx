@@ -7,7 +7,7 @@ const StepMover: React.FC<StepMoverType> = ({ goStep, step, data, inactive, last
 		<StepBtnAligner>
 			{!!step && <StepBtn onClick={() => goStep(step - 1)}>이전</StepBtn>}
 			{last ? (
-				<StepBtn $inactive={inactive} onClick={() => !inactive && alert('끝')}>
+				<StepBtn $inactive={inactive} onClick={() => !inactive && console.log(data)}>
 					등록하기
 				</StepBtn>
 			) : (
@@ -25,9 +25,9 @@ const StepBtnAligner = styled.div`
 	display: flex;
 	flex-direction: row;
 	justify-content: flex-end;
-	max-width: 600px;
+	max-width: 500px;
 	width: 100%;
-	margin-top: 1rem;
+	margin-top: 2rem;
 `;
 
 const StepBtn = styled.div<{ $inactive?: boolean }>`
