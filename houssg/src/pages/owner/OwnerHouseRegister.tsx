@@ -24,7 +24,6 @@ const OwnerHouseRegister = () => {
 			{step === 1 && <AddressFinder goStep={goStep} step={step} funnelState={funnelState} />}
 			{step === 2 && <HouseImageRegi goStep={goStep} step={step} funnelState={funnelState} />}
 			{step === 3 && <HouseInfoRegi goStep={goStep} step={step} funnelState={funnelState} />}
-			<div onClick={() => goStep(0)}>등록완료</div>
 		</RegisterWrapper>
 	);
 };
@@ -33,4 +32,5 @@ export default OwnerHouseRegister;
 
 const RegisterWrapper = styled.div`
 	margin: 1rem auto;
+	max-width: 700px;
 `;

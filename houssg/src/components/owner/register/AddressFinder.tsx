@@ -4,6 +4,7 @@ import KakaoMap from '../../common/KakaoMap';
 import { HouseRegiEachWrapper, UserReservationTitle, flexCenter } from '../../../assets/styles';
 import styled from 'styled-components';
 import { RegiStepProps } from '../../../types';
+import { StepMover } from './element';
 
 const AddressFinder: React.FC<RegiStepProps> = ({ goStep, step }) => {
 	const [isOpen, setIsOpen] = useState(false);
@@ -34,7 +35,6 @@ const AddressFinder: React.FC<RegiStepProps> = ({ goStep, step }) => {
 	return (
 		<HouseRegiEachWrapper>
 			<UserReservationTitle>숙소위치</UserReservationTitle>
-
 			<input onClick={openDaumPost} value="검색하기" type="button" />
 			<div>{targetAddress}</div>
 			{isOpen && (
@@ -43,20 +43,7 @@ const AddressFinder: React.FC<RegiStepProps> = ({ goStep, step }) => {
 				</DaumPostContainer>
 			)}
 			{targetAddress && <KakaoMap location={targetAddress} />}
-			<button
-				onClick={() => {
-					goStep(0);
-				}}
-			>
-				이전으로
-			</button>
-			<button
-				onClick={() => {
-					goStep(2);
-				}}
-			>
-				{step}에서 이미지로
-			</button>
+			<StepMover inactive={false} goStep={goStep} step={step} data={{}} />
 		</HouseRegiEachWrapper>
 	);
 };

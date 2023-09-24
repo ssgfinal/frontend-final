@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { useEffect } from 'react';
 import { HouseRegiEachWrapper, UserReservationTitle, color } from '../../../assets/styles';
 import { RegiStepProps } from '../../../types';
+import { StepMover } from './element';
 
 const BusinessRegi: React.FC<RegiStepProps> = ({ goStep, step, funnelState }) => {
 	const [isLoading, setIsLoading] = useState(true);
@@ -77,8 +78,7 @@ const BusinessRegi: React.FC<RegiStepProps> = ({ goStep, step, funnelState }) =>
 					<div>사업자 번호 : {businessData.businessNum}</div>
 				</div>
 			)}
-			<button onClick={() => goStep(step - 1)}>이전</button>
-			<button onClick={() => goStep(step + 1, businessData)}>다음 단계로</button>
+			<StepMover inactive={false} goStep={goStep} step={step} data={businessData} />
 		</HouseRegiEachWrapper>
 	);
 };

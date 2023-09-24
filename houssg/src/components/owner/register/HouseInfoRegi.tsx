@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { HouseRegiEachWrapper, UserReservationTitle, color, flexCenter } from '../../../assets/styles';
 import { houseCategory, houseServiceCategory } from '../../../assets/constant';
 import styled from 'styled-components';
-import { CheckBox } from './element';
+import { CheckBox, StepMover } from './element';
 import { RegiStepProps } from '../../../types';
 
 const HouseInfoRegi: React.FC<RegiStepProps> = ({ step, goStep }) => {
@@ -33,20 +33,7 @@ const HouseInfoRegi: React.FC<RegiStepProps> = ({ step, goStep }) => {
 					))}
 				</CheckBoxContainer>
 			</ServiceContainer>
-			<button
-				onClick={() => {
-					goStep(2);
-				}}
-			>
-				뒤로
-			</button>
-			<button
-				onClick={() => {
-					goStep(0);
-				}}
-			>
-				{step}에서 종료
-			</button>
+			<StepMover inactive={false} goStep={goStep} step={step} last data={{}} />
 		</HouseRegiEachWrapper>
 	);
 };
