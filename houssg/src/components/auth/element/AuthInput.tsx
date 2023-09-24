@@ -58,6 +58,14 @@ const AuthInputWrapper = styled.div`
 	padding-inline: 0.5rem;
 	padding-bottom: 0.5rem;
 	height: 4.5rem;
+
+	@media screen and (max-width: 1000px) {
+		width: 90%;
+	}
+
+	@media screen and (max-width: 600px) {
+		width: 100%;
+	}
 `;
 const AuthInputTitle = styled.div`
 	font-size: 1rem;

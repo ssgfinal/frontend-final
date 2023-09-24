@@ -1,24 +1,28 @@
 import styled from 'styled-components';
 
-import { Login, SignUp } from '.';
+import { FindId, FindPw, Login, SignUp } from '.';
 import { useState, useEffect } from 'react';
 import { useAppSelector } from '../../hooks';
 import { isModalOpen } from '../../store/redux/modalSlice';
 
 const AuthWrap = () => {
-	const [isLoginComp, setIsLoginComp] = useState(true);
+	const [authStep, setAuthStep] = useState<string>('login');
 	const modalState = useAppSelector(isModalOpen);
 
 	useEffect(() => {
-		setIsLoginComp(true);
+		const timer = setTimeout(() => {
+			setAuthStep('login');
+		}, 200);
+
+		return () => clearTimeout(timer);
 	}, [modalState]);
+
 	return (
 		<AuthWrapper>
-			{isLoginComp ? (
-				<Login isLoginComp={isLoginComp} setIsLoginComp={setIsLoginComp} />
-			) : (
-				<SignUp isLoginComp={isLoginComp} setIsLoginComp={setIsLoginComp} />
-			)}
+			{authStep === 'login' && <Login authStep={authStep} setAuthStep={setAuthStep} />}
+			{authStep === 'signUp' && <SignUp authStep={authStep} setAuthStep={setAuthStep} />}
+			{authStep === 'findId' && <FindId authStep={authStep} setAuthStep={setAuthStep} />}
+			{authStep === 'findPw' && <FindPw authStep={authStep} setAuthStep={setAuthStep} />}
 		</AuthWrapper>
 	);
 };
@@ -26,7 +30,7 @@ const AuthWrap = () => {
 export default AuthWrap;
 
 const AuthWrapper = styled.div`
-	min-height: 400px;
+	/* min-height: 400px; */
 	width: 100%;
 	display: flex;
 	justify-content: center;

@@ -13,12 +13,16 @@ const AuthSubmitBtn: React.FC<AuthSubmitType> = ({ children, onClick }) => {
 export default AuthSubmitBtn;
 
 const SubmitBtnContainer = styled.div`
-	width: 45%;
+	width: 60%;
 	height: 2rem;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	margin: 0.3rem 0;
+
+	@media screen and (max-width: 600px) {
+		width: 60%;
+	}
 `;
 
 const HoverableText = styled.span`
