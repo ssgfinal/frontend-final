@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { removeWindowWarningState, windowWarningState } from '../utils';
 
-const useWindowWarning = () => {
+export const useSaveNavigateState = () => {
 	useEffect(() => {
 		windowWarningState();
 
@@ -9,7 +9,4 @@ const useWindowWarning = () => {
 			removeWindowWarningState();
 		};
 	}, []);
-	return null;
 };
-
-export default useWindowWarning;

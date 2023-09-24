@@ -1,3 +1,5 @@
+import { ReactNode } from 'react';
+
 interface StyledActiveProps {
 	$active: boolean; // active 속성의 타입을 지정
 }
@@ -14,6 +16,8 @@ interface UserTypeObject {
 interface UploaderSize {
 	height: string;
 	width: string;
+	children: ReactNode;
+	setImage: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export type { StyledActiveProps, SetStateToggle, UserType, UserTypeObject, UploaderSize };
