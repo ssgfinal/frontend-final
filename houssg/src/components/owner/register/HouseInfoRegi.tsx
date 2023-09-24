@@ -6,12 +6,12 @@ import styled from 'styled-components';
 import { CheckBox, StepMover } from './element';
 import { RegiStepProps } from '../../../types';
 
-const HouseInfoRegi: React.FC<RegiStepProps> = ({ step, goStep }) => {
+const HouseInfoRegi: React.FC<RegiStepProps> = ({ step, goStep, funnelState }) => {
 	const [currentType, setCurrentType] = useState<{ value: string; label: string }>(houseCategory[0]);
 	const handleChange = (value: { value: string; label: string }) => {
 		setCurrentType(value);
 	};
-
+	console.log(funnelState);
 	const checkedList = new Array(houseServiceCategory.length).fill(0);
 
 	return (

@@ -4,7 +4,7 @@ interface StepProps {
 }
 
 interface RegiStepProps extends StepProps {
-	funnelState?: { businessNum: number; name: string; businessImg: string; [key: string]: string | number };
+	funnelState?: { businessNum: number; name: string; businessImg: string; targetAddress: string; houseImage: string };
 }
 
 interface StepMoverType extends StepProps {

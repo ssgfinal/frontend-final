@@ -68,17 +68,14 @@ const BusinessRegi: React.FC<RegiStepProps> = ({ goStep, step, funnelState }) =>
 				) : (
 					<div>이미지 클릭으로 수정</div>
 				)}
-				{!isRegistered ? <button onClick={onRegister}>사업자 등록</button> : <div>이미지 클릭으로 수정</div>}
 			</div>
-			{!isRegistered ? (
-				<div></div>
-			) : (
+			{isRegistered && (
 				<div>
 					<div>숙소명 :{businessData.name} </div>
 					<div>사업자 번호 : {businessData.businessNum}</div>
 				</div>
 			)}
-			<StepMover inactive={false} goStep={goStep} step={step} data={businessData} />
+			<StepMover inactive={!isRegistered} goStep={goStep} step={step} data={businessData} />
 		</HouseRegiEachWrapper>
 	);
 };

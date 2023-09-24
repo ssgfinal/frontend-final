@@ -27,6 +27,7 @@ const StepBtnAligner = styled.div`
 	justify-content: flex-end;
 	max-width: 600px;
 	width: 100%;
+	margin-top: 1rem;
 `;
 
 const StepBtn = styled.div<{ $inactive?: boolean }>`
@@ -34,7 +35,7 @@ const StepBtn = styled.div<{ $inactive?: boolean }>`
 	background-color: ${color.color2};
 	border: 1px solid ${color.color2};
 	border-radius: 0.3rem;
-	margin: 1rem;
+	margin-right: 1rem;
 	padding: 0.4rem;
 	text-align: center;
 	&:hover {
