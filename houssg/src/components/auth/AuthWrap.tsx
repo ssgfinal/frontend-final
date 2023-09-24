@@ -30,7 +30,7 @@ const AuthWrap = () => {
 export default AuthWrap;
 
 const AuthWrapper = styled.div`
-	min-height: 400px;
+	/* min-height: 400px; */
 	width: 100%;
 	display: flex;
 	justify-content: center;

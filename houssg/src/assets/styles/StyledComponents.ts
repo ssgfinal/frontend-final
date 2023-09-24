@@ -42,7 +42,7 @@ const FinderRouteAligner = styled.div`
 	justify-content: center;
 	width: 100%;
 	gap: 1rem;
-	margin-bottom: 0.8rem;
+	margin: 0.8rem 0;
 	@media screen and (max-width: 330px) {
 		gap: 0.5rem;
 	}

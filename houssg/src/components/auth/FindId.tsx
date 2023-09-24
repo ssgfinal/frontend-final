@@ -21,7 +21,6 @@ const FindId: React.FC<AuthProps> = ({ authStep, setAuthStep }) => {
 						인증하기
 					</UseAbilitiyChecker>
 				</CheckerContainer>
-				<br />
 				<CheckerContainer>
 					<AuthInput setValue={setSmsNumber} title="인증번호" />
 					<UseAbilitiyChecker
