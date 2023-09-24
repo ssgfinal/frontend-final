@@ -13,7 +13,6 @@ const authLoginFunc = (userId: string, userPw: string, closeModal: () => void) =
 
 	api
 		.post(url.login + `?id=${userId}&password=${userPw}&auth=0`)
-		// .post(url.login, { id: userId, password: userPw, auth: 0 })
 		.then(({ data }) => {
 			console.log(data);
 			closeModal();
@@ -30,7 +29,7 @@ const authSignUpFunc = (
 	userPw: string,
 	userPwCheck: string,
 	userPhone: string,
-	setIsLoginComp: React.Dispatch<React.SetStateAction<boolean>>,
+	setIsLoginComp: React.Dispatch<React.SetStateAction<string>>,
 ) => {
 	if (userId.trim() === '') {
 		alert('아이디를 입력해주세요');
@@ -58,7 +57,7 @@ const authSignUpFunc = (
 		.post(url.addUser + `?id=${userId}&password=${userPw}&nickname=${userNick}&phone_number=${userPhone}&auth=0`)
 		.then(({ data }) => {
 			data === 'YES' ? alert('회원가입되었습니다') : alert('유효하지 않습니다.');
-			setIsLoginComp(true);
+			setIsLoginComp('login');
 		})
 		.catch(({ response }) => {
 			console.log(response);
