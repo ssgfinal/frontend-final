@@ -4,9 +4,55 @@ import { styled } from 'styled-components';
 import { SetStateToggle } from '../../../types';
 import { houseServiceCategory } from '../../../assets/constant';
 import { CheckBox } from '../register/element';
+import { useRef } from 'react';
+import hourClock from '../../../utils/hourClock';
 
 const ManageHouseEdit: React.FC<SetStateToggle> = ({ setIsEditMode }) => {
 	const checkedList = new Array(houseServiceCategory.length).fill(0);
+
+	const newPhoneNumber = useRef<HTMLInputElement | null>(null);
+	const newCheckIn = useRef<HTMLInputElement | null>(null);
+	const newCheckOut = useRef<HTMLInputElement | null>(null);
+	const newDetail = useRef<HTMLTextAreaElement | null>(null);
+
+	// TODO: 유틸에 hourClock으로 할지, onChange 할지?
+	// const onCheckInTime = (e: React.ChangeEvent<HTMLInputElement>) => {
+	// 	const checkin = e.target.value;
+	// 	const hourin = checkin.split(':');
+	// 	const checkinTime = hourin.join('');
+
+	// 	console.log(checkinTime);
+	// };
+
+	// const onCheckOutTime = (e: React.ChangeEvent<HTMLInputElement>) => {
+	// 	const checkout = e.target.value;
+	// 	const hourout = checkout.split(':');
+	// 	const checkoutTime = hourout.join('');
+
+	// 	console.log(checkoutTime);
+	// };
+
+	const onEditManageHouse = () => {
+		{
+			const checkinValue = newCheckIn.current?.value;
+			const checkoutValue = newCheckOut.current?.value;
+			const detailValue = newDetail.current?.value;
+
+			const checkinTime = hourClock(checkinValue + '');
+			const checkoutTime = hourClock(checkoutValue + '');
+
+			// TODO: 서버에 보낼 때는 if로 수정
+			newPhoneNumber.current && newCheckIn.current && newCheckOut.current && newDetail.current
+				? console.log(newPhoneNumber.current.value, checkinTime, checkoutTime, detailValue)
+				: false;
+
+			// TODO: 기존의 숙소 정보를 들고오고(map으로..근데 type 따로 빼둘건지?) 수정한 내용이 반영되어야...초기화 ㄴㄴ?
+			newDetail.current!.value = '';
+			newCheckIn.current!.value = '';
+			newCheckOut.current!.value = '';
+			newPhoneNumber.current!.value = '';
+		}
+	};
 
 	return (
 		<ManageWrapper>
@@ -15,10 +61,10 @@ const ManageHouseEdit: React.FC<SetStateToggle> = ({ setIsEditMode }) => {
 			<ManageHouseWrapper>
 				<ManageHouseContainer>
 					<ManageHouseEditTitle>전화번호</ManageHouseEditTitle>
-					<ManageHouseInput type="number" placeholder="예시) 01012345678" />
-					<ManageHouseEditTitle>입퇴실 시간</ManageHouseEditTitle> <ManageHouseCheckinInput type="time" />
-					<ManageHouseSpan>&amp;</ManageHouseSpan>
-					<ManageHouseCheckoutInput type="time" />
+					<ManageHouseInput type="number" ref={newPhoneNumber} placeholder="예시) 01012345678" />
+					<ManageHouseEditTitle>입/퇴실 시간</ManageHouseEditTitle> <ManageHouseCheckinInput type="time" ref={newCheckIn} />
+					<ManageHouseSpan>&frasl;</ManageHouseSpan>
+					<ManageHouseCheckoutInput type="time" ref={newCheckOut} />
 					<ManageHouseEditTitle>시설 및 서비스</ManageHouseEditTitle>
 					<CheckBoxContainer>
 						{houseServiceCategory.map((service, i) => (
@@ -26,11 +72,11 @@ const ManageHouseEdit: React.FC<SetStateToggle> = ({ setIsEditMode }) => {
 						))}
 					</CheckBoxContainer>
 					{/* TODO: 상세설명 글자수 제한은 있는지? */}
-					<ManageHouseEditTitle>상세설명</ManageHouseEditTitle> <ManageHouseText rows={8} />
+					<ManageHouseEditTitle>상세설명</ManageHouseEditTitle> <ManageHouseText rows={8} ref={newDetail} />
 				</ManageHouseContainer>
 			</ManageHouseWrapper>
 			<HouseTabContainer>
-				<NavClickComp>수정완료</NavClickComp>
+				<NavClickComp onClick={onEditManageHouse}>수정완료</NavClickComp>
 				<NavClickComp onClick={() => setIsEditMode(false)}>취소하기</NavClickComp>
 			</HouseTabContainer>
 		</ManageWrapper>
@@ -40,17 +86,22 @@ const ManageHouseEdit: React.FC<SetStateToggle> = ({ setIsEditMode }) => {
 export default ManageHouseEdit;
 
 const ManageWrapper = styled.div`
-	max-width: 40rem;
+	max-width: 50rem;
+	display: grid;
+	justify-content: center;
+
 	@media (min-width: 500px) {
 		padding: 0 5vw 0 5vw;
 	}
 `;
 
 const HouseImg = styled.img`
-	max-width: 20rem;
+	justify-self: center;
+	max-width: 40rem;
 	margin-bottom: 0.5rem;
 	object-fit: contain;
 	border-radius: 0.5rem;
+
 	@media screen and (max-width: ${devideOnce.first}) {
 		max-width: none;
 		width: 23rem;
@@ -65,11 +116,16 @@ const HouseImg = styled.img`
 		width: 80%;
 		transition: width 0.2s;
 	}
+
+	@media (min-width: 500px) and (max-width: 2000px) {
+		width: 100%;
+		transition: width 0.2s;
+	}
 `;
 
 const ManageHouseWrapper = styled.div`
 	text-align: left;
-	padding: 0.3rem;
+	padding: 0.1rem;
 `;
 
 const ManageHouseContainer = styled.div`
@@ -84,7 +140,7 @@ const ManageHouseEditTitle = styled.span`
 	grid-column-start: 1;
 	grid-column-end: 5;
 	justify-self: left;
-	padding: 2vw 0 2vw 0;
+	padding: 1rem 0 1rem 0;
 	color: ${color.color1};
 	font-weight: bold;
 
@@ -99,17 +155,16 @@ const CheckBoxContainer = styled.div`
 	grid-column-end: 6;
 	display: flex;
 	flex-wrap: wrap;
-	justify-content: space-between;
-	padding-bottom: 1vw;
-	/* 
-	@media (min-width: 800px) {
-		width: 25rem;
-	} */
+	justify-content: flex-start;
+	padding-bottom: 1rem;
 `;
 
 const ManageHouseCheckinInput = styled.input`
 	grid-column-start: 1;
 	grid-column-end: 3;
+	width: 100%;
+	text-align: center;
+	justify-self: center;
 	height: 2rem;
 	color: ${color.darkGrayColor};
 	border: 1px solid ${color.darkGrayColor};
@@ -123,7 +178,10 @@ const ManageHouseCheckinInput = styled.input`
 `;
 
 const ManageHouseSpan = styled.span`
+	grid-column-start: 3;
+	grid-column-end: 4;
 	color: ${color.darkGrayColor};
+	text-align: center;
 	justify-self: center;
 	align-self: center;
 `;
@@ -131,6 +189,9 @@ const ManageHouseSpan = styled.span`
 const ManageHouseCheckoutInput = styled.input`
 	grid-column-start: 4;
 	grid-column-end: 6;
+	width: 100%;
+	justify-self: center;
+	text-align: center;
 	height: 2rem;
 	color: ${color.darkGrayColor};
 	border: 1px solid ${color.darkGrayColor};
@@ -138,7 +199,6 @@ const ManageHouseCheckoutInput = styled.input`
 	outline: none;
 
 	@media (max-width: 300px) {
-		width: 100%;
 		height: 1.3rem;
 		font-size: 0.5rem;
 	}
@@ -152,7 +212,8 @@ const ManageHouseInput = styled.input`
 	}
 	grid-column-start: 1;
 	grid-column-end: 6;
-
+	width: 100%;
+	justify-self: center;
 	outline: none;
 	color: ${color.darkGrayColor};
 	border: 1px solid ${color.darkGrayColor};
@@ -171,6 +232,8 @@ const ManageHouseInput = styled.input`
 const ManageHouseText = styled.textarea`
 	grid-column-start: 1;
 	grid-column-end: 6;
+	width: 100%;
+	justify-self: center;
 	outline: none;
 	color: ${color.darkGrayColor};
 	border: 1px solid ${color.darkGrayColor};

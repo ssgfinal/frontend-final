@@ -90,6 +90,7 @@ const HouseInfoContainer = styled.div`
 	flex-direction: row;
 	justify-content: space-between;
 	align-items: stretch;
+
 	@media screen and (max-width: ${devideOnce.first}) {
 		flex-direction: column;
 		align-items: start;
