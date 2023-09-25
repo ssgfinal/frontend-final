@@ -2,7 +2,7 @@ import { AuthContainer, AuthTitle, CheckerContainer, UseAbilitiyChecker } from '
 import { AuthInput, AuthModeBtn, AuthSubmitBtn } from './element';
 import { useState } from 'react';
 import { regSignUp } from '../../assets/constant';
-import { authSignUpFunc, idCheckFunc, nickCheckFunc } from '../../utils';
+import { authSignUpFunc, idCheckFunc, nickCheckFunc } from '../../helper';
 import { AuthProps } from '../../types';
 
 const SignUp: React.FC<AuthProps> = ({ authStep, setAuthStep }) => {
