@@ -4,7 +4,7 @@ const userRoute = {
 	houseDetail: '/user/house/:houseId',
 	myPage: '/user/mypage',
 	reservationList: '/user/reservation',
-	reservation: '/user/reservation/:roomId',
+	reservation: '/user/reservation/',
 };
 
 const ownerRoute = {
@@ -13,6 +13,7 @@ const ownerRoute = {
 	register: '/owner/register',
 	management: '/owner/management',
 	income: '/owner/income',
+	roomRegi: '/owner/roomRegi/',
 };
 
 export { userRoute, ownerRoute };

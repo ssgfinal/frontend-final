@@ -34,7 +34,7 @@ const ImageUploader: React.FC<UploaderSize> = ({ height, width, children, setIma
 			cropperRef.current?.cropper.rotate(degree);
 		}
 	};
-	console.log(imgFile, isCropped, '상태 파일과 크롭');
+
 	return (
 		<UploadContainer>
 			<FileRegiInput type="file" accept="image/*" onChange={setNewIncodeImg} ref={imgRef} />
