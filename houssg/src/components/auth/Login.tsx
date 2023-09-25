@@ -5,7 +5,7 @@ import { AuthContainer, AuthFindingBtn, AuthTitle, FinderRouteAligner } from '..
 import { kakaoLogin } from '../../assets/images';
 import { AuthInput, AuthModeBtn, AuthSubmitBtn } from './element';
 import { useAppDispatch } from '../../hooks';
-import { authLoginFunc } from '../../utils';
+import { authLoginFunc } from '../../helper';
 import { KakaoAuthUri } from '../../api';
 import { closeModal } from '../../store/redux/modalSlice';
 import { AuthProps } from '../../types';
