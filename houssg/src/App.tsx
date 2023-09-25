@@ -1,9 +1,8 @@
 import { Routes, Route } from 'react-router-dom';
 import './App.css';
 
-// TODO: OwnerAuth제거
 import { RouteWrap } from './layout';
-import { OwnerHouseRegister, OwnerIncome, OwnerMain, OwnerManagement, OwnerReservation } from './pages/owner';
+import { OwnerHouseRegister, OwnerIncome, OwnerMain, OwnerManagement, OwnerReservation, OwnerRoomRegister } from './pages/owner';
 import { UserHouseList, UserMain, UserMypage, UserReservationList } from './pages/user';
 import { UserHouseDetail } from './pages/user/UserHouseDetail';
 import { UserReservation } from './pages/user/UserReservation';
@@ -24,6 +23,8 @@ const App = () => {
 				<Route path={ownerRoute.reservation} element={<OwnerReservation />} />
 				<Route path={ownerRoute.register} element={<OwnerHouseRegister />} />
 				<Route path={ownerRoute.management} element={<OwnerManagement />} />
+				<Route path={ownerRoute.roomRegi + ':houseId'} element={<OwnerRoomRegister />} />
+
 				<Route path={ownerRoute.income} element={<OwnerIncome />} />
 			</Route>
 		</Routes>

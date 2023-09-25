@@ -13,6 +13,7 @@ const ownerRoute = {
 	register: '/owner/register',
 	management: '/owner/management',
 	income: '/owner/income',
+	roomRegi: '/owner/roomRegi/',
 };
 
 export { userRoute, ownerRoute };

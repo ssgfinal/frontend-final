@@ -17,10 +17,10 @@ const ManageNav: React.FC<ManageNavProps> = ({ isRoomSelected, isOpenTabComp, se
 
 	return (
 		<HouseTabContainer>
-			<NavStateComp $active={isRoomSelected === 1} onClick={() => onNavHandler(1)}>
+			<NavStateComp $active={isRoomSelected === 1 && isOpenTabComp} onClick={() => onNavHandler(1)}>
 				객실 정보 {isRoomSelected === 1 && isOpenTabComp && '닫기'}
 			</NavStateComp>
-			<NavStateComp $active={isRoomSelected === 2} onClick={() => onNavHandler(2)}>
+			<NavStateComp $active={isRoomSelected === 2 && isOpenTabComp} onClick={() => onNavHandler(2)}>
 				리뷰 확인 {isRoomSelected === 2 && isOpenTabComp && '닫기'}
 			</NavStateComp>
 		</HouseTabContainer>
