@@ -15,23 +15,6 @@ const ManageHouseEdit: React.FC<SetStateToggle> = ({ setIsEditMode }) => {
 	const newCheckOut = useRef<HTMLInputElement | null>(null);
 	const newDetail = useRef<HTMLTextAreaElement | null>(null);
 
-	// TODO: 유틸에 hourClock으로 할지, onChange 할지?
-	// const onCheckInTime = (e: React.ChangeEvent<HTMLInputElement>) => {
-	// 	const checkin = e.target.value;
-	// 	const hourin = checkin.split(':');
-	// 	const checkinTime = hourin.join('');
-
-	// 	console.log(checkinTime);
-	// };
-
-	// const onCheckOutTime = (e: React.ChangeEvent<HTMLInputElement>) => {
-	// 	const checkout = e.target.value;
-	// 	const hourout = checkout.split(':');
-	// 	const checkoutTime = hourout.join('');
-
-	// 	console.log(checkoutTime);
-	// };
-
 	const onEditManageHouse = () => {
 		{
 			const checkinValue = newCheckIn.current?.value;
@@ -46,7 +29,7 @@ const ManageHouseEdit: React.FC<SetStateToggle> = ({ setIsEditMode }) => {
 				? console.log(newPhoneNumber.current.value, checkinTime, checkoutTime, detailValue)
 				: false;
 
-			// TODO: 기존의 숙소 정보를 들고오고(map으로..근데 type 따로 빼둘건지?) 수정한 내용이 반영되어야...초기화 ㄴㄴ?
+			// TODO: 기존의 숙소 정보를 들고오고(전역으로 관리할 듯?) 수정한 내용이 반영되어야...초기화 ㄴㄴ?
 			newDetail.current!.value = '';
 			newCheckIn.current!.value = '';
 			newCheckOut.current!.value = '';
@@ -67,6 +50,7 @@ const ManageHouseEdit: React.FC<SetStateToggle> = ({ setIsEditMode }) => {
 					<ManageHouseCheckoutInput type="time" ref={newCheckOut} />
 					<ManageHouseEditTitle>시설 및 서비스</ManageHouseEditTitle>
 					<CheckBoxContainer>
+						{/* TODO: 체크박스 추후 수정 */}
 						{houseServiceCategory.map((service, i) => (
 							<CheckBox key={service.value} element={service} index={i} checkedList={checkedList} />
 						))}
@@ -86,18 +70,22 @@ const ManageHouseEdit: React.FC<SetStateToggle> = ({ setIsEditMode }) => {
 export default ManageHouseEdit;
 
 const ManageWrapper = styled.div`
-	max-width: 50rem;
+	max-width: 30rem;
 	display: grid;
 	justify-content: center;
 
 	@media (min-width: 500px) {
-		padding: 0 5vw 0 5vw;
+		margin: auto;
+	}
+
+	@media (max-width: 800px) {
+		padding: 0 3vw 0 3vw;
 	}
 `;
 
 const HouseImg = styled.img`
 	justify-self: center;
-	max-width: 40rem;
+	max-width: 27rem;
 	margin-bottom: 0.5rem;
 	object-fit: contain;
 	border-radius: 0.5rem;
@@ -107,18 +95,8 @@ const HouseImg = styled.img`
 		width: 23rem;
 	}
 
-	@media (max-width: 300px) {
-		width: 85%;
-		transition: width 0.2s;
-	}
-
-	@media (min-width: 300px) and (max-width: 500px) {
+	@media (max-width: 2000px) {
 		width: 80%;
-		transition: width 0.2s;
-	}
-
-	@media (min-width: 500px) and (max-width: 2000px) {
-		width: 100%;
 		transition: width 0.2s;
 	}
 `;
