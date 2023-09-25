@@ -3,27 +3,28 @@ import { useImageConverter } from '../../hooks';
 import { color, flexCenter } from '../../assets/styles';
 import Cropper, { ReactCropperElement } from 'react-cropper';
 import { createRef, useState } from 'react';
+
 import 'cropperjs/dist/cropper.css';
 import { capture, rotateL, rotateR } from '../../assets/icons';
-import { SmallIndicatorText } from '../../assets/styles/StyledComponents';
 import { UploaderSize } from '../../types/common';
 
-const ImageUploader: React.FC<UploaderSize> = ({ height, width }) => {
+const ImageUploader: React.FC<UploaderSize> = ({ height, width, children, setImage }) => {
 	const { imgRef, imgFile, setIncodedImg } = useImageConverter();
 	const cropperRef = createRef<ReactCropperElement>();
-	const [cropData, setCropData] = useState<string>('');
 	const [isCropped, setIsCropped] = useState<boolean>(false);
 
 	const setNewIncodeImg = async () => {
 		const result = await setIncodedImg();
-		if (result === 'incode') {
+
+		if (result !== 'cancle') {
 			setIsCropped(false);
 		}
 	};
 
 	const getCropData = () => {
 		if (typeof cropperRef.current?.cropper !== 'undefined') {
-			setCropData(cropperRef.current?.cropper.getCroppedCanvas().toDataURL('image/webp'));
+			const succeedImg = cropperRef.current?.cropper.getCroppedCanvas().toDataURL('image/webp');
+			setImage(succeedImg);
 			setIsCropped(true);
 		}
 	};
@@ -33,52 +34,40 @@ const ImageUploader: React.FC<UploaderSize> = ({ height, width }) => {
 			cropperRef.current?.cropper.rotate(degree);
 		}
 	};
-
+	console.log(imgFile, isCropped, '상태 파일과 크롭');
 	return (
 		<UploadContainer>
 			<FileRegiInput type="file" accept="image/*" onChange={setNewIncodeImg} ref={imgRef} />
-			{!imgFile ? (
-				<UploadButton onClick={() => imgRef.current?.click()}>업로드하기</UploadButton>
-			) : (
-				<>
-					{!isCropped ? (
-						<>
-							<Cropper
-								ref={cropperRef}
-								src={imgFile}
-								style={{ height, width }} // 크롭 크기
-								cropBoxResizable={false}
-								background={false} // 점자 배경 제거
-								initialAspectRatio={1}
-								center={true} // 가운데 정렬
-								rotatable={true}
-								draggable={true} // 크롭 영역 이동
-								dragMode="move"
-								zoomable={true} // 이미지 확대
-								movable={true} // 이미지 이동
-								viewMode={1}
-								responsive={true} // 반응형 (화면 크기 작아질 때 리랜더)
-								autoCropArea={1}
-								checkOrientation={false}
-							/>
-							<CropSvgContainer width={width}>
-								<RotateImg src={rotateL} onClick={() => imageRotater(-90)} />
-								<CaptureImg src={capture} onClick={getCropData} />
-								<RotateImg src={rotateR} onClick={() => imageRotater(90)} />
-							</CropSvgContainer>
-						</>
-					) : (
-						<>
-							{cropData && (
-								<>
-									<CroppedImg width={width} height={height} src={cropData} alt="cropped" onClick={() => imgRef.current?.click()} />
-									<SmallIndicatorText>이미지 클릭시 교체</SmallIndicatorText>
-								</>
-							)}
-						</>
-					)}
-				</>
-			)}
+			<>
+				{imgFile && !isCropped && (
+					<>
+						<Cropper
+							ref={cropperRef}
+							src={imgFile}
+							style={{ height, width }} // 크롭 크기
+							cropBoxResizable={false}
+							background={false} // 점자 배경 제거
+							initialAspectRatio={1}
+							center={true} // 가운데 정렬
+							rotatable={true}
+							draggable={true} // 크롭 영역 이동
+							dragMode="move"
+							zoomable={true} // 이미지 확대
+							movable={true} // 이미지 이동
+							viewMode={1}
+							responsive={true} // 반응형 (화면 크기 작아질 때 리랜더)
+							autoCropArea={1}
+							checkOrientation={false}
+						/>
+						<CropSvgContainer width={width}>
+							<RotateImg src={rotateL} onClick={() => imageRotater(-90)} />
+							<CaptureImg src={capture} onClick={getCropData} />
+							<RotateImg src={rotateR} onClick={() => imageRotater(90)} />
+						</CropSvgContainer>
+					</>
+				)}
+			</>
+			<UploadButton onClick={() => imgRef.current?.click()}>{children}</UploadButton>
 		</UploadContainer>
 	);
 };
@@ -117,8 +106,4 @@ const RotateImg = styled.img`
 const CaptureImg = styled.img`
 	cursor: pointer;
 	width: 2.8rem;
-`;
-
-const CroppedImg = styled.img`
-	cursor: pointer;
 `;

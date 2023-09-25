@@ -4,10 +4,11 @@ import KakaoMap from '../../common/KakaoMap';
 import { HouseRegiEachWrapper, UserReservationTitle, flexCenter } from '../../../assets/styles';
 import styled from 'styled-components';
 import { RegiStepProps } from '../../../types';
+import { StepMover } from './element';
+import { SmallIndicatorText } from '../../../assets/styles/StyledComponents';
 
-const AddressFinder: React.FC<RegiStepProps> = ({ goStep, step }) => {
-	const [isOpen, setIsOpen] = useState(false);
-	const [targetAddress, setTargetAddress] = useState('');
+const AddressFinder: React.FC<RegiStepProps> = ({ goStep, step, funnelState }) => {
+	const [targetAddress, setTargetAddress] = useState(funnelState?.targetAddress ? funnelState.targetAddress : '');
 
 	const handleComplete = (data: Address) => {
 		// console.log(data, 'data');
@@ -22,41 +23,29 @@ const AddressFinder: React.FC<RegiStepProps> = ({ goStep, step }) => {
 			}
 			fullAddress += extraAddress !== '' ? ` (${extraAddress})` : '';
 		}
-		setIsOpen(false);
-		console.log('되나');
+		// setIsOpen(false);
 		setTargetAddress(fullAddress);
 	};
 
-	const openDaumPost = () => {
-		setIsOpen(!isOpen);
+	const reOpenDaumPost = () => {
+		setTargetAddress('');
 	};
 
 	return (
 		<HouseRegiEachWrapper>
 			<UserReservationTitle>숙소위치</UserReservationTitle>
-
-			<input onClick={openDaumPost} value="검색하기" type="button" />
-			<div>{targetAddress}</div>
-			{isOpen && (
+			{targetAddress ? (
+				<>
+					<UserAddress onClick={reOpenDaumPost}>{targetAddress}</UserAddress>
+					<SmallIndicatorText>주소 클릭시 변경</SmallIndicatorText>
+				</>
+			) : (
 				<DaumPostContainer>
 					<DaumPostcode autoClose={false} onComplete={handleComplete} />
 				</DaumPostContainer>
 			)}
 			{targetAddress && <KakaoMap location={targetAddress} />}
-			<button
-				onClick={() => {
-					goStep(0);
-				}}
-			>
-				이전으로
-			</button>
-			<button
-				onClick={() => {
-					goStep(2);
-				}}
-			>
-				{step}에서 이미지로
-			</button>
+			<StepMover inactive={!targetAddress} goStep={goStep} step={step} data={{ targetAddress }} />
 		</HouseRegiEachWrapper>
 	);
 };
@@ -66,4 +55,11 @@ export default AddressFinder;
 const DaumPostContainer = styled.div`
 	${flexCenter}
 	max-width: 30rem;
+`;
+
+const UserAddress = styled.div`
+	font-weight: 700;
+	max-width: 600px;
+	width: 100%;
+	flex-wrap: wrap;
 `;
