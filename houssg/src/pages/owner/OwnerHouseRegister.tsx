@@ -13,7 +13,7 @@ const OwnerHouseRegister = () => {
 	const funnelState = location.state;
 
 	const step = funnelState ? funnelState.step : 0;
-	const goStep = (step: number, newState?: { [key: string]: string | number }) => {
+	const goStep = (step: number, newState?: { [key: string]: string | number | number[] }) => {
 		navigate('', { state: { ...funnelState, step, ...newState } });
 	};
 	console.log(funnelState);

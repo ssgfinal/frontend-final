@@ -8,15 +8,20 @@ import { CheckBox, StepMover } from './element';
 import { RegiStepProps } from '../../../types';
 
 const HouseInfoRegi: React.FC<RegiStepProps> = ({ step, goStep, funnelState }) => {
-	const [currentType, setCurrentType] = useState<string>(houseCategory[0].value);
 	const [houseNumber, setHouseNumber] = useState<string>('');
+	const [currentType, setCurrentType] = useState<string>(houseCategory[0].value);
+	const [checkedList, setCheckedList] = useState<number[]>(new Array(houseServiceCategory.length).fill(0));
 
 	const handleChange = (value: string) => {
-		console.log(value);
 		setCurrentType(value);
 	};
-	//TODO: 수정
-	const checkedList: number[] = new Array(houseServiceCategory.length).fill(0);
+
+	const onChangeCheckedList = (index: number, value: number) => {
+		const newCheckedList = [...checkedList];
+		newCheckedList[index] = value;
+		setCheckedList([...newCheckedList]);
+	};
+
 	return (
 		<HouseRegiEachWrapper>
 			<UserReservationTitle>숙소 정보</UserReservationTitle>
@@ -27,15 +32,17 @@ const HouseInfoRegi: React.FC<RegiStepProps> = ({ step, goStep, funnelState }) =
 				<div>숙소 종류 : </div>
 				<Select value={currentType} onChange={handleChange} options={houseCategory} style={{ width: 150 }} />
 			</HouseType>
-
+			<div>체크인 체크아웃 시간</div>
 			<ServiceContainer>
 				<SemiTitle>서비스 및 시설</SemiTitle>
 				<CheckBoxContainer>
 					{houseServiceCategory.map((element, i) => (
-						<CheckBox key={element.value} element={element} index={i} checkedList={checkedList} />
+						<CheckBox key={element.value} element={element} index={i} isChecked={!!checkedList[i]} setCheckedList={onChangeCheckedList} />
 					))}
 				</CheckBoxContainer>
 			</ServiceContainer>
+			상세설명
+			<input></input>
 			<StepMover
 				inactive={false}
 				goStep={goStep}
@@ -70,9 +77,10 @@ const ServiceContainer = styled.div`
 const CheckBoxContainer = styled.div`
 	display: flex;
 	flex-direction: row;
+	justify-content: space-between;
 	flex-wrap: wrap;
-	gap: 10px;
-	width: 490px;
+	gap: 25px;
+	width: 450px;
 
 	@media screen and (max-width: 800px) {
 		width: 250px;

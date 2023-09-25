@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { color } from '../../../../assets/styles';
 import styled from 'styled-components';
 
@@ -8,14 +7,14 @@ interface CheckBoxProps {
 		text: string;
 	};
 	index: number;
-	checkedList: number[];
+	isChecked: boolean;
+	setCheckedList: (index: number, value: number) => void;
 }
 
-const CheckBox: React.FC<CheckBoxProps> = ({ element, index, checkedList }) => {
-	const [isChecked, setIsChecked] = useState(!!checkedList[index]);
+const CheckBox: React.FC<CheckBoxProps> = ({ element, index, isChecked, setCheckedList }) => {
 	const onCheckFunc = () => {
-		!isChecked ? (checkedList[index] = 1) : (checkedList[index] = 0);
-		setIsChecked(!isChecked);
+		const newIsChecked = isChecked ? 0 : 1;
+		setCheckedList(index, newIsChecked);
 	};
 
 	return (
