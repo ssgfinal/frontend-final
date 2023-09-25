@@ -90,61 +90,98 @@ const HouseInfoContainer = styled.div`
 	flex-direction: row;
 	justify-content: space-between;
 	align-items: stretch;
+	margin: auto;
 
 	@media screen and (max-width: ${devideOnce.first}) {
 		flex-direction: column;
 		align-items: start;
 	}
-	@media (max-width: 300px) {
-		width: 85vw;
-		transition: width 0.2s;
-	}
 
-	@media (min-width: 300px) and (max-width: 500px) {
-		width: 70vw;
-		transition: width 0.2s;
+	@media (max-width: 800px) {
+		gap: 1rem;
 	}
 `;
 
 const InfoWrapper = styled.div`
-	/* margin-top: 0.6rem; */
 	display: flex;
 	flex-direction: column;
 	text-align: left;
 	gap: 0.3rem;
-	padding: 0.5rem;
+	padding: 0.5rem 0 0.5rem 0;
 	justify-content: space-between;
 	max-width: 30rem;
-	width: 20vw;
+	width: 100%;
+	margin: auto;
 
 	@media screen and (max-width: ${devideOnce.first}) {
 		width: 80vw;
+	}
+
+	@media (min-width: 800px) {
+		padding: 0.5rem;
+	}
+
+	@media (max-width: 800px) {
+		display: grid;
+		justify-content: left;
+		padding: 0 1rem;
+		margin: 0;
 	}
 `;
 
 const SubInfoAligner = styled.div`
 	display: flex;
 	flex-direction: column;
-	width: 55vw;
-	max-width: 40rem;
+	margin: auto;
+	width: 100%;
+	max-width: 36rem;
 	text-align: left;
 	@media screen and (max-width: ${devideOnce.first}) {
 		max-width: 30rem;
 		width: auto;
 	}
+
+	@media (min-width: 800px) {
+		padding: 1rem;
+	}
+
+	@media (max-width: 800px) {
+		margin: 0;
+		padding: 0 1rem;
+	}
 `;
 
 const InfoText = styled.div`
-	font-size: 1rem;
+	font-size: 0.9rem;
 	white-space: pre-wrap;
-	line-height: 1.2rem;
-	/* max-width: 800px; */
+
+	@media (max-width: 300px) {
+		font-size: 0.5rem;
+	}
+
+	@media (min-width: 300px) and (max-width: 400px) {
+		font-size: 0.8rem;
+	}
 `;
 
 const InfoTitleText = styled.span`
-	font-size: 1.1rem;
-	font-weight: 600;
+	font-size: 1rem;
+	font-weight: bold;
+	padding-bottom: 0.1rem;
 	color: ${color.color1};
+
+	@media (max-width: 300px) {
+		font-size: 0.8rem;
+		transition: width 0.2s;
+	}
+
+	@media (min-width: 300px) and (max-width: 800px) {
+		padding: 0.5rem 0 0.5rem 0;
+		grid-column-start: 1;
+		grid-column-end: 2;
+		text-align: left;
+		font-size: 1rem;
+	}
 `;
 
 const HouseTabContainer = styled.div`
@@ -155,14 +192,16 @@ const HouseTabContainer = styled.div`
 `;
 
 const NavClickComp = styled.div`
+	padding: 0.5rem;
+
 	color: ${color.basicColor};
 	font-weight: 600;
 	font-size: 1rem;
-	transition: color 0.8s;
+	cursor: pointer;
 	&:hover {
 		color: ${color.color1};
+		border-bottom: 2px solid ${color.lightGrayColor};
 	}
-	cursor: pointer;
 `;
 
 const ManageReadTitle = styled.div`

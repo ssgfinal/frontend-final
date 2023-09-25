@@ -5,7 +5,6 @@ import { SetStateToggle } from '../../../types';
 import { houseServiceCategory } from '../../../assets/constant';
 import { CheckBox } from '../register/element';
 import { useRef } from 'react';
-import hourClock from '../../../utils/hourClock';
 
 const ManageHouseEdit: React.FC<SetStateToggle> = ({ setIsEditMode }) => {
 	const checkedList = new Array(houseServiceCategory.length).fill(0);
@@ -21,12 +20,9 @@ const ManageHouseEdit: React.FC<SetStateToggle> = ({ setIsEditMode }) => {
 			const checkoutValue = newCheckOut.current?.value;
 			const detailValue = newDetail.current?.value;
 
-			const checkinTime = hourClock(checkinValue + '');
-			const checkoutTime = hourClock(checkoutValue + '');
-
 			// TODO: 서버에 보낼 때는 if로 수정
 			newPhoneNumber.current && newCheckIn.current && newCheckOut.current && newDetail.current
-				? console.log(newPhoneNumber.current.value, checkinTime, checkoutTime, detailValue)
+				? console.log(newPhoneNumber.current.value, checkinValue, checkoutValue, detailValue)
 				: false;
 
 			// TODO: 기존의 숙소 정보를 들고오고(전역으로 관리할 듯?) 수정한 내용이 반영되어야...초기화 ㄴㄴ?
@@ -66,7 +62,7 @@ const ManageHouseEdit: React.FC<SetStateToggle> = ({ setIsEditMode }) => {
 export default ManageHouseEdit;
 
 const ManageWrapper = styled.div`
-	max-width: 30rem;
+	max-width: 34rem;
 	display: grid;
 	justify-content: center;
 
@@ -75,7 +71,7 @@ const ManageWrapper = styled.div`
 	}
 
 	@media (max-width: 800px) {
-		padding: 0 3vw 0 3vw;
+		padding: 0 1rem 0 1rem;
 	}
 `;
 
