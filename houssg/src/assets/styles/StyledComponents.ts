@@ -113,10 +113,6 @@ const InfoWrapper = styled.div`
 	width: 100%;
 	margin: auto;
 
-	@media screen and (max-width: ${devideOnce.first}) {
-		width: 80vw;
-	}
-
 	@media (min-width: 800px) {
 		padding: 0.5rem;
 	}
@@ -136,10 +132,6 @@ const SubInfoAligner = styled.div`
 	width: 100%;
 	max-width: 36rem;
 	text-align: left;
-	@media screen and (max-width: ${devideOnce.first}) {
-		max-width: 30rem;
-		width: auto;
-	}
 
 	@media (min-width: 800px) {
 		padding: 1rem;
@@ -193,14 +185,12 @@ const HouseTabContainer = styled.div`
 
 const NavClickComp = styled.div`
 	padding: 0.5rem;
-
 	color: ${color.basicColor};
 	font-weight: 600;
 	font-size: 1rem;
 	cursor: pointer;
 	&:hover {
 		color: ${color.color1};
-		border-bottom: 2px solid ${color.lightGrayColor};
 	}
 `;
 
@@ -212,7 +202,7 @@ const ManageReadTitle = styled.div`
 	margin-bottom: 0.8rem;
 
 	@media (max-width: 300px) {
-		font-size: 0.8rem;
+		font-size: 0.7rem;
 		transition: width 0.2s;
 	}
 
