@@ -30,10 +30,6 @@ const ManageHouseEdit: React.FC<SetStateToggle> = ({ setIsEditMode }) => {
 				: false;
 
 			// TODO: 기존의 숙소 정보를 들고오고(전역으로 관리할 듯?) 수정한 내용이 반영되어야...초기화 ㄴㄴ?
-			newDetail.current!.value = '';
-			newCheckIn.current!.value = '';
-			newCheckOut.current!.value = '';
-			newPhoneNumber.current!.value = '';
 		}
 	};
 
