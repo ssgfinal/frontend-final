@@ -1,19 +1,23 @@
-// import { useState } from 'react';
 import { HouseTabContainer, ManageReadTitle, NavClickComp, color, devideOnce } from '../../../assets/styles';
 import { styled } from 'styled-components';
 import { SetStateToggle } from '../../../types';
 import { houseServiceCategory } from '../../../assets/constant';
 import { CheckBox } from '../register/element';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import hourClock from '../../../utils/hourClock';
 
 const ManageHouseEdit: React.FC<SetStateToggle> = ({ setIsEditMode }) => {
-	const checkedList = new Array(houseServiceCategory.length).fill(0);
-
 	const newPhoneNumber = useRef<HTMLInputElement | null>(null);
 	const newCheckIn = useRef<HTMLInputElement | null>(null);
 	const newCheckOut = useRef<HTMLInputElement | null>(null);
 	const newDetail = useRef<HTMLTextAreaElement | null>(null);
+	//TODO: 수정 필요할지도
+	const [checkedList, setCheckedList] = useState<number[]>(new Array(houseServiceCategory.length).fill(0));
+	const onChangeCheckedList = (index: number, value: number) => {
+		const newCheckedList = [...checkedList];
+		newCheckedList[index] = value;
+		setCheckedList([...newCheckedList]);
+	};
 
 	const onEditManageHouse = () => {
 		{
@@ -48,7 +52,7 @@ const ManageHouseEdit: React.FC<SetStateToggle> = ({ setIsEditMode }) => {
 					<CheckBoxContainer>
 						{/* TODO: 체크박스 추후 수정 */}
 						{houseServiceCategory.map((service, i) => (
-							<CheckBox key={service.value} element={service} index={i} checkedList={checkedList} />
+							<CheckBox key={service.value} element={service} index={i} isChecked={!!checkedList[i]} setCheckedList={onChangeCheckedList} />
 						))}
 					</CheckBoxContainer>
 					{/* TODO: 상세설명 글자수 제한은 있는지? */}

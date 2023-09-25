@@ -14,9 +14,7 @@ const KakaoMap: React.FC<locationType> = ({ location }) => {
 	useEffect(() => {
 		if (location) {
 			// const container = document.getElementById('map');
-			const container = document.getElementsByClassName('mapStyle')[0]; // ?
-			// console.log(container, 'container');
-			// console.log(kakaoMaps);
+			const container = document.getElementsByClassName('mapStyle')[0]; //
 
 			const geocoder = new kakaoMaps.services.Geocoder();
 

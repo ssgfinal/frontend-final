@@ -18,7 +18,7 @@ const App = () => {
 				<Route path={userRoute.houseDetail} element={<UserHouseDetail />} />
 				<Route path={userRoute.myPage} element={<UserMypage />} />
 				<Route path={userRoute.reservationList} element={<UserReservationList />} />
-				<Route path={userRoute.reservation} element={<UserReservation />} />
+				<Route path={userRoute.reservation + ':roomId'} element={<UserReservation />} />
 
 				<Route path={ownerRoute.main} element={<OwnerMain />} />
 				<Route path={ownerRoute.reservation} element={<OwnerReservation />} />
