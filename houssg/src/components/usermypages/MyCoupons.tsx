@@ -4,7 +4,7 @@ import { color } from '../../assets/styles';
 interface CouponList {
 	coupons: {
 		userId: string;
-		couponNumber: number;
+		couponNumber: string;
 		couponName: string;
 		isUsed: number;
 		couponDiscount: number;

@@ -4,7 +4,7 @@ interface ReservationDetailType {
 	guestName: string; // 이용자명
 	guestPhone: string; // 이용자핸드폰
 	couponName: string; // 쿠폰이름
-	couponNumber: number;
+	couponNumber: string; // 쿠폰번호
 	isUsed: number; // 쿠폰사용여부
 	couponDiscount: number; // 쿠폰할인가
 	pointDiscount: number; // 포인트사용
