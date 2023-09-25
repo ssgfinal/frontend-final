@@ -25,14 +25,20 @@ const HouseInfoRegi: React.FC<RegiStepProps> = ({ step, goStep, funnelState }) =
 	return (
 		<HouseRegiEachWrapper>
 			<UserReservationTitle>숙소 정보</UserReservationTitle>
-			<div>
-				숙소 전화 번호 : <input placeholder="ex) 01012345678" onChange={(e) => setHouseNumber(e.target.value)} />
-			</div>
-			<HouseType>
-				<div>숙소 종류 : </div>
+			<HouseInfoAligner>
+				<SemiTitle>숙소 종류 : </SemiTitle>
 				<Select value={currentType} onChange={handleChange} options={houseCategory} style={{ width: 150 }} />
-			</HouseType>
-			<div>체크인 체크아웃 시간</div>
+			</HouseInfoAligner>
+			<HouseInfoAligner>
+				<SemiTitle>숙소 전화 번호 :</SemiTitle>
+				<HousePhoneNum placeholder="ex) 01012345678" onChange={(e) => setHouseNumber(e.target.value)} />
+			</HouseInfoAligner>
+			<HouseInfoAligner>
+				<SemiTitle>체크인</SemiTitle>
+			</HouseInfoAligner>
+			<HouseInfoAligner>
+				<SemiTitle>체크아웃</SemiTitle>
+			</HouseInfoAligner>
 			<ServiceContainer>
 				<SemiTitle>서비스 및 시설</SemiTitle>
 				<CheckBoxContainer>
@@ -41,7 +47,7 @@ const HouseInfoRegi: React.FC<RegiStepProps> = ({ step, goStep, funnelState }) =
 					))}
 				</CheckBoxContainer>
 			</ServiceContainer>
-			상세설명
+			<SemiTitle>상세설명</SemiTitle>
 			<input></input>
 			<StepMover
 				inactive={false}
@@ -56,10 +62,11 @@ const HouseInfoRegi: React.FC<RegiStepProps> = ({ step, goStep, funnelState }) =
 
 export default HouseInfoRegi;
 
-const HouseType = styled.div`
+const HouseInfoAligner = styled.div`
 	display: flex;
 	flex-direction: row;
 	align-items: center;
+	margin-bottom: 1rem;
 `;
 
 const SemiTitle = styled.div`
@@ -81,9 +88,15 @@ const CheckBoxContainer = styled.div`
 	flex-wrap: wrap;
 	gap: 25px;
 	width: 450px;
+	margin-top: 1rem;
 
 	@media screen and (max-width: 800px) {
 		width: 250px;
 		gap: 8px;
 	}
+`;
+
+const HousePhoneNum = styled.input`
+	border-radius: 0.3rem;
+	padding: 0.4rem;
 `;

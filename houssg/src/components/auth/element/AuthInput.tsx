@@ -16,7 +16,7 @@ const AuthInput: React.FC<AuthInputType> = ({ title, password, setValue, reg }) 
 	};
 
 	const onChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
-		setInputValue(value);
+		setInputValue(e.target.value);
 	};
 
 	const debouncedValue = useDebounce(inputValue, 200);
