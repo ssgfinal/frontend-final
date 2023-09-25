@@ -79,6 +79,16 @@ const HouseImg = styled.img`
 		max-width: none;
 		width: 27rem;
 	}
+
+	@media (max-width: 300px) {
+		width: 100%;
+		transition: width 0.2s;
+	}
+
+	@media (min-width: 300px) and (max-width: 500px) {
+		width: 100%;
+		transition: width 0.2s;
+	}
 `;
 
 const DetailText = styled.div`

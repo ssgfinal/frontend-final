@@ -90,9 +90,19 @@ const HouseInfoContainer = styled.div`
 	flex-direction: row;
 	justify-content: space-between;
 	align-items: stretch;
+
 	@media screen and (max-width: ${devideOnce.first}) {
 		flex-direction: column;
 		align-items: start;
+	}
+	@media (max-width: 300px) {
+		width: 85vw;
+		transition: width 0.2s;
+	}
+
+	@media (min-width: 300px) and (max-width: 500px) {
+		width: 70vw;
+		transition: width 0.2s;
 	}
 `;
 
@@ -161,6 +171,15 @@ const ManageReadTitle = styled.div`
 	font-weight: 700;
 	color: ${color.color1};
 	margin-bottom: 0.8rem;
+
+	@media (max-width: 300px) {
+		font-size: 0.8rem;
+		transition: width 0.2s;
+	}
+
+	@media (min-width: 300px) and (max-width: 500px) {
+		font-size: 1rem;
+	}
 `;
 
 //common
