@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 import { RoomDetail } from './RoomDetail';
 import { accomodation } from '../../assets/icons';
-import { seaview, nosmoke } from '../../assets/icons';
+import { ocean, nosmoking } from '../../assets/icons';
 
 export const RoomList = () => {
 	// const { houseId } = useParams();
@@ -12,7 +12,7 @@ export const RoomList = () => {
 		{
 			id: 1,
 			img: accomodation,
-			icon: [seaview, nosmoke],
+			icon: [ocean, nosmoking],
 			type: '스탠다드',
 			service: '트윈 베드, 오션뷰',
 			price: 20000,
@@ -20,7 +20,7 @@ export const RoomList = () => {
 		{
 			id: 2,
 			img: accomodation,
-			icon: [seaview, nosmoke],
+			icon: [ocean, nosmoking],
 			type: '트윈룸',
 			service: 'pc',
 			price: 20000,
@@ -28,7 +28,7 @@ export const RoomList = () => {
 		{
 			id: 3,
 			img: accomodation,
-			icon: [seaview, nosmoke],
+			icon: [ocean, nosmoking],
 			type: '패밀리룸',
 			service: '스파, 금연객실',
 			price: 20000,
