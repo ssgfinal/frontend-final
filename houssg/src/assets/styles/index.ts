@@ -29,7 +29,7 @@ import {
 //UserReservation.tsx
 import { ReservationCommonBox, UserReservationTitle, UserReservationLeft } from './StyledComponents';
 //OwnerRegi
-import { HouseRegiEachWrapper } from './StyledComponents';
+import { HouseRegiEachWrapper, RegiHeadText } from './StyledComponents';
 // 색 크기 theme
 export { color, basicTheme, devideOnce, devideTwice, devideThird, GlobalStyle };
 
@@ -59,4 +59,4 @@ export { ReservationCommonBox, UserReservationTitle, UserReservationLeft };
 export { flexCenter };
 
 // RegiStyle
-export { HouseRegiEachWrapper };
+export { HouseRegiEachWrapper, RegiHeadText };
