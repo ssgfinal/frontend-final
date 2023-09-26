@@ -4,9 +4,11 @@ import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 import { Pagination, Navigation } from 'swiper/modules';
 import styled from 'styled-components';
-import { color } from '../../assets/styles';
 
-const RoomImgSlider = () => {
+import { color } from '../../assets/styles';
+import { RoomSlideProps } from '../../types';
+
+const RoomImgSlider: React.FC<RoomSlideProps> = ({ children, data, setData }) => {
 	return (
 		<SwiperWrapper>
 			<Swiper
@@ -17,15 +19,20 @@ const RoomImgSlider = () => {
 				modules={[Pagination, Navigation]}
 				loop={true}
 			>
-				<SwiperSlide>Slide 1</SwiperSlide>
-				<SwiperSlide>Slide 2</SwiperSlide>
-				<SwiperSlide>Slide 3</SwiperSlide>
-				<SwiperSlide>Slide 4</SwiperSlide>
-				<SwiperSlide>Slide 5</SwiperSlide>
-				<SwiperSlide>Slide 6</SwiperSlide>
-				<SwiperSlide>Slide 7</SwiperSlide>
-				<SwiperSlide>Slide 8</SwiperSlide>
-				<SwiperSlide>Slide 9</SwiperSlide>
+				{data.length === 0 ? (
+					<SwiperSlide>
+						<div>이미지가 </div>
+						<div>없습니다.</div>
+					</SwiperSlide>
+				) : (
+					data.map((element, index) => (
+						<SwiperSlide key={index}>
+							<SlideImg src={element} alt={`Image ${index}`} />
+							{!!setData && <DeleteImg onClick={() => setData(index)} />}
+						</SwiperSlide>
+					))
+				)}
+				{!!children && <SwiperSlide>{children}</SwiperSlide>}
 			</Swiper>
 		</SwiperWrapper>
 	);
@@ -34,32 +41,39 @@ const RoomImgSlider = () => {
 export default RoomImgSlider;
 
 const SwiperWrapper = styled.div`
-	/* max-width: 600px;
-	max-height: 600px;
 	width: 100%;
-	height: 100%; */
-	width: 500px;
-	height: 500px;
+	height: 100%;
+	/* width: 500px;
+	height: 500px; */
+
 	.swiper {
-		width: 100%;
+		width: 100% !important;
 		height: 100%;
 	}
 
 	.swiper-slide {
 		text-align: center;
-		font-size: 18px;
-		background: ${color.backColor};
-
+		font-size: 1rem;
+		background-color: ${color.backColor};
+		padding: 1rem;
 		/* Center slide text vertically */
 		display: flex;
 		justify-content: center;
 		align-items: center;
+		position: relative;
 	}
+`;
 
-	.swiper-slide img {
-		display: block;
-		width: 100%;
-		height: 100%;
-		object-fit: cover;
-	}
+const SlideImg = styled.img`
+	width: 95%;
+	height: 95%;
+`;
+
+const DeleteImg = styled.img`
+	position: absolute;
+	right: 0;
+	top: 0;
+	width: 10%;
+	height: 10%;
+	cursor: pointer;
 `;

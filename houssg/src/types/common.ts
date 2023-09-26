@@ -17,7 +17,14 @@ interface UploaderSize {
 	height: string;
 	width: string;
 	children: ReactNode;
-	setImage: React.Dispatch<React.SetStateAction<string>>;
+	setImage: React.Dispatch<React.SetStateAction<string>> | ((data: string) => void);
 }
 
-export type { StyledActiveProps, SetStateToggle, UserType, UserTypeObject, UploaderSize };
+interface RoomSlideProps {
+	data: string[];
+	children?: ReactNode;
+	// 수정이나 추가시
+	setData?: (index: number) => void;
+}
+
+export type { StyledActiveProps, SetStateToggle, UserType, UserTypeObject, UploaderSize, RoomSlideProps };

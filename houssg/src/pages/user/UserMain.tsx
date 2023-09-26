@@ -7,7 +7,6 @@ import { useKakaoLogin } from '../../hooks/useKaKaoLogin';
 
 const UserMain = () => {
 	useKakaoLogin();
-	console.log(import.meta.env.VITE_SERVER_URL);
 	return (
 		<div>
 			<BannerSlider />
