@@ -28,7 +28,7 @@ import bed from './bed.svg';
 import barbecue from './barbecue.svg';
 import nosmoking from './nosmoking.svg';
 import luggage from './luggage_storage.svg';
-import ott from './OTT.svg';
+import ott from './ott.svg';
 import ocean from './ocean_view.svg';
 import pc from './pc.svg';
 
