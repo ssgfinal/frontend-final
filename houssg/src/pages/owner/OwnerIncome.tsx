@@ -87,7 +87,12 @@ const OwnerIncome = () => {
 
 		const handleResize = () => {
 			// 창 크기가 변경될 때마다 새로운 크기를 설정합니다.
-			setChartSize({ width: window.innerWidth * 0.5, height: window.innerWidth * 0.4 });
+			// TODO: 모바일 폰 버전?으로 볼 때 무작위로 그래프가 잘림 아래 *0.8이 먹혔다 안 먹혔다 하는 거 같음
+			if (window.innerWidth > 850) {
+				setChartSize({ width: window.innerWidth * 0.5, height: window.innerWidth * 0.3 });
+			} else {
+				setChartSize({ width: window.innerWidth * 0.8, height: window.innerWidth * 0.6 });
+			}
 		};
 
 		// 초기 로딩 시 한 번 크기를 설정하고,
@@ -122,8 +127,8 @@ const OwnerIncome = () => {
 						data={response.importation}
 						margin={{
 							top: 40,
-							right: 40,
-							left: 20,
+							// right: 40,
+							// left: 20,
 							bottom: 5,
 						}}
 					>
@@ -137,13 +142,15 @@ const OwnerIncome = () => {
 				</Graph>
 				<HouseChoice>
 					<HouseTitle>숙소</HouseTitle>
-					{houseList &&
-						Object.keys(houseList).map((h, idx) => (
-							<OneHouse key={idx}>
-								<input type="checkbox" onChange={() => handleShowHouse(h)} checked={houseList[h]} />
-								&nbsp;{h}
-							</OneHouse>
-						))}
+					<HouseContent>
+						{houseList &&
+							Object.keys(houseList).map((h, idx) => (
+								<OneHouse key={idx}>
+									<input type="checkbox" onChange={() => handleShowHouse(h)} checked={houseList[h]} />
+									&nbsp;{h}
+								</OneHouse>
+							))}
+					</HouseContent>
 				</HouseChoice>
 			</Contents>
 		</Wrapper>
@@ -152,8 +159,9 @@ const OwnerIncome = () => {
 
 export default OwnerIncome;
 
+// TODO: 코드 정리하기
 const Wrapper = styled.div`
-	padding: 8vw;
+	padding: 7vw;
 `;
 
 const Title = styled.div`
@@ -164,26 +172,64 @@ const Title = styled.div`
 
 const Contents = styled.div`
 	display: grid;
-	grid-template-columns: 70% 30%;
+
+	@media (min-width: 850px) {
+		grid-template-columns: 70% 30%;
+		/* grid-gap: 2rem; */
+	}
+	@media (max-width: 850px) {
+		/* margin-bottom: 0; */
+		grid-template-columns: 100%;
+	}
 `;
 
-const Graph = styled.div``;
+const Graph = styled.div`
+	display: flex;
+	/* justify-content: center; */
+	width: 100%;
+	/* height: ; */
+`;
 
 const HouseChoice = styled.div`
-	padding-top: 5vh;
-	display: grid;
-	grid-template-rows: 3rem;
-	grid-auto-rows: 2rem;
-	grid-gap: 1rem;
-	text-align: left;
+	/* padding-left: 8%; */
+`;
+const HouseTitle = styled.div`
+	@media (min-width: 850px) {
+		background-color: ${color.color2};
+		padding: 1rem;
+		color: white;
+		border-radius: 1rem;
+		text-align: center;
+	}
+	@media (max-width: 850px) {
+		margin: 4rem auto;
+		margin-bottom: 2rem;
+		width: 40%;
+		background-color: ${color.color2};
+		padding: 0.7rem;
+		color: white;
+		border-radius: 1rem;
+		text-align: center;
+	}
 `;
 
-const HouseTitle = styled.div`
-	background-color: ${color.color2};
-	padding: 1rem;
-	color: white;
-	border-radius: 1rem;
-	text-align: center;
+const HouseContent = styled.div`
+	display: grid;
+
+	@media (min-width: 850px) {
+		/* grid-template-rows: 3rem; */
+		padding-top: 2vh;
+		grid-auto-rows: 3rem;
+		grid-gap: 1rem;
+		text-align: left;
+	}
+	@media (max-width: 850px) {
+		grid-template-columns: 30% 30% 30%;
+		text-align: left;
+		border: solid ${color.color2};
+		border-width: 2px;
+		border-radius: 1rem;
+	}
 `;
 
 const OneHouse = styled.div`
