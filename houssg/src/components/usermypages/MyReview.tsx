@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import { ChangeEvent } from 'react';
 import Rating from '../common/Rating';
 import { color } from '../../assets/styles';
 
@@ -22,11 +21,6 @@ interface ReviewList {
 
 const MyReview: React.FC<ReviewList> = ({ reviews }) => {
 	const navigate = useNavigate();
-	const handleTextareaChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
-		const textarea = event.target;
-		textarea.style.height = 'auto'; // 높이를 자동으로 조절하기 위해 초기화
-		textarea.style.height = `${textarea.scrollHeight}px`; // 스크롤 높이로 설정
-	};
 
 	return (
 		<MyReviewWrapper>
@@ -51,15 +45,7 @@ const MyReview: React.FC<ReviewList> = ({ reviews }) => {
 								<ContentBox>
 									<ImageBox>{review.reviewImage && <img src={review.reviewImage} />}</ImageBox>
 
-									{review.reviewImage ? (
-										<TextareaField cols={63} rows={8} onChange={handleTextareaChange} value={review.content} readOnly={true}>
-											{review.content}
-										</TextareaField>
-									) : (
-										<NonImageField cols={120} rows={8} onChange={handleTextareaChange} value={review.content} readOnly={true}>
-											{review.content}
-										</NonImageField>
-									)}
+									{review.reviewImage ? <TextareaField>{review.content}</TextareaField> : <NonImageField>{review.content}</NonImageField>}
 								</ContentBox>
 							</ContentsBox>
 						</MyReviewBox>
@@ -130,7 +116,6 @@ const MyReviewBox = styled.div`
 	padding: 1vw;
 	display: grid;
 	grid-template-columns: 1fr 0.5fr 1fr;
-	grid-template-rows: 1fr 1fr 1fr 5fr;
 
 	@media (max-width: 900px) {
 		font-size: 1rem;
@@ -205,7 +190,7 @@ const RateBox = styled.div`
 	grid-column-end: 3;
 	grid-row-start: 3;
 	grid-row-end: 4;
-	padding: 0vw 0vw 0vw 1vw;
+	padding: 0vw 0vw 1vw 1vw;
 	width: 50%;
 	font-size: 1rem;
 
@@ -290,15 +275,10 @@ const ImageBox = styled.div`
 	}
 `;
 
-const TextareaField = styled.textarea`
+const TextareaField = styled.div`
 	grid-column-start: 2;
 	grid-column-end: 3;
 	width: 100%;
-	outline: none;
-	border: none;
-	background-color: transparent;
-	resize: none;
-	font-family: monospace;
 	font-size: 1rem;
 
 	@media (max-width: 900px) {
@@ -311,33 +291,13 @@ const TextareaField = styled.textarea`
 
 	@media (max-width: 320px) {
 		font-size: 0.5rem;
-	}
-
-	&::-webkit-scrollbar {
-		width: 5px;
-	}
-	&::-webkit-scrollbar {
-		height: 5px;
-	}
-	&::-webkit-scrollbar-thumb {
-		background-color: ${color.unSelectColor};
-		border-radius: 10px;
-	}
-	&::-webkit-scrollbar-track {
-		border-radius: 10px;
-		box-shadow: inset 0px 0px 5px ${color.backColor};
 	}
 `;
 
-const NonImageField = styled.textarea`
+const NonImageField = styled.div`
 	grid-column-start: 1;
 	grid-column-end: 3;
 	width: 100%;
-	outline: none;
-	border: none;
-	background-color: transparent;
-	resize: none;
-	font-family: monospace;
 	font-size: 1rem;
 
 	@media (max-width: 900px) {
@@ -350,20 +310,5 @@ const NonImageField = styled.textarea`
 
 	@media (max-width: 320px) {
 		font-size: 0.5rem;
-	}
-
-	&::-webkit-scrollbar {
-		width: 5px;
-	}
-	&::-webkit-scrollbar {
-		height: 5px;
-	}
-	&::-webkit-scrollbar-thumb {
-		background-color: ${color.unSelectColor};
-		border-radius: 10px;
-	}
-	&::-webkit-scrollbar-track {
-		border-radius: 10px;
-		box-shadow: inset 0px 0px 5px ${color.backColor};
 	}
 `;

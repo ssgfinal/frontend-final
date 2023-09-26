@@ -1,26 +1,35 @@
 // 더미 데이터를 index.ts에 등록하지 않기!!!
 
+import { accomodation } from '../icons';
+
 export const ReviewDummy = [
 	{
-		review_writer: '홍길동123',
+		review_writer: '무조',
 		review_number: 1,
 		reservation_number: 123,
 		review_content: '좋은 숙소입니다.',
 		rating: 5,
 		report_status: 0,
 		creation_time: '2023-08-28 10:00:00',
-		comment: { text: '감사합니다', date: '2023-08-29 18:00:00' },
+		roomType: '더블룸',
+		reviewImage: null,
+		comment: null,
 		member_id: 456,
 	},
 	{
-		review_writer: '홍길동133',
+		review_writer: '홍길동길동길동길',
 		review_number: 2,
-		reservation_number: 123,
+		reservation_number: 456,
 		review_content: '좋은 숙소입니다.',
 		rating: 3,
 		report_status: 0,
-		creation_time: '2023-08-28 10:00:00',
-		comment: null,
+		creation_time: '2023-08-29 10:00:00',
+		roomType: '더블룸',
+		reviewImage: accomodation,
+		comment: {
+			text: '감사합니다하하하하하하하하하하하하하하하하하핳리뷰쓰기실헝용용용',
+			date: '2023-08-29 18:00:00',
+		},
 		member_id: 426,
 	},
 ];
