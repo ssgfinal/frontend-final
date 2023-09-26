@@ -2,6 +2,7 @@ import api from '../api/api';
 import { url } from '../assets/constant';
 
 const authLoginFunc = (userId: string, userPw: string, closeModal: () => void) => {
+	console.log(import.meta.env.VITE_SERVER_URL, 'url테스트용');
 	if (userId.trim() === '') {
 		alert('아이디를 입력해주세요');
 		return;
@@ -12,14 +13,14 @@ const authLoginFunc = (userId: string, userPw: string, closeModal: () => void) =
 	}
 
 	api
-		.post(url.login + `?id=${userId}&password=${userPw}&auth=0`)
+		.post(url.login, { id: userId, password: userPw })
 		.then(({ data }) => {
 			console.log(data);
 			closeModal();
 		})
 		.catch(({ response }) => {
 			// alert('서버와 통신이 원활하지 않습니다.');
-			console.log(response);
+			console.log(response, '리스폰스');
 		});
 };
 

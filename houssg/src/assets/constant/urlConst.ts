@@ -1,7 +1,7 @@
 export const url = {
 	// auth
-	login: 'login',
-	logout: 'logout',
+	login: 'user/login',
+	logout: 'user/logout',
 	addUser: 'adduser',
 	idCheck: 'idcheck',
 	nickCheck: 'nicknamecheck',
