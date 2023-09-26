@@ -14,7 +14,7 @@ const DeclarationReview = () => {
 	return (
 		<DeclarationReviewWrapper>
 			<Warning>🚨후기를 신고하시겠습니까?🚨</Warning>
-			<Discretion>※ 후기 신고는 신중하게 결정하여 주시기 바랍니다. ※</Discretion>
+			<Discretion>※후기 신고는 신중하게 하시기 바랍니다.※</Discretion>
 			<Reason>사유선택</Reason>
 			<ReasonSelect>
 				<option>스팸홍보/도배글입니다.</option>
@@ -43,6 +43,14 @@ const Warning = styled.div`
 	text-align: center;
 	font-size: 1.3rem;
 	font-weight: bold;
+
+	@media (max-width: 400px) {
+		font-size: 1.2rem;
+	}
+
+	@media (max-width: 320px) {
+		font-size: 0.8rem;
+	}
 `;
 
 const Discretion = styled.p`
@@ -50,12 +58,23 @@ const Discretion = styled.p`
 	font-size: 0.8rem;
 	text-align: center;
 	color: ${color.darkGrayColor};
+
+	@media (max-width: 400px) {
+		font-size: 0.8rem;
+	}
+
+	@media (max-width: 320px) {
+		font-size: 0.5rem;
+	}
 `;
 
 const Reason = styled.p`
 	margin: 0.5rem 0 0.5rem 0;
 	font-size: 1rem;
 	font-weight: bold;
+	@media (max-width: 320px) {
+		font-size: 0.3rem;
+	}
 `;
 
 const ReasonSelect = styled.select`
@@ -69,6 +88,10 @@ const ReasonSelect = styled.select`
 	option {
 		color: ${color.darkGrayColor};
 	}
+
+	@media (max-width: 320px) {
+		font-size: 0.3rem;
+	}
 `;
 
 const DeclarationButton = styled.button`
@@ -79,4 +102,8 @@ const DeclarationButton = styled.button`
 	font-weight: bold;
 	color: ${color.backColor};
 	background-color: ${color.red};
+
+	@media (max-width: 320px) {
+		font-size: 1rem;
+	}
 `;

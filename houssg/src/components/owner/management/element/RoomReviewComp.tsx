@@ -5,6 +5,7 @@ import { declarationIcon } from '../../../../assets/icons';
 import { useAppDispatch } from '../../../../hooks';
 import { openModal } from '../../../../store/redux/modalSlice';
 import { color } from '../../../../assets/styles';
+import hourClock from '../../../../utils/hourClock';
 
 interface ReviewType {
 	review: {
@@ -57,14 +58,15 @@ const RoomReviewComp: React.FC<ReviewType> = ({ review }) => {
 			<ReviewWrapper>
 				<ReviewContainer>
 					<ReviewWriter>{review.review_writer}</ReviewWriter>
-					<ReviewRoomType>{review.roomType}</ReviewRoomType>
-					<ReviewDate>{review.creation_time}</ReviewDate>
 					<DeclarationBox
 						src={declarationIcon}
 						onClick={() => {
 							modalOpen('declaration', null);
 						}}
 					></DeclarationBox>
+					{/* <span>신고</span> */}
+					<ReviewDate>{hourClock(review.creation_time)}</ReviewDate>
+					<ReviewRoomType>{review.roomType}</ReviewRoomType>
 					<RatingBox>
 						<Rating rate={review.rating} readonly></Rating>
 					</RatingBox>
@@ -77,23 +79,21 @@ const RoomReviewComp: React.FC<ReviewType> = ({ review }) => {
 					{review.comment ? (
 						<CommentContainer>
 							<NickName>💌 나의 답변</NickName>
-							<CommentDate>{review.comment.date}</CommentDate>
+							<CommentDate>{hourClock(review.comment.date)}</CommentDate>
 							<CommentText>{review.comment.text}</CommentText>
 						</CommentContainer>
 					) : (
 						<CommentContainer>
-							<CommentBox>
-								<CommentTextarea
-									placeholder={`답글을 작성해주세요\n( 최대 250자 )`}
-									rows={9}
-									maxLength={250}
-									ref={commentContent}
-									onChange={onCharacters}
-									value={activeReview}
-								/>
-								<OverTextWarning>{overReview ? <> ※ 최대 글자수 250자를 초과하였습니다.</> : <></>}</OverTextWarning>
-								<CommentSubmitButton onClick={onComment}>답글달기</CommentSubmitButton>
-							</CommentBox>
+							<CommentTextarea
+								placeholder={`답글을 작성해주세요\n( 최대 250자 )`}
+								rows={9}
+								maxLength={250}
+								ref={commentContent}
+								onChange={onCharacters}
+								value={activeReview}
+							/>
+							<OverTextWarning>{overReview ? <> ※ 최대 글자수 250자를 초과하였습니다.</> : <></>}</OverTextWarning>
+							<CommentSubmitButton onClick={onComment}>답글달기</CommentSubmitButton>
 						</CommentContainer>
 					)}
 				</ReviewContainer>
@@ -107,63 +107,54 @@ export default RoomReviewComp;
 const ReviewWrapper = styled.div`
 	display: flex;
 	flex-direction: column;
-	border: 2px solid ${color.lightGrayColor};
 	border-radius: 0.5rem;
-	margin: 0.5rem;
-	padding: 0.5rem;
+	margin: 0 0 0.5rem 0;
 `;
 
 const ReviewContainer = styled.div`
 	grid-column-start: 1;
 	grid-column-end: 5;
-	grid-row-start: 4;
-	grid-row-end: 5;
 	display: grid;
-	margin: 0.5rem 1rem 0.5rem 1rem;
+	margin: 0.5rem;
 `;
 
 const ReviewWriter = styled.div`
 	grid-column-start: 1;
-	grid-column-end: 2;
+	grid-column-end: 4;
 	text-align: left;
 	padding-bottom: 0.3rem;
 	color: ${color.color1};
 	font-weight: bold;
 
-	@media (max-width: 900px) {
-		font-size: 0.8rem;
-	}
-
 	@media (max-width: 430px) {
-		font-size: 0.5rem;
+		font-size: 1rem;
 	}
 
 	@media (max-width: 320px) {
-		font-size: 0.5rem;
+		font-size: 0.8rem;
 	}
 `;
 
 const ReviewDate = styled.div`
-	grid-column-start: 3;
-	grid-column-end: 4;
-	text-align: right;
+	color: ${color.darkGrayColor};
+	grid-column-start: 1;
+	grid-column-end: 5;
+	padding-bottom: 0.2rem;
+	text-align: left;
 
 	@media (max-width: 900px) {
 		font-size: 0.8rem;
 	}
 
 	@media (max-width: 430px) {
-		font-size: 0.5rem;
-	}
-
-	@media (max-width: 320px) {
 		font-size: 0.5rem;
 	}
 `;
 
 const ReviewRoomType = styled.div`
-	grid-column-start: 2;
-	grid-column-end: 3;
+	grid-column-start: 1;
+	grid-column-end: 5;
+	padding-bottom: 0.2rem;
 	color: ${color.darkGrayColor};
 	text-align: left;
 
@@ -195,8 +186,8 @@ const DeclarationBox = styled.img`
 const RatingBox = styled.div`
 	grid-column-start: 1;
 	grid-column-end: 5;
-	grid-row-start: 2;
-	grid-row-end: 3;
+	grid-row-start: 4;
+	grid-row-end: 5;
 	padding-bottom: 0.3rem;
 	width: 38%;
 	font-size: 1rem;
@@ -228,9 +219,10 @@ const RatingBox = styled.div`
 const CommentContainer = styled.div`
 	grid-column-start: 1;
 	grid-column-end: 5;
-	grid-row-start: 4;
-	grid-row-end: 5;
+	grid-row-start: 6;
+	grid-row-end: 7;
 	display: grid;
+	grid-template-columns: 1fr 2fr;
 	margin: 1rem 0 1rem 0;
 	padding: 0.5rem;
 	background-color: ${color.lightGrayColor};
@@ -262,6 +254,7 @@ const CommentDate = styled.div`
 	grid-column-end: 3;
 	grid-row-start: 1;
 	grid-row-end: 2;
+	color: ${color.darkGrayColor};
 	text-align: right;
 `;
 const CommentText = styled.div`
@@ -270,14 +263,15 @@ const CommentText = styled.div`
 	grid-row-start: 2;
 	grid-row-end: 3;
 	text-align: left;
+	line-height: 0.8rem;
 	padding: 0.5rem 0 0 0;
 `;
 
 const ContentsBox = styled.div`
 	grid-column-start: 1;
 	grid-column-end: 5;
-	grid-row-start: 3;
-	grid-row-end: 4;
+	grid-row-start: 5;
+	grid-row-end: 6;
 	text-align: left;
 	padding: 0 0.5rem 0 0.5rem;
 `;
@@ -337,7 +331,7 @@ const ImageField = styled.div`
 	}
 
 	@media (max-width: 430px) {
-		font-size: 0.5rem;
+		font-size: 0.8rem;
 	}
 
 	@media (max-width: 320px) {
@@ -364,13 +358,11 @@ const NonImageField = styled.div`
 	}
 `;
 
-const CommentBox = styled.div`
-	display: grid;
-`;
-
 const CommentTextarea = styled.textarea`
 	grid-column-start: 1;
 	grid-column-end: 3;
+	grid-row-start: 1;
+	grid-row-end: 2;
 	margin: 0.3rem 0 1rem 0;
 	padding: 0.5rem;
 	border-color: ${color.color1};
@@ -386,7 +378,7 @@ const CommentTextarea = styled.textarea`
 	}
 
 	@media (max-width: 430px) {
-		font-size: 0.5rem;
+		font-size: 0.8rem;
 	}
 
 	@media (max-width: 320px) {
@@ -395,16 +387,32 @@ const CommentTextarea = styled.textarea`
 `;
 
 const OverTextWarning = styled.div`
+	grid-column-start: 1;
+	grid-column-end: 3;
 	color: ${color.red};
 	opacity: 0.8;
 	text-align: left;
 	font-size: small;
 	padding-bottom: 1rem;
+
+	@media (max-width: 900px) {
+		font-size: 0.8rem;
+	}
+
+	@media (max-width: 430px) {
+		font-size: 0.8rem;
+	}
+
+	@media (max-width: 320px) {
+		font-size: 0.5rem;
+	}
 `;
 
 const CommentSubmitButton = styled.button`
 	grid-column-start: 1;
 	grid-column-end: 3;
+	grid-row-start: 3;
+	grid-row-end: 4;
 	background-color: ${color.color1};
 	color: ${color.backColor};
 	border: 1px solid ${color.color1};
