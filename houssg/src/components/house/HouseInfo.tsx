@@ -18,7 +18,7 @@ export const HouseInfo = () => {
 	const startTime = 13;
 	const endTime = 11;
 
-	const accservice = [1, 1, 0, 0, 1, 0, 1, 1, 0, 0];
+	const accservice = [1, 1, 0, 0, 1, 0, 1, 1, 0, 1];
 
 	interface ServiceList {
 		value: string;
