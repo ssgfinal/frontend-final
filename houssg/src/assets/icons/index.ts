@@ -17,18 +17,28 @@ import unvisible from './unvisible.svg';
 import visible from './visible.svg';
 import logo from './logo.svg';
 import login from './login.svg';
-import bed from './bed.svg';
-import cityview from './cityview.svg';
-import seaview from './seaview.svg';
-import nosmoke from './nosmoke.svg';
-import ott from './ott.svg';
-import pc from './pc.svg';
 import rotateR from './rotateR.svg';
 import rotateL from './rotateL.svg';
 import capture from './capture.svg';
 
+// 시설 및 서비스 아이콘
+import beach from './beach.svg';
+import parking from './parking.svg';
+import pool from './pool.svg';
+import bath from './bath.svg';
+import wifi from './wifi.svg';
+import bed from './bed.svg';
+import barbecue from './barbecue.svg';
+import nosmoking from './nosmoking.svg';
+import luggage from './luggage_storage.svg';
+import ott from './ott.svg';
+import ocean from './ocean_view.svg';
+import pc from './pc.svg';
+
 export { MapMarker, ProfileCircle, ReviewIcon, EditIcon, CouponIcon, MyPointIcon, FullHeartIcon, HeartIcon, MyHeartIcon, rotateR, rotateL, capture };
 
-export { moreIcon, deleteIcon, houssg, Desert, accomodation, unvisible, visible, logo, login, bed, cityview, seaview, nosmoke, ott, pc };
+export { moreIcon, deleteIcon, declarationIcon };
 
-export { declarationIcon };
+export { houssg, Desert, accomodation, unvisible, visible, logo, login };
+
+export { beach, parking, pool, bath, wifi, bed, barbecue, nosmoking, luggage, ott, ocean, pc };

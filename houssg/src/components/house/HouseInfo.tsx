@@ -4,7 +4,7 @@ import { styled } from 'styled-components';
 import { accomodation } from '../../assets/icons';
 import Rating from '../common/Rating';
 
-import { nosmoke, ott } from '../../assets/icons';
+import { houseServiceCategory } from '../../assets/constant';
 export const HouseInfo = () => {
 	const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
@@ -17,6 +17,21 @@ export const HouseInfo = () => {
 	const reviewCnt = 11400;
 	const startTime = 13;
 	const endTime = 11;
+
+	const accservice = [1, 1, 0, 0, 1, 0, 1, 1, 0, 1];
+
+	interface ServiceList {
+		value: string;
+		text: string;
+		icon: string;
+	}
+	const accomServices: ServiceList[] = [];
+
+	accservice.forEach((existence, idx) => {
+		if (existence == 1) {
+			accomServices.push(houseServiceCategory[idx]);
+		}
+	});
 
 	return (
 		<Container>
@@ -38,15 +53,24 @@ export const HouseInfo = () => {
 						시설 및 서비스
 						<br />
 						<Service>
-							<Icon src={nosmoke} />
-							<Icon src={ott} />
+							{accomServices.length <= 5 ? (
+								accomServices.map((service, idx) => <Icon key={idx} src={service.icon} alt={service.text} />)
+							) : (
+								<>
+									{accomServices.slice(0, 5).map((service, idx) => (
+										<Icon key={idx} src={service.icon} alt={service.text} />
+									))}
 
-							<MoreService onClick={toggleDropdown}>{isDropdownOpen ? '▲' : '▼'}</MoreService>
+									<MoreService onClick={toggleDropdown}>{isDropdownOpen ? '▲' : '▼'}</MoreService>
+								</>
+							)}
 						</Service>
 					</div>
-					{isDropdownOpen && (
+					{isDropdownOpen && accomServices.length > 5 && (
 						<DropdownContent>
-							<p>더 많은 시설 및 서비스</p>
+							{accomServices.slice(5).map((service, idx) => (
+								<Icon key={idx} src={service.icon} alt={service.text} />
+							))}
 						</DropdownContent>
 					)}
 				</div>
@@ -95,6 +119,7 @@ const DropdownContent = styled.div`
 const Icon = styled.img`
 	margin: 0.5rem;
 	width: 1.5rem;
+	height: 1.5rem;
 `;
 
 const RateBox = styled.div`

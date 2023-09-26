@@ -78,7 +78,6 @@ const OwnerIncome = () => {
 	useEffect(() => {
 		let houseObj = houseList;
 		response.house.forEach((houseName) => {
-			console.log(houseName);
 			houseObj = {
 				...houseObj,
 				[houseName]: true,
