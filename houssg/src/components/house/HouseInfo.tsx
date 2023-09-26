@@ -33,8 +33,6 @@ export const HouseInfo = () => {
 		}
 	});
 
-	console.log('있는 서비스 >> ' + accomServices);
-
 	return (
 		<Container>
 			<Img src={accomodation} />
