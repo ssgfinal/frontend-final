@@ -211,6 +211,14 @@ const ManageReadTitle = styled.div`
 	}
 `;
 
+//OwnerRegi
+const RegiHeadText = styled.div`
+	margin-top: 0.5rem;
+	font-size: 1.5rem;
+	font-weight: bold;
+	color: ${color.color1};
+`;
+
 //common
 const SmallIndicatorText = styled.div`
 	margin: 0 0.5rem;
@@ -247,14 +255,17 @@ const HouseRegiEachWrapper = styled.div`
 	margin: 1rem 0;
 `;
 
+//Auth
 export { AuthContainer, AuthTitle, AuthFindingBtn, CheckerContainer, UseAbilitiyChecker, FinderRouteAligner, FindInputAligner };
 
 export { HouseInfoContainer, HouseTabContainer, InfoWrapper, InfoText, InfoTitleText, SubInfoAligner, NavClickComp };
 
+// 관리
 export { ManageReadTitle };
-
+// 등록
+export { RegiHeadText, HouseRegiEachWrapper };
+// common
 export { SmallIndicatorText };
 
+// 유저 예약
 export { ReservationCommonBox, UserReservationTitle, UserReservationLeft };
-
-export { HouseRegiEachWrapper };

@@ -7,7 +7,6 @@ import { useKakaoLogin } from '../../hooks/useKaKaoLogin';
 
 const UserMain = () => {
 	useKakaoLogin();
-
 	return (
 		<div>
 			<BannerSlider />

@@ -12,13 +12,16 @@ const ImageUploader: React.FC<UploaderSize> = ({ height, width, children, setIma
 	const { imgRef, imgFile, setIncodedImg } = useImageConverter();
 	const cropperRef = createRef<ReactCropperElement>();
 	const [isCropped, setIsCropped] = useState<boolean>(false);
-
+	const [isUploading, setIsUploading] = useState<boolean>(false);
 	const setNewIncodeImg = async () => {
+		setIsUploading(true);
 		const result = await setIncodedImg();
 
 		if (result !== 'cancle') {
 			setIsCropped(false);
+			return;
 		}
+		setIsUploading(false);
 	};
 
 	const getCropData = () => {
@@ -26,6 +29,7 @@ const ImageUploader: React.FC<UploaderSize> = ({ height, width, children, setIma
 			const succeedImg = cropperRef.current?.cropper.getCroppedCanvas().toDataURL('image/webp');
 			setImage(succeedImg);
 			setIsCropped(true);
+			setIsUploading(false);
 		}
 	};
 
@@ -67,7 +71,7 @@ const ImageUploader: React.FC<UploaderSize> = ({ height, width, children, setIma
 					</>
 				)}
 			</>
-			<UploadButton onClick={() => imgRef.current?.click()}>{children}</UploadButton>
+			{!isUploading && <UploadButton onClick={() => imgRef.current?.click()}>{children}</UploadButton>}
 		</UploadContainer>
 	);
 };
@@ -91,19 +95,24 @@ const UploadButton = styled.div`
 const CropSvgContainer = styled.div<{ width: string }>`
 	${flexCenter}
 	justify-content: space-between;
-	padding: 0.5rem;
 	flex-direction: row;
 	width: ${(props) => props.width};
 	height: 3rem;
 	background-color: ${color.lightGrayColor};
+	padding: 0 0.5rem;
 `;
 
 const RotateImg = styled.img`
 	cursor: pointer;
-	width: 2rem;
+	width: 2em !important;
+	height: 2em !important;
+	max-width: 2rem;
 `;
 
 const CaptureImg = styled.img`
 	cursor: pointer;
-	width: 2.8rem;
+	width: 2.6em !important;
+	height: 2.5em !important;
+
+	max-width: 2.6rem;
 `;
