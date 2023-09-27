@@ -2,12 +2,12 @@ export const url = {
 	// auth
 	login: 'user/login',
 	logout: 'user/logout',
-	addUser: 'adduser',
-	idCheck: 'idcheck',
-	nickCheck: 'nicknamecheck',
-	phoneCheck: 'phonecheck',
-	kakaoLogin: 'kakao',
-	kakaoAdd: 'kakaAdd',
+	signUp: 'user/signup',
+	idCheck: 'user/idcheck',
+	nickCheck: 'user/nicknamecheck',
+	phoneCheck: '/sms',
+	kakaoLogin: 'user/kakao',
+	kakaoAdd: 'user/kakaAdd',
 
 	//
 };
