@@ -1,4 +1,3 @@
-import { useState, useRef } from 'react';
 import { styled } from 'styled-components';
 import Rating from '../../../common/Rating';
 import { declarationIcon } from '../../../../assets/icons';
@@ -27,45 +26,28 @@ interface ReviewType {
 }
 
 const RoomReviewComp: React.FC<ReviewType> = ({ review }) => {
-	const commentContent = useRef<HTMLTextAreaElement | null>(null);
-	const [activeReview, setActiveReview] = useState('');
-	const [overReview, setOverReview] = useState(false);
-
-	const onCharacters = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-		const activeReviewValue = e.target.value;
-
-		if (activeReviewValue.length <= 250) {
-			setOverReview(false);
-			setActiveReview(activeReviewValue);
-		} else {
-			setOverReview(true);
-		}
-	};
-
 	const dispatch = useAppDispatch();
 	const modalOpen = (component: string, message: string | null) => {
 		const modalSize = window.innerWidth >= 1000 ? 500 : 400;
 		dispatch(openModal({ modalComponent: component, modalSize: modalSize, modalText: message }));
 	};
 
-	const onComment = () => {
-		const commentValue = commentContent.current?.value;
-		console.log(commentValue);
-	};
-
 	return (
 		<>
 			<ReviewWrapper>
 				<ReviewContainer>
-					<ReviewWriter>{review.review_writer}</ReviewWriter>
-					<DeclarationBox
-						src={declarationIcon}
-						onClick={() => {
-							modalOpen('declaration', null);
-						}}
-					></DeclarationBox>
-					{/* <span>신고</span> */}
 					<ReviewDate>{hourClock(review.creation_time)}</ReviewDate>
+					<ReviewWriter>{review.review_writer}</ReviewWriter>
+					<DeclarationContainer>
+						<DeclarationBox
+							src={declarationIcon}
+							onClick={() => {
+								modalOpen('declaration', null);
+							}}
+							alt="신고하기"
+						></DeclarationBox>
+						&nbsp;<span>신고하기</span>
+					</DeclarationContainer>
 					<ReviewRoomType>{review.roomType}</ReviewRoomType>
 					<RatingBox>
 						<Rating rate={review.rating} readonly></Rating>
@@ -83,18 +65,15 @@ const RoomReviewComp: React.FC<ReviewType> = ({ review }) => {
 							<CommentText>{review.comment.text}</CommentText>
 						</CommentContainer>
 					) : (
-						<CommentContainer>
-							<CommentTextarea
-								placeholder={`답글을 작성해주세요\n( 최대 250자 )`}
-								rows={9}
-								maxLength={250}
-								ref={commentContent}
-								onChange={onCharacters}
-								value={activeReview}
-							/>
-							<OverTextWarning>{overReview ? <> ※ 최대 글자수 250자를 초과하였습니다.</> : <></>}</OverTextWarning>
-							<CommentSubmitButton onClick={onComment}>답글달기</CommentSubmitButton>
-						</CommentContainer>
+						<CommentButtonContainer>
+							<CommentSubmitButton
+								onClick={() => {
+									modalOpen('houseComment', null);
+								}}
+							>
+								답글 작성하기&nbsp;&nbsp;&gt;
+							</CommentSubmitButton>
+						</CommentButtonContainer>
 					)}
 				</ReviewContainer>
 			</ReviewWrapper>
@@ -139,15 +118,19 @@ const ReviewDate = styled.div`
 	color: ${color.darkGrayColor};
 	grid-column-start: 1;
 	grid-column-end: 5;
-	padding-bottom: 0.2rem;
+	grid-row-start: 1;
+	grid-row-end: 2;
+	padding: 0 0 0.5rem 0.3rem;
+	font-size: 0.8rem;
 	text-align: left;
+	align-self: center;
 
 	@media (max-width: 900px) {
 		font-size: 0.8rem;
 	}
 
 	@media (max-width: 430px) {
-		font-size: 0.5rem;
+		font-size: 0.6rem;
 	}
 `;
 
@@ -155,15 +138,12 @@ const ReviewRoomType = styled.div`
 	grid-column-start: 1;
 	grid-column-end: 5;
 	padding-bottom: 0.2rem;
+	font-size: 0.8rem;
 	color: ${color.darkGrayColor};
 	text-align: left;
 
-	@media (max-width: 900px) {
-		font-size: 0.8rem;
-	}
-
 	@media (max-width: 430px) {
-		font-size: 0.5rem;
+		font-size: 0.7rem;
 	}
 
 	@media (max-width: 320px) {
@@ -171,12 +151,24 @@ const ReviewRoomType = styled.div`
 	}
 `;
 
-const DeclarationBox = styled.img`
+const DeclarationContainer = styled.div`
+	padding: 0 0 0.5rem 0.3rem;
 	grid-column-start: 4;
 	grid-column-end: 5;
+	grid-row-start: 1;
+	grid-row-end: 2;
+	justify-self: right;
+
+	span {
+		font-size: 0.3rem;
+		color: ${color.darkGrayColor};
+	}
+`;
+
+const DeclarationBox = styled.img`
 	cursor: pointer;
 	width: 1rem;
-	justify-self: right;
+	align-self: center;
 
 	@media (max-width: 900px) {
 		width: 0.8rem;
@@ -188,7 +180,6 @@ const RatingBox = styled.div`
 	grid-column-end: 5;
 	grid-row-start: 4;
 	grid-row-end: 5;
-	padding-bottom: 0.3rem;
 	width: 38%;
 	font-size: 1rem;
 
@@ -228,12 +219,13 @@ const CommentContainer = styled.div`
 	background-color: ${color.lightGrayColor};
 	color: ${color.basicColor};
 	border-radius: 0.5rem;
+
 	@media (max-width: 900px) {
-		font-size: 0.8rem;
+		font-size: 1rem;
 	}
 
 	@media (max-width: 430px) {
-		font-size: 0.5rem;
+		font-size: 0.8rem;
 	}
 
 	@media (max-width: 320px) {
@@ -246,6 +238,7 @@ const NickName = styled.div`
 	grid-column-end: 2;
 	grid-row-start: 1;
 	grid-row-end: 2;
+	padding-bottom: 0.8rem;
 	text-align: left;
 	font-weight: bold;
 `;
@@ -254,6 +247,7 @@ const CommentDate = styled.div`
 	grid-column-end: 3;
 	grid-row-start: 1;
 	grid-row-end: 2;
+	font-size: 0.7rem;
 	color: ${color.darkGrayColor};
 	text-align: right;
 `;
@@ -273,6 +267,7 @@ const ContentsBox = styled.div`
 	grid-row-start: 5;
 	grid-row-end: 6;
 	text-align: left;
+	margin: 1.5rem 0 1.5rem 0;
 	padding: 0 0.5rem 0 0.5rem;
 `;
 
@@ -346,11 +341,11 @@ const NonImageField = styled.div`
 	font-size: 1rem;
 
 	@media (max-width: 900px) {
-		font-size: 0.8rem;
+		font-size: 1rem;
 	}
 
 	@media (max-width: 430px) {
-		font-size: 0.5rem;
+		font-size: 0.8rem;
 	}
 
 	@media (max-width: 320px) {
@@ -358,45 +353,17 @@ const NonImageField = styled.div`
 	}
 `;
 
-const CommentTextarea = styled.textarea`
+const CommentButtonContainer = styled.div`
 	grid-column-start: 1;
-	grid-column-end: 3;
-	grid-row-start: 1;
-	grid-row-end: 2;
-	margin: 0.3rem 0 1rem 0;
+	grid-column-end: 5;
+	grid-row-start: 6;
+	grid-row-end: 7;
+	display: grid;
+	margin: 1rem 0 1rem 0;
 	padding: 0.5rem;
-	border-color: ${color.color1};
-	border-radius: 0.5rem;
-	outline: none;
-	resize: none;
-	&::-webkit-scrollbar {
-		display: none;
-	}
 
 	@media (max-width: 900px) {
-		font-size: 0.8rem;
-	}
-
-	@media (max-width: 430px) {
-		font-size: 0.8rem;
-	}
-
-	@media (max-width: 320px) {
-		font-size: 0.5rem;
-	}
-`;
-
-const OverTextWarning = styled.div`
-	grid-column-start: 1;
-	grid-column-end: 3;
-	color: ${color.red};
-	opacity: 0.8;
-	text-align: left;
-	font-size: small;
-	padding-bottom: 1rem;
-
-	@media (max-width: 900px) {
-		font-size: 0.8rem;
+		font-size: 1rem;
 	}
 
 	@media (max-width: 430px) {
@@ -410,30 +377,31 @@ const OverTextWarning = styled.div`
 
 const CommentSubmitButton = styled.button`
 	grid-column-start: 1;
-	grid-column-end: 3;
+	grid-column-end: 5;
 	grid-row-start: 3;
 	grid-row-end: 4;
-	background-color: ${color.color1};
-	color: ${color.backColor};
-	border: 1px solid ${color.color1};
-	border-radius: 0.5rem;
-	border-color: ${color.color1};
+	justify-self: right;
+	border: none;
+	background-color: ${color.backColor};
+	color: ${color.color1};
+	font-weight: bold;
 	font-size: 1rem;
 	cursor: pointer;
+	border-radius: 0.5rem;
 	padding: 0.3rem;
+	text-align: left;
 
 	&:hover {
 		font-weight: bold;
-		border: 1px solid ${color.color2};
-		background-color: ${color.color2};
+		color: ${color.color1};
 	}
 
 	@media (max-width: 900px) {
-		font-size: 0.8rem;
+		font-size: 0.9rem;
 	}
 
 	@media (max-width: 430px) {
-		font-size: 0.5rem;
+		font-size: 0.8rem;
 	}
 
 	@media (max-width: 320px) {

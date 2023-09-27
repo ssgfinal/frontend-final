@@ -1,13 +1,17 @@
 import styled from 'styled-components';
+import { useRef } from 'react';
 import { color } from '../../../../assets/styles';
 import { useAppDispatch } from '../../../../hooks';
 import { closeModal } from '../../../../store/redux/modalSlice';
 
 const DeclarationReview = () => {
+	const declarationOption = useRef<HTMLSelectElement | null>(null);
 	const dispatch = useAppDispatch();
 
 	const onDeclaration = () => {
-		//TODO: 신고하기~
+		const declarationReason = declarationOption.current?.value;
+		//TODO: 신고하기~콘솔 지우기
+		console.log(declarationReason);
 		dispatch(closeModal());
 	};
 
@@ -16,7 +20,7 @@ const DeclarationReview = () => {
 			<Warning>🚨후기를 신고하시겠습니까?🚨</Warning>
 			<Discretion>※후기 신고는 신중하게 하시기 바랍니다.※</Discretion>
 			<Reason>사유선택</Reason>
-			<ReasonSelect>
+			<ReasonSelect ref={declarationOption}>
 				<option>스팸홍보/도배글입니다.</option>
 				<option>음란물입니다.</option>
 				<option>불법정보를 포함하고있습니다.</option>

@@ -11,6 +11,7 @@ import WithdrawalInstruction from '../usermypages/WithdrawalInstruction';
 import Terms from '../reservation/Terms';
 import CancelReservation from '../reservation/CancelReservation';
 import DeclarationReview from '../owner/management/element/DeclarationReview';
+import HouseComment from '../owner/management/element/HouseComment';
 
 const CommonModal = () => {
 	const modalState = useAppSelector(isModalOpen);
@@ -41,6 +42,7 @@ const CommonModal = () => {
 			{modalComp === 'provision' && <Terms />}
 			{modalComp === 'cancelReservation' && <CancelReservation />}
 			{modalComp === 'declaration' && <DeclarationReview />}
+			{modalComp === 'houseComment' && <HouseComment />}
 			{(modalComp === 'instruction' || modalComp === 'couponRegistration') && <CommonInstruction />}
 		</Modal>
 	);

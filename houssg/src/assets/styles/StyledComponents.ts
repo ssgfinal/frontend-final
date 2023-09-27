@@ -105,6 +105,7 @@ const HouseInfoContainer = styled.div`
 const InfoWrapper = styled.div`
 	display: flex;
 	flex-direction: column;
+	align-items: center;
 	text-align: left;
 	gap: 0.3rem;
 	padding: 0.5rem 0 0.5rem 0;
@@ -119,6 +120,7 @@ const InfoWrapper = styled.div`
 
 	@media (max-width: 800px) {
 		display: grid;
+		grid-template-columns: 2fr 5fr;
 		justify-content: left;
 		padding: 0 1rem;
 		margin: 0;
@@ -145,6 +147,8 @@ const SubInfoAligner = styled.div`
 
 const InfoText = styled.div`
 	font-size: 0.9rem;
+	line-height: 1.3rem;
+	padding-bottom: 2rem;
 	white-space: pre-wrap;
 
 	@media (max-width: 300px) {

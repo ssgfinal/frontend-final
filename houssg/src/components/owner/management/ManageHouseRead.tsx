@@ -4,7 +4,7 @@ import { styled } from 'styled-components';
 import { HouseInfoContainer, InfoText, InfoTitleText, InfoWrapper, NavClickComp, SubInfoAligner, color, devideOnce } from '../../../assets/styles';
 import { ManageNav, ManageTabComp } from '.';
 import { SetStateToggle } from '../../../types';
-import { MapMarker, moreIcon, seaview } from '../../../assets/icons';
+import { MapMarker, moreIcon, ocean } from '../../../assets/icons';
 
 const ManageHouseRead: React.FC<SetStateToggle> = ({ setIsEditMode }) => {
 	const [isRoomSelected, setIsRoomSelected] = useState(0); // 처음 0 room 1 , review 2
@@ -53,7 +53,7 @@ const ManageHouseRead: React.FC<SetStateToggle> = ({ setIsEditMode }) => {
 			</HouseInfoContainer>
 			<SubInfoAligner>
 				<InfoTitleText>시설 및 서비스</InfoTitleText>
-				<ManageReadService src={seaview}></ManageReadService>
+				<ManageReadService src={ocean}></ManageReadService>
 				<InfoTitleText>상세설명</InfoTitleText>
 				<InfoText>
 					Lorem ipsum dolor sit amet consectetur adipisicing elit. Ad architecto doloremque repudiandae culpa nulla a alias quasi temporibus similique
