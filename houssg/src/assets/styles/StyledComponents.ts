@@ -105,7 +105,6 @@ const HouseInfoContainer = styled.div`
 const InfoWrapper = styled.div`
 	display: flex;
 	flex-direction: column;
-	align-items: center;
 	text-align: left;
 	gap: 0.3rem;
 	padding: 0.5rem 0 0.5rem 0;
@@ -122,6 +121,7 @@ const InfoWrapper = styled.div`
 		display: grid;
 		grid-template-columns: 2fr 5fr;
 		justify-content: left;
+		align-items: center;
 		padding: 0 1rem;
 		margin: 0;
 	}
