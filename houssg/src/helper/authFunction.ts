@@ -18,7 +18,7 @@ const authLoginFunc = (userId: string, userPw: string, closeModal: () => void) =
 			closeModal();
 		})
 		.catch(({ response }) => {
-			// alert('서버와 통신이 원활하지 않습니다.');
+			alert('서버와 통신이 원활하지 않습니다.');
 			console.log(response, '리스폰스');
 		});
 };
@@ -102,6 +102,32 @@ const onPhoneUsableCheck = (phone: string) => {
 	return text;
 };
 
+const onFindId = (phone: string) => {
+	let text = '실패';
+	api
+		.post(url.findId + `?phone_number *=${phone}`)
+		.then(({ data }) => {
+			console.log(data);
+			text = '성공';
+		})
+		.catch(({ response }) => {
+			console.log(response);
+		});
+
+	return text;
+};
+
+const phoneAuthCheck = (number: string) => {
+	api
+		.post(url.phoneAuthCheck + `?verificationCode=${number}`)
+		.then(({ data }) => {
+			console.log(data);
+		})
+		.catch(({ response }) => {
+			console.log(response, '에러 메시지');
+		});
+};
+
 const kakaoLoginFunc = (code: string) => {
 	// TODO: url 수정
 	api
@@ -125,15 +151,5 @@ const kakaoSignUp = (nickName: string) => {
 		});
 };
 
-const phoneCheck = (number: number) => {
-	api
-		.post(url.phoneCheck + `?number=${number}`)
-		.then(({ data }) => {
-			console.log(data);
-		})
-		.catch(({ response }) => {
-			console.log(response);
-		});
-};
-
-export { authLoginFunc, authSignUpFunc, idCheckFunc, nickCheckFunc, kakaoLoginFunc, kakaoSignUp, phoneCheck, onPhoneUsableCheck };
+export { authLoginFunc, authSignUpFunc, idCheckFunc, nickCheckFunc, kakaoLoginFunc, kakaoSignUp };
+export { onPhoneUsableCheck, phoneAuthCheck, onFindId };

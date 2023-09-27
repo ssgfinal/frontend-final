@@ -3,6 +3,7 @@ import { AuthContainer, AuthTitle, CheckerContainer, FindInputAligner, FinderRou
 import { AuthProps } from '../../types';
 import { AuthInput, AuthModeBtn } from './element';
 import { regSignUp } from '../../assets/constant';
+import { onFindId } from '../../helper';
 
 const FindId: React.FC<AuthProps> = ({ authStep, setAuthStep }) => {
 	const [userPhone, setUserPhone] = useState('');
@@ -15,7 +16,7 @@ const FindId: React.FC<AuthProps> = ({ authStep, setAuthStep }) => {
 					<AuthInput setValue={setUserPhone} title="전화번호" reg={regSignUp.regPhone} />
 					<UseAbilitiyChecker
 						onClick={() => {
-							console.log(userPhone);
+							onFindId(userPhone);
 						}}
 					>
 						인증하기

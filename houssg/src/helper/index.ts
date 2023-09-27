@@ -6,8 +6,9 @@ import {
 	kakaoSignUp,
 	nickCheckFunc,
 	idCheckFunc,
-	phoneCheck,
 	onPhoneUsableCheck,
+	phoneAuthCheck,
+	onFindId,
 } from './authFunction';
 
-export { authLoginFunc, authSignUpFunc, kakaoLoginFunc, kakaoSignUp, nickCheckFunc, idCheckFunc, phoneCheck, onPhoneUsableCheck };
+export { authLoginFunc, authSignUpFunc, kakaoLoginFunc, kakaoSignUp, nickCheckFunc, idCheckFunc, onPhoneUsableCheck, phoneAuthCheck, onFindId };
