@@ -1,14 +1,19 @@
 import RoomReviewComp from './element/RoomReviewComp';
 import { ReviewDummy } from '../../../assets/constant/reservationDummy';
+import styled from 'styled-components';
 
 const ManageReview = () => {
 	return (
-		<div>
+		<Wrapper>
 			{ReviewDummy.map((review) => (
 				<RoomReviewComp review={review} key={review.review_number} />
 			))}
-		</div>
+		</Wrapper>
 	);
 };
 
 export default ManageReview;
+
+const Wrapper = styled.div`
+	padding-top: 3rem;
+`;
