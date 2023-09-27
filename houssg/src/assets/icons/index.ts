@@ -1,6 +1,6 @@
 import declarationIcon from './declaration.svg';
 import moreIcon from './moreIcon.svg';
-import deleteIcon from './deleteicon.svg';
+import deleteIcon from './deleteIcon.svg';
 import houssg from './houssg.svg';
 import MapMarker from './mapmarker.svg';
 import ProfileCircle from './profilecircle.svg';
