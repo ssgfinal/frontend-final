@@ -13,8 +13,11 @@ const authLoginFunc = (userId: string, userPw: string, closeModal: () => void) =
 
 	api
 		.post(url.login, { id: userId, password: userPw })
-		.then((data) => {
-			console.log(data);
+		.then((res) => {
+			console.log(res, '리스폰스 데이터');
+			sessionStorage.setItem('Authorization', res.headers.authorization);
+			sessionStorage.setItem('Refresh-Token', res.headers['refresh-token']);
+
 			closeModal();
 		})
 		.catch(({ response }) => {
