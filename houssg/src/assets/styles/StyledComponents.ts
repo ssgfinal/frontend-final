@@ -196,6 +196,11 @@ const NavClickComp = styled.div`
 	&:hover {
 		color: ${color.color1};
 	}
+
+	@media (max-width: 300px) {
+		font-size: 0.8rem;
+		transition: width 0.2s;
+	}
 `;
 
 const ManageReadTitle = styled.div`

@@ -210,4 +210,9 @@ const ButtonAligner = styled.div`
 	width: 100px;
 	position: absolute;
 	right: 5px;
+
+	@media (max-width: 300px) {
+		width: 85px;
+		transition: width 0.2s;
+	}
 `;
