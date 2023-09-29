@@ -84,16 +84,30 @@ const OwnerIncome = () => {
 			};
 		});
 		setHouseList(houseObj);
+	}, []);
 
+	useEffect(() => {
 		const handleResize = () => {
+			console.log('리사이즈시 실행', window.innerWidth);
+			console.log('width ', window.screen.width);
 			// 창 크기가 변경될 때마다 새로운 크기를 설정합니다.
 			// TODO: 모바일 폰 버전?으로 볼 때 무작위로 그래프가 잘림 아래 *0.8이 먹혔다 안 먹혔다 하는 거 같음
-			if (window.innerWidth > 850) {
+			if (window.screen.width < 850) {
+				setChartSize({ width: window.screen.width * 0.8, height: window.screen.width * 0.6 });
+			} else if (window.innerWidth > 850) {
 				setChartSize({ width: window.innerWidth * 0.5, height: window.innerWidth * 0.3 });
 			} else {
 				setChartSize({ width: window.innerWidth * 0.8, height: window.innerWidth * 0.6 });
 			}
 		};
+		// const handleResize = () => {
+		// 	console.log('리사이즈시 실행', window.screen.width);
+		// 	// 창 크기가 변경될 때마다 새로운 크기를 설정합니다.
+		// 	// TODO: 모바일 폰 버전?으로 볼 때 무작위로 그래프가 잘림 아래 *0.8이 먹혔다 안 먹혔다 하는 거 같음
+		// 	if (window.screen.width < 500) {
+		// 		setChartSize({ width: window.screen.width * 0.8, height: window.screen.width * 0.6 });
+		// 	}
+		// };
 
 		// 초기 로딩 시 한 번 크기를 설정하고,
 		handleResize();
@@ -204,7 +218,7 @@ const HouseTitle = styled.div`
 	@media (max-width: 850px) {
 		margin: 4rem auto;
 		margin-bottom: 2rem;
-		width: 40%;
+		width: 50%;
 		background-color: ${color.color2};
 		padding: 0.7rem;
 		color: white;
@@ -215,20 +229,22 @@ const HouseTitle = styled.div`
 
 const HouseContent = styled.div`
 	display: grid;
-
+	text-align: left;
+	border: solid ${color.color2};
+	border-width: 1px;
+	border-radius: 1rem;
 	@media (min-width: 850px) {
 		/* grid-template-rows: 3rem; */
+		margin-top: 2vh;
 		padding-top: 2vh;
 		grid-auto-rows: 3rem;
 		grid-gap: 1rem;
-		text-align: left;
 	}
 	@media (max-width: 850px) {
-		grid-template-columns: 30% 30% 30%;
-		text-align: left;
-		border: solid ${color.color2};
-		border-width: 2px;
-		border-radius: 1rem;
+		grid-template-columns: 50% 50%;
+	}
+	@media (max-width: 400px) {
+		grid-template-columns: 100%;
 	}
 `;
 
