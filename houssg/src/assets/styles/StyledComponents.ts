@@ -119,7 +119,7 @@ const InfoWrapper = styled.div`
 
 	@media (max-width: 800px) {
 		display: grid;
-		grid-template-columns: 2fr 5fr;
+		grid-template-columns: 3fr 5fr;
 		justify-content: left;
 		align-items: center;
 		padding: 0 1rem;

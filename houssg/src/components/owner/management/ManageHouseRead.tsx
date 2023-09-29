@@ -4,7 +4,8 @@ import { styled } from 'styled-components';
 import { HouseInfoContainer, InfoText, InfoTitleText, InfoWrapper, NavClickComp, SubInfoAligner, color, devideOnce } from '../../../assets/styles';
 import { ManageNav, ManageTabComp } from '.';
 import { SetStateToggle } from '../../../types';
-import { MapMarker, moreIcon, ocean } from '../../../assets/icons';
+import { MapMarker, moreIcon } from '../../../assets/icons';
+import { houseServiceCategory } from '../../../assets/constant';
 
 const ManageHouseRead: React.FC<SetStateToggle> = ({ setIsEditMode }) => {
 	const [isRoomSelected, setIsRoomSelected] = useState(0); // 처음 0 room 1 , review 2
@@ -53,7 +54,11 @@ const ManageHouseRead: React.FC<SetStateToggle> = ({ setIsEditMode }) => {
 			</HouseInfoContainer>
 			<SubInfoAligner>
 				<InfoTitleText>시설 및 서비스</InfoTitleText>
-				<ManageReadService src={ocean}></ManageReadService>
+				<ServiceContainer>
+					{houseServiceCategory.map((service, i) => (
+						<ManageReadService key={i} src={service.icon}></ManageReadService>
+					))}
+				</ServiceContainer>
 				<InfoTitleText>상세설명</InfoTitleText>
 				<InfoText>
 					Lorem ipsum dolor sit amet consectetur adipisicing elit. Ad architecto doloremque repudiandae culpa nulla a alias quasi temporibus similique
@@ -142,6 +147,8 @@ const ManageReadSubTitle = styled.div`
 `;
 
 const ManageReadAddress = styled.div`
+	grid-column-start: 1;
+	grid-column-end: 3;
 	padding: 0.5rem 0 0.5rem 0;
 	img {
 		width: 0.7rem;
@@ -174,17 +181,23 @@ const HouseImg = styled.img`
 	}
 `;
 
+const ServiceContainer = styled.div`
+	display: flex;
+	flex-wrap: wrap;
+	padding: 0.5rem 0;
+	gap: 1rem;
+`;
+
 const ManageReadService = styled.img`
-	width: 3rem;
-	padding-bottom: 0.5rem;
+	width: 2rem;
 
 	@media (max-width: 300px) {
-		width: 2rem;
+		width: 1rem;
 		transition: width 0.2s;
 	}
 
 	@media (min-width: 300px) and (max-width: 400px) {
-		width: 2.5rem;
+		width: 1.5rem;
 	}
 `;
 
