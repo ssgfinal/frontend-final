@@ -84,6 +84,11 @@ const roomServiceCategory = [
 		icon: pc,
 	},
 	{
+		value: 'no_smoking',
+		text: '금연',
+		icon: nosmoking,
+	},
+	{
 		value: 'double_bed',
 		text: '더블 베드',
 		icon: bed,
