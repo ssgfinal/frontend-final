@@ -105,7 +105,6 @@ const HouseInfoContainer = styled.div`
 const InfoWrapper = styled.div`
 	display: flex;
 	flex-direction: column;
-	align-items: center;
 	text-align: left;
 	gap: 0.3rem;
 	padding: 0.5rem 0 0.5rem 0;
@@ -120,8 +119,9 @@ const InfoWrapper = styled.div`
 
 	@media (max-width: 800px) {
 		display: grid;
-		grid-template-columns: 2fr 5fr;
+		grid-template-columns: 3fr 5fr;
 		justify-content: left;
+		align-items: center;
 		padding: 0 1rem;
 		margin: 0;
 	}
@@ -195,6 +195,11 @@ const NavClickComp = styled.div`
 	cursor: pointer;
 	&:hover {
 		color: ${color.color1};
+	}
+
+	@media (max-width: 300px) {
+		font-size: 0.8rem;
+		transition: width 0.2s;
 	}
 `;
 
