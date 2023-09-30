@@ -3,8 +3,7 @@ name: Build Image
 on:
   push:
     branches:
-      - "main"
-
+      - 'main'
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -26,6 +25,11 @@ jobs:
           platforms: linux/amd64
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/houssg-front:latest
+          build-args: |
+            "VITE_SERVER_URL=${{ secrets.VITE_SERVER_URL }}"
+            "VITE_KAKAO_JS_KEY=${{ secrets.VITE_KAKAO_JS_KEY }}"
+            "VITE_KAKAO_KEY=${{ secrets.VITE_KAKAO_KEY }}"
+            "VITE_MY_URL=${{ secrets.VITE_MY_URL }}"
 
       - name: SSH Remote Commands
         uses: appleboy/ssh-action@v1.0.0
@@ -36,12 +40,9 @@ jobs:
           port: 22
           timeout: 40s
           script: |
-            docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin ${{ secrets.DOCKERHUB_TOKEN }} 
-            docker pull ${{ secrets.DOCKERHUB_USERNAME }}/houssg-front:latest  
+            docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin ${{ secrets.DOCKERHUB_TOKEN }}
             docker rm -f houssg-front
+            docker pull ${{ secrets.DOCKERHUB_USERNAME }}/houssg-front:latest  
             docker run -d -p 80:80  \
-            -e VITE_KAKAO_JS_KEY=${{ secrets.VITE_KAKAO_JS_KEY }} \
-            -e VITE_KAKAO_KEY=${{ secrets.VITE_KAKAO_KEY }} \
-            -e VITE_SERVER_URL=${{ secrets.VITE_SERVER_URL }} \
-            -e VITE_MY_URL=${{secrets.VITE_MY_URL}} \
             --name houssg-front ${{ secrets.DOCKERHUB_USERNAME }}/houssg-front:latest
+            docker image prune -a -f
