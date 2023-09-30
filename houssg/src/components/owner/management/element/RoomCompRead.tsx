@@ -1,13 +1,13 @@
+import { styled } from 'styled-components';
 import { useState } from 'react';
 import { RoomComp } from '../../../../types';
-import { styled } from 'styled-components';
 import { moreIcon } from '../../../../assets/icons';
 import { color } from '../../../../assets/styles';
 import { roomServiceCategory } from '../../../../assets/constant';
 
 const RoomCompRead: React.FC<RoomComp> = ({ room, setIsEditMode }) => {
 	const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-	console.log('🛌🚪🛏💜◼▪⁕✪✧✿'); // TODO: 콘솔 지우기
+
 	const toggleDropdown = () => {
 		setIsDropdownOpen(!isDropdownOpen);
 	};
@@ -143,8 +143,8 @@ const RoomContent = styled.div`
 		margin-right: 0.5rem;
 	}
 
-	@media (max-width: 300px) {
-		grid-template-columns: 2fr 10fr;
+	@media (max-width: 400px) {
+		grid-template-columns: 2fr 9fr;
 		font-size: 0.8rem;
 		transition: width 0.2s;
 	}
@@ -176,18 +176,6 @@ const RoomCategory = styled.div`
 	text-align: left;
 	font-size: 1.2rem;
 	font-weight: bold;
-	// TODO: 디자인 정해지면 지우기
-	/* color: ${color.backColor}; */
-	/* text-decoration: overline; */
-	/* border-top: 3px solid ${color.color1};
-	border-left: 3px solid ${color.color1};
-	border-right: 3px solid ${color.color1};
-	border-top-left-radius: 0.5rem;
-	border-top-right-radius: 0.5rem; */
-	/* background-color: darkorchid; */
-	/* text-decoration: underline; */
-	/* text-decoration-thickness: 5px; */
-	/* background-color: ${color.color1}; */
 	color: ${color.color1};
 
 	@media (max-width: 300px) {
@@ -222,7 +210,7 @@ const MoreBox = styled.img`
 	cursor: pointer;
 
 	@media (max-width: 400px) {
-		width: 1rem;
+		width: 1.5rem;
 		transition: width 0.2s;
 	}
 `;
