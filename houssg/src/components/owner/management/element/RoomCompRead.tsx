@@ -143,9 +143,15 @@ const RoomContent = styled.div`
 		margin-right: 0.5rem;
 	}
 
-	@media (max-width: 400px) {
-		grid-template-columns: 2fr 9fr;
+	@media (max-width: 300px) {
+		grid-template-columns: 3fr 9fr;
 		font-size: 0.8rem;
+		transition: width 0.2s;
+	}
+
+	@media (min-width: 300px) and (max-width: 400px) {
+		grid-template-columns: 2fr 9fr;
+		font-size: 1rem;
 		transition: width 0.2s;
 	}
 
@@ -221,7 +227,7 @@ const ButtonAligner = styled.div`
 	border-radius: 0.5rem;
 	padding: 0.5rem;
 	box-shadow: 0 0 3px 1px ${color.color1};
-	width: 100px;
+	width: 90px;
 	position: absolute;
 	z-index: 2;
 	right: 5px;
@@ -236,13 +242,9 @@ const NavClickComp = styled.div`
 	padding: 0.5rem;
 	color: ${color.basicColor};
 	font-weight: 600;
-	font-size: 1rem;
+	font-size: 0.8rem;
 	cursor: pointer;
 	&:hover {
 		color: ${color.color1};
-	}
-
-	@media (max-width: 300px) {
-		font-size: 0.8rem;
 	}
 `;

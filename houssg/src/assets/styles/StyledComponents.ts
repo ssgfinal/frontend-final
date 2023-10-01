@@ -191,15 +191,10 @@ const NavClickComp = styled.div`
 	padding: 0.5rem;
 	color: ${color.basicColor};
 	font-weight: 600;
-	font-size: 1rem;
+	font-size: 0.8rem;
 	cursor: pointer;
 	&:hover {
 		color: ${color.color1};
-	}
-
-	@media (max-width: 300px) {
-		font-size: 0.8rem;
-		transition: width 0.2s;
 	}
 `;
 
