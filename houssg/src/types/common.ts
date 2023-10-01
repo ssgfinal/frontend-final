@@ -27,4 +27,8 @@ interface RoomSlideProps {
 	setData?: (index: number) => void;
 }
 
-export type { StyledActiveProps, SetStateToggle, UserType, UserTypeObject, UploaderSize, RoomSlideProps };
+interface TimerProps {
+	time: number;
+	setTimeEnd: React.Dispatch<React.SetStateAction<boolean>>;
+}
+export type { StyledActiveProps, SetStateToggle, UserType, UserTypeObject, UploaderSize, RoomSlideProps, TimerProps };

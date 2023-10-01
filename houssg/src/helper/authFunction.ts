@@ -16,7 +16,7 @@ const authLoginFunc = (userId: string, userPw: string, closeModal: () => void) =
 		.then((res) => {
 			console.log(res, '리스폰스 데이터');
 			sessionStorage.setItem('Authorization', res.headers.Authorization);
-			sessionStorage.setItem('refreshToken', res.headers['refresh-token']);
+			sessionStorage.setItem('RefreshToken', res.headers['refreshtoken']);
 
 			closeModal();
 		})
@@ -108,7 +108,7 @@ const onPhoneUsableCheck = (phone: string) => {
 const onFindId = (phone: string) => {
 	let text = '실패';
 	api
-		.post(url.findId + `?phone_number *=${phone}`)
+		.post(url.findId + `?phone_number=${phone}`)
 		.then(({ data }) => {
 			console.log(data);
 			text = '성공';
@@ -120,14 +120,47 @@ const onFindId = (phone: string) => {
 	return text;
 };
 
+const onFindIdCheck = ({ verificationCode, phone_number }: { verificationCode: string; phone_number: string }) => {
+	api
+		.post(url.findIdCheck, null, { params: { verificationCode, phone_number } })
+		.then((resp) => {
+			console.log(resp);
+		})
+		.catch((err) => {
+			console.log(err);
+		});
+};
+
+const onFindPw = ({ id, phone_number }: { id: string; phone_number: string }) => {
+	api
+		.post(url.findPw, null, { params: { id, phone_number } })
+		.then((resp) => {
+			console.log(resp);
+		})
+		.catch((err) => {
+			console.log(err);
+		});
+};
+
+const onUpdateNewPw = ({ id, newPassword }: { id: string; newPassword: string }) => {
+	api
+		.post(url.updatePw, null, { params: { id, newPassword } })
+		.then((resp) => {
+			console.log(resp);
+		})
+		.catch((err) => {
+			console.log(err);
+		});
+};
+
 const phoneAuthCheck = (number: string) => {
 	api
 		.post(url.phoneAuthCheck + `?verificationCode=${number}`)
 		.then(({ data }) => {
 			console.log(data);
 		})
-		.catch(({ response }) => {
-			console.log(response, '에러 메시지');
+		.catch(({ err }) => {
+			console.log(err, '에러 메시지');
 		});
 };
 
@@ -155,4 +188,4 @@ const kakaoSignUp = (nickName: string) => {
 };
 
 export { authLoginFunc, authSignUpFunc, idCheckFunc, nickCheckFunc, kakaoLoginFunc, kakaoSignUp };
-export { onPhoneUsableCheck, phoneAuthCheck, onFindId };
+export { onPhoneUsableCheck, phoneAuthCheck, onFindId, onFindIdCheck, onFindPw, onUpdateNewPw };

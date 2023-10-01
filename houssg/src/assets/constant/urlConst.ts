@@ -7,10 +7,10 @@ export const url = {
 	nickCheck: 'user/nicknamecheck',
 	phoneCheck: 'message/sms',
 	phoneAuthCheck: 'message/sms-check',
-	findId: 'findid',
-	findPw: 'findpw',
-	updatePw: 'updatePassword',
+	findId: 'user/findid',
 	findIdCheck: 'message/sms-check-findid',
+	findPw: 'user/findpw',
+	updatePw: 'user/updatePassword',
 	//TODO:
 	kakaoLogin: 'user/kakao',
 	kakaoAdd: 'user/kakaAdd',

@@ -4,10 +4,13 @@ import { AuthProps } from '../../types';
 import { AuthInput, AuthModeBtn } from './element';
 import { regSignUp } from '../../assets/constant';
 import { onFindId } from '../../helper';
+import { Timer } from '../common';
 
 const FindId: React.FC<AuthProps> = ({ authStep, setAuthStep }) => {
 	const [userPhone, setUserPhone] = useState('');
 	const [smsNumber, setSmsNumber] = useState('');
+	const [timeEnd, setTimeEnd] = useState(true);
+	const [time, setTime] = useState(0);
 	return (
 		<AuthContainer>
 			<AuthTitle>아이디 찾기</AuthTitle>
@@ -17,6 +20,9 @@ const FindId: React.FC<AuthProps> = ({ authStep, setAuthStep }) => {
 					<UseAbilitiyChecker
 						onClick={() => {
 							onFindId(userPhone);
+							// TODO:수정
+							setTimeEnd(false);
+							setTime(90);
 						}}
 					>
 						인증하기
@@ -25,6 +31,7 @@ const FindId: React.FC<AuthProps> = ({ authStep, setAuthStep }) => {
 				<CheckerContainer>
 					<AuthInput setValue={setSmsNumber} title="인증번호" />
 					<UseAbilitiyChecker
+						disabled={timeEnd}
 						onClick={() => {
 							console.log(smsNumber);
 							console.log(userPhone);
@@ -33,7 +40,7 @@ const FindId: React.FC<AuthProps> = ({ authStep, setAuthStep }) => {
 						확인하기
 					</UseAbilitiyChecker>
 				</CheckerContainer>
-				<div>남은시간 : 03:00</div>
+				{!!time && <Timer time={time} setTimeEnd={setTimeEnd} />}
 			</FindInputAligner>
 
 			<FinderRouteAligner>
