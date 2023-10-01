@@ -1,13 +1,18 @@
 import { useState } from 'react';
-import { CheckerContainer, FindInputAligner, FinderRouteAligner, UseAbilitiyChecker } from '../../assets/styles';
-import { AuthInput, AuthModeBtn } from './element';
-import { AuthPropsWithState } from '../../types';
+import { CheckerContainer, FindInputAligner, UseAbilitiyChecker } from '../../assets/styles';
+import { AuthInput } from './element';
+import { SetStateToggle } from '../../types';
 import { regSignUp } from '../../assets/constant';
+import { Timer } from '../common';
 
-const PwPermitForm: React.FC<AuthPropsWithState> = ({ authStep, setAuthStep, setState }) => {
+const PwPermitForm: React.FC<SetStateToggle> = ({ setState }) => {
 	const [userId, setUserId] = useState('');
 	const [userPhone, setUserPhone] = useState('');
 	const [smsNumber, setSmsNumber] = useState('');
+	const [timeEnd, setTimeEnd] = useState(true);
+
+	const [time, setTime] = useState(0);
+
 	return (
 		<>
 			<FindInputAligner>
@@ -18,6 +23,8 @@ const PwPermitForm: React.FC<AuthPropsWithState> = ({ authStep, setAuthStep, set
 					<UseAbilitiyChecker
 						onClick={() => {
 							console.log(userPhone, userId);
+							setTimeEnd(false);
+							setTime(90);
 						}}
 					>
 						인증하기
@@ -26,6 +33,7 @@ const PwPermitForm: React.FC<AuthPropsWithState> = ({ authStep, setAuthStep, set
 				<CheckerContainer>
 					<AuthInput setValue={setSmsNumber} title="인증번호" />
 					<UseAbilitiyChecker
+						disabled={timeEnd}
 						onClick={() => {
 							console.log(smsNumber);
 							console.log('되나');
@@ -35,17 +43,8 @@ const PwPermitForm: React.FC<AuthPropsWithState> = ({ authStep, setAuthStep, set
 						확인하기
 					</UseAbilitiyChecker>
 				</CheckerContainer>
-				<div>남은시간 : 03:00</div>
+				{!!time && <Timer time={time} setTimeEnd={setTimeEnd} />}
 			</FindInputAligner>
-
-			<FinderRouteAligner>
-				<AuthModeBtn authStep={'tofindId'} setAuthStep={setAuthStep}>
-					아이디 찾기
-				</AuthModeBtn>
-				<AuthModeBtn authStep={authStep} setAuthStep={setAuthStep}>
-					로그인으로
-				</AuthModeBtn>
-			</FinderRouteAligner>
 		</>
 	);
 };

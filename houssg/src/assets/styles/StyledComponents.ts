@@ -14,6 +14,9 @@ const AuthTitle = styled.div`
 	@media screen and (max-width: 600px) {
 		font-size: 1.7rem;
 	}
+	@media screen and (max-width: 400px) {
+		font-size: 1.55rem;
+	}
 `;
 
 const AuthContainer = styled.div`
@@ -67,7 +70,6 @@ const CheckerContainer = styled.div`
 	justify-content: center;
 	align-items: center;
 	position: relative;
-	background-color: red;
 `;
 
 const UseAbilitiyChecker = styled.button`

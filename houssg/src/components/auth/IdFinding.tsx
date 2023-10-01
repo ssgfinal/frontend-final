@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import { CheckerContainer, FindInputAligner, UseAbilitiyChecker } from '../../../assets/styles';
-import { AuthInput } from '.';
-import { onFindId } from '../../../helper';
-import { Timer } from '../../common';
-import { regSignUp } from '../../../assets/constant';
-import { IdFindingType } from '../../../types';
+import { CheckerContainer, FindInputAligner, UseAbilitiyChecker } from '../../assets/styles';
+import { AuthInput } from './element';
+import { onFindId } from '../../helper';
+import { Timer } from '../common';
+import { regSignUp } from '../../assets/constant';
+import { IdFindingType } from '../../types';
 
 const IdFinding: React.FC<IdFindingType> = ({ setState, setFoundId }) => {
 	const [userPhone, setUserPhone] = useState('');

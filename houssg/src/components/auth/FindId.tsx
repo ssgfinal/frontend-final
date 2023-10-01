@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { AuthContainer, AuthTitle, FinderRouteAligner } from '../../assets/styles';
 import { AuthProps } from '../../types';
-import { AuthModeBtn, IdFinding } from './element';
+import { AuthModeBtn } from './element';
 import styled from 'styled-components';
+import { IdFinding } from '.';
 
 const FindId: React.FC<AuthProps> = ({ authStep, setAuthStep }) => {
 	const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -11,6 +12,7 @@ const FindId: React.FC<AuthProps> = ({ authStep, setAuthStep }) => {
 		<AuthContainer>
 			<AuthTitle>아이디 찾기</AuthTitle>
 			{!isAuthenticated ? <IdFinding setState={setIsAuthenticated} setFoundId={setFoundId} /> : <FoundIdText>아이디 : {foundId}</FoundIdText>}
+
 			<FinderRouteAligner>
 				<AuthModeBtn authStep={'tofindPw'} setAuthStep={setAuthStep}>
 					비밀번호 찾기
