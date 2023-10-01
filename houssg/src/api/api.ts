@@ -11,7 +11,6 @@ const api = axios.create({
 
 api.interceptors.request.use((config: InternalAxiosRequestConfig<{ headers: string }>) => {
 	const access_token = sessionStorage.getItem('authorization');
-	console.log(access_token);
 	// // config.headers 초기화
 	// config.headers = config.headers || {};
 	if (access_token !== null) {

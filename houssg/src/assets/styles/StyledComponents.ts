@@ -66,7 +66,7 @@ const CheckerContainer = styled.div`
 	position: relative;
 `;
 
-const UseAbilitiyChecker = styled.div`
+const UseAbilitiyChecker = styled.button`
 	position: absolute;
 	padding: 0.3rem 0.5rem;
 	right: calc(12% + 0.2rem);
@@ -76,11 +76,17 @@ const UseAbilitiyChecker = styled.div`
 	color: ${color.backColor};
 	background-color: ${color.color3};
 	border-radius: 3px;
+	border-color: transparent;
 	cursor: pointer;
 	opacity: 1;
 	height: 1.7rem;
 	justify-content: center;
 	align-items: center;
+
+	&:disabled {
+		opacity: 0.5;
+		cursor: not-allowed;
+	}
 `;
 
 //Manage관련

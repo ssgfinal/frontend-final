@@ -1,17 +1,17 @@
 import { useState, useEffect } from 'react';
+import { TimerProps } from '../../types';
 
-const Timer = () => {
-	const [second, setSecond] = useState(90); // 3분을 초 단위로
-
+const Timer: React.FC<TimerProps> = ({ time, setTimeEnd }) => {
+	const [second, setSecond] = useState(time); // 3분을 초 단위로
 	useEffect(() => {
 		const interval = setInterval(() => {
-			second > 0 ? setSecond(second - 1) : clearInterval(interval);
+			second ? setSecond(second - 1) : (setTimeEnd(true), clearInterval(interval));
 		}, 1000);
 
 		return () => {
 			clearInterval(interval);
 		};
-	}, [second]);
+	}, [second, setTimeEnd]);
 
 	const formatTime = (second: number) => {
 		const minute = Math.floor(second / 60);
