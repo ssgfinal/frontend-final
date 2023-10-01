@@ -2,7 +2,6 @@ import api from '../api/api';
 import { url } from '../assets/constant';
 
 const authLoginFunc = (userId: string, userPw: string, closeModal: () => void) => {
-	console.log(import.meta.env.VITE_SERVER_URL, 'url테스트용');
 	if (userId.trim() === '') {
 		alert('아이디를 입력해주세요');
 		return;
@@ -14,12 +13,15 @@ const authLoginFunc = (userId: string, userPw: string, closeModal: () => void) =
 
 	api
 		.post(url.login, { id: userId, password: userPw })
-		.then(({ data }) => {
-			console.log(data);
+		.then((res) => {
+			console.log(res, '리스폰스 데이터');
+			sessionStorage.setItem('Authorization', res.headers.Authorization);
+			sessionStorage.setItem('RefreshToken', res.headers['refreshtoken']);
+
 			closeModal();
 		})
 		.catch(({ response }) => {
-			// alert('서버와 통신이 원활하지 않습니다.');
+			alert('서버와 통신이 원활하지 않습니다.');
 			console.log(response, '리스폰스');
 		});
 };
@@ -48,27 +50,27 @@ const authSignUpFunc = (
 		alert('비밀번호와 일치하지 않습니다.');
 		return;
 	}
-
 	if (userPhone.trim() === '') {
-		alert('전화번호를 입력해 주세요.');
+		alert('휴대전화가 없습니다.');
 		return;
 	}
-
 	api
-		.post(url.addUser + `?id=${userId}&password=${userPw}&nickname=${userNick}&phone_number=${userPhone}&auth=0`)
+		.post(url.signUp, { id: userId, password: userPw, nickname: userNick, phonenumber: userPhone })
 		.then(({ data }) => {
-			data === 'YES' ? alert('회원가입되었습니다') : alert('유효하지 않습니다.');
+			data === 'YES' ? alert('회원가입되었습니다') : alert('형식에 맞지 않습니다.');
 			setIsLoginComp('login');
 		})
 		.catch(({ response }) => {
-			console.log(response);
-			alert('중복된 값이 존재합니다');
+			// console.log(response.status);
+			if (response.status === 403) {
+				alert('중복된 값이 존재합니다');
+			}
 		});
 };
 
 const idCheckFunc = (id: string) => {
 	api
-		.post(url.idCheck + `?id=${id}&auth=0`)
+		.post(url.idCheck + `?id=${id}`)
 		.then(({ data }) => {
 			data === 'YES' ? alert('유효한 아이디입니다') : alert('중복된 아이디입니다.');
 		})
@@ -88,6 +90,80 @@ const nickCheckFunc = (nickName: string) => {
 		});
 };
 
+const onPhoneUsableCheck = (phone: string) => {
+	let text = '실패';
+	api
+		.post(url.phoneCheck, { recipientPhoneNumber: phone })
+		.then(({ data }) => {
+			console.log(data);
+			text = '성공';
+		})
+		.catch(({ response }) => {
+			console.log(response);
+		});
+
+	return text;
+};
+
+const onFindId = (phone: string) => {
+	let text = '실패';
+	api
+		.post(url.findId + `?phone_number=${phone}`)
+		.then(({ data }) => {
+			console.log(data);
+			text = '성공';
+		})
+		.catch(({ response }) => {
+			console.log(response);
+		});
+
+	return text;
+};
+
+const onFindIdCheck = ({ verificationCode, phone_number }: { verificationCode: string; phone_number: string }) => {
+	api
+		.post(url.findIdCheck, null, { params: { verificationCode, phone_number } })
+		.then((resp) => {
+			console.log(resp);
+		})
+		.catch((err) => {
+			console.log(err);
+		});
+};
+
+const onFindPw = ({ id, phone_number }: { id: string; phone_number: string }) => {
+	api
+		.post(url.findPw, null, { params: { id, phone_number } })
+		.then((resp) => {
+			console.log(resp);
+		})
+		.catch((err) => {
+			console.log(err);
+		});
+};
+
+const onUpdateNewPw = ({ id, newPassword }: { id: string; newPassword: string }) => {
+	api
+		.post(url.updatePw, null, { params: { id, newPassword } })
+		.then((resp) => {
+			console.log(resp);
+		})
+		.catch((err) => {
+			console.log(err);
+		});
+};
+
+const phoneAuthCheck = (number: string) => {
+	api
+		.post(url.phoneAuthCheck + `?verificationCode=${number}`)
+		.then(({ data }) => {
+			console.log(data);
+		})
+		.catch(({ err }) => {
+			console.log(err, '에러 메시지');
+		});
+};
+
 const kakaoLoginFunc = (code: string) => {
 	// TODO: url 수정
 	api
@@ -102,7 +178,7 @@ const kakaoLoginFunc = (code: string) => {
 
 const kakaoSignUp = (nickName: string) => {
 	api
-		.post(url.kakaoAdd, { nickName: nickName })
+		.post(url.kakaoAdd, { nickName })
 		.then(({ data }) => {
 			console.log(data);
 		})
@@ -111,15 +187,5 @@ const kakaoSignUp = (nickName: string) => {
 		});
 };
 
-const phoneCheck = (number: number) => {
-	api
-		.post(url.phoneCheck + `?number=${number}`)
-		.then(({ data }) => {
-			console.log(data);
-		})
-		.catch(({ response }) => {
-			console.log(response);
-		});
-};
-
-export { authLoginFunc, authSignUpFunc, idCheckFunc, nickCheckFunc, kakaoLoginFunc, kakaoSignUp, phoneCheck };
+export { authLoginFunc, authSignUpFunc, idCheckFunc, nickCheckFunc, kakaoLoginFunc, kakaoSignUp };
+export { onPhoneUsableCheck, phoneAuthCheck, onFindId, onFindIdCheck, onFindPw, onUpdateNewPw };

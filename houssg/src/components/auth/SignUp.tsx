@@ -2,7 +2,7 @@ import { AuthContainer, AuthTitle, CheckerContainer, UseAbilitiyChecker } from '
 import { AuthInput, AuthModeBtn, AuthSubmitBtn } from './element';
 import { useState } from 'react';
 import { regSignUp } from '../../assets/constant';
-import { authSignUpFunc, idCheckFunc, nickCheckFunc } from '../../helper';
+import { authSignUpFunc, idCheckFunc, nickCheckFunc, onPhoneUsableCheck, phoneAuthCheck } from '../../helper';
 import { AuthProps } from '../../types';
 
 const SignUp: React.FC<AuthProps> = ({ authStep, setAuthStep }) => {
@@ -11,6 +11,7 @@ const SignUp: React.FC<AuthProps> = ({ authStep, setAuthStep }) => {
 	const [userPw, setUserPw] = useState('');
 	const [userPwCheck, setUserPwCheck] = useState('');
 	const [userPhone, setUserPhone] = useState('');
+	const [verification, setVerification] = useState('');
 	const { regId, regPw, regNick, regPhone } = regSignUp;
 
 	const onSignUp = () => {
@@ -23,6 +24,14 @@ const SignUp: React.FC<AuthProps> = ({ authStep, setAuthStep }) => {
 
 	const onNickCheck = () => {
 		nickCheckFunc(userNick);
+	};
+
+	const onPhoneCheck = () => {
+		onPhoneUsableCheck(userPhone);
+	};
+
+	const onPhoneAuthCheck = () => {
+		phoneAuthCheck(verification);
 	};
 	return (
 		<AuthContainer>
@@ -39,7 +48,11 @@ const SignUp: React.FC<AuthProps> = ({ authStep, setAuthStep }) => {
 			<AuthInput setValue={setUserPwCheck} title="비밀번호확인" password />
 			<CheckerContainer>
 				<AuthInput setValue={setUserPhone} title="전화번호" reg={regPhone} />
-				<UseAbilitiyChecker onClick={onNickCheck}>인증하기</UseAbilitiyChecker>
+				<UseAbilitiyChecker onClick={onPhoneCheck}>인증하기</UseAbilitiyChecker>
+			</CheckerContainer>
+			<CheckerContainer>
+				<AuthInput setValue={setVerification} title="인증번호" reg={regPhone} />
+				<UseAbilitiyChecker onClick={onPhoneAuthCheck}>인증하기</UseAbilitiyChecker>
 			</CheckerContainer>
 			<AuthSubmitBtn onClick={onSignUp}>회원가입하기</AuthSubmitBtn>
 
