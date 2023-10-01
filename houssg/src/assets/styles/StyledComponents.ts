@@ -11,6 +11,9 @@ const AuthTitle = styled.div`
 	color: ${color.color2};
 	text-align: center;
 	height: 4rem;
+	@media screen and (max-width: 600px) {
+		font-size: 1.7rem;
+	}
 `;
 
 const AuthContainer = styled.div`
@@ -64,6 +67,7 @@ const CheckerContainer = styled.div`
 	justify-content: center;
 	align-items: center;
 	position: relative;
+	background-color: red;
 `;
 
 const UseAbilitiyChecker = styled.button`
@@ -86,6 +90,13 @@ const UseAbilitiyChecker = styled.button`
 	&:disabled {
 		opacity: 0.5;
 		cursor: not-allowed;
+	}
+	@media screen and (max-width: 1000px) {
+		right: calc(10%);
+	}
+
+	@media screen and (max-width: 600px) {
+		right: calc(6.2%);
 	}
 `;
 
