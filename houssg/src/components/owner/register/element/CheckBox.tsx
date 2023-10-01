@@ -31,4 +31,8 @@ const CheckBoxAligner = styled.div`
 	display: flex;
 	flex-direction: row;
 	align-items: center;
+
+	input {
+		cursor: pointer;
+	}
 `;

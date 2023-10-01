@@ -119,7 +119,7 @@ const ManageHouseEditTitle = styled.span`
 	font-weight: bold;
 
 	@media (max-width: 300px) {
-		font-size: 0.5rem;
+		font-size: 0.8rem;
 	}
 `;
 
@@ -134,6 +134,12 @@ const CheckBoxContainer = styled.div`
 `;
 
 const ManageHouseCheckinInput = styled.input`
+	&:hover {
+		border: 1px solid ${color.color2};
+		outline: 2px solid ${color.color2};
+	}
+
+	cursor: pointer;
 	grid-column-start: 1;
 	grid-column-end: 3;
 	width: 100%;
@@ -161,6 +167,12 @@ const ManageHouseSpan = styled.span`
 `;
 
 const ManageHouseCheckoutInput = styled.input`
+	&:hover {
+		border: 1px solid ${color.color2};
+		outline: 2px solid ${color.color2};
+	}
+
+	cursor: pointer;
 	grid-column-start: 4;
 	grid-column-end: 6;
 	width: 100%;
@@ -184,6 +196,12 @@ const ManageHouseInput = styled.input`
 		-webkit-appearance: none;
 		margin: 0;
 	}
+
+	&:hover {
+		border: 1px solid ${color.color2};
+		outline: 2px solid ${color.color2};
+	}
+
 	grid-column-start: 1;
 	grid-column-end: 6;
 	width: 100%;
@@ -198,7 +216,7 @@ const ManageHouseInput = styled.input`
 
 	@media (max-width: 300px) {
 		height: 1.3rem;
-		font-size: 0.5rem;
+		font-size: 0.8rem;
 		text-align: center;
 	}
 `;
@@ -215,6 +233,11 @@ const ManageHouseText = styled.textarea`
 	background-color: transparent;
 	resize: none;
 
+	&:hover {
+		border: 1px solid ${color.color2};
+		outline: 2px solid ${color.color2};
+	}
+
 	&::-webkit-scrollbar {
 		display: none;
 	}
@@ -223,6 +246,6 @@ const ManageHouseText = styled.textarea`
 	}
 
 	@media (max-width: 300px) {
-		font-size: 0.5rem;
+		font-size: 0.8rem;
 	}
 `;

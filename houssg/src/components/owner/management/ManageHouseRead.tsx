@@ -207,7 +207,7 @@ const ButtonAligner = styled.div`
 	border-radius: 0.5rem;
 	padding: 0.5rem;
 	box-shadow: 0 0 3px 1px ${color.color1};
-	width: 100px;
+	width: 90px;
 	position: absolute;
 	right: 5px;
 
