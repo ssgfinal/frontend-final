@@ -17,7 +17,7 @@ interface UserReservationListProps {
 const detail = [
 	{
 		reservationNumber: 1234567,
-		paymentDate: '2023-08-01',
+		paymentDate: '2023-08-01  20:00:00',
 		guestName: '홍길동',
 		guestPhone: '010-1234-5678',
 		couponName: '',
@@ -29,7 +29,7 @@ const detail = [
 	},
 	{
 		reservationNumber: 7654321,
-		paymentDate: '2023-08-02',
+		paymentDate: '2023-08-02  20:00:00',
 		guestName: '김철수',
 		guestPhone: '010-1234-5678',
 		couponName: '9월 반값~',
@@ -41,7 +41,7 @@ const detail = [
 	},
 	{
 		reservationNumber: 3234567,
-		paymentDate: '2023-08-03',
+		paymentDate: '2023-08-03  20:00:00',
 		guestName: '김철수',
 		guestPhone: '010-1234-5678',
 		couponNumber: '123456789',
@@ -53,7 +53,7 @@ const detail = [
 	},
 	{
 		reservationNumber: 5654321,
-		paymentDate: '2023-08-04',
+		paymentDate: '2023-08-04  20:00:00',
 		guestName: '김철수',
 		guestPhone: '010-1234-5678',
 		couponNumber: '123456789',
@@ -147,6 +147,16 @@ const ReservationList: React.FC<UserReservationListProps> = ({ reservations }) =
 							}}
 						>
 							취소하기
+						</ReservationButton>
+					) : reservations.reservationStatus === 1 ? (
+						// TODO: 한 번 등록되면 버튼 막기 -> && 리뷰넘버?
+						<ReservationButton
+							hidden={false}
+							onClick={() => {
+								modalOpen('userReview', null);
+							}}
+						>
+							후기등록
 						</ReservationButton>
 					) : (
 						<div></div>
