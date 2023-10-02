@@ -29,7 +29,6 @@ const IdFinding: React.FC<IdFindingType> = ({ setState, setFoundId }) => {
 				</CheckerContainer>
 				<CheckerContainer>
 					<AuthInput setValue={setSmsNumber} title="인증번호" />
-
 					<UseAbilitiyChecker
 						disabled={timeEnd}
 						onClick={() => {
