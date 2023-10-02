@@ -15,8 +15,11 @@ import Desert from './Desert.jpg';
 import accomodation from './숙소대표이미지1.jpg';
 import unvisible from './unvisible.svg';
 import visible from './visible.svg';
+// 로그인 로그아웃
 import logo from './logo.svg';
 import login from './login.svg';
+import logout from './logout.svg';
+// 사진관련
 import rotateR from './rotateR.svg';
 import rotateL from './rotateL.svg';
 import capture from './capture.svg';
@@ -39,6 +42,8 @@ export { MapMarker, ProfileCircle, ReviewIcon, EditIcon, CouponIcon, MyPointIcon
 
 export { moreIcon, deleteIcon, declarationIcon };
 
-export { houssg, Desert, accomodation, unvisible, visible, logo, login };
+export { houssg, Desert, accomodation, unvisible, visible };
+
+export { logo, login, logout };
 
 export { beach, parking, pool, bath, wifi, bed, barbecue, nosmoking, luggage, ott, ocean, pc };
