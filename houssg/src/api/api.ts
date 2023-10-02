@@ -14,7 +14,7 @@ api.interceptors.request.use((config: InternalAxiosRequestConfig<{ headers: stri
 	// // config.headers 초기화
 	// config.headers = config.headers || {};
 	if (access_token !== null) {
-		config.headers['Authorization'] = `${access_token}`;
+		config.headers['Authorization'] = access_token.substring(7);
 	}
 	return config;
 });

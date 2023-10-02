@@ -4,20 +4,16 @@ import { authUrl } from '../assets/constant';
 const authLoginFunc = (userId: string, userPw: string, closeModal: () => void) => {
 	if (userId.trim() === '') {
 		alert('아이디를 입력해주세요');
-		return;
 	}
 	if (userPw.trim() === '') {
 		alert('비밀번호를 입력해주세요');
-		return;
 	}
 
 	api
 		.post(authUrl.login, { id: userId, password: userPw })
 		.then((res) => {
-			console.log(res, '리스폰스 데이터');
-			sessionStorage.setItem('Authorization', res.headers.Authorization);
+			sessionStorage.setItem('authorization', res.headers.authorization);
 			sessionStorage.setItem('RefreshToken', res.headers['refreshtoken']);
-
 			closeModal();
 		})
 		.catch(({ response }) => {

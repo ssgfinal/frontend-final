@@ -17,7 +17,9 @@ const Login: React.FC<AuthProps> = ({ authStep, setAuthStep }) => {
 	};
 	const [userId, setUserId] = useState('');
 	const [userPw, setUserPw] = useState('');
-	const onLogin = () => authLoginFunc(userId, userPw, onCloseModal);
+	const onLogin = () => {
+		authLoginFunc(userId, userPw, onCloseModal);
+	};
 	const onKakaoLogin = () => {
 		location.href = KakaoAuthUri;
 	};
