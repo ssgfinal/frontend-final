@@ -16,7 +16,6 @@ const PwChangeForm: React.FC<AuthProps> = ({ setAuthStep }) => {
 		<>
 			<FindInputAligner>
 				<AuthInput setValue={setNewPw} title="비밀번호" password reg={regSignUp.regPw} />
-
 				<AuthInput setValue={setNewPwCheck} password title="비밀번호확인" />
 				<div onClick={changeNewPw}>변경하기</div>
 			</FindInputAligner>

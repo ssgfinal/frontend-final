@@ -1,4 +1,4 @@
-export const url = {
+const authUrl = {
 	// auth
 	login: 'user/login',
 	logout: 'user/logout',
@@ -17,3 +17,8 @@ export const url = {
 
 	//
 };
+
+const ownerUrl = {
+	houseRegister: 'accom/add',
+};
+export { authUrl, ownerUrl };

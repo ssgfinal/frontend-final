@@ -3,10 +3,13 @@ interface AuthProps {
 	setAuthStep: React.Dispatch<React.SetStateAction<string>>;
 }
 
-interface AuthPropsWithState {
-	authStep: string;
-	setAuthStep: React.Dispatch<React.SetStateAction<string>>;
+interface AuthPropsWithState extends AuthProps {
 	setState: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+interface IdFindingType {
+	setState: React.Dispatch<React.SetStateAction<boolean>>;
+	setFoundId: React.Dispatch<React.SetStateAction<string>>;
 }
 
 interface AuthInputType {
@@ -25,4 +28,4 @@ interface AuthSubmitType {
 	onClick?: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
 }
 
-export type { AuthProps, AuthInputType, AuthModeType, AuthSubmitType, AuthPropsWithState };
+export type { AuthProps, AuthInputType, AuthModeType, AuthSubmitType, AuthPropsWithState, IdFindingType };

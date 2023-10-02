@@ -1,47 +1,17 @@
 import { useState } from 'react';
-import { AuthContainer, AuthTitle, CheckerContainer, FindInputAligner, FinderRouteAligner, UseAbilitiyChecker } from '../../assets/styles';
+import { AuthContainer, AuthTitle, FinderRouteAligner } from '../../assets/styles';
 import { AuthProps } from '../../types';
-import { AuthInput, AuthModeBtn } from './element';
-import { regSignUp } from '../../assets/constant';
-import { onFindId } from '../../helper';
-import { Timer } from '../common';
+import { AuthModeBtn } from './element';
+import styled from 'styled-components';
+import { IdFinding } from '.';
 
 const FindId: React.FC<AuthProps> = ({ authStep, setAuthStep }) => {
-	const [userPhone, setUserPhone] = useState('');
-	const [smsNumber, setSmsNumber] = useState('');
-	const [timeEnd, setTimeEnd] = useState(true);
-	const [time, setTime] = useState(0);
+	const [isAuthenticated, setIsAuthenticated] = useState(false);
+	const [foundId, setFoundId] = useState('');
 	return (
 		<AuthContainer>
 			<AuthTitle>아이디 찾기</AuthTitle>
-			<FindInputAligner>
-				<CheckerContainer>
-					<AuthInput setValue={setUserPhone} title="전화번호" reg={regSignUp.regPhone} />
-					<UseAbilitiyChecker
-						onClick={() => {
-							onFindId(userPhone);
-							// TODO:수정
-							setTimeEnd(false);
-							setTime(90);
-						}}
-					>
-						인증하기
-					</UseAbilitiyChecker>
-				</CheckerContainer>
-				<CheckerContainer>
-					<AuthInput setValue={setSmsNumber} title="인증번호" />
-					<UseAbilitiyChecker
-						disabled={timeEnd}
-						onClick={() => {
-							console.log(smsNumber);
-							console.log(userPhone);
-						}}
-					>
-						확인하기
-					</UseAbilitiyChecker>
-				</CheckerContainer>
-				{!!time && <Timer time={time} setTimeEnd={setTimeEnd} />}
-			</FindInputAligner>
+			{!isAuthenticated ? <IdFinding setState={setIsAuthenticated} setFoundId={setFoundId} /> : <FoundIdText>아이디 : {foundId}</FoundIdText>}
 
 			<FinderRouteAligner>
 				<AuthModeBtn authStep={'tofindPw'} setAuthStep={setAuthStep}>
@@ -56,3 +26,9 @@ const FindId: React.FC<AuthProps> = ({ authStep, setAuthStep }) => {
 };
 
 export default FindId;
+
+const FoundIdText = styled.div`
+	font-size: 1.1rem;
+	font-weight: 600;
+	margin: 1rem 0;
+`;

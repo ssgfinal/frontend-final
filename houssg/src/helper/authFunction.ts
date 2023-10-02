@@ -1,23 +1,19 @@
 import api from '../api/api';
-import { url } from '../assets/constant';
+import { authUrl } from '../assets/constant';
 
 const authLoginFunc = (userId: string, userPw: string, closeModal: () => void) => {
 	if (userId.trim() === '') {
 		alert('아이디를 입력해주세요');
-		return;
 	}
 	if (userPw.trim() === '') {
 		alert('비밀번호를 입력해주세요');
-		return;
 	}
 
 	api
-		.post(url.login, { id: userId, password: userPw })
+		.post(authUrl.login, { id: userId, password: userPw })
 		.then((res) => {
-			console.log(res, '리스폰스 데이터');
-			sessionStorage.setItem('Authorization', res.headers.Authorization);
+			sessionStorage.setItem('authorization', res.headers.authorization);
 			sessionStorage.setItem('RefreshToken', res.headers['refreshtoken']);
-
 			closeModal();
 		})
 		.catch(({ response }) => {
@@ -55,7 +51,7 @@ const authSignUpFunc = (
 		return;
 	}
 	api
-		.post(url.signUp, { id: userId, password: userPw, nickname: userNick, phonenumber: userPhone })
+		.post(authUrl.signUp, { id: userId, password: userPw, nickname: userNick, phonenumber: userPhone })
 		.then(({ data }) => {
 			data === 'YES' ? alert('회원가입되었습니다') : alert('형식에 맞지 않습니다.');
 			setIsLoginComp('login');
@@ -70,7 +66,7 @@ const authSignUpFunc = (
 
 const idCheckFunc = (id: string) => {
 	api
-		.post(url.idCheck + `?id=${id}`)
+		.post(authUrl.idCheck + `?id=${id}`)
 		.then(({ data }) => {
 			data === 'YES' ? alert('유효한 아이디입니다') : alert('중복된 아이디입니다.');
 		})
@@ -81,7 +77,7 @@ const idCheckFunc = (id: string) => {
 
 const nickCheckFunc = (nickName: string) => {
 	api
-		.post(url.nickCheck + `?nickname=${nickName}&auth=0`)
+		.post(authUrl.nickCheck + `?nickname=${nickName}&auth=0`)
 		.then(({ data }) => {
 			data === 'YES' ? alert('유효한 닉네임입니다') : alert('중복된 닉네임입니다.');
 		})
@@ -93,7 +89,7 @@ const nickCheckFunc = (nickName: string) => {
 const onPhoneUsableCheck = (phone: string) => {
 	let text = '실패';
 	api
-		.post(url.phoneCheck, { recipientPhoneNumber: phone })
+		.post(authUrl.phoneCheck, { recipientPhoneNumber: phone })
 		.then(({ data }) => {
 			console.log(data);
 			text = '성공';
@@ -108,7 +104,7 @@ const onPhoneUsableCheck = (phone: string) => {
 const onFindId = (phone: string) => {
 	let text = '실패';
 	api
-		.post(url.findId + `?phone_number=${phone}`)
+		.post(authUrl.findId + `?phone_number=${phone}`)
 		.then(({ data }) => {
 			console.log(data);
 			text = '성공';
@@ -122,7 +118,7 @@ const onFindId = (phone: string) => {
 
 const onFindIdCheck = ({ verificationCode, phone_number }: { verificationCode: string; phone_number: string }) => {
 	api
-		.post(url.findIdCheck, null, { params: { verificationCode, phone_number } })
+		.post(authUrl.findIdCheck, null, { params: { verificationCode, phone_number } })
 		.then((resp) => {
 			console.log(resp);
 		})
@@ -133,7 +129,7 @@ const onFindIdCheck = ({ verificationCode, phone_number }: { verificationCode: s
 
 const onFindPw = ({ id, phone_number }: { id: string; phone_number: string }) => {
 	api
-		.post(url.findPw, null, { params: { id, phone_number } })
+		.post(authUrl.findPw, null, { params: { id, phone_number } })
 		.then((resp) => {
 			console.log(resp);
 		})
@@ -144,7 +140,7 @@ const onFindPw = ({ id, phone_number }: { id: string; phone_number: string }) =>
 
 const onUpdateNewPw = ({ id, newPassword }: { id: string; newPassword: string }) => {
 	api
-		.post(url.updatePw, null, { params: { id, newPassword } })
+		.post(authUrl.updatePw, null, { params: { id, newPassword } })
 		.then((resp) => {
 			console.log(resp);
 		})
@@ -155,7 +151,7 @@ const onUpdateNewPw = ({ id, newPassword }: { id: string; newPassword: string })
 
 const phoneAuthCheck = (number: string) => {
 	api
-		.post(url.phoneAuthCheck + `?verificationCode=${number}`)
+		.post(authUrl.phoneAuthCheck + `?verificationCode=${number}`)
 		.then(({ data }) => {
 			console.log(data);
 		})
@@ -165,9 +161,9 @@ const phoneAuthCheck = (number: string) => {
 };
 
 const kakaoLoginFunc = (code: string) => {
-	// TODO: url 수정
+	// TODO: authUrl 수정
 	api
-		.post(url.kakaoLogin, code)
+		.post(authUrl.kakaoLogin, code)
 		.then((res) => {
 			return res;
 		})
@@ -178,7 +174,7 @@ const kakaoLoginFunc = (code: string) => {
 
 const kakaoSignUp = (nickName: string) => {
 	api
-		.post(url.kakaoAdd, { nickName })
+		.post(authUrl.kakaoAdd, { nickName })
 		.then(({ data }) => {
 			console.log(data);
 		})

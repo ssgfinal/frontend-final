@@ -2,10 +2,12 @@
 
 //utils
 import { webpImageIncoder } from './utilFunction';
-import { windowWarningState, removeWindowWarningState } from './windowEvent';
+import { isLoginFunc } from './isLogin';
 
+//window
+import { windowWarningState, removeWindowWarningState } from './windowEvent';
 //utils
-export { webpImageIncoder };
+export { webpImageIncoder, isLoginFunc };
 
 // window
 export { windowWarningState, removeWindowWarningState };

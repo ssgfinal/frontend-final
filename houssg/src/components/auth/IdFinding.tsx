@@ -1,28 +1,25 @@
 import { useState } from 'react';
 import { CheckerContainer, FindInputAligner, UseAbilitiyChecker } from '../../assets/styles';
 import { AuthInput } from './element';
-import { SetStateToggle } from '../../types';
-import { regSignUp } from '../../assets/constant';
+import { onFindId } from '../../helper';
 import { Timer } from '../common';
+import { regSignUp } from '../../assets/constant';
+import { IdFindingType } from '../../types';
 
-const PwPermitForm: React.FC<SetStateToggle> = ({ setState }) => {
-	const [userId, setUserId] = useState('');
+const IdFinding: React.FC<IdFindingType> = ({ setState, setFoundId }) => {
 	const [userPhone, setUserPhone] = useState('');
 	const [smsNumber, setSmsNumber] = useState('');
 	const [timeEnd, setTimeEnd] = useState(true);
-
 	const [time, setTime] = useState(0);
-
 	return (
 		<>
 			<FindInputAligner>
-				<AuthInput setValue={setUserId} title="아이디" />
 				<CheckerContainer>
 					<AuthInput setValue={setUserPhone} title="전화번호" reg={regSignUp.regPhone} />
-
 					<UseAbilitiyChecker
 						onClick={() => {
-							console.log(userPhone, userId);
+							onFindId(userPhone);
+							// TODO:수정
 							setTimeEnd(false);
 							setTime(90);
 						}}
@@ -36,8 +33,8 @@ const PwPermitForm: React.FC<SetStateToggle> = ({ setState }) => {
 						disabled={timeEnd}
 						onClick={() => {
 							console.log(smsNumber);
-							console.log('되나');
 							setState(true);
+							setFoundId('찾은 아이디');
 						}}
 					>
 						확인하기
@@ -49,4 +46,4 @@ const PwPermitForm: React.FC<SetStateToggle> = ({ setState }) => {
 	);
 };
 
-export default PwPermitForm;
+export default IdFinding;
