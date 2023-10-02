@@ -11,6 +11,12 @@ const AuthTitle = styled.div`
 	color: ${color.color2};
 	text-align: center;
 	height: 4rem;
+	@media screen and (max-width: 600px) {
+		font-size: 1.7rem;
+	}
+	@media screen and (max-width: 400px) {
+		font-size: 1.55rem;
+	}
 `;
 
 const AuthContainer = styled.div`
@@ -86,6 +92,13 @@ const UseAbilitiyChecker = styled.button`
 	&:disabled {
 		opacity: 0.5;
 		cursor: not-allowed;
+	}
+	@media screen and (max-width: 1000px) {
+		right: calc(10%);
+	}
+
+	@media screen and (max-width: 600px) {
+		right: calc(6.2%);
 	}
 `;
 
