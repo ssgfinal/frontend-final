@@ -53,6 +53,7 @@ const authSlice = createSlice({
 		},
 		checkLogout: (state) => {
 			state.isLogin = false;
+			sessionStorage.removeItem('authorization');
 		},
 		resetAuthStatus: (state) => {
 			state.status = 'idle';

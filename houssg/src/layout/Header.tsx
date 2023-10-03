@@ -4,8 +4,9 @@ import { useNavigate } from 'react-router-dom';
 import { openModal } from '../store/redux/modalSlice';
 import { useAppDispatch, useAppSelector, useIsUser } from '../hooks';
 import { login, logo, logout } from '../assets/icons';
-import { ownerRoute, userRoute } from '../assets/constant';
+import { authUrl, ownerRoute, userRoute } from '../assets/constant';
 import { checkLogout, isLoginState } from '../store/redux/authSlice';
+import api from '../api/api';
 const Header = () => {
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
@@ -27,8 +28,10 @@ const Header = () => {
 
 	const logoutFunc = () => {
 		if (window.confirm('로그아웃 하시겠습니가?')) {
-			sessionStorage.removeItem('authorization');
 			dispatch(checkLogout());
+			api.post(authUrl.logout).catch((err) => {
+				console.log(err);
+			});
 			navigate('/');
 		}
 	};
