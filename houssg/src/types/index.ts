@@ -5,7 +5,7 @@ import { ManageNavProps, RoomComp } from './manage';
 import { StyledActiveProps, SetStateToggle, UserType, UserTypeObject, RoomSlideProps, TimerProps, ProcessType } from './common';
 import { RegiStepProps, StepMoverType } from './regi';
 import { ReservationDetailType, ReservationsType } from './reservation';
-import { AuthLoginFunc } from './rtk';
+import { AuthLoginFunc, AuthSignUpFunc } from './rtk';
 // auth Regi manage
 export type { AuthProps, AuthInputType, AuthModeType, ManageNavProps, RoomComp, RegiStepProps, StepMoverType, AuthPropsWithState, IdFindingType };
 
@@ -15,4 +15,4 @@ export type { StyledActiveProps, SetStateToggle, UserType, UserTypeObject, RoomS
 export type { ReservationDetailType, ReservationsType };
 
 //redux-toolkit
-export type { AuthLoginFunc };
+export type { AuthLoginFunc, AuthSignUpFunc };

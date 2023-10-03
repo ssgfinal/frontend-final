@@ -1,23 +1,30 @@
-import { AuthContainer, AuthTitle, CheckerContainer, UseAbilitiyChecker } from '../../assets/styles';
+import { useEffect, useState } from 'react';
+import styled from 'styled-components';
+import { AuthContainer, AuthTitle, CheckerContainer, UseAbilitiyChecker, color } from '../../assets/styles';
 import { AuthInput, AuthModeBtn, AuthSubmitBtn } from './element';
-import { useState } from 'react';
 import { regSignUp } from '../../assets/constant';
 import { authSignUpFunc, idCheckFunc, nickCheckFunc, onPhoneUsableCheck, phoneAuthCheck } from '../../helper';
 import { AuthProps, ProcessType } from '../../types';
 import { Timer } from '../common';
+import { __postSignUp, authStatus, resetAuthStatus } from '../../store/redux/authSlice';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 
 const SignUp: React.FC<AuthProps> = ({ authStep, setAuthStep }) => {
+	const dispatch = useAppDispatch();
+	const status = useAppSelector(authStatus);
 	const [userId, setUserId] = useState('');
 	const [userNick, setUserNick] = useState('');
 	const [userPw, setUserPw] = useState('');
 	const [userPwCheck, setUserPwCheck] = useState('');
 	const [userPhone, setUserPhone] = useState('');
-	const [verification, setVerification] = useState('');
+	const [verificationCode, setVerificationCode] = useState('');
 	const [timeStatus, setTimeStatus] = useState<ProcessType>('start');
 	const { regId, regPw, regNick, regPhone } = regSignUp;
+	const [time, setTime] = useState(0);
+	const [confirmed, SetConfirmed] = useState(false);
 
 	const onSignUp = () => {
-		authSignUpFunc(userId, userNick, userPw, userPwCheck, userPhone, setAuthStep);
+		authSignUpFunc(userId, userNick, userPw, userPwCheck, userPhone, dispatch, __postSignUp);
 	};
 
 	const onIdCheck = () => {
@@ -29,12 +36,26 @@ const SignUp: React.FC<AuthProps> = ({ authStep, setAuthStep }) => {
 	};
 
 	const onPhoneCheck = () => {
+		setTimeStatus('start');
+		setTime(180);
 		onPhoneUsableCheck(userPhone);
 	};
 
 	const onPhoneAuthCheck = () => {
-		phoneAuthCheck(verification);
+		SetConfirmed(true);
+		phoneAuthCheck(verificationCode);
 	};
+
+	useEffect(() => {
+		SetConfirmed(false);
+		setTime(0);
+	}, [userPhone]);
+
+	useEffect(() => {
+		status === 'success' && setAuthStep('login');
+		resetAuthStatus();
+	}, [status, setAuthStep]);
+
 	return (
 		<AuthContainer>
 			<AuthTitle>회원가입</AuthTitle>
@@ -48,17 +69,31 @@ const SignUp: React.FC<AuthProps> = ({ authStep, setAuthStep }) => {
 			</CheckerContainer>
 			<AuthInput setValue={setUserPw} title="비밀번호" password reg={regPw} />
 			<AuthInput setValue={setUserPwCheck} title="비밀번호확인" password />
-			<CheckerContainer>
-				<AuthInput setValue={setUserPhone} title="전화번호" reg={regPhone} />
-				<UseAbilitiyChecker onClick={onPhoneCheck}>인증하기</UseAbilitiyChecker>
-			</CheckerContainer>
-			<CheckerContainer>
-				<AuthInput setValue={setVerification} title="인증번호" />
-				<UseAbilitiyChecker onClick={onPhoneAuthCheck} disabled={timeStatus === 'end'}>
-					인증하기
-				</UseAbilitiyChecker>
-			</CheckerContainer>
-			<Timer time={90} setTimeStatus={setTimeStatus} timeStatus={timeStatus} /> <AuthSubmitBtn onClick={onSignUp}>회원가입하기</AuthSubmitBtn>
+			{!confirmed ? (
+				<CheckerContainer>
+					<AuthInput setValue={setUserPhone} title="전화번호" reg={regPhone} />
+					<UseAbilitiyChecker onClick={onPhoneCheck}>인증하기</UseAbilitiyChecker>
+				</CheckerContainer>
+			) : (
+				<VerifiedPhoneNumberContainer>
+					<VerifiedTitle>전화번호</VerifiedTitle>
+					<VerifiedPhoneNumber>{userPhone}</VerifiedPhoneNumber>
+				</VerifiedPhoneNumberContainer>
+			)}
+			{!!time && !confirmed && (
+				<>
+					<CheckerContainer>
+						<AuthInput setValue={setVerificationCode} title="인증번호" />
+						<UseAbilitiyChecker onClick={onPhoneAuthCheck} disabled={timeStatus === 'end'}>
+							인증하기
+						</UseAbilitiyChecker>
+					</CheckerContainer>
+					<Timer time={time} setTimeStatus={setTimeStatus} timeStatus={timeStatus} />
+				</>
+			)}
+			<AuthSubmitBtn onClick={onSignUp} disabled={!confirmed}>
+				회원가입하기
+			</AuthSubmitBtn>
 			<AuthModeBtn authStep={authStep} setAuthStep={setAuthStep}>
 				로그인으로
 			</AuthModeBtn>
@@ -67,3 +102,36 @@ const SignUp: React.FC<AuthProps> = ({ authStep, setAuthStep }) => {
 };
 
 export default SignUp;
+
+const VerifiedPhoneNumberContainer = styled.div`
+	width: 80%;
+	padding-inline: 0.5rem;
+	padding-bottom: 0.5rem;
+	height: 4.5rem;
+
+	@media screen and (max-width: 1000px) {
+		width: 90%;
+	}
+
+	@media screen and (max-width: 600px) {
+		width: 100%;
+	}
+`;
+
+const VerifiedTitle = styled.div`
+	font-size: 1rem;
+	font-weight: 700;
+	margin-bottom: 0.3rem;
+	text-align: start;
+`;
+
+const VerifiedPhoneNumber = styled.div`
+	width: 100%;
+	font-size: 0.9rem;
+	border: 1px solid ${color.basicColor};
+	border-radius: 5px;
+	height: 2.2rem;
+	padding-left: 0.3rem;
+	display: flex;
+	align-items: center;
+`;

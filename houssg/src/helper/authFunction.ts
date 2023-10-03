@@ -1,6 +1,6 @@
 import api from '../api/api';
 import { authUrl } from '../assets/constant';
-import { AuthLoginFunc } from '../types';
+import { AuthLoginFunc, AuthSignUpFunc } from '../types';
 
 const authLoginFunc: AuthLoginFunc = (userId, userPw, dispatch, __postLogin) => {
 	if (userId.trim() === '') {
@@ -15,14 +15,7 @@ const authLoginFunc: AuthLoginFunc = (userId, userPw, dispatch, __postLogin) => 
 	dispatch(__postLogin({ id: userId, password: userPw }));
 };
 
-const authSignUpFunc = (
-	userId: string,
-	userNick: string,
-	userPw: string,
-	userPwCheck: string,
-	userPhone: string,
-	setIsLoginComp: React.Dispatch<React.SetStateAction<string>>,
-) => {
+const authSignUpFunc: AuthSignUpFunc = (userId, userNick, userPw, userPwCheck, userPhone, dispatch, __postSignUp) => {
 	if (userId.trim() === '') {
 		alert('아이디를 입력해주세요');
 		return;
@@ -43,18 +36,19 @@ const authSignUpFunc = (
 		alert('휴대전화가 없습니다.');
 		return;
 	}
-	api
-		.post(authUrl.signUp, { id: userId, password: userPw, nickname: userNick, phonenumber: userPhone })
-		.then(({ data }) => {
-			data === 'YES' ? alert('회원가입되었습니다') : alert('형식에 맞지 않습니다.');
-			setIsLoginComp('login');
-		})
-		.catch(({ response }) => {
-			// console.log(response.status);
-			if (response.status === 403) {
-				alert('중복된 값이 존재합니다');
-			}
-		});
+	dispatch(__postSignUp({ id: userId, password: userPw, nickname: userNick, phonenumber: userPhone }));
+	// api
+	// 	.post(authUrl.signUp, { id: userId, password: userPw, nickname: userNick, phonenumber: userPhone })
+	// 	.then(({ data }) => {
+	// 		data === 'YES' ? alert('회원가입되었습니다') : alert('형식에 맞지 않습니다.');
+	// 		setIsLoginComp('login');
+	// 	})
+	// 	.catch(({ response }) => {
+	// 		// console.log(response.status);
+	// 		if (response.status === 403) {
+	// 			alert('중복된 값이 존재합니다');
+	// 		}
+	// 	});
 };
 
 const idCheckFunc = (id: string) => {

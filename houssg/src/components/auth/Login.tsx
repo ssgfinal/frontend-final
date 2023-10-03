@@ -30,11 +30,11 @@ const Login: React.FC<AuthProps> = ({ authStep, setAuthStep }) => {
 
 	useEffect(() => {
 		// 로그인 성공시 모달 닫기
-		if (status === 'success' || isLogin) {
+		if (isLogin) {
 			dispatch(closeModal());
 			resetAuthStatus();
 		}
-	}, [dispatch, status, isLogin]);
+	}, [dispatch, isLogin]);
 
 	return (
 		<AuthContainer>
