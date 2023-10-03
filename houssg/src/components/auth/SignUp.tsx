@@ -3,7 +3,7 @@ import { AuthInput, AuthModeBtn, AuthSubmitBtn } from './element';
 import { useState } from 'react';
 import { regSignUp } from '../../assets/constant';
 import { authSignUpFunc, idCheckFunc, nickCheckFunc, onPhoneUsableCheck, phoneAuthCheck } from '../../helper';
-import { AuthProps } from '../../types';
+import { AuthProps, ProcessType } from '../../types';
 import { Timer } from '../common';
 
 const SignUp: React.FC<AuthProps> = ({ authStep, setAuthStep }) => {
@@ -13,7 +13,7 @@ const SignUp: React.FC<AuthProps> = ({ authStep, setAuthStep }) => {
 	const [userPwCheck, setUserPwCheck] = useState('');
 	const [userPhone, setUserPhone] = useState('');
 	const [verification, setVerification] = useState('');
-	const [timeEnd, setTimeEnd] = useState(true);
+	const [timeStatus, setTimeStatus] = useState<ProcessType>('start');
 	const { regId, regPw, regNick, regPhone } = regSignUp;
 
 	const onSignUp = () => {
@@ -54,11 +54,11 @@ const SignUp: React.FC<AuthProps> = ({ authStep, setAuthStep }) => {
 			</CheckerContainer>
 			<CheckerContainer>
 				<AuthInput setValue={setVerification} title="인증번호" />
-				<UseAbilitiyChecker onClick={onPhoneAuthCheck} disabled={timeEnd}>
+				<UseAbilitiyChecker onClick={onPhoneAuthCheck} disabled={timeStatus === 'end'}>
 					인증하기
 				</UseAbilitiyChecker>
 			</CheckerContainer>
-			<Timer time={90} setTimeEnd={setTimeEnd} /> <AuthSubmitBtn onClick={onSignUp}>회원가입하기</AuthSubmitBtn>
+			<Timer time={90} setTimeStatus={setTimeStatus} timeStatus={timeStatus} /> <AuthSubmitBtn onClick={onSignUp}>회원가입하기</AuthSubmitBtn>
 			<AuthModeBtn authStep={authStep} setAuthStep={setAuthStep}>
 				로그인으로
 			</AuthModeBtn>
