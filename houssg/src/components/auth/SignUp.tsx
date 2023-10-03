@@ -40,7 +40,7 @@ const SignUp: React.FC<AuthProps> = ({ authStep, setAuthStep }) => {
 			<AuthTitle>회원가입</AuthTitle>
 			<CheckerContainer>
 				<AuthInput setValue={setUserId} title="아이디" reg={regId} />
-				<UseAbilitiyChecker onClick={onIdCheck}>본인확인</UseAbilitiyChecker>
+				<UseAbilitiyChecker onClick={onIdCheck}>중복확인</UseAbilitiyChecker>
 			</CheckerContainer>
 			<CheckerContainer>
 				<AuthInput setValue={setUserNick} title="닉네임" reg={regNick} />
