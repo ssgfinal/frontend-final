@@ -1,25 +1,18 @@
 import api from '../api/api';
 import { authUrl } from '../assets/constant';
+import { AuthLoginFunc } from '../types';
 
-const authLoginFunc = (userId: string, userPw: string, closeModal: () => void) => {
+const authLoginFunc: AuthLoginFunc = (userId, userPw, dispatch, __postLogin) => {
 	if (userId.trim() === '') {
-		alert('아이디를 입력해주세요');
+		alert('아이디가 비어있습니다.');
+		return;
 	}
 	if (userPw.trim() === '') {
-		alert('비밀번호를 입력해주세요');
+		alert('비밀번호가 비어있습니다.');
+		return;
 	}
 
-	api
-		.post(authUrl.login, { id: userId, password: userPw })
-		.then((res) => {
-			sessionStorage.setItem('authorization', res.headers.authorization);
-			sessionStorage.setItem('RefreshToken', res.headers['refreshtoken']);
-			closeModal();
-		})
-		.catch(({ response }) => {
-			alert('서버와 통신이 원활하지 않습니다.');
-			console.log(response, '리스폰스');
-		});
+	dispatch(__postLogin({ id: userId, password: userPw }));
 };
 
 const authSignUpFunc = (

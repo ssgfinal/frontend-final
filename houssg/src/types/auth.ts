@@ -26,6 +26,8 @@ interface AuthModeType extends AuthProps {
 interface AuthSubmitType {
 	children: string;
 	onClick?: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
+	disabled?: boolean;
+	pending?: boolean;
 }
 
 export type { AuthProps, AuthInputType, AuthModeType, AuthSubmitType, AuthPropsWithState, IdFindingType };
