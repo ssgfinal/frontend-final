@@ -8,18 +8,20 @@ import { UserHouseList, UserMain, UserMypage, UserReservationList } from './page
 import { UserHouseDetail } from './pages/user/UserHouseDetail';
 import { UserReservation } from './pages/user/UserReservation';
 import { ownerRoute, userRoute } from './assets/constant';
-import { isLoginFunc } from './utils';
-import { useAppDispatch, usePathname } from './hooks';
+import { useAppDispatch, useLogin, usePathname } from './hooks';
 import { openModal } from './store/redux/modalSlice';
+import { isLoginFunc } from './utils';
 
 const App = () => {
 	const pathname = usePathname();
 	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
+	// session에 값 존재시 로그인하기 (아니면 로그아웃)
+	useLogin();
 	//로그인 없을 시 로그인 시키기
 	useEffect(() => {
 		const isLogin = isLoginFunc();
-		// 유저 홈 숙소리스트, 상세 제외 접근시
+
 		if (!isLogin && pathname !== userRoute.main && !pathname.startsWith(userRoute.houseList)) {
 			alert('로그인이 필요합니다');
 			navigate('/');
