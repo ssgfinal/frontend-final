@@ -155,6 +155,10 @@ const HomeSliderContainer = styled.div`
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	/* 
+	.swiper-button-next {
+		width: 0.1rem;
+	} */
 
 	.swiper-wrapper {
 		margin: 0.5rem;
