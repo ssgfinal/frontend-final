@@ -1,6 +1,6 @@
 import api from '../api/api';
 import { authUrl } from '../assets/constant';
-import { AuthLoginFunc } from '../types';
+import { AuthLoginFunc, AuthSignUpFunc } from '../types';
 
 const authLoginFunc: AuthLoginFunc = (userId, userPw, dispatch, __postLogin) => {
 	if (userId.trim() === '') {
@@ -15,14 +15,7 @@ const authLoginFunc: AuthLoginFunc = (userId, userPw, dispatch, __postLogin) => 
 	dispatch(__postLogin({ id: userId, password: userPw }));
 };
 
-const authSignUpFunc = (
-	userId: string,
-	userNick: string,
-	userPw: string,
-	userPwCheck: string,
-	userPhone: string,
-	setIsLoginComp: React.Dispatch<React.SetStateAction<string>>,
-) => {
+const authSignUpFunc: AuthSignUpFunc = (userId, userNick, userPw, userPwCheck, userPhone, dispatch, __postSignUp) => {
 	if (userId.trim() === '') {
 		alert('아이디를 입력해주세요');
 		return;
@@ -43,21 +36,11 @@ const authSignUpFunc = (
 		alert('휴대전화가 없습니다.');
 		return;
 	}
-	api
-		.post(authUrl.signUp, { id: userId, password: userPw, nickname: userNick, phonenumber: userPhone })
-		.then(({ data }) => {
-			data === 'YES' ? alert('회원가입되었습니다') : alert('형식에 맞지 않습니다.');
-			setIsLoginComp('login');
-		})
-		.catch(({ response }) => {
-			// console.log(response.status);
-			if (response.status === 403) {
-				alert('중복된 값이 존재합니다');
-			}
-		});
+	dispatch(__postSignUp({ id: userId, password: userPw, nickname: userNick, phonenumber: userPhone }));
 };
 
-const idCheckFunc = (id: string) => {
+const idCheckFunc = (id: string, setIsLoading: React.Dispatch<React.SetStateAction<boolean>>) => {
+	setIsLoading(true);
 	api
 		.post(authUrl.idCheck + `?id=${id}`)
 		.then(({ data }) => {
@@ -65,10 +48,14 @@ const idCheckFunc = (id: string) => {
 		})
 		.catch(({ response }) => {
 			console.log(response);
+		})
+		.finally(() => {
+			setIsLoading(false);
 		});
 };
 
-const nickCheckFunc = (nickName: string) => {
+const nickCheckFunc = (nickName: string, setIsLoading: React.Dispatch<React.SetStateAction<boolean>>) => {
+	setIsLoading(true);
 	api
 		.post(authUrl.nickCheck + `?nickname=${nickName}&auth=0`)
 		.then(({ data }) => {
@@ -76,10 +63,14 @@ const nickCheckFunc = (nickName: string) => {
 		})
 		.catch(({ response }) => {
 			console.log(response);
+		})
+		.finally(() => {
+			setIsLoading(false);
 		});
 };
 
-const onPhoneUsableCheck = (phone: string) => {
+const onPhoneUsableCheck = (phone: string, setIsLoading: React.Dispatch<React.SetStateAction<boolean>>) => {
+	setIsLoading(true);
 	let text = '실패';
 	api
 		.post(authUrl.phoneCheck, { recipientPhoneNumber: phone })
@@ -89,9 +80,26 @@ const onPhoneUsableCheck = (phone: string) => {
 		})
 		.catch(({ response }) => {
 			console.log(response);
+		})
+		.finally(() => {
+			setIsLoading(false);
 		});
-
 	return text;
+};
+
+const phoneAuthCheck = (number: string, setIsLoading: React.Dispatch<React.SetStateAction<boolean>>) => {
+	setIsLoading(true);
+	api
+		.post(authUrl.phoneAuthCheck + `?verificationCode=${number}`)
+		.then(({ data }) => {
+			console.log(data);
+		})
+		.catch(({ err }) => {
+			console.log(err, '에러 메시지');
+		})
+		.finally(() => {
+			setIsLoading(false);
+		});
 };
 
 const onFindId = (phone: string) => {
@@ -105,7 +113,6 @@ const onFindId = (phone: string) => {
 		.catch(({ response }) => {
 			console.log(response);
 		});
-
 	return text;
 };
 
@@ -139,17 +146,6 @@ const onUpdateNewPw = ({ id, newPassword }: { id: string; newPassword: string })
 		})
 		.catch((err) => {
 			console.log(err);
-		});
-};
-
-const phoneAuthCheck = (number: string) => {
-	api
-		.post(authUrl.phoneAuthCheck + `?verificationCode=${number}`)
-		.then(({ data }) => {
-			console.log(data);
-		})
-		.catch(({ err }) => {
-			console.log(err, '에러 메시지');
 		});
 };
 

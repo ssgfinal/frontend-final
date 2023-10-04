@@ -19,11 +19,12 @@ const AuthTitle = styled.div`
 	}
 `;
 
-const AuthContainer = styled.div`
+const AuthContainer = styled.div<{ $pending?: boolean }>`
 	width: 90%;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	cursor: ${(props) => props.$pending && 'wait'};
 `;
 
 const AuthFindingBtn = styled.div`
