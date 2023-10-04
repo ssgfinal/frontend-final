@@ -4,13 +4,14 @@ import { closeModal } from '../../store/redux/modalSlice';
 import { color } from '../../assets/styles';
 import { useRef, useState } from 'react';
 import { Timer } from '../common';
+import { ProcessType } from '../../types';
 
 const EditPhoneNumber = () => {
 	const dispatch = useAppDispatch();
 
 	const [message, setMessage] = useState(false);
 	//TODO: 조건 확인하기(아래쪽)
-	const [timeEnd, setTimeEnd] = useState(true);
+	const [timeStatus, setTimeStatus] = useState<ProcessType>('start');
 	//const [status, setStatus] = useState(false);
 	const phoneNumber = useRef<HTMLInputElement | null>(null);
 	const authentication = useRef<HTMLInputElement | null>(null);
@@ -25,7 +26,7 @@ const EditPhoneNumber = () => {
 		// TODO: 시간연장없이 다시 재발급으로
 		// TODO: 재발급 시 3분 타이머도 리셋, 변경 누른 후도 리셋
 		setMessage(true);
-		setTimeEnd(false);
+		setTimeStatus('start');
 	};
 
 	const onEditPhoneNumber = () => {
@@ -43,11 +44,11 @@ const EditPhoneNumber = () => {
 			<EditPhoneNumberButton onClick={onAuthentication}>인증</EditPhoneNumberButton>
 			<Space></Space>
 			<PhoneNumberTitle>인증번호 입력</PhoneNumberTitle>
-			<PhoneNumberInput type="number" ref={authentication} disabled={timeEnd} />
-			<EditPhoneNumberButton disabled={timeEnd} onClick={onEditPhoneNumber}>
+			<PhoneNumberInput type="number" ref={authentication} disabled={timeStatus === 'start'} />
+			<EditPhoneNumberButton disabled={timeStatus === 'start'} onClick={onEditPhoneNumber}>
 				변경
 			</EditPhoneNumberButton>
-			<Message>{message ? <Timer time={90} setTimeEnd={setTimeEnd} /> : null}</Message>
+			<Message>{message ? <Timer time={90} timeStatus={timeStatus} setTimeStatus={setTimeStatus} /> : null}</Message>
 		</EditPhoneNumberWrapper>
 	);
 };

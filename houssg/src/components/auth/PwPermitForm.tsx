@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { CheckerContainer, FindInputAligner, UseAbilitiyChecker } from '../../assets/styles';
 import { AuthInput } from './element';
-import { SetStateToggle } from '../../types';
+import { ProcessType, SetStateToggle } from '../../types';
 import { regSignUp } from '../../assets/constant';
 import { Timer } from '../common';
 
@@ -9,8 +9,7 @@ const PwPermitForm: React.FC<SetStateToggle> = ({ setState }) => {
 	const [userId, setUserId] = useState('');
 	const [userPhone, setUserPhone] = useState('');
 	const [smsNumber, setSmsNumber] = useState('');
-	const [timeEnd, setTimeEnd] = useState(true);
-
+	const [timeStatus, setTimeStatus] = useState<ProcessType>('start');
 	const [time, setTime] = useState(0);
 
 	return (
@@ -23,8 +22,8 @@ const PwPermitForm: React.FC<SetStateToggle> = ({ setState }) => {
 					<UseAbilitiyChecker
 						onClick={() => {
 							console.log(userPhone, userId);
-							setTimeEnd(false);
-							setTime(90);
+							setTime(180);
+							setTimeStatus('start');
 						}}
 					>
 						인증하기
@@ -33,7 +32,7 @@ const PwPermitForm: React.FC<SetStateToggle> = ({ setState }) => {
 				<CheckerContainer>
 					<AuthInput setValue={setSmsNumber} title="인증번호" />
 					<UseAbilitiyChecker
-						disabled={timeEnd}
+						disabled={timeStatus === 'end'}
 						onClick={() => {
 							console.log(smsNumber);
 							console.log('되나');
@@ -43,7 +42,7 @@ const PwPermitForm: React.FC<SetStateToggle> = ({ setState }) => {
 						확인하기
 					</UseAbilitiyChecker>
 				</CheckerContainer>
-				{!!time && <Timer time={time} setTimeEnd={setTimeEnd} />}
+				{!!time && <Timer time={time} setTimeStatus={setTimeStatus} timeStatus={timeStatus} />}
 			</FindInputAligner>
 		</>
 	);

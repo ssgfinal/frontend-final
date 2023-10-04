@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { color } from '../../../assets/styles';
 import { AuthModeType } from '../../../types';
+import { resetAuthStatus } from '../../../store/redux/authSlice';
 
 const AuthModeBtn: React.FC<AuthModeType> = ({ children, authStep, setAuthStep }) => {
 	const nextStep = authStep === 'login' ? 'signUp' : authStep.startsWith('to') ? authStep.substring(2) : 'login';
@@ -10,6 +11,7 @@ const AuthModeBtn: React.FC<AuthModeType> = ({ children, authStep, setAuthStep }
 			<HoverText
 				onClick={() => {
 					setAuthStep(nextStep);
+					resetAuthStatus();
 				}}
 			>
 				{children}

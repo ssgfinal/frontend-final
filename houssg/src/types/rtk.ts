@@ -1,9 +1,14 @@
+// dispatch 타입을 위한 허용
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { AnyAction, ThunkDispatch } from '@reduxjs/toolkit';
 
 // AuthLoginFunc 타입을 정의합니다.
+type ReduxDispathType = ThunkDispatch<any, undefined, AnyAction>;
 interface AuthLoginFunc {
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	(userId: string, userPw: string, dispatch: ThunkDispatch<any, undefined, AnyAction>, __postLogin: any): void;
+	(userId: string, userPw: string, dispatch: ReduxDispathType, __postLogin: any): void;
 }
 
-export type { AuthLoginFunc };
+interface AuthSignUpFunc {
+	(userId: string, userNick: string, userPw: string, userPwCheck: string, userPhone: string, dispatch: ReduxDispathType, __postSignUp: any): void;
+}
+export type { AuthLoginFunc, AuthSignUpFunc };
