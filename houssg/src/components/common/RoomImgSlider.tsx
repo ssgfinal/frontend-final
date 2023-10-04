@@ -7,6 +7,7 @@ import styled from 'styled-components';
 
 import { color } from '../../assets/styles';
 import { RoomSlideProps } from '../../types';
+import { deleteIcon } from '../../assets/icons';
 
 const RoomImgSlider: React.FC<RoomSlideProps> = ({ children, data, setData }) => {
 	return (
@@ -21,14 +22,15 @@ const RoomImgSlider: React.FC<RoomSlideProps> = ({ children, data, setData }) =>
 			>
 				{data.length === 0 ? (
 					<SwiperSlide>
-						<div>이미지가 </div>
-						<div>없습니다.</div>
+						<div>
+							<img></img>
+						</div>
 					</SwiperSlide>
 				) : (
 					data.map((element, index) => (
 						<SwiperSlide key={index}>
 							<SlideImg src={element} alt={`Image ${index}`} />
-							{!!setData && <DeleteImg onClick={() => setData(index)} />}
+							{!!setData && <DeleteImg onClick={() => setData(index)} src={deleteIcon} />}
 						</SwiperSlide>
 					))
 				)}
@@ -67,12 +69,13 @@ const SwiperWrapper = styled.div`
 const SlideImg = styled.img`
 	width: 95%;
 	height: 95%;
+	margin-bottom: 1rem;
 `;
 
 const DeleteImg = styled.img`
 	position: absolute;
-	right: 0;
-	top: 0;
+	right: 10%;
+	top: 5%;
 	width: 10%;
 	height: 10%;
 	cursor: pointer;
