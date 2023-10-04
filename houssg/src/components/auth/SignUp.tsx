@@ -18,6 +18,7 @@ const SignUp: React.FC<AuthProps> = ({ authStep, setAuthStep }) => {
 	const [userPwCheck, setUserPwCheck] = useState('');
 	const [userPhone, setUserPhone] = useState('');
 	const [verificationCode, setVerificationCode] = useState('');
+	const [smsId, setSmsId] = useState('');
 	const [timeStatus, setTimeStatus] = useState<ProcessType>('start');
 	const { regId, regPw, regNick, regPhone } = regSignUp;
 	const [time, setTime] = useState(0);
@@ -38,16 +39,14 @@ const SignUp: React.FC<AuthProps> = ({ authStep, setAuthStep }) => {
 
 	const onPhoneCheck = () => {
 		if (!isLoading) {
-			setTimeStatus('start');
-			setTime(180);
-			onPhoneUsableCheck(userPhone, setIsLoading);
+			onPhoneUsableCheck(userPhone, setIsLoading, setSmsId, setTimeStatus, setTime);
 		}
 	};
 
 	const onPhoneAuthCheck = () => {
 		if (!isLoading) {
 			setConfirmed(true);
-			phoneAuthCheck(verificationCode, setIsLoading);
+			phoneAuthCheck(verificationCode, smsId, setIsLoading, setConfirmed);
 		}
 	};
 

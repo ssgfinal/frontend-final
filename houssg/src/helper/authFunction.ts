@@ -1,6 +1,6 @@
 import api from '../api/api';
 import { authUrl } from '../assets/constant';
-import { AuthLoginFunc, AuthSignUpFunc } from '../types';
+import { AuthLoginFunc, AuthSignUpFunc, ProcessType, SmsParameter } from '../types';
 
 const authLoginFunc: AuthLoginFunc = (userId, userPw, dispatch, __postLogin) => {
 	if (userId.trim() === '') {
@@ -69,14 +69,17 @@ const nickCheckFunc = (nickName: string, setIsLoading: React.Dispatch<React.SetS
 		});
 };
 
-const onPhoneUsableCheck = (phone: string, setIsLoading: React.Dispatch<React.SetStateAction<boolean>>) => {
+const onPhoneUsableCheck: SmsParameter = (phone, setIsLoading, setSmsId, setTimeStatus, setTime) => {
 	setIsLoading(true);
-	let text = '실패';
+	console.log(phone);
 	api
 		.post(authUrl.phoneCheck, { recipientPhoneNumber: phone })
 		.then(({ data }) => {
-			console.log(data);
-			text = '성공';
+			if (data.statusCode === '202') {
+				setSmsId(data.sessionId);
+				setTimeStatus('start');
+				setTime(180);
+			}
 		})
 		.catch(({ response }) => {
 			console.log(response);
@@ -84,17 +87,23 @@ const onPhoneUsableCheck = (phone: string, setIsLoading: React.Dispatch<React.Se
 		.finally(() => {
 			setIsLoading(false);
 		});
-	return text;
 };
 
-const phoneAuthCheck = (number: string, setIsLoading: React.Dispatch<React.SetStateAction<boolean>>) => {
+const phoneAuthCheck = (
+	number: string,
+	smsId: string,
+	setIsLoading: React.Dispatch<React.SetStateAction<boolean>>,
+	setConfirmed: React.Dispatch<React.SetStateAction<boolean>>,
+) => {
+	console.log(smsId);
 	setIsLoading(true);
 	api
-		.post(authUrl.phoneAuthCheck + `?verificationCode=${number}`)
-		.then(({ data }) => {
+		.post(authUrl.phoneAuthCheck + `?verificationCode=${number}&sessionId=${smsId}`)
+		.then((data) => {
 			console.log(data);
+			data.status === 200 && setConfirmed(true);
 		})
-		.catch(({ err }) => {
+		.catch((err) => {
 			console.log(err, '에러 메시지');
 		})
 		.finally(() => {
@@ -102,18 +111,28 @@ const phoneAuthCheck = (number: string, setIsLoading: React.Dispatch<React.SetSt
 		});
 };
 
-const onFindId = (phone: string) => {
-	let text = '실패';
+const onFindId = (
+	phone: string,
+	setIsLoading: React.Dispatch<React.SetStateAction<boolean>>,
+	setSmsId: React.Dispatch<React.SetStateAction<string>>,
+	setTimeStatus: React.Dispatch<React.SetStateAction<ProcessType>>,
+	setTime: React.Dispatch<React.SetStateAction<number>>,
+) => {
 	api
 		.post(authUrl.findId + `?phone_number=${phone}`)
 		.then(({ data }) => {
-			console.log(data);
-			text = '성공';
+			if (data.statusCode === '202') {
+				setSmsId(data.sessionId);
+				setTimeStatus('start');
+				setTime(180);
+			}
 		})
 		.catch(({ response }) => {
 			console.log(response);
+		})
+		.finally(() => {
+			setIsLoading(false);
 		});
-	return text;
 };
 
 const onFindIdCheck = ({ verificationCode, phone_number }: { verificationCode: string; phone_number: string }) => {
