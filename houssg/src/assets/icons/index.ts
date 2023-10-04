@@ -20,8 +20,6 @@ import logo from './logo.svg';
 import login from './login.svg';
 import logout from './logout.svg';
 // 사진관련
-import cancel3 from './cancelIcon3.svg';
-import cancel2 from './cancelIcon2.svg';
 import cancel from './cancelIcon.svg';
 import photo from './photoIcon.svg';
 import rotateR from './rotateR.svg';
@@ -57,8 +55,6 @@ export {
 	capture,
 	photo,
 	cancel,
-	cancel2,
-	cancel3,
 };
 
 export { moreIcon, deleteIcon, declarationIcon };
