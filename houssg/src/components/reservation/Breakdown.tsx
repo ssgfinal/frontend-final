@@ -15,7 +15,7 @@ export const Breakdown = () => {
 		{
 			couponId: 2,
 			couponName: '대체공휴일 맞이',
-			expirationDate: '2023-09-20',
+			expirationDate: '2023-10-20',
 			discountPrice: 1200,
 		},
 	];

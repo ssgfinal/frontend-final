@@ -2,13 +2,11 @@
 
 import styled from 'styled-components';
 
-import { UserReservationLeft } from '../../assets/styles';
-
 import { RoomInfo } from '../../components/reservation/RoomInfo';
 import { BookerInfo } from '../../components/reservation/BookerInfo';
 import { VisitorInfo } from '../../components/reservation/VisitorInfo';
 import { Breakdown } from '../../components/reservation/Breakdown';
-import { Provision } from '../../components/reservation/Provision';
+import { PaymentWidget } from '../../components/reservation/PaymentWidget';
 
 export const UserReservation = () => {
 	// const { roomId } = useParams();
@@ -18,8 +16,7 @@ export const UserReservation = () => {
 			<BookerInfo />
 			<VisitorInfo />
 			<Breakdown />
-			<Provision />
-			<UserReservationLeft>결제</UserReservationLeft>
+			<PaymentWidget/>
 		</Wrapper>
 	);
 };
