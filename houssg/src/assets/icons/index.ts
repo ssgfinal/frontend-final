@@ -20,6 +20,8 @@ import logo from './logo.svg';
 import login from './login.svg';
 import logout from './logout.svg';
 // 사진관련
+import cancel from './cancelIcon.svg';
+import photo from './photoIcon.svg';
 import rotateR from './rotateR.svg';
 import rotateL from './rotateL.svg';
 import capture from './capture.svg';
@@ -38,7 +40,22 @@ import ott from './ott.svg';
 import ocean from './ocean_view.svg';
 import pc from './pc.svg';
 
-export { MapMarker, ProfileCircle, ReviewIcon, EditIcon, CouponIcon, MyPointIcon, FullHeartIcon, HeartIcon, MyHeartIcon, rotateR, rotateL, capture };
+export {
+	MapMarker,
+	ProfileCircle,
+	ReviewIcon,
+	EditIcon,
+	CouponIcon,
+	MyPointIcon,
+	FullHeartIcon,
+	HeartIcon,
+	MyHeartIcon,
+	rotateR,
+	rotateL,
+	capture,
+	photo,
+	cancel,
+};
 
 export { moreIcon, deleteIcon, declarationIcon };
 
