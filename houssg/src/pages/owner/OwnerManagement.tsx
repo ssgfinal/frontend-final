@@ -2,6 +2,9 @@ import styled from 'styled-components';
 import { ManageWrapComp } from '../../components/owner/management';
 import { color } from '../../assets/styles';
 import { useNavigate } from 'react-router-dom';
+// import { useQuery } from '@tanstack/react-query';
+// import api from '../../api/api';
+// import { authUrl } from '../../assets/constant';
 
 const OwnerManagement = () => {
 	const navigate = useNavigate();
@@ -11,6 +14,10 @@ const OwnerManagement = () => {
 		navigate('/owner/register');
 	};
 
+	// const getHouseListData = async () => {
+	// 	return await api.get(authUrl.findId);
+	// };
+	// const { data, isLoading } = useQuery(['houseList'], getHouseListData);
 	return (
 		<ManagementWrapper>
 			<HouserRegisterButton onClick={onHouseRegistering}>숙소 등록하기</HouserRegisterButton>
