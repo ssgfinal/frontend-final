@@ -40,7 +40,6 @@ const HoverableText = styled.span<{ $disabled?: boolean; $pending?: boolean }>`
 	cursor: pointer;
 	cursor: ${(props) => props.$disabled && 'not-allowed'};
 	cursor: ${(props) => props.$pending && 'wait'};
-
 	&:hover {
 		font-size: 1.2rem;
 	}

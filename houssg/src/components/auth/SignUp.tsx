@@ -21,33 +21,38 @@ const SignUp: React.FC<AuthProps> = ({ authStep, setAuthStep }) => {
 	const [timeStatus, setTimeStatus] = useState<ProcessType>('start');
 	const { regId, regPw, regNick, regPhone } = regSignUp;
 	const [time, setTime] = useState(0);
-	const [confirmed, SetConfirmed] = useState(false);
+	const [confirmed, setConfirmed] = useState(false);
+	const [isLoading, setIsLoading] = useState(false);
 
 	const onSignUp = () => {
 		authSignUpFunc(userId, userNick, userPw, userPwCheck, userPhone, dispatch, __postSignUp);
 	};
 
 	const onIdCheck = () => {
-		idCheckFunc(userId);
+		!isLoading && idCheckFunc(userId, setIsLoading);
 	};
 
 	const onNickCheck = () => {
-		nickCheckFunc(userNick);
+		!isLoading && nickCheckFunc(userNick, setIsLoading);
 	};
 
 	const onPhoneCheck = () => {
-		setTimeStatus('start');
-		setTime(180);
-		onPhoneUsableCheck(userPhone);
+		if (!isLoading) {
+			setTimeStatus('start');
+			setTime(180);
+			onPhoneUsableCheck(userPhone, setIsLoading);
+		}
 	};
 
 	const onPhoneAuthCheck = () => {
-		SetConfirmed(true);
-		phoneAuthCheck(verificationCode);
+		if (!isLoading) {
+			setConfirmed(true);
+			phoneAuthCheck(verificationCode, setIsLoading);
+		}
 	};
 
 	useEffect(() => {
-		SetConfirmed(false);
+		setConfirmed(false);
 		setTime(0);
 	}, [userPhone]);
 
@@ -57,7 +62,7 @@ const SignUp: React.FC<AuthProps> = ({ authStep, setAuthStep }) => {
 	}, [status, setAuthStep]);
 
 	return (
-		<AuthContainer>
+		<AuthContainer $pending={isLoading}>
 			<AuthTitle>회원가입</AuthTitle>
 			<CheckerContainer>
 				<AuthInput setValue={setUserId} title="아이디" reg={regId} />

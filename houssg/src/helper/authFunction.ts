@@ -39,7 +39,8 @@ const authSignUpFunc: AuthSignUpFunc = (userId, userNick, userPw, userPwCheck, u
 	dispatch(__postSignUp({ id: userId, password: userPw, nickname: userNick, phonenumber: userPhone }));
 };
 
-const idCheckFunc = (id: string) => {
+const idCheckFunc = (id: string, setIsLoading: React.Dispatch<React.SetStateAction<boolean>>) => {
+	setIsLoading(true);
 	api
 		.post(authUrl.idCheck + `?id=${id}`)
 		.then(({ data }) => {
@@ -47,10 +48,14 @@ const idCheckFunc = (id: string) => {
 		})
 		.catch(({ response }) => {
 			console.log(response);
+		})
+		.finally(() => {
+			setIsLoading(false);
 		});
 };
 
-const nickCheckFunc = (nickName: string) => {
+const nickCheckFunc = (nickName: string, setIsLoading: React.Dispatch<React.SetStateAction<boolean>>) => {
+	setIsLoading(true);
 	api
 		.post(authUrl.nickCheck + `?nickname=${nickName}&auth=0`)
 		.then(({ data }) => {
@@ -58,10 +63,14 @@ const nickCheckFunc = (nickName: string) => {
 		})
 		.catch(({ response }) => {
 			console.log(response);
+		})
+		.finally(() => {
+			setIsLoading(false);
 		});
 };
 
-const onPhoneUsableCheck = (phone: string) => {
+const onPhoneUsableCheck = (phone: string, setIsLoading: React.Dispatch<React.SetStateAction<boolean>>) => {
+	setIsLoading(true);
 	let text = '실패';
 	api
 		.post(authUrl.phoneCheck, { recipientPhoneNumber: phone })
@@ -71,8 +80,26 @@ const onPhoneUsableCheck = (phone: string) => {
 		})
 		.catch(({ response }) => {
 			console.log(response);
+		})
+		.finally(() => {
+			setIsLoading(false);
 		});
 	return text;
+};
+
+const phoneAuthCheck = (number: string, setIsLoading: React.Dispatch<React.SetStateAction<boolean>>) => {
+	setIsLoading(true);
+	api
+		.post(authUrl.phoneAuthCheck + `?verificationCode=${number}`)
+		.then(({ data }) => {
+			console.log(data);
+		})
+		.catch(({ err }) => {
+			console.log(err, '에러 메시지');
+		})
+		.finally(() => {
+			setIsLoading(false);
+		});
 };
 
 const onFindId = (phone: string) => {
@@ -119,17 +146,6 @@ const onUpdateNewPw = ({ id, newPassword }: { id: string; newPassword: string })
 		})
 		.catch((err) => {
 			console.log(err);
-		});
-};
-
-const phoneAuthCheck = (number: string) => {
-	api
-		.post(authUrl.phoneAuthCheck + `?verificationCode=${number}`)
-		.then(({ data }) => {
-			console.log(data);
-		})
-		.catch(({ err }) => {
-			console.log(err, '에러 메시지');
 		});
 };
 
