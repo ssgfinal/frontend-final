@@ -14,6 +14,11 @@ const IdFinding: React.FC<IdFindingType> = ({ setState, setFoundId }) => {
 	const [timeStatus, setTimeStatus] = useState<ProcessType>('start');
 	const [time, setTime] = useState(0);
 
+	const onClickFindId = () => {
+		!isLoading && timeStatus !== 'restricted'
+			? onFindId(userPhone, setIsLoading, setTimeStatus, setTime)
+			: alert('재시도는 요청 후 10초가 지나야 합니다.');
+	};
 	return (
 		<>
 			<FindInputAligner>
@@ -21,7 +26,7 @@ const IdFinding: React.FC<IdFindingType> = ({ setState, setFoundId }) => {
 					<AuthInput setValue={setUserPhone} title="전화번호" reg={regSignUp.regPhone} />
 					<UseAbilitiyChecker
 						onClick={() => {
-							!isLoading && onFindId(userPhone, setIsLoading, setTimeStatus, setTime);
+							onClickFindId;
 						}}
 					>
 						인증하기

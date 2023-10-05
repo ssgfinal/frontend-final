@@ -38,9 +38,9 @@ const SignUp: React.FC<AuthProps> = ({ authStep, setAuthStep }) => {
 	};
 
 	const onPhoneCheck = () => {
-		if (!isLoading) {
-			onPhoneUsableCheck(userPhone, setIsLoading, setSmsId, setTimeStatus, setTime);
-		}
+		!isLoading && timeStatus !== 'restricted'
+			? onPhoneUsableCheck(userPhone, setIsLoading, setSmsId, setTimeStatus, setTime)
+			: alert('재시도는 요청 후 10초가 지나야 합니다.');
 	};
 
 	const onPhoneAuthCheck = () => {
