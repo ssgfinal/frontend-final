@@ -14,11 +14,11 @@ const authUrl = {
 	//TODO:
 	kakaoLogin: 'user/kakao',
 	kakaoAdd: 'user/kakaAdd',
-
 	//
 };
 
 const ownerUrl = {
 	houseRegister: 'accom/add',
+	myHouseList: 'accom/get',
 };
 export { authUrl, ownerUrl };

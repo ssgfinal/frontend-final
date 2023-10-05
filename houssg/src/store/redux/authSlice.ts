@@ -18,14 +18,18 @@ const initialState: authState = {
 
 const __postLogin = createAsyncThunk('POST_LOGIN', async (payload: { id: string; password: string }, thunkAPI) => {
 	try {
-		const data = await api.post(authUrl.login, payload);
+		const { data, status, headers } = await api.post(authUrl.login, payload);
 
-		if (data.status === 200) {
-			sessionStorage.setItem('authorization', data.headers.authorization);
-			sessionStorage.setItem('RefreshToken', data.headers['refreshtoken']);
+		if (status === 200) {
+			sessionStorage.setItem('authorization', headers.authorization);
+			sessionStorage.setItem('refreshtoken', headers.refreshtoken);
+			sessionStorage.setItem('nickname', data.nickname);
+			sessionStorage.setItem('phone', data.phone);
+
+			console.log(data);
 			// TODO:nickname
 		}
-		return thunkAPI.fulfillWithValue(data.data);
+		return thunkAPI.fulfillWithValue(data);
 	} catch (error) {
 		if (isAxiosError(error) && error.request.status === 404) {
 			alert('아이디와 패스워드를 확인해주세요');
@@ -60,9 +64,13 @@ const authSlice = createSlice({
 		checkLogout: (state) => {
 			state.isLogin = false;
 			sessionStorage.removeItem('authorization');
+			sessionStorage.removeItem('refreshtoken');
+			sessionStorage.removeItem('nickname');
+			sessionStorage.removeItem('phone');
 		},
 		resetAuthStatus: (state) => {
 			state.status = 'idle';
+			console.log('호출됐나');
 		},
 	},
 	extraReducers: (builder) => {
@@ -86,7 +94,8 @@ const authSlice = createSlice({
 				state.status = 'success';
 			})
 			.addCase(__postSignUp.rejected, (state) => {
-				state.status = 'failed';
+				// state.status = 'failed';
+				state.status = 'success';
 			});
 	},
 });
