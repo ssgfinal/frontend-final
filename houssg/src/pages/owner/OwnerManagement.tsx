@@ -15,13 +15,17 @@ const OwnerManagement = () => {
 	};
 
 	const getHouseListData = async () => {
-		return await api.get(ownerUrl.myHouseList);
+		return await api.post(ownerUrl.myHouseList);
 	};
-	const { isLoading, isFetching, data, isError, error } = useQuery(['houseList'], getHouseListData, {
+	// const { isLoading, isFetching, data, isError, error } = useQuery(['houseList'], getHouseListData, {
+	const { isLoading, data, error } = useQuery(['houseList'], getHouseListData, {
 		cacheTime: 5 * 60 * 1000, // 5분
 		staleTime: 2 * 60 * 1000, // 2분
 	});
+
 	console.log(data, isLoading);
+	console.log(error, 'error');
+
 	return (
 		<ManagementWrapper>
 			<HouserRegisterButton onClick={onHouseRegistering}>숙소 등록하기</HouserRegisterButton>
