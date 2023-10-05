@@ -6,10 +6,11 @@ const Timer: React.FC<TimerProps> = ({ time, setTimeStatus, timeStatus }) => {
 	useEffect(() => {
 		if (timeStatus === 'start') {
 			setSecond(time);
-			setTimeStatus('process');
+			setTimeStatus('restricted');
 		}
 
 		const interval = setInterval(() => {
+			second < time - 10 && setTimeStatus('process');
 			second ? setSecond(second - 1) : (setTimeStatus('end'), clearInterval(interval));
 		}, 1000);
 
