@@ -5,13 +5,11 @@ import { RootState } from '.';
 import { isAxiosError } from 'axios';
 
 export interface authState {
-	nickname: '';
 	isLogin: boolean;
 	status: 'idle' | 'loading' | 'failed' | 'success';
 }
 
 const initialState: authState = {
-	nickname: '',
 	isLogin: false,
 	status: 'idle',
 };
@@ -25,9 +23,6 @@ const __postLogin = createAsyncThunk('POST_LOGIN', async (payload: { id: string;
 			sessionStorage.setItem('refreshtoken', headers.refreshtoken);
 			sessionStorage.setItem('nickname', data.nickname);
 			sessionStorage.setItem('phone', data.phone);
-
-			console.log(data);
-			// TODO:nickname
 		}
 		return thunkAPI.fulfillWithValue(data);
 	} catch (error) {
@@ -57,9 +52,8 @@ const authSlice = createSlice({
 	name: 'auth',
 	initialState,
 	reducers: {
-		checkLogin: (state, action) => {
+		checkLogin: (state) => {
 			state.isLogin = true;
-			state.nickname = action.payload.nickname;
 		},
 		checkLogout: (state) => {
 			state.isLogin = false;
@@ -78,11 +72,9 @@ const authSlice = createSlice({
 			.addCase(__postLogin.pending, (state) => {
 				state.status = 'loading';
 			})
-			.addCase(__postLogin.fulfilled, (state, action) => {
+			.addCase(__postLogin.fulfilled, (state) => {
 				state.status = 'success';
 				state.isLogin = true;
-				//TODO: 고칠듯
-				state.nickname = action.payload.nickname ? action.payload.nickname : '';
 			})
 			.addCase(__postLogin.rejected, (state) => {
 				state.status = 'failed';
@@ -101,9 +93,8 @@ const authSlice = createSlice({
 });
 const authStatus = (state: RootState) => state.auth.status;
 const isLoginState = (state: RootState) => state.auth.isLogin;
-const myNickname = (state: RootState) => state.auth.nickname;
 
 export { __postLogin, __postSignUp };
-export { authStatus, isLoginState, myNickname };
+export { authStatus, isLoginState };
 export const { checkLogin, checkLogout, resetAuthStatus } = authSlice.actions;
 export default authSlice.reducer;

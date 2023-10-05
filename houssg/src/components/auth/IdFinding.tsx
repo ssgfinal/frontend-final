@@ -13,7 +13,7 @@ const IdFinding: React.FC<IdFindingType> = ({ setState, setFoundId }) => {
 	const [isLoading, setIsLoading] = useState(false);
 	const [timeStatus, setTimeStatus] = useState<ProcessType>('start');
 	const [time, setTime] = useState(0);
-	console.log(isLoading);
+
 	return (
 		<>
 			<FindInputAligner>
