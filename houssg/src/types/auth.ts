@@ -1,3 +1,5 @@
+import { ProcessType } from '.';
+
 interface AuthProps {
 	authStep: string;
 	setAuthStep: React.Dispatch<React.SetStateAction<string>>;
@@ -30,4 +32,11 @@ interface AuthSubmitType {
 	pending?: boolean;
 }
 
-export type { AuthProps, AuthInputType, AuthModeType, AuthSubmitType, AuthPropsWithState, IdFindingType };
+type SmsParameter = (
+	phone: string,
+	setIsLoading: React.Dispatch<React.SetStateAction<boolean>>,
+	setSmsId: React.Dispatch<React.SetStateAction<string>>,
+	setTimeStatus: React.Dispatch<React.SetStateAction<ProcessType>>,
+	setTime: React.Dispatch<React.SetStateAction<number>>,
+) => void;
+export type { AuthProps, AuthInputType, AuthModeType, AuthSubmitType, AuthPropsWithState, IdFindingType, SmsParameter };
