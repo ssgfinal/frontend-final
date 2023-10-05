@@ -1,14 +1,14 @@
 const authUrl = {
 	// auth
-	login: 'user/login',
-	logout: 'user/logout',
+	login: 'user/log-in',
+	logout: 'user/log-out',
 	signUp: 'user/sign-up',
-	idCheck: 'user/idcheck',
+	idCheck: 'user/id-check',
 	nickCheck: 'user/nickname-check',
-	findId: 'user/findid',
-	findPw: 'user/findpw',
-	updatePw: 'user/updatepassword',
-	phoneCheck: 'sms/signup',
+	findId: 'user/find-id',
+	findPw: 'user/find-pw',
+	updatePw: 'user/update-pw',
+	phoneCheck: 'sms/sign-up',
 	phoneAuthCheck: 'sms/check',
 	findIdCheck: 'sms/check-findid',
 	//TODO:
