@@ -1,70 +1,46 @@
 import api from '../api/api';
-import { authUrl } from '../assets/constant';
+import { authUrl, regSignUp } from '../assets/constant';
+import { AuthLoginFunc, AuthSignUpFunc, ProcessType, SmsParameter } from '../types';
 
-const authLoginFunc = (userId: string, userPw: string, closeModal: () => void) => {
+const authLoginFunc: AuthLoginFunc = (userId, userPw, dispatch, __postLogin) => {
 	if (userId.trim() === '') {
-		alert('아이디를 입력해주세요');
+		alert('아이디가 비어있습니다.');
+		return;
 	}
 	if (userPw.trim() === '') {
-		alert('비밀번호를 입력해주세요');
+		alert('비밀번호가 비어있습니다.');
+		return;
 	}
 
-	api
-		.post(authUrl.login, { id: userId, password: userPw })
-		.then((res) => {
-			sessionStorage.setItem('authorization', res.headers.authorization);
-			sessionStorage.setItem('RefreshToken', res.headers['refreshtoken']);
-			closeModal();
-		})
-		.catch(({ response }) => {
-			alert('서버와 통신이 원활하지 않습니다.');
-			console.log(response, '리스폰스');
-		});
+	dispatch(__postLogin({ id: userId, password: userPw }));
 };
 
-const authSignUpFunc = (
-	userId: string,
-	userNick: string,
-	userPw: string,
-	userPwCheck: string,
-	userPhone: string,
-	setIsLoginComp: React.Dispatch<React.SetStateAction<string>>,
-) => {
-	if (userId.trim() === '') {
-		alert('아이디를 입력해주세요');
+const authSignUpFunc: AuthSignUpFunc = (userId, userNick, userPw, userPwCheck, userPhone, dispatch, __postSignUp) => {
+	if (userId.trim() === '' || !regSignUp.regId.reg.test(userId)) {
+		alert('아이디를 확인해주세요');
 		return;
 	}
-	if (userPw.trim() === '') {
-		alert('비밀번호를 입력해주세요');
+	if (userPw.trim() === '' || !regSignUp.regPw.reg.test(userPw)) {
+		alert('비밀번호를 확인해주세요');
 		return;
 	}
-	if (userNick.trim() === '') {
-		alert('닉네임을 입력해주세요');
+	if (userNick.trim() === '' || !regSignUp.regNick.reg.test(userNick)) {
+		alert('닉네임을 확인해주세요');
 		return;
 	}
 	if (userPwCheck.trim() !== userPw.trim()) {
-		alert('비밀번호와 일치하지 않습니다.');
+		alert('비밀번호확인을 확인해주세요.');
 		return;
 	}
 	if (userPhone.trim() === '') {
-		alert('휴대전화가 없습니다.');
+		alert('전화번호를 확인해주세요.');
 		return;
 	}
-	api
-		.post(authUrl.signUp, { id: userId, password: userPw, nickname: userNick, phonenumber: userPhone })
-		.then(({ data }) => {
-			data === 'YES' ? alert('회원가입되었습니다') : alert('형식에 맞지 않습니다.');
-			setIsLoginComp('login');
-		})
-		.catch(({ response }) => {
-			// console.log(response.status);
-			if (response.status === 403) {
-				alert('중복된 값이 존재합니다');
-			}
-		});
+	dispatch(__postSignUp({ id: userId, password: userPw, nickname: userNick, phonenumber: userPhone }));
 };
 
-const idCheckFunc = (id: string) => {
+const idCheckFunc = (id: string, setIsLoading: React.Dispatch<React.SetStateAction<boolean>>) => {
+	setIsLoading(true);
 	api
 		.post(authUrl.idCheck + `?id=${id}`)
 		.then(({ data }) => {
@@ -72,10 +48,14 @@ const idCheckFunc = (id: string) => {
 		})
 		.catch(({ response }) => {
 			console.log(response);
+		})
+		.finally(() => {
+			setIsLoading(false);
 		});
 };
 
-const nickCheckFunc = (nickName: string) => {
+const nickCheckFunc = (nickName: string, setIsLoading: React.Dispatch<React.SetStateAction<boolean>>) => {
+	setIsLoading(true);
 	api
 		.post(authUrl.nickCheck + `?nickname=${nickName}&auth=0`)
 		.then(({ data }) => {
@@ -83,47 +63,97 @@ const nickCheckFunc = (nickName: string) => {
 		})
 		.catch(({ response }) => {
 			console.log(response);
+		})
+		.finally(() => {
+			setIsLoading(false);
 		});
 };
 
-const onPhoneUsableCheck = (phone: string) => {
-	let text = '실패';
+const onPhoneUsableCheck: SmsParameter = (phone, setIsLoading, setSmsId, setTimeStatus, setTime) => {
+	setIsLoading(true);
+	console.log(phone);
 	api
 		.post(authUrl.phoneCheck, { recipientPhoneNumber: phone })
 		.then(({ data }) => {
-			console.log(data);
-			text = '성공';
+			if (data.statusCode === '202') {
+				setSmsId(data.sessionId);
+				setTimeStatus('start');
+				setTime(180);
+			}
 		})
 		.catch(({ response }) => {
 			console.log(response);
+		})
+		.finally(() => {
+			setIsLoading(false);
 		});
-
-	return text;
 };
 
-const onFindId = (phone: string) => {
-	let text = '실패';
+const phoneAuthCheck = (
+	number: string,
+	smsId: string,
+	setIsLoading: React.Dispatch<React.SetStateAction<boolean>>,
+	setConfirmed: React.Dispatch<React.SetStateAction<boolean>>,
+) => {
+	console.log(smsId);
+	setIsLoading(true);
+	api
+		.post(authUrl.phoneAuthCheck + `?verificationCode=${number}&sessionId=${smsId}`)
+		.then((data) => {
+			console.log(data);
+			data.status === 200 && setConfirmed(true);
+		})
+		.catch((err) => {
+			console.log(err, '에러 메시지');
+		})
+		.finally(() => {
+			setIsLoading(false);
+		});
+};
+
+const onFindId = (
+	phone: string,
+	setIsLoading: React.Dispatch<React.SetStateAction<boolean>>,
+	setTimeStatus: React.Dispatch<React.SetStateAction<ProcessType>>,
+	setTime: React.Dispatch<React.SetStateAction<number>>,
+) => {
+	setIsLoading(true);
 	api
 		.post(authUrl.findId + `?phone_number=${phone}`)
 		.then(({ data }) => {
-			console.log(data);
-			text = '성공';
+			if (data.statusCode === '202') {
+				setTimeStatus('start');
+				setTime(180);
+			}
 		})
 		.catch(({ response }) => {
 			console.log(response);
+		})
+		.finally(() => {
+			setIsLoading(false);
 		});
-
-	return text;
 };
 
-const onFindIdCheck = ({ verificationCode, phone_number }: { verificationCode: string; phone_number: string }) => {
+const onFindIdCheck = (
+	verificationCode: string,
+	phone_number: string,
+	setIsLoading: React.Dispatch<React.SetStateAction<boolean>>,
+	setState: React.Dispatch<React.SetStateAction<boolean>>,
+	setFoundId: React.Dispatch<React.SetStateAction<string>>,
+) => {
+	setIsLoading(true);
 	api
 		.post(authUrl.findIdCheck, null, { params: { verificationCode, phone_number } })
 		.then((resp) => {
 			console.log(resp);
+			setState(true);
+			setFoundId(resp.data.id);
 		})
 		.catch((err) => {
 			console.log(err);
+		})
+		.finally(() => {
+			setIsLoading(false);
 		});
 };
 
@@ -146,17 +176,6 @@ const onUpdateNewPw = ({ id, newPassword }: { id: string; newPassword: string })
 		})
 		.catch((err) => {
 			console.log(err);
-		});
-};
-
-const phoneAuthCheck = (number: string) => {
-	api
-		.post(authUrl.phoneAuthCheck + `?verificationCode=${number}`)
-		.then(({ data }) => {
-			console.log(data);
-		})
-		.catch(({ err }) => {
-			console.log(err, '에러 메시지');
 		});
 };
 

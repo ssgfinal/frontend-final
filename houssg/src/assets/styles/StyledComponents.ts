@@ -19,11 +19,12 @@ const AuthTitle = styled.div`
 	}
 `;
 
-const AuthContainer = styled.div`
+const AuthContainer = styled.div<{ $pending?: boolean }>`
 	width: 90%;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	cursor: ${(props) => props.$pending && 'wait'};
 `;
 
 const AuthFindingBtn = styled.div`
@@ -64,12 +65,14 @@ const FindInputAligner = styled.div`
 	gap: 0.5rem;
 `;
 
-const CheckerContainer = styled.div`
+const CheckerContainer = styled.div<{ $pending?: boolean }>`
 	width: 100%;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	position: relative;
+
+	cursor: ${(props) => props.$pending && 'wait'};
 `;
 
 const UseAbilitiyChecker = styled.button`

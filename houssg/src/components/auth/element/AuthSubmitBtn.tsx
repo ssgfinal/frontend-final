@@ -2,10 +2,17 @@ import styled from 'styled-components';
 import { color } from '../../../assets/styles';
 import { AuthSubmitType } from '../../../types/auth';
 
-const AuthSubmitBtn: React.FC<AuthSubmitType> = ({ children, onClick }) => {
+const AuthSubmitBtn: React.FC<AuthSubmitType> = ({ children, onClick, disabled, pending }) => {
+	const handleClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+		if (!pending && !disabled && onClick) {
+			onClick(event);
+		}
+	};
 	return (
 		<SubmitBtnContainer>
-			<HoverableText onClick={onClick}>{children}</HoverableText>
+			<HoverableText onClick={handleClick} $disabled={disabled} $pending={pending}>
+				{children}
+			</HoverableText>
 		</SubmitBtnContainer>
 	);
 };
@@ -25,13 +32,14 @@ const SubmitBtnContainer = styled.div`
 	}
 `;
 
-const HoverableText = styled.span`
+const HoverableText = styled.span<{ $disabled?: boolean; $pending?: boolean }>`
 	color: ${color.color2};
 	font-size: 1rem;
 	font-weight: 700;
 	transition: font-size 0.2s;
 	cursor: pointer;
-
+	cursor: ${(props) => props.$disabled && 'not-allowed'};
+	cursor: ${(props) => props.$pending && 'wait'};
 	&:hover {
 		font-size: 1.2rem;
 	}

@@ -1,34 +1,51 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import { AuthContainer, AuthFindingBtn, AuthTitle, FinderRouteAligner } from '../../assets/styles';
 import { kakaoLogin } from '../../assets/images';
 import { AuthInput, AuthModeBtn, AuthSubmitBtn } from './element';
-import { useAppDispatch } from '../../hooks';
-import { authLoginFunc } from '../../helper';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import { KakaoAuthUri } from '../../api';
-import { closeModal } from '../../store/redux/modalSlice';
+import { closeModal, isModalOpen } from '../../store/redux/modalSlice';
 import { AuthProps } from '../../types';
+import { __postLogin, authStatus, isLoginState, resetAuthStatus } from '../../store/redux/authSlice';
+import { authLoginFunc } from '../../helper';
 
 const Login: React.FC<AuthProps> = ({ authStep, setAuthStep }) => {
 	const dispatch = useAppDispatch();
-	const onCloseModal = () => {
-		dispatch(closeModal());
-	};
+	const status = useAppSelector(authStatus);
+	const isLogin = useAppSelector(isLoginState);
+	const modalState = useAppSelector(isModalOpen);
+
 	const [userId, setUserId] = useState('');
 	const [userPw, setUserPw] = useState('');
-	const onLogin = () => {
-		authLoginFunc(userId, userPw, onCloseModal);
-	};
+
 	const onKakaoLogin = () => {
 		location.href = KakaoAuthUri;
 	};
 
+	const onLogin = () => {
+		authLoginFunc(userId, userPw, dispatch, __postLogin);
+	};
+
+	useEffect(() => {
+		// 로그인 성공시 모달 닫기
+		if (isLogin) {
+			dispatch(closeModal());
+			resetAuthStatus();
+		}
+	}, [dispatch, isLogin]);
+
 	return (
 		<AuthContainer>
 			<AuthTitle>로그인</AuthTitle>
-			<AuthInput setValue={setUserId} title="아이디" />
-			<AuthInput setValue={setUserPw} title="비밀번호" password />
+			{/* 성공시 언마운트하기 */}
+			{modalState && (
+				<>
+					<AuthInput setValue={setUserId} title="아이디" />
+					<AuthInput setValue={setUserPw} title="비밀번호" password />
+				</>
+			)}
 			<FinderRouteAligner>
 				<AuthFindingBtn
 					onClick={() => {
@@ -45,7 +62,9 @@ const Login: React.FC<AuthProps> = ({ authStep, setAuthStep }) => {
 					비밀번호 찾기
 				</AuthFindingBtn>
 			</FinderRouteAligner>
-			<AuthSubmitBtn onClick={onLogin}>로그인하기</AuthSubmitBtn>
+			<AuthSubmitBtn onClick={onLogin} pending={status === 'loading'}>
+				로그인하기
+			</AuthSubmitBtn>
 
 			<KakaoLogin onClick={onKakaoLogin} src={kakaoLogin} />
 			<AuthModeBtn authStep={authStep} setAuthStep={setAuthStep}>
