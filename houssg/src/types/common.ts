@@ -27,7 +27,7 @@ interface RoomSlideProps {
 	setData?: (index: number) => void;
 }
 
-type ProcessType = 'start' | 'process' | 'end';
+type ProcessType = 'start' | 'process' | 'restricted' | 'end';
 
 interface TimerProps {
 	time: number;
