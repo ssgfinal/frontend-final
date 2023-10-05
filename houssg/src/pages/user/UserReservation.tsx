@@ -7,16 +7,20 @@ import { BookerInfo } from '../../components/reservation/BookerInfo';
 import { VisitorInfo } from '../../components/reservation/VisitorInfo';
 import { Breakdown } from '../../components/reservation/Breakdown';
 import { PaymentWidget } from '../../components/reservation/PaymentWidget';
+import { useState } from 'react';
 
 export const UserReservation = () => {
 	// const { roomId } = useParams();
+	// 결제 금액
+	const [payment, setPayment] = useState(0);
+
 	return (
 		<Wrapper>
 			<RoomInfo />
 			<BookerInfo />
 			<VisitorInfo />
-			<Breakdown />
-			<PaymentWidget/>
+			<Breakdown payment={payment} setPayment={setPayment} />
+			<PaymentWidget payment={payment} />
 		</Wrapper>
 	);
 };
