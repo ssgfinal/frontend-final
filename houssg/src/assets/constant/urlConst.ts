@@ -19,6 +19,6 @@ const authUrl = {
 
 const ownerUrl = {
 	houseRegister: 'accom/add',
-	myHouseList: 'accom/get',
+	myHouseList: 'mypage/accom',
 };
 export { authUrl, ownerUrl };

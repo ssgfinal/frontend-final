@@ -2,24 +2,35 @@ import styled from 'styled-components';
 import { ManageWrapComp } from '../../components/owner/management';
 import { color } from '../../assets/styles';
 import { useNavigate } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
+import { getMyHouseListData } from '../../helper';
+import { MyHouseData } from '../../types';
+import { ownerKey, ownerRoute } from '../../assets/constant';
 
 const OwnerManagement = () => {
 	const navigate = useNavigate();
-	const houseList = [1, 2];
+	// const houseList = [1, 2];
 
 	const onHouseRegistering = () => {
-		navigate('/owner/register');
+		navigate(ownerRoute.register);
 	};
+
+	const { isLoading, data, isSuccess, isError, error } = useQuery<{ data: MyHouseData[] }>([ownerKey.myHouseList], getMyHouseListData, {
+		cacheTime: 5 * 60 * 1000, // 5분
+		staleTime: 2 * 60 * 1000, // 2분
+	});
+
+	isError && console.log(error, 'error');
+
+	if (isLoading) {
+		return <div>로딩중...</div>;
+	}
 
 	return (
 		<ManagementWrapper>
 			<HouserRegisterButton onClick={onHouseRegistering}>숙소 등록하기</HouserRegisterButton>
 
-			<HouseList>
-				{houseList.map((_detail, index) => (
-					<ManageWrapComp key={index} />
-				))}
-			</HouseList>
+			{isSuccess && data.data.map((house) => <ManageWrapComp house={house} key={house.accomNumber} />)}
 		</ManagementWrapper>
 	);
 };
@@ -35,8 +46,6 @@ const ManagementWrapper = styled.div`
 	align-items: center;
 	margin-bottom: 1.5rem;
 `;
-
-const HouseList = styled.div``;
 
 const HouserRegisterButton = styled.div`
 	margin: 1rem 0;

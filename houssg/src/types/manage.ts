@@ -21,4 +21,28 @@ interface RoomComp extends RoomData {
 	setIsEditMode: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export type { ManageNavProps, RoomData, RoomComp };
+interface MyHouseData {
+	accomNumber: number;
+	accomName: string;
+	accomAddress: string;
+	teleNumber: string;
+	accomCategory: string;
+	accomDetails: string;
+	checkIn: string;
+	checkOut: string;
+	businessNumber: string;
+	id: string;
+	auth: number;
+	approvalRequest: number;
+	deletionRequest: number;
+	img: string;
+	addRequest: number;
+	service: number[];
+}
+
+interface MyHouseDataHandleComp {
+	house: MyHouseData;
+	setIsEditMode: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export type { ManageNavProps, RoomData, RoomComp, MyHouseData, MyHouseDataHandleComp };
