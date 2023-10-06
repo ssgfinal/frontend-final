@@ -3,16 +3,18 @@ import { useNavigate } from 'react-router-dom';
 
 import { openModal } from '../store/redux/modalSlice';
 import { useAppDispatch, useAppSelector, useIsUser } from '../hooks';
-import { login, logo, logout } from '../assets/icons';
+import { MyHeartIcon, login, logo, logout } from '../assets/icons';
 import { authUrl, ownerRoute, userRoute } from '../assets/constant';
 import { checkLogout, isLoginState } from '../store/redux/authSlice';
 import api from '../api/api';
+import { color } from '../assets/styles';
 const Header = () => {
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 	const isLogin = useAppSelector(isLoginState);
 	const isUser = useIsUser();
-
+	// TODO: 헤더에서 useState,useEffect 써도 될까요..? 400px이하일 때 아이콘으로 바꾸려니...
+	console.log('렌더링');
 	const goHomeHandler = () => {
 		isUser ? navigate(userRoute.main) : navigate(ownerRoute.main);
 	};
@@ -42,7 +44,14 @@ const Header = () => {
 			<RightIconContainer>
 				{/* TODO: 스타일혹은 아이콘 */}
 				<div style={{ cursor: 'pointer' }} onClick={onChangeUserType}>
-					{isUser ? '사업자로' : '유저로'}
+					{isUser ? (
+						<HostModeChange>
+							<img src={MyHeartIcon}></img>
+							<p>To Host</p>
+						</HostModeChange>
+					) : (
+						<GuestModeChange>To Guest</GuestModeChange>
+					)}
 				</div>
 				{!isLogin ? <LoginImg onClick={loginModalOpen} src={login} /> : <LoginImg onClick={logoutFunc} src={logout} />}
 			</RightIconContainer>
@@ -74,4 +83,60 @@ const RightIconContainer = styled.div`
 	display: flex;
 	flex-direction: row;
 	align-items: flex-end;
+`;
+
+const HostModeChange = styled.div`
+	margin: 1rem 2rem 0.4rem 0;
+	padding: 0.6rem;
+	border-radius: 1.5rem;
+	border: 2px solid ${color.color1};
+	color: ${color.color1};
+
+	&:hover {
+		color: ${color.backColor};
+		background-color: ${color.color1};
+		transition: all ease 2s;
+		transform: rotateY(1turn);
+	}
+
+	img {
+		width: 1rem;
+	}
+
+	@media (min-width: 400px) {
+		img {
+			display: none;
+		}
+	}
+
+	@media (max-width: 400px) {
+		margin: 1rem 1rem 0.4rem 0;
+		font-size: 0.8rem;
+		font-weight: bold;
+		p {
+			display: none;
+		}
+	}
+`;
+
+const GuestModeChange = styled.div`
+	margin: 1rem 2rem 0.4rem 0;
+	padding: 0.6rem;
+	border: 2px solid ${color.color1};
+	border-radius: 1.5rem;
+	color: ${color.backColor};
+	background-color: ${color.color1};
+
+	&:hover {
+		color: ${color.color1};
+		background-color: ${color.backColor};
+		transition: all ease 2s;
+		transform: rotateY(1turn);
+	}
+
+	@media (max-width: 400px) {
+		margin: 1rem 1rem 0.4rem 0;
+		font-size: 0.8rem;
+		font-weight: bold;
+	}
 `;
