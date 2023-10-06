@@ -40,4 +40,9 @@ interface MyHouseData {
 	service: number[];
 }
 
-export type { ManageNavProps, RoomData, RoomComp, MyHouseData };
+interface MyHouseDataHandleComp {
+	house: MyHouseData;
+	setIsEditMode: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export type { ManageNavProps, RoomData, RoomComp, MyHouseData, MyHouseDataHandleComp };

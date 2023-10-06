@@ -1,16 +1,18 @@
 import { HouseTabContainer, ManageReadTitle, NavClickComp, color, devideOnce } from '../../../assets/styles';
 import { styled } from 'styled-components';
-import { SetStateToggle } from '../../../types';
+import { MyHouseDataHandleComp } from '../../../types';
 import { houseServiceCategory } from '../../../assets/constant';
 import { CheckBox } from '../register/element';
 import { useRef, useState } from 'react';
 
-const ManageHouseEdit: React.FC<SetStateToggle> = ({ setIsEditMode }) => {
+const ManageHouseEdit: React.FC<MyHouseDataHandleComp> = ({ house, setIsEditMode }) => {
 	const newPhoneNumber = useRef<HTMLInputElement | null>(null);
 	const newCheckIn = useRef<HTMLInputElement | null>(null);
 	const newCheckOut = useRef<HTMLInputElement | null>(null);
 	const newDetail = useRef<HTMLTextAreaElement | null>(null);
 	//TODO: 수정 필요할지도
+	console.log(house);
+
 	const [checkedList, setCheckedList] = useState<number[]>(new Array(houseServiceCategory.length).fill(0));
 	const onChangeCheckedList = (index: number, value: number) => {
 		const newCheckedList = [...checkedList];
