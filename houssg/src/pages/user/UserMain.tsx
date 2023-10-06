@@ -12,13 +12,13 @@ const UserMain = () => {
 			<BannerSlider />
 			<br />
 			<UserMainContainer>
-				<p>&nbsp;평점 높은 숙소 TOP20</p>
+				<p>⭐&nbsp;평점 높은 숙소 TOP20</p>
 			</UserMainContainer>
 			<br />
 			<HomeSlider />
 			<br />
 			<UserMainContainer>
-				<p>&nbsp;최근 등록&리뷰 많은 숙소 TOP20</p>
+				<p>✨&nbsp;최근 등록 숙소 TOP20</p>
 			</UserMainContainer>
 			<br />
 			<HomeSlider />
@@ -33,5 +33,10 @@ const UserMainContainer = styled.div`
 	margin-left: 1rem;
 	color: ${color.color1};
 	text-align: left;
-	font-size: 1rem;
+	font-size: 1.3rem;
+	font-weight: bold;
+
+	@media (max-width: 400px) {
+		font-size: 1rem;
+	}
 `;
