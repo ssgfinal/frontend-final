@@ -5,16 +5,17 @@ import { useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { getMyHouseListData } from '../../helper';
 import { MyHouseData } from '../../types';
+import { ownerKey, ownerRoute } from '../../assets/constant';
 
 const OwnerManagement = () => {
 	const navigate = useNavigate();
 	// const houseList = [1, 2];
 
 	const onHouseRegistering = () => {
-		navigate('/owner/register');
+		navigate(ownerRoute.register);
 	};
 
-	const { isLoading, data, isSuccess, isError, error } = useQuery<{ data: MyHouseData[] }>(['houseList'], getMyHouseListData, {
+	const { isLoading, data, isSuccess, isError, error } = useQuery<{ data: MyHouseData[] }>([ownerKey.myHouseList], getMyHouseListData, {
 		cacheTime: 5 * 60 * 1000, // 5분
 		staleTime: 2 * 60 * 1000, // 2분
 	});
