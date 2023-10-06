@@ -11,9 +11,9 @@ const ManageHouseEdit: React.FC<MyHouseDataHandleComp> = ({ house, setIsEditMode
 	const newCheckOut = useRef<HTMLInputElement | null>(null);
 	const newDetail = useRef<HTMLTextAreaElement | null>(null);
 	//TODO: 수정 필요할지도
-	console.log(house);
+	console.log(house.teleNumber);
 
-	const [checkedList, setCheckedList] = useState<number[]>(new Array(houseServiceCategory.length).fill(0));
+	const [checkedList, setCheckedList] = useState<number[]>(house.service);
 	const onChangeCheckedList = (index: number, value: number) => {
 		const newCheckedList = [...checkedList];
 		newCheckedList[index] = value;
@@ -37,24 +37,26 @@ const ManageHouseEdit: React.FC<MyHouseDataHandleComp> = ({ house, setIsEditMode
 
 	return (
 		<ManageWrapper>
-			<ManageReadTitle>[리조트] 영등포 라이프스타일 F HOTEL</ManageReadTitle>
+			<ManageReadTitle>
+				[{house.accomCategory}] {house.accomName}
+			</ManageReadTitle>
 			<HouseImg src='https://a.cdn-hotels.com/gdcs/production62/d1770/50e9f242-6f67-48a5-9b77-82aa6d64d78a.jpg?impolicy=fcrop&w=1600&h=1066&q=medium","zip_numbe' />
 			<ManageHouseWrapper>
 				<ManageHouseContainer>
 					<ManageHouseEditTitle>전화번호</ManageHouseEditTitle>
-					<ManageHouseInput type="number" ref={newPhoneNumber} placeholder="예시) 01012345678" />
-					<ManageHouseEditTitle>입/퇴실 시간</ManageHouseEditTitle> <ManageHouseCheckinInput type="time" ref={newCheckIn} />
+					<ManageHouseInput type="number" ref={newPhoneNumber} defaultValue={house.teleNumber} placeholder="예시) 01012345678" />
+					<ManageHouseEditTitle>입/퇴실 시간</ManageHouseEditTitle>
+					<ManageHouseCheckinInput type="time" ref={newCheckIn} defaultValue={house.checkIn} />
 					<ManageHouseSpan>&frasl;</ManageHouseSpan>
-					<ManageHouseCheckoutInput type="time" ref={newCheckOut} />
+					<ManageHouseCheckoutInput type="time" ref={newCheckOut} defaultValue={house.checkOut} />
 					<ManageHouseEditTitle>시설 및 서비스</ManageHouseEditTitle>
 					<CheckBoxContainer>
-						{/* TODO: 체크박스 추후 수정 */}
 						{houseServiceCategory.map((service, i) => (
 							<CheckBox key={service.value} element={service} index={i} isChecked={!!checkedList[i]} setCheckedList={onChangeCheckedList} />
 						))}
 					</CheckBoxContainer>
 					{/* TODO: 상세설명 글자수 제한은 있는지? */}
-					<ManageHouseEditTitle>상세설명</ManageHouseEditTitle> <ManageHouseText rows={8} ref={newDetail} />
+					<ManageHouseEditTitle>상세설명</ManageHouseEditTitle> <ManageHouseText rows={8} ref={newDetail} defaultValue={house.accomDetails} />
 				</ManageHouseContainer>
 			</ManageHouseWrapper>
 			<HouseTabContainer>
@@ -215,6 +217,7 @@ const ManageHouseInput = styled.input`
 	background-color: transparent;
 	resize: none;
 	height: 2rem;
+	padding-left: 0.5rem;
 
 	@media (max-width: 300px) {
 		height: 1.3rem;

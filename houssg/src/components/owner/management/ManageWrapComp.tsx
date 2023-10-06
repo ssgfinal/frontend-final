@@ -44,6 +44,7 @@ const HouseInfoWrapper = styled.div`
 const HouseRegiStater = styled.div`
 	position: absolute;
 	width: 20%;
+	min-width: 5rem;
 	background-color: ${color.backColor};
 	border: 2px solid ${color.color1};
 	border-radius: 10px;
