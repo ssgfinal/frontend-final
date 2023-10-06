@@ -7,9 +7,7 @@ import { MyHouseData } from '../../../types';
 const ManageWrapComp: React.FC<{ house: MyHouseData }> = ({ house }) => {
 	const [isEditMode, setIsEditMode] = useState(false);
 	const { approvalRequest, deletionRequest } = house;
-	// 승인 요청중 거절 , 요청중
 	const approveState = ['등록', '요청중', '거절'];
-
 	const regiState = deletionRequest === 1 ? '삭제요청중' : approveState[approvalRequest] || '알 수 없음';
 
 	return (
@@ -38,7 +36,6 @@ const HouseInfoWrapper = styled.div`
 	border: 2px solid ${color.color1};
 	padding: 0.5rem;
 	border-radius: 15px;
-	z-index: 3;
 	@media screen and(max-width:800px) {
 		border-radius: 10px;
 	}
