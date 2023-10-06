@@ -8,6 +8,7 @@ import { accomodation } from '../../assets/icons';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
+import { color } from '../../assets/styles';
 
 // TODO: 임시 데이터, Map 돌린 후는 삭제
 const house = [
@@ -113,7 +114,7 @@ const HomeSlider = () => {
 	// }, []);
 
 	return (
-		<HomeSliderContainer>
+		<HomeSliderWrapper>
 			<Swiper
 				slidesPerView={1}
 				slidesPerGroup={1}
@@ -135,64 +136,49 @@ const HomeSlider = () => {
 				modules={[Navigation]}
 				className="homeSwiper"
 			>
-				<div className="swiper-slide">
-					{house.map((item, index) => (
-						<SwiperSlide key={index}>
-							<BriefHouse house={item} />
-						</SwiperSlide>
-					))}
-				</div>
+				{house.map((item, index) => (
+					<SwiperSlide key={index}>
+						<BriefHouse house={item} />
+					</SwiperSlide>
+				))}
 			</Swiper>
-		</HomeSliderContainer>
+		</HomeSliderWrapper>
 	);
 };
 
 export default HomeSlider;
 
 // TODO: 해당 숙소 상세페이지로 이동할 때, 한 번 더 확인
-const HomeSliderContainer = styled.div`
-	cursor: pointer;
-	display: flex;
-	justify-content: center;
-	align-items: center;
+const HomeSliderWrapper = styled.div`
+	width: 100%;
+
+	.homeSwiper {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
 
 	.swiper-wrapper {
 		margin: 0.5rem;
 	}
 
-	@media (max-width: 380px) and (min-width: 540px) {
-		.homeSwiper {
-			width: 70vw;
-			display: flex;
-			justify-content: center;
-			align-items: center;
-		}
+	.swiper-button-disabled {
+		display: none;
 	}
 
-	@media (max-width: 540px) and (min-width: 768px) {
-		.homeSwiper {
-			width: 70vw;
-			display: flex;
-			justify-content: center;
-			align-items: center;
-		}
+	.swiper-button-prev {
+		width: 20px;
+		cursor: pointer;
+		color: ${color.color1};
+		top: var(--swiper-navigation-sides-offset, 38%);
+		left: var(--swiper-navigation-sides-offset, 5px);
 	}
 
-	@media (max-width: 768px) and (min-width: 1024px) {
-		.homeSwiper {
-			width: 70vw;
-			display: flex;
-			justify-content: center;
-			align-items: center;
-		}
-	}
-
-	@media (min-width: 1024px) {
-		.homeSwiper {
-			width: 87vw;
-			display: flex;
-			justify-content: center;
-			align-items: center;
-		}
+	.swiper-button-next {
+		width: 20px;
+		cursor: pointer;
+		color: ${color.color1};
+		top: var(--swiper-navigation-sides-offset, 38%);
+		right: var(--swiper-navigation-sides-offset, 5px);
 	}
 `;

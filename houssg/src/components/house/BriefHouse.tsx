@@ -19,28 +19,30 @@ const BriefHouse: React.FC<House> = ({ house }) => {
 	const navigate = useNavigate();
 
 	return (
-		<BriefHouseWrapper
-			onClick={() => {
-				navigate(`/user/house/${house.houseId}`);
-			}}
-		>
-			<Img src={house.image} className="imagebox" />
-			<HouseContainer>
-				<HouseDetailContainer>
-					<div>
-						<span>
-							{house.location}&nbsp;
-							{house.name}&nbsp;
-						</span>
-					</div>
-					<RateBox>
-						<Rating rate={house.rating} readonly />
-					</RateBox>
-				</HouseDetailContainer>
+		<BriefHouseWrapper>
+			<HoverContainer
+				onClick={() => {
+					navigate(`/user/house/${house.houseId}`);
+				}}
+			>
+				<HouseImg src={house.image} />
+				<HoverBox></HoverBox>
+			</HoverContainer>
+
+			<HouseDetailContainer>
+				<div>
+					<span>
+						{house.location}&nbsp;
+						{house.name}&nbsp;
+					</span>
+				</div>
+				<RateBox>
+					<Rating rate={house.rating} readonly />
+				</RateBox>
 				<PriceBox>
 					<div>{house.price.toLocaleString()}원</div>
 				</PriceBox>
-			</HouseContainer>
+			</HouseDetailContainer>
 		</BriefHouseWrapper>
 	);
 };
@@ -48,36 +50,91 @@ const BriefHouse: React.FC<House> = ({ house }) => {
 export default BriefHouse;
 
 const BriefHouseWrapper = styled.div`
-	cursor: pointer;
+	display: flex;
+	flex-direction: column;
 	margin: 1rem;
-	padding: 1rem;
-	align-items: center;
+	padding: 0.5rem;
+	text-align: left;
+
+	@media (max-width: 430px) {
+		font-size: 0.8rem;
+	}
 `;
 
 const HouseDetailContainer = styled.div`
-	text-align: left;
-`;
+	margin: 0 1rem 1rem 1rem;
+	padding: 0 1rem 1rem 1rem;
 
-const HouseContainer = styled.div`
-	align-items: center;
-`;
-
-const Img = styled.img`
-	margin: 0.5;
-	width: 100%;
-
-	&:hover {
-		width: 95%;
-		transition: width 0.2s;
+	@media (max-width: 380px) {
+		font-size: 0.5rem;
 	}
+
+	@media (max-width: 540px) {
+		font-size: 0.8rem;
+	}
+`;
+
+// TODO: 숙소 이미지 hover시 지나가는 효과
+const HoverContainer = styled.div`
+	margin: 1rem;
+	padding: 1rem;
+	position: relative;
+	overflow: hidden;
+
+	&:hover div {
+		background: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(255, 255, 255, 0.7));
+		transition: 1s;
+		left: calc(50% + 380px);
+		opacity: 1;
+	}
+`;
+
+const HouseImg = styled.img`
+	cursor: pointer;
+	width: 100%;
+	border-radius: 0.8rem;
+`;
+
+// TODO: 숙소 이미지 hover시 지나가는 효과
+const HoverBox = styled.div`
+	position: absolute;
+	background: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0));
+	width: 50px;
+	height: 600px;
+	transform: rotateZ(30deg);
+	top: -100px;
+	left: -130px;
+	transition: 0.1s;
+	opacity: 0.5;
 `;
 
 const RateBox = styled.div`
 	width: 70%;
 	text-align: left;
+	font-size: 1rem;
+	line-height: 1rem;
+	margin-bottom: 0.3rem;
+
+	@media (max-width: 320px) {
+		font-size: 0.5rem;
+		ul {
+			margin-right: -15vw;
+			font-size: 0.7rem;
+		}
+	}
 `;
 
 const PriceBox = styled.div`
+	align-self: flex-end;
 	text-align: right;
+	font-weight: bold;
 	font-size: 1rem;
+
+	@media (max-width: 380px) {
+		font-size: 0.5rem;
+	}
+
+	@media (max-width: 540px) {
+		font-size: 0.8rem;
+	}
 `;
