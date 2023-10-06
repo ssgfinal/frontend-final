@@ -1,5 +1,5 @@
 import { styled } from 'styled-components';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { TabMenu } from '../common/TabMenu';
 import MyCoupons from './MyCoupons';
 import MyInformation from './MyInformation';
@@ -10,7 +10,6 @@ import { CouponIcon, MyPointIcon, ProfileCircle, accomodation } from '../../asse
 
 interface MyPageMain {
 	mypagemain: {
-		userId: string;
 		userNickName: string;
 		userPoint: number;
 	};
@@ -18,7 +17,6 @@ interface MyPageMain {
 
 const informations = [
 	{
-		userId: 'abc',
 		userNickName: '홍길동',
 		userPhoneNumber: '01012345678',
 		userPassword: 1234,
@@ -32,6 +30,7 @@ const coupons = [
 		couponName: '9월 이벤트',
 		isUsed: 0,
 		couponDiscount: 10000,
+		expitationDate: '2023-09-30 18:00:00',
 	},
 	{
 		userId: 'abc',
@@ -39,6 +38,7 @@ const coupons = [
 		couponName: '9월 빅세일',
 		isUsed: 0,
 		couponDiscount: 50000,
+		expitationDate: '2023-09-30 18:00:00',
 	},
 ];
 
@@ -49,7 +49,7 @@ const reviews = [
 		accomName: '가나다 Hotel',
 		userId: 'abc',
 		roomType: '패밀리룸',
-		writeDate: '2023-09-11',
+		writeDate: '2023-09-11 18:00:00',
 		reviewImage: accomodation,
 		rating: 4.5,
 		content: '야호 후기 좀 보여줭~',
@@ -62,12 +62,12 @@ const reviews = [
 		accomName: '라마바 Hotel',
 		userId: 'abc',
 		roomType: '더블룸',
-		writeDate: '2023-09-12',
+		writeDate: '2023-09-12 18:00:00',
 		reviewImage: accomodation,
 		rating: 3.5,
 		content:
 			'보통이네용 후기를 작성해야 하는데 작성하기 싫어용 근데 써야해요 어쩌죠? 쓸 내용이 없습니다. 이제 없음 진짜 없음 어떡하지ㅠㅠㅠㅠ하지만 써야하겠죠 가나다라마바사아자차카타파하',
-		commentDate: '2023-09-13',
+		commentDate: '2023-09-13 18:00:00',
 		commentContent: '감사용~~~',
 	},
 	{
@@ -76,12 +76,12 @@ const reviews = [
 		accomName: '사아자 Hotel',
 		userId: 'abc',
 		roomType: '스위트룸',
-		writeDate: '2023-09-13',
+		writeDate: '2023-09-13 18:00:00',
 		reviewImage: null,
 		rating: 4.0,
 		content:
 			'Lorem ipsum dolor sit amet consectetur adipisicing elit. Itaque, fugiat adipisci deserunt porro quia totam provident animi nemo labore temporibus voluptatem mollitia nostrum assumenda enim similique in doloribus eos consequatur.',
-		commentDate: '2023-09-14',
+		commentDate: '2023-09-14 18:00:00',
 		commentContent: '감사해용~~~',
 	},
 ];
@@ -107,19 +107,16 @@ const favorites: { houseId: number; accomName: string; houseAddress: string; use
 
 const MyPage: React.FC<MyPageMain> = ({ mypagemain }) => {
 	const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+	const newCoupon = useRef<HTMLInputElement | null>(null);
 
 	const toggleDropdown = () => {
 		setIsDropdownOpen(!isDropdownOpen);
 	};
 
-	const onCouponNumber = (e: React.ChangeEvent<HTMLInputElement>) => {
-		// TODO: 쿠폰번호 입력..렌더링 생각하기ㅠ, couponNumber >> useRef로 바꾸기?
-		const couponNumber = e.target.value;
-		console.log(couponNumber); // TODO: 나중에 지우기
-	};
-
 	const onRegistration = () => {
-		// TODO: 입력한 쿠폰번호 등록하기
+		// TODO: 입력한 쿠폰 등록
+		const couponValue = newCoupon.current?.value;
+		console.log(couponValue);
 	};
 
 	const tabObj = [
@@ -141,7 +138,7 @@ const MyPage: React.FC<MyPageMain> = ({ mypagemain }) => {
 					</MyNickName>
 					<MyPoint>
 						<IconImg src={MyPointIcon} />
-						<span>{mypagemain.userPoint}P</span>
+						<span>{mypagemain.userPoint.toLocaleString()}P</span>
 					</MyPoint>
 					<MyCoupon>
 						<IconImg src={CouponIcon} />
@@ -152,7 +149,7 @@ const MyPage: React.FC<MyPageMain> = ({ mypagemain }) => {
 					{isDropdownOpen && (
 						<DropdownContent>
 							<CouponRegistration>
-								<input type="text" onChange={onCouponNumber} placeholder="쿠폰번호 입력" />
+								<input type="text" ref={newCoupon} placeholder="쿠폰번호 입력" />
 								<button onClick={onRegistration}>등록</button>
 							</CouponRegistration>
 							<DropCouponList>
@@ -201,11 +198,6 @@ const MyPageWrapper = styled.div`
 	@media (max-width: 430px) {
 		grid-template-columns: 0.1fr 1fr 0.1fr;
 		font-size: 0.8rem;
-	}
-
-	@media (max-width: 320px) {
-		grid-template-columns: 0.1fr 1fr 0.1fr;
-		font-size: 0.5rem;
 	}
 `;
 
@@ -262,11 +254,6 @@ const IconImg = styled.img`
 		width: 0.8rem;
 		margin-right: 1vw;
 	}
-
-	@media (max-width: 320px) {
-		width: 0.7rem;
-		margin-right: 1vw;
-	}
 `;
 
 const MyPoint = styled.div`
@@ -318,10 +305,6 @@ const CouponRegistration = styled.div`
 		grid-template-columns: 5fr 1fr;
 	}
 
-	@media (max-width: 430px) {
-		grid-template-columns: 5fr 1fr;
-	}
-
 	@media (max-width: 320px) {
 		grid-template-columns: 4fr 2fr;
 	}
@@ -338,10 +321,6 @@ const CouponRegistration = styled.div`
 
 		@media (max-width: 430px) {
 			font-size: 0.5rem;
-		}
-
-		@media (max-width: 320px) {
-			font-size: 0.05rem;
 		}
 	}
 

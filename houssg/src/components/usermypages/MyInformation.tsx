@@ -6,7 +6,6 @@ import { EditIcon } from '../../assets/icons';
 
 interface MyInformations {
 	informations: {
-		userId: string;
 		userNickName: string;
 		userPhoneNumber: string;
 		userPassword: number;
@@ -25,54 +24,40 @@ const MyInformation: React.FC<MyInformations> = ({ informations }) => {
 		<MyInformationWrapper>
 			{informations.map((informationsItem, index) => (
 				<MyInformationContainer key={index}>
-					<TitleContainer>아이디</TitleContainer>
-					<InputContainer>
-						<div>{informationsItem.userId}</div>
-					</InputContainer>
 					<TitleContainer>닉네임</TitleContainer>
 					<InputContainer>
 						<div>{informationsItem.userNickName}</div>
 					</InputContainer>
-					<EditIconContainer>
-						<img
-							src={EditIcon}
-							onClick={() => {
-								modalOpen('editNickName', null);
-							}}
-						/>
-					</EditIconContainer>
+					<EditIconContainer
+						src={EditIcon}
+						onClick={() => {
+							modalOpen('editNickName', null);
+						}}
+					></EditIconContainer>
 					<TitleContainer>전화번호</TitleContainer>
 					<InputContainer>
 						<div>{informationsItem.userPhoneNumber}</div>
-						{/* <input type="tel" value="010-1111-2222" readOnly required /> */}
 					</InputContainer>
-					<EditIconContainer>
-						<img
-							src={EditIcon}
-							onClick={() => {
-								modalOpen('editPhoneNumber', null);
-							}}
-						/>
-					</EditIconContainer>
+					<EditIconContainer
+						src={EditIcon}
+						onClick={() => {
+							modalOpen('editPhoneNumber', null);
+						}}
+					></EditIconContainer>
 					<TitleContainer>비밀번호</TitleContainer>
 					<div></div>
-					<EditIconContainer>
-						<img
-							src={EditIcon}
-							onClick={() => {
-								modalOpen('editPassword', null);
-							}}
-						/>
-					</EditIconContainer>
-
-					<Withdrawal>
-						<button
-							onClick={() => {
-								modalOpen('withdrawal', null);
-							}}
-						>
-							회원탈퇴 &gt;
-						</button>
+					<EditIconContainer
+						src={EditIcon}
+						onClick={() => {
+							modalOpen('editPassword', null);
+						}}
+					></EditIconContainer>
+					<Withdrawal
+						onClick={() => {
+							modalOpen('withdrawal', null);
+						}}
+					>
+						회원탈퇴 &gt;
 					</Withdrawal>
 				</MyInformationContainer>
 			))}
@@ -88,33 +73,16 @@ const MyInformationWrapper = styled.div`
 
 const MyInformationContainer = styled.div`
 	display: grid;
-	grid-template-columns: 1fr 2fr 1fr;
-
-	@media (min-width: 900px) {
-		margin: 1vw 5vw 1vw 5vw;
-	}
-
-	@media (max-width: 900px) {
-		margin: 3vw 12vw 3vw 12vw;
-	}
-
-	@media (max-width: 650px) {
-		margin: 3vw 5vw 3vw 5vw;
-	}
-
-	@media (max-width: 530px) {
-		margin: 3vw 5vw 3vw 5vw;
-	}
+	grid-template-columns: 1fr 1fr 1fr;
+	margin: 3vw 7vw;
 `;
 
 const TitleContainer = styled.div`
-	grid-column-start: 1;
-	grid-column-end: 2;
-	margin-bottom: 3rem;
 	color: ${color.color1};
-	text-align: left;
+	justify-self: left;
+	align-self: center;
 	font-weight: bold;
-
+	margin-bottom: 3rem;
 	@media (max-width: 900px) {
 		font-size: 0.9rem;
 	}
@@ -129,10 +97,10 @@ const TitleContainer = styled.div`
 `;
 
 const InputContainer = styled.div`
-	grid-column-start: 2;
-	grid-column-end: 3;
 	color: ${color.darkGrayColor};
-	text-align: left;
+	justify-self: left;
+	align-self: center;
+	margin-bottom: 3rem;
 	@media (max-width: 900px) {
 		font-size: 0.9rem;
 	}
@@ -146,52 +114,41 @@ const InputContainer = styled.div`
 	}
 `;
 
-const EditIconContainer = styled.div`
-	text-align: right;
-	img {
-		cursor: pointer;
-		width: 1.3rem;
-		@media (max-width: 900px) {
-			width: 1.2rem;
-		}
+const EditIconContainer = styled.img`
+	cursor: pointer;
+	justify-self: right;
+	width: 1.3rem;
+	margin-bottom: 3rem;
+	@media (max-width: 900px) {
+		width: 1.2rem;
+	}
 
-		@media (max-width: 650px) {
-			width: 1.1rem;
-		}
+	@media (max-width: 650px) {
+		width: 1.1rem;
+	}
 
-		@media (max-width: 530px) {
-			width: 1rem;
-		}
+	@media (max-width: 530px) {
+		width: 1rem;
 	}
 `;
 
-const Withdrawal = styled.div`
-	grid-column-start: 1;
-	grid-column-end: 4;
-	padding-top: 5vw;
+const Withdrawal = styled.button`
 	justify-self: left;
+	cursor: pointer;
+	padding-left: 0px;
+	padding-right: 0px;
+	outline: none;
+	border: none;
+	background-color: transparent;
+	resize: none;
+	color: ${color.darkGrayColor};
+	font-size: 0.8rem;
 
-	button {
-		cursor: pointer;
-		padding-left: 0px;
-		padding-right: 0px;
-		outline: none;
-		border: none;
-		background-color: transparent;
-		resize: none;
-		color: ${color.darkGrayColor};
-		font-size: 0.8rem;
-		text-align: left;
-		@media (max-width: 900px) {
-			font-size: 0.7rem;
-		}
+	@media (max-width: 900px) {
+		font-size: 0.7rem;
+	}
 
-		@media (max-width: 650px) {
-			font-size: 0.5rem;
-		}
-
-		@media (max-width: 530px) {
-			font-size: 0.3rem;
-		}
+	@media (max-width: 650px) {
+		font-size: 0.5rem;
 	}
 `;
