@@ -43,15 +43,15 @@ const Header = () => {
 			<RightIconContainer>
 				<div style={{ cursor: 'pointer' }} onClick={onChangeUserType}>
 					{isUser ? (
-						<HostModeChange>
+						<ModeChange>
 							<img src={ceo}></img>
 							<p>To Host</p>
-						</HostModeChange>
+						</ModeChange>
 					) : (
-						<GuestModeChange>
+						<ModeChange>
 							<img src={guest}></img>
 							<p>To Guest</p>
-						</GuestModeChange>
+						</ModeChange>
 					)}
 				</div>
 				{!isLogin ? <LoginImg onClick={loginModalOpen} src={login} /> : <LoginImg onClick={logoutFunc} src={logout} />}
@@ -86,7 +86,7 @@ const RightIconContainer = styled.div`
 	align-items: flex-end;
 `;
 
-const HostModeChange = styled.div`
+const ModeChange = styled.div`
 	margin: 1rem 2rem 0.4rem 0;
 	padding: 0.6rem;
 	border-radius: 1.5rem;
@@ -112,39 +112,6 @@ const HostModeChange = styled.div`
 		margin: 1rem 1rem 0.4rem 0;
 		font-size: 0.8rem;
 		font-weight: bold;
-		p {
-			display: none;
-		}
-	}
-`;
-
-const GuestModeChange = styled.div`
-	margin: 1rem 2rem 0.4rem 0;
-	padding: 0.6rem;
-	border: 2px solid ${color.color1};
-	border-radius: 1.5rem;
-	color: ${color.color1};
-
-	&:hover {
-		transition: all ease 2s;
-		transform: rotateY(1turn);
-	}
-
-	img {
-		width: 1.5rem;
-	}
-
-	@media (min-width: 401px) {
-		img {
-			display: none;
-		}
-	}
-
-	@media (max-width: 400px) {
-		margin: 1rem 1rem 0.4rem 0;
-		font-size: 0.8rem;
-		font-weight: bold;
-
 		p {
 			display: none;
 		}
