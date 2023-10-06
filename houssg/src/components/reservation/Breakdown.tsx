@@ -1,10 +1,14 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import styled from 'styled-components';
 
 import { color, ReservationCommonBox, UserReservationTitle, UserReservationLeft } from '../../assets/styles';
 
-export const Breakdown = () => {
+interface BreakdownProps {
+	payment: number;
+	setPayment: React.Dispatch<React.SetStateAction<number>>;
+}
+export const Breakdown: React.FC<BreakdownProps> = ({ payment, setPayment }) => {
 	const coupons = [
 		{
 			couponId: 1,
@@ -15,7 +19,7 @@ export const Breakdown = () => {
 		{
 			couponId: 2,
 			couponName: '대체공휴일 맞이',
-			expirationDate: '2023-09-20',
+			expirationDate: '2023-10-20',
 			discountPrice: 1200,
 		},
 	];
@@ -39,7 +43,12 @@ export const Breakdown = () => {
 	const [point, setPoint] = useState(0);
 
 	// 결제 금액
-	const [payment, setPayment] = useState(reservation.night * room.price);
+	// const [payment, setPayment] = useState(reservation.night * room.price);
+	useEffect(() => {
+		setPayment(reservation.night * room.price);
+	}, [reservation.night, room.price, setPayment]);
+
+	console.log('Breakdown 총액 > ', payment);
 
 	const [selectedCoupon, setSelectedCoupon] = useState({
 		couponId: 0,
