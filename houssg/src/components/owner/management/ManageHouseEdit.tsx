@@ -12,8 +12,8 @@ const ManageHouseEdit: React.FC<MyHouseDataHandleComp> = ({ house, setIsEditMode
 	const newCheckIn = useRef<HTMLInputElement | null>(null);
 	const newCheckOut = useRef<HTMLInputElement | null>(null);
 	const newDetail = useRef<HTMLTextAreaElement | null>(null);
-	const newImgRef = useRef<HTMLImageElement | null>(null);
 
+	const [imgFile, setImgFile] = useState(house.img);
 	const windowWidth = useCalWindowWidth();
 	//TODO: 수정 필요할지도
 	console.log(windowWidth);
@@ -41,7 +41,9 @@ const ManageHouseEdit: React.FC<MyHouseDataHandleComp> = ({ house, setIsEditMode
 			<ManageReadTitle>
 				[{house.accomCategory}] {house.accomName}
 			</ManageReadTitle>
-			{/* <ImageUploader></ImageUploader> */}
+			<ImageUploader width="400px" height="300px" setImage={setImgFile}>
+				수정하기
+			</ImageUploader>
 			{/* <span
 				onClick={() => {
 					console.log(newImgRef.current?.src);
@@ -49,7 +51,7 @@ const ManageHouseEdit: React.FC<MyHouseDataHandleComp> = ({ house, setIsEditMode
 			>
 				콘솔용
 			</span> */}
-			<HouseImg ref={newImgRef} src={house.img} />
+			<HouseImg src={imgFile} />
 			<ManageHouseWrapper>
 				<ManageHouseContainer>
 					<ManageHouseEditTitle>전화번호</ManageHouseEditTitle>

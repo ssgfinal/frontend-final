@@ -1,30 +1,20 @@
 import { useEffect, useState } from 'react';
+import { useDebounce } from '.';
 
 export const useCalWindowWidth = () => {
-	const [windowSize, setWindowSize] = useState(window.innerWidth);
-	const [throttle, setThrottle] = useState(false);
-
+	const [windowSize, setWindowSize] = useState(window.innerWidth + '');
+	const debouncedValue = useDebounce(window.innerWidth + '', 300);
 	useEffect(() => {
-		let handler: number;
-
 		const handleResize = () => {
-			if (throttle) return;
-
-			setThrottle(true);
-
-			handler = setTimeout(() => {
-				setWindowSize(window.innerWidth);
-				setThrottle(false);
-			}, 300);
+			setWindowSize(debouncedValue);
 		};
 
 		window.addEventListener('resize', handleResize);
 
 		return () => {
 			window.removeEventListener('resize', handleResize);
-			clearTimeout(handler);
 		};
-	}, []);
+	}, [debouncedValue]);
 
 	return windowSize;
 };
