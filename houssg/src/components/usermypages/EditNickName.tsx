@@ -3,6 +3,12 @@ import { useRef } from 'react';
 import { useAppDispatch } from '../../hooks';
 import { closeModal } from '../../store/redux/modalSlice';
 import { color } from '../../assets/styles';
+import { regSignUp } from '../../assets/constant';
+// import { UserMyPageType } from '../../types';
+
+// interface MyPageMainProps {
+// 	mypagemain: UserMyPageType;
+// }
 
 const EditNickName = () => {
 	const dispatch = useAppDispatch();
@@ -10,19 +16,28 @@ const EditNickName = () => {
 	const newNickName = useRef<HTMLInputElement | null>(null);
 
 	const editNickName = () => {
+		const isNickName = newNickName.current?.value;
+		// console.log('지금 닉네임' + mypagemain.userNickName);
+		const testNickName = regSignUp.regNick.reg.test(`${isNickName}`);
+		console.log('새로운 닉네임은 변경' + testNickName);
 		// TODO: 서버로 보내기 추후 수정
+
 		if (newNickName.current) {
-			// console.log(newNickName.current.value);
+			if (testNickName) {
+				// console.log(newNickName.current.value);
+				// TODO: api 요청이 성공했을 떄
+				// newNickName.current!.value = '';
+				dispatch(closeModal());
+			} else {
+				alert('올바른 닉네임이 아닙니다.');
+			}
 		}
-		// TODO: api 요청이 성공했을 떄
-		// newNickName.current!.value = '';
-		dispatch(closeModal());
 	};
 
 	return (
 		<EditNickNameWrapper>
-			<NewNickNameBox type="text" ref={newNickName} placeholder="새로운 닉네임 입력" />
-
+			<NewNickNameBox type="text" ref={newNickName} maxLength={8} placeholder="새로운 닉네임 입력" />
+			<NickNameInstruction>{regSignUp.regNick.tooltip}</NickNameInstruction>
 			<EditButton onClick={editNickName}>수정완료</EditButton>
 		</EditNickNameWrapper>
 	);
@@ -32,7 +47,7 @@ export default EditNickName;
 
 const EditNickNameWrapper = styled.div`
 	display: grid;
-	grid-template-rows: 1.2fr 2fr;
+	grid-template-rows: 1.2fr 0.5fr 2fr;
 
 	@media (max-width: 500px) {
 		margin-top: 8vw;
@@ -48,6 +63,11 @@ const NewNickNameBox = styled.input`
 	padding: 0.5rem;
 	font-size: 1.1rem;
 	text-align: center;
+`;
+
+const NickNameInstruction = styled.div`
+	color: ${color.darkGrayColor};
+	font-size: 0.5rem;
 `;
 
 const EditButton = styled.button`

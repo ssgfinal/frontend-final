@@ -1,46 +1,13 @@
 import { styled } from 'styled-components';
 
 import MyPage from '../../components/usermypages/MyPage';
-import { useEffect, useState } from 'react';
-
-const mypagemain = [
-	{
-		userId: 'abc',
-		userNickName: '홍길동',
-		userPoint: 1000,
-	},
-];
+import { useAppSelector } from '../../hooks';
+import { isLoginState } from '../../store/redux/authSlice';
+import { color } from '../../assets/styles';
 
 const UserMypage = () => {
-	const [mypage, setMypage] = useState(mypagemain);
-
-	const Server = async () => {
-		try {
-			const response = mypage;
-			//await fetch('http://localhost:3200/');
-			const data = response;
-			// await response.json();
-			setMypage(data);
-		} catch (error) {
-			// console.error('데이터를 불러오는 데 실패했습니다.', error);
-		}
-	};
-
-	useEffect(() => {
-		Server();
-		// TODO: 서버 연결 후 수정
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
-
-	return (
-		<MyPageWrapper>
-			{mypagemain.map((mypageItem, index) => (
-				<div key={index}>
-					<MyPage mypagemain={mypageItem} />
-				</div>
-			))}
-		</MyPageWrapper>
-	);
+	const isLogin = useAppSelector(isLoginState);
+	return <MyPageWrapper>{isLogin ? <MyPage /> : <PleaseBox>⚠&nbsp;로그인이 필요합니다.&nbsp;⚠</PleaseBox>}</MyPageWrapper>;
 };
 
 export default UserMypage;
@@ -63,4 +30,11 @@ const MyPageWrapper = styled.div`
 	@media (max-width: 700px) {
 		width: 100vw;
 	}
+`;
+
+const PleaseBox = styled.div`
+	margin: 10rem;
+	color: ${color.color1};
+	font-size: 2rem;
+	font-weight: bold;
 `;

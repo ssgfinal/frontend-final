@@ -1,3 +1,8 @@
+const userUrl = {
+	// TODO: mypage 수정되면 수정
+	mypage: 'mypage/all',
+};
+
 const authUrl = {
 	// auth
 	login: 'user/log-in',
@@ -21,4 +26,4 @@ const ownerUrl = {
 	houseRegister: 'accom/add',
 	myHouseList: 'accom/get',
 };
-export { authUrl, ownerUrl };
+export { authUrl, ownerUrl, userUrl };

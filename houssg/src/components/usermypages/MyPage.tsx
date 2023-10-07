@@ -1,5 +1,5 @@
 import { styled } from 'styled-components';
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { TabMenu } from '../common/TabMenu';
 import MyCoupons from './MyCoupons';
 import MyInformation from './MyInformation';
@@ -8,18 +8,15 @@ import MyFavorite from './MyFavorite';
 import { color } from '../../assets/styles';
 import { CouponIcon, MyPointIcon, ProfileCircle, accomodation } from '../../assets/icons';
 
-interface MyPageMain {
-	mypagemain: {
-		userNickName: string;
-		userPoint: number;
-	};
-}
+// import api from '../../api/api';
+// import { userUrl } from '../../assets/constant/urlConst';
 
-const informations = [
+const userNickName = sessionStorage.getItem('nickname');
+
+const mypagemain: { userPoint: number; userPassword: string }[] = [
 	{
-		userNickName: '홍길동',
-		userPhoneNumber: '01012345678',
-		userPassword: 1234,
+		userPoint: 1000,
+		userPassword: '1q2w3e4r!',
 	},
 ];
 
@@ -105,9 +102,29 @@ const favorites: { houseId: number; accomName: string; houseAddress: string; use
 	},
 ];
 
-const MyPage: React.FC<MyPageMain> = ({ mypagemain }) => {
+const MyPage = () => {
+	// const [mypagemain, setMypagemain] = useState(null);
+	const [mypage, setMypage] = useState(mypagemain);
 	const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 	const newCoupon = useRef<HTMLInputElement | null>(null);
+
+	const myPageData = async () => {
+		try {
+			// const response = await api.post(userUrl.mypage);
+			const resp = mypage;
+			const data = [...resp];
+			// setMypage(response.data);
+			setMypage(data);
+		} catch (error) {
+			console.error(error);
+		}
+	};
+
+	useEffect(() => {
+		myPageData();
+		// TODO: 서버 연결 후 수정
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
 
 	const toggleDropdown = () => {
 		setIsDropdownOpen(!isDropdownOpen);
@@ -134,11 +151,11 @@ const MyPage: React.FC<MyPageMain> = ({ mypagemain }) => {
 				<MyPageMainBox>
 					<MyNickName>
 						<IconImg src={ProfileCircle} />
-						<span>{mypagemain.userNickName}님</span>
+						<span>{userNickName}님</span>
 					</MyNickName>
 					<MyPoint>
 						<IconImg src={MyPointIcon} />
-						<span>{mypagemain.userPoint.toLocaleString()}P</span>
+						<span>{mypagemain[0].userPoint.toLocaleString()}P</span>
 					</MyPoint>
 					<MyCoupon>
 						<IconImg src={CouponIcon} />
@@ -172,7 +189,7 @@ const MyPage: React.FC<MyPageMain> = ({ mypagemain }) => {
 			</MyPageTabContainer>
 			<MyPageContentsContainer>
 				{clickTab === 'MyInformation' ? (
-					<MyInformation informations={informations} />
+					<MyInformation mypagemain={mypagemain} />
 				) : clickTab === 'MyReview' ? (
 					<MyReview reviews={reviews} />
 				) : (

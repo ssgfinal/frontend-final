@@ -5,6 +5,7 @@ import { ManageNavProps, RoomComp } from './manage';
 import { StyledActiveProps, SetStateToggle, UserType, UserTypeObject, RoomSlideProps, TimerProps, ProcessType } from './common';
 import { RegiStepProps, StepMoverType } from './regi';
 import { ReservationDetailType, ReservationsType } from './reservation';
+import { UserMyPageType } from './mypage';
 import { AuthLoginFunc, AuthSignUpFunc } from './rtk';
 // auth Regi manage
 export type {
@@ -24,6 +25,9 @@ export type {
 export type { StyledActiveProps, SetStateToggle, UserType, UserTypeObject, RoomSlideProps, TimerProps, ProcessType };
 //reservation
 export type { ReservationDetailType, ReservationsType };
+
+//mypage
+export type { UserMyPageType };
 
 //redux-toolkit
 export type { AuthLoginFunc, AuthSignUpFunc };

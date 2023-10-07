@@ -3,16 +3,17 @@ import { useAppDispatch } from '../../hooks';
 import { openModal } from '../../store/redux/modalSlice';
 import { color } from '../../assets/styles';
 import { EditIcon } from '../../assets/icons';
+import { UserMyPageType } from '../../types';
 
-interface MyInformations {
-	informations: {
-		userNickName: string;
-		userPhoneNumber: string;
-		userPassword: number;
-	}[];
+interface MyPageMainProps {
+	mypagemain: UserMyPageType[];
 }
 
-const MyInformation: React.FC<MyInformations> = ({ informations }) => {
+const userNickName = sessionStorage.getItem('nickname');
+const userPhone = sessionStorage.getItem('phone');
+
+const MyInformation: React.FC<MyPageMainProps> = ({ mypagemain }) => {
+	console.log(mypagemain[0].userPassword);
 	const dispatch = useAppDispatch();
 
 	const modalOpen = (component: string, message: string | null) => {
@@ -22,45 +23,43 @@ const MyInformation: React.FC<MyInformations> = ({ informations }) => {
 
 	return (
 		<MyInformationWrapper>
-			{informations.map((informationsItem, index) => (
-				<MyInformationContainer key={index}>
-					<TitleContainer>닉네임</TitleContainer>
-					<InputContainer>
-						<div>{informationsItem.userNickName}</div>
-					</InputContainer>
-					<EditIconContainer
-						src={EditIcon}
-						onClick={() => {
-							modalOpen('editNickName', null);
-						}}
-					></EditIconContainer>
-					<TitleContainer>전화번호</TitleContainer>
-					<InputContainer>
-						<div>{informationsItem.userPhoneNumber}</div>
-					</InputContainer>
-					<EditIconContainer
-						src={EditIcon}
-						onClick={() => {
-							modalOpen('editPhoneNumber', null);
-						}}
-					></EditIconContainer>
-					<TitleContainer>비밀번호</TitleContainer>
-					<div></div>
-					<EditIconContainer
-						src={EditIcon}
-						onClick={() => {
-							modalOpen('editPassword', null);
-						}}
-					></EditIconContainer>
-					<Withdrawal
-						onClick={() => {
-							modalOpen('withdrawal', null);
-						}}
-					>
-						회원탈퇴 &gt;
-					</Withdrawal>
-				</MyInformationContainer>
-			))}
+			<MyInformationContainer>
+				<TitleContainer>닉네임</TitleContainer>
+				<InputContainer>
+					<div>{userNickName}</div>
+				</InputContainer>
+				<EditIconContainer
+					src={EditIcon}
+					onClick={() => {
+						modalOpen('editNickName', null);
+					}}
+				></EditIconContainer>
+				<TitleContainer>전화번호</TitleContainer>
+				<InputContainer>
+					<div>{userPhone}</div>
+				</InputContainer>
+				<EditIconContainer
+					src={EditIcon}
+					onClick={() => {
+						modalOpen('editPhoneNumber', null);
+					}}
+				></EditIconContainer>
+				<TitleContainer>비밀번호</TitleContainer>
+				<div>{mypagemain[0].userPassword}</div>
+				<EditIconContainer
+					src={EditIcon}
+					onClick={() => {
+						modalOpen('editPassword', null);
+					}}
+				></EditIconContainer>
+				<Withdrawal
+					onClick={() => {
+						modalOpen('withdrawal', null);
+					}}
+				>
+					회원탈퇴 &gt;
+				</Withdrawal>
+			</MyInformationContainer>
 		</MyInformationWrapper>
 	);
 };
