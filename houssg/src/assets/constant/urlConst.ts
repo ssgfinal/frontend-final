@@ -1,6 +1,19 @@
 const userUrl = {
-	// TODO: mypage 수정되면 수정
+	// TODO: 백 mypage 관련 URL 나오면 수정 & 페이지별 구분?기능별구분?
+	// mypage
 	mypage: 'mypage/all',
+	updateNick: 'mypage/update-nick',
+	updatePhone: 'mypage/update-phone',
+	updateMyPw: 'mypage/update-pw',
+	myCoupon: 'coupon/enroll-usercoupon', // 유저가 쿠폰 등록?
+	withdrawal: 'user/withdrawal',
+	myReview: 'mypage/review', // 마이페이지 리뷰 목록?
+	myFavorite: 'mypage/favorite', // 마이페이지 찜 목록?
+	// reservation
+	addReview: 'review/add', // 유저가 등록하는 리뷰?
+	// favorite
+	addFavorite: 'favorite/add', // 유저가 찜 하기?
+	delFavorite: 'favorite', // 유저 찜 해제?
 };
 
 const authUrl = {

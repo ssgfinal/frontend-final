@@ -6,7 +6,15 @@ import { color } from '../../assets/styles';
 import { regSignUp } from '../../assets/constant';
 import { unvisible, visible } from '../../assets/icons';
 
-const EditPassword = () => {
+// TODO: 서버 > 새 비밀번호
+// import api from '../../api/api';
+// import { userUrl } from '../../assets/constant/urlConst';
+
+const EditPassword = (props: { userPassword: string }) => {
+	//TODO: 현재 비밀번호를 프론트에서 체크하는지?
+	const currentPassword: string = props.userPassword;
+	console.log(props.userPassword);
+
 	const dispatch = useAppDispatch();
 
 	const [isVisibleArray, setIsVisibleArray] = useState([false, false, false]);
@@ -43,6 +51,12 @@ const EditPassword = () => {
 	};
 
 	useEffect(() => {
+		if (password !== currentPassword) {
+			setIsValidPassword(false);
+			setErrorMessage('현재 비밀번호를 입력해 주세요.');
+			return;
+		}
+
 		if (newPassword === password && newPassword) {
 			setIsValidPassword(false);
 			setErrorMessage('비밀번호가 같습니다.');
@@ -71,7 +85,7 @@ const EditPassword = () => {
 				setErrorMessage('비밀번호가 일치하지 않습니다.');
 			}
 		}
-	}, [isValidPassword, newPassword, newPasswordCheck, password]);
+	}, [currentPassword, isValidPassword, newPassword, newPasswordCheck, password]);
 
 	const onEditPass = () => {
 		if (isValidPassword) {
@@ -118,7 +132,7 @@ const EditPassword = () => {
 			{errorMessage ? <ErrorMessage>{errorMessage}</ErrorMessage> : null}
 			<PasswordInstruction>{regSignUp.regPw.tooltip}</PasswordInstruction>
 
-			<EditPasswordButton onClick={onEditPass} disabled={!isValidPassword} style={cannotEdit}>
+			<EditPasswordButton type="button" onClick={onEditPass} disabled={!isValidPassword} style={cannotEdit}>
 				{isValidPassword ? '수정완료' : '수정불가'}
 			</EditPasswordButton>
 		</EditPasswordWrapper>

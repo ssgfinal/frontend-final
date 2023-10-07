@@ -21,6 +21,5 @@ export type { ManageNavProps, RoomComp, MyHouseData, MyHouseDataHandleComp };
 export type { RegiStepProps, StepMoverType };
 //redux-toolkit
 export type { AuthLoginFunc, AuthSignUpFunc };
-
-//mypage
+//mypage 충돌 해결
 export type { UserMyPageType };

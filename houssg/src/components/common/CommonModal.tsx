@@ -1,6 +1,6 @@
 import { Modal } from 'antd';
 
-import { closeModal, isModalOpen, modalComponent, modalSize } from '../../store/redux/modalSlice';
+import { closeModal, isModalOpen, modalComponent, modalProps, modalSize } from '../../store/redux/modalSlice';
 import { AuthWrap } from '../auth';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { CommonInstruction } from '.';
@@ -18,6 +18,7 @@ const CommonModal = () => {
 	const modalState = useAppSelector(isModalOpen);
 	const modalComp = useAppSelector(modalComponent);
 	const size = useAppSelector(modalSize);
+	const prop = useAppSelector(modalProps);
 
 	const dispatch = useAppDispatch();
 	const onCloseModal = () => {
@@ -38,7 +39,8 @@ const CommonModal = () => {
 			{modalComp === 'auth' && <AuthWrap />}
 			{modalComp === 'editNickName' && <EditNickName />}
 			{modalComp === 'editPhoneNumber' && <EditPhoneNumber />}
-			{modalComp === 'editPassword' && <EditPassword />}
+			{/* TODO: 타입 오류 */}
+			{modalComp === 'editPassword' && <EditPassword userPassword={prop} />}
 			{modalComp === 'withdrawal' && <WithdrawalInstruction />}
 			{modalComp === 'provision' && <Terms />}
 			{modalComp === 'cancelReservation' && <CancelReservation />}

@@ -6,6 +6,10 @@ import { useRef, useState } from 'react';
 import { Timer } from '../common';
 import { ProcessType } from '../../types';
 
+// TODO: 서버 > 새 폰번호
+// import api from '../../api/api';
+// import { userUrl } from '../../assets/constant/urlConst';
+
 const EditPhoneNumber = () => {
 	const dispatch = useAppDispatch();
 
@@ -22,9 +26,6 @@ const EditPhoneNumber = () => {
 			// console.log(phoneNumber.current.value);
 		}
 
-		// TODO: 문자전송완료 status?를 받으면 3분 타이머 실행
-		// TODO: 시간연장없이 다시 재발급으로
-		// TODO: 재발급 시 3분 타이머도 리셋, 변경 누른 후도 리셋
 		setMessage(true);
 		setTimeStatus('start');
 	};
@@ -34,6 +35,7 @@ const EditPhoneNumber = () => {
 		if (authentication.current) {
 			phoneNumber.current!.value = '';
 			authentication.current.value = '';
+			setMessage(false);
 			dispatch(closeModal());
 		}
 	};

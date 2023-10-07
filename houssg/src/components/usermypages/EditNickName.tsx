@@ -4,32 +4,38 @@ import { useAppDispatch } from '../../hooks';
 import { closeModal } from '../../store/redux/modalSlice';
 import { color } from '../../assets/styles';
 import { regSignUp } from '../../assets/constant';
-// import { UserMyPageType } from '../../types';
 
-// interface MyPageMainProps {
-// 	mypagemain: UserMyPageType;
-// }
+// TODO: 서버 > 새 닉네임
+import api from '../../api/api';
+import { userUrl } from '../../assets/constant/urlConst';
 
 const EditNickName = () => {
 	const dispatch = useAppDispatch();
 
+	const userNickName = sessionStorage.getItem('nickname');
 	const newNickName = useRef<HTMLInputElement | null>(null);
 
-	const editNickName = () => {
+	const editNickName = async () => {
 		const isNickName = newNickName.current?.value;
-		// console.log('지금 닉네임' + mypagemain.userNickName);
-		const testNickName = regSignUp.regNick.reg.test(`${isNickName}`);
-		console.log('새로운 닉네임은 변경' + testNickName);
-		// TODO: 서버로 보내기 추후 수정
 
+		const testNickName = regSignUp.regNick.reg.test(`${isNickName}`) && isNickName !== userNickName;
+		console.log(isNickName);
 		if (newNickName.current) {
 			if (testNickName) {
-				// console.log(newNickName.current.value);
-				// TODO: api 요청이 성공했을 떄
-				// newNickName.current!.value = '';
-				dispatch(closeModal());
+				try {
+					await api.post(userUrl.updateNick, { isNickName });
+					// TODO: 서버로 보내기 추후 수정
+					newNickName.current!.value = '';
+					dispatch(closeModal());
+				} catch (error) {
+					console.error(error);
+				}
 			} else {
-				alert('올바른 닉네임이 아닙니다.');
+				if (isNickName === userNickName) {
+					alert('현재 사용 중인 닉네임입니다.');
+				} else {
+					alert('올바른 닉네임이 아닙니다.');
+				}
 			}
 		}
 	};

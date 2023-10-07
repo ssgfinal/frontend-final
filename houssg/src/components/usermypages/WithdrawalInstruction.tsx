@@ -4,6 +4,10 @@ import { useAppDispatch } from '../../hooks';
 import { closeModal } from '../../store/redux/modalSlice';
 import { color } from '../../assets/styles';
 
+// TODO: 서버 > 회원탈퇴
+//import api from '../../api/api';
+// import { userUrl } from '../../assets/constant/urlConst';
+
 const WithdrawalInstruction = () => {
 	const [instructionCheck, setInstructionCheck] = useState<boolean>(false);
 

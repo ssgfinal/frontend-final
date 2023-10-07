@@ -9,16 +9,17 @@ interface MyPageMainProps {
 	mypagemain: UserMyPageType[];
 }
 
-const userNickName = sessionStorage.getItem('nickname');
-const userPhone = sessionStorage.getItem('phone');
-
 const MyInformation: React.FC<MyPageMainProps> = ({ mypagemain }) => {
-	console.log(mypagemain[0].userPassword);
+	const userNickName = sessionStorage.getItem('nickname');
+	const userPhone = sessionStorage.getItem('phone');
+	const prop = mypagemain.length > 0 ? mypagemain[0].userPassword : '';
+
 	const dispatch = useAppDispatch();
 
 	const modalOpen = (component: string, message: string | null) => {
 		const modalSize = window.innerWidth >= 1000 ? 500 : 400;
-		dispatch(openModal({ modalComponent: component, modalSize: modalSize, modalText: message }));
+
+		dispatch(openModal({ modalComponent: component, modalSize: modalSize, modalText: message, modalProps: prop }));
 	};
 
 	return (
@@ -45,7 +46,7 @@ const MyInformation: React.FC<MyPageMainProps> = ({ mypagemain }) => {
 					}}
 				></EditIconContainer>
 				<TitleContainer>비밀번호</TitleContainer>
-				<div>{mypagemain[0].userPassword}</div>
+				<div></div>
 				<EditIconContainer
 					src={EditIcon}
 					onClick={() => {

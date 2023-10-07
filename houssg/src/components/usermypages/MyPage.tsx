@@ -8,15 +8,14 @@ import MyFavorite from './MyFavorite';
 import { color } from '../../assets/styles';
 import { CouponIcon, MyPointIcon, ProfileCircle, accomodation } from '../../assets/icons';
 
+// TODO: 서버 > 쿠폰등록
 // import api from '../../api/api';
 // import { userUrl } from '../../assets/constant/urlConst';
-
-const userNickName = sessionStorage.getItem('nickname');
 
 const mypagemain: { userPoint: number; userPassword: string }[] = [
 	{
 		userPoint: 1000,
-		userPassword: '1q2w3e4r!',
+		userPassword: 'user123!',
 	},
 ];
 
@@ -103,6 +102,8 @@ const favorites: { houseId: number; accomName: string; houseAddress: string; use
 ];
 
 const MyPage = () => {
+	const userNickName = sessionStorage.getItem('nickname');
+
 	// const [mypagemain, setMypagemain] = useState(null);
 	const [mypage, setMypage] = useState(mypagemain);
 	const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -146,7 +147,6 @@ const MyPage = () => {
 
 	return (
 		<MyPageWrapper>
-			<MyPageIconContainer>1:1문의</MyPageIconContainer>
 			<MyPageMainContainer>
 				<MyPageMainBox>
 					<MyNickName>
@@ -216,16 +216,6 @@ const MyPageWrapper = styled.div`
 		grid-template-columns: 0.1fr 1fr 0.1fr;
 		font-size: 0.8rem;
 	}
-`;
-
-const MyPageIconContainer = styled.div`
-	grid-column-start: 2;
-	grid-column-end: 3;
-	grid-row-start: 1;
-	grid-row-end: 2;
-	justify-self: right;
-	align-self: center;
-	font-size: 0.4rem;
 `;
 
 const MyPageMainContainer = styled.div`
