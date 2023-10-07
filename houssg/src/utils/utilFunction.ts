@@ -18,20 +18,10 @@ const webpImageIncoder = (file: File) =>
 		);
 	});
 
-const pxToRemWithResizer = (px: string, ratio: number) => {
+const pxToRem = (pxUnitNum: number) => {
 	const rootFontNum = parseFloat(rootFontSize.slice(0, -2)); // rootFontSize를 숫자로 변환
-
-	const returnNum = (ratio * parseFloat(px)) / rootFontNum;
-	if (isNaN(returnNum)) {
-		alert('숫자로 된 값만 입력됩니다. windowWidth 그대로 단위없이 넣어주세요');
-		return '16rem';
-	} else {
-		return returnNum + 'rem';
-	}
+	const returnNum = pxUnitNum / rootFontNum;
+	return returnNum;
 };
 
-const ratioConverter = (origin: string, ratio: number, unit: string) => {
-	const ratioOriginNum = parseFloat(origin.slice(0, -unit.length)); // rootFontSize를 숫자로 변환
-	return ratioOriginNum * ratio + unit;
-};
-export { webpImageIncoder, pxToRemWithResizer, ratioConverter };
+export { webpImageIncoder, pxToRem };

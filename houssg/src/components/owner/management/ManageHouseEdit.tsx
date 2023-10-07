@@ -1,4 +1,4 @@
-import { HouseTabContainer, ManageReadTitle, NavClickComp, color, devideOnce } from '../../../assets/styles';
+import { HouseTabContainer, ManageReadTitle, NavClickComp, color } from '../../../assets/styles';
 import { styled } from 'styled-components';
 import { MyHouseDataHandleComp } from '../../../types';
 import { houseServiceCategory } from '../../../assets/constant';
@@ -6,7 +6,7 @@ import { CheckBox } from '../register/element';
 import { useEffect, useRef, useState } from 'react';
 import { useCalWindowWidth } from '../../../hooks';
 import { ImageUploader } from '../../common';
-import { pxToRemWithResizer, ratioConverter } from '../../../utils';
+import { pxToRem } from '../../../utils';
 
 const ManageHouseEdit: React.FC<MyHouseDataHandleComp> = ({ house, setIsEditMode }) => {
 	const newPhoneNumber = useRef<HTMLInputElement | null>(null);
@@ -16,11 +16,25 @@ const ManageHouseEdit: React.FC<MyHouseDataHandleComp> = ({ house, setIsEditMode
 
 	const [imgFile, setImgFile] = useState(house.img);
 	const windowWidth = useCalWindowWidth();
+	console.log(windowWidth, 'windowWidth');
 	const [uploaderSize, setUploaderSize] = useState({ width: '28rem', height: '21rem' });
 	useEffect(() => {
-		const width = pxToRemWithResizer(windowWidth, 3 / 10);
+		let widthNumber: number;
+		const ratio = 3 / 4;
 
-		const height = ratioConverter(width, 3 / 4, 'rem');
+		switch (true) {
+			case windowWidth < 427:
+				widthNumber = 16;
+				break;
+			case windowWidth >= 427 && windowWidth < 747:
+				widthNumber = pxToRem(windowWidth) * 0.6;
+				console.log(widthNumber);
+				break;
+			default:
+				widthNumber = 28;
+		}
+		const width = widthNumber + 'rem';
+		const height = widthNumber * ratio + 'rem';
 		setUploaderSize({ width, height });
 	}, [windowWidth]);
 
@@ -43,6 +57,8 @@ const ManageHouseEdit: React.FC<MyHouseDataHandleComp> = ({ house, setIsEditMode
 			? console.log(newPhoneNumber.current.value, checkinValue, checkoutValue, detailValue)
 			: false;
 	};
+
+	console.log(uploaderSize);
 
 	return (
 		<ManageWrapper>
@@ -109,21 +125,8 @@ const HouseImg = styled.img`
 	margin-bottom: 0.5rem;
 	object-fit: contain;
 	border-radius: 0.5rem;
-
-	@media screen and (max-width: ${devideOnce.first}) {
-		max-width: none;
-		width: 24rem;
-	}
-
-	@media screen and (max-width: 500) {
-		max-width: none;
-		width: 16rem;
-	}
-
-	@media (max-width: 2000px) {
-		width: 80%;
-		transition: width 0.2s;
-	}
+	width: 60vw;
+	min-width: 16rem;
 `;
 
 const ManageHouseWrapper = styled.div`
