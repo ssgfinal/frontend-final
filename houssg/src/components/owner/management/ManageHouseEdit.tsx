@@ -16,8 +16,8 @@ const ManageHouseEdit: React.FC<MyHouseDataHandleComp> = ({ house, setIsEditMode
 
 	const [imgFile, setImgFile] = useState(house.img);
 	const windowWidth = useCalWindowWidth();
-	console.log(windowWidth, 'windowWidth');
 	const [uploaderSize, setUploaderSize] = useState({ width: '28rem', height: '21rem' });
+
 	useEffect(() => {
 		let widthNumber: number;
 		const ratio = 3 / 4;
@@ -68,13 +68,7 @@ const ManageHouseEdit: React.FC<MyHouseDataHandleComp> = ({ house, setIsEditMode
 			<ImageUploader width={uploaderSize.width} height={uploaderSize.height} setImage={setImgFile}>
 				수정하기
 			</ImageUploader>
-			{/* <span
-				onClick={() => {
-					console.log(newImgRef.current?.src);
-				}}
-			>
-				콘솔용
-			</span> */}
+
 			<HouseImg src={imgFile} />
 			<ManageHouseWrapper>
 				<ManageHouseContainer>
