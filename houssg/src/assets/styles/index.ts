@@ -1,6 +1,6 @@
 import { color, basicTheme } from './theme';
 import GlobalStyle from './GlobalStyle';
-import { devideOnce, devideTwice, devideThird } from './size';
+import { devideOnce, devideTwice, devideThird, rootFontSize } from './size';
 // commonStyle
 import { flexCenter } from './commonStyle';
 
@@ -31,7 +31,7 @@ import { ReservationCommonBox, UserReservationTitle, UserReservationLeft } from 
 //OwnerRegi
 import { HouseRegiEachWrapper, RegiHeadText } from './StyledComponents';
 // 색 크기 theme
-export { color, basicTheme, devideOnce, devideTwice, devideThird, GlobalStyle };
+export { color, basicTheme, devideOnce, devideTwice, devideThird, GlobalStyle, rootFontSize };
 
 //Auth,Manage Comp
 export {

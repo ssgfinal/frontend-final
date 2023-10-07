@@ -3,9 +3,10 @@ import { styled } from 'styled-components';
 import { MyHouseDataHandleComp } from '../../../types';
 import { houseServiceCategory } from '../../../assets/constant';
 import { CheckBox } from '../register/element';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useCalWindowWidth } from '../../../hooks';
 import { ImageUploader } from '../../common';
+import { pxToRemWithResizer, ratioConverter } from '../../../utils';
 
 const ManageHouseEdit: React.FC<MyHouseDataHandleComp> = ({ house, setIsEditMode }) => {
 	const newPhoneNumber = useRef<HTMLInputElement | null>(null);
@@ -15,8 +16,15 @@ const ManageHouseEdit: React.FC<MyHouseDataHandleComp> = ({ house, setIsEditMode
 
 	const [imgFile, setImgFile] = useState(house.img);
 	const windowWidth = useCalWindowWidth();
+	const [uploaderSize, setUploaderSize] = useState({ width: '28rem', height: '21rem' });
+	useEffect(() => {
+		const width = pxToRemWithResizer(windowWidth, 3 / 10);
+
+		const height = ratioConverter(width, 3 / 4, 'rem');
+		setUploaderSize({ width, height });
+	}, [windowWidth]);
+
 	//TODO: 수정 필요할지도
-	console.log(windowWidth);
 	const [checkedList, setCheckedList] = useState<number[]>(house.service);
 	const onChangeCheckedList = (index: number, value: number) => {
 		const newCheckedList = [...checkedList];
@@ -41,7 +49,7 @@ const ManageHouseEdit: React.FC<MyHouseDataHandleComp> = ({ house, setIsEditMode
 			<ManageReadTitle>
 				[{house.accomCategory}] {house.accomName}
 			</ManageReadTitle>
-			<ImageUploader width="400px" height="300px" setImage={setImgFile}>
+			<ImageUploader width={uploaderSize.width} height={uploaderSize.height} setImage={setImgFile}>
 				수정하기
 			</ImageUploader>
 			{/* <span
@@ -97,14 +105,19 @@ const ManageWrapper = styled.div`
 
 const HouseImg = styled.img`
 	justify-self: center;
-	max-width: 27rem;
+	max-width: 28rem;
 	margin-bottom: 0.5rem;
 	object-fit: contain;
 	border-radius: 0.5rem;
 
 	@media screen and (max-width: ${devideOnce.first}) {
 		max-width: none;
-		width: 23rem;
+		width: 24rem;
+	}
+
+	@media screen and (max-width: 500) {
+		max-width: none;
+		width: 16rem;
 	}
 
 	@media (max-width: 2000px) {
