@@ -4,15 +4,19 @@ import { MyHouseDataHandleComp } from '../../../types';
 import { houseServiceCategory } from '../../../assets/constant';
 import { CheckBox } from '../register/element';
 import { useRef, useState } from 'react';
+import { useCalWindowWidth } from '../../../hooks';
+import { ImageUploader } from '../../common';
 
 const ManageHouseEdit: React.FC<MyHouseDataHandleComp> = ({ house, setIsEditMode }) => {
 	const newPhoneNumber = useRef<HTMLInputElement | null>(null);
 	const newCheckIn = useRef<HTMLInputElement | null>(null);
 	const newCheckOut = useRef<HTMLInputElement | null>(null);
 	const newDetail = useRef<HTMLTextAreaElement | null>(null);
-	//TODO: 수정 필요할지도
-	console.log(house.teleNumber);
+	const newImgRef = useRef<HTMLImageElement | null>(null);
 
+	const windowWidth = useCalWindowWidth();
+	//TODO: 수정 필요할지도
+	console.log(windowWidth);
 	const [checkedList, setCheckedList] = useState<number[]>(house.service);
 	const onChangeCheckedList = (index: number, value: number) => {
 		const newCheckedList = [...checkedList];
@@ -21,18 +25,15 @@ const ManageHouseEdit: React.FC<MyHouseDataHandleComp> = ({ house, setIsEditMode
 	};
 
 	const onEditManageHouse = () => {
-		{
-			const checkinValue = newCheckIn.current?.value;
-			const checkoutValue = newCheckOut.current?.value;
-			const detailValue = newDetail.current?.value;
+		console.log(house.img, house.teleNumber, house.checkIn, house.checkOut, house.service, house.accomDetails);
+		const checkinValue = newCheckIn.current?.value;
+		const checkoutValue = newCheckOut.current?.value;
+		const detailValue = newDetail.current?.value;
 
-			// TODO: 서버에 보낼 때는 if로 수정
-			newPhoneNumber.current && newCheckIn.current && newCheckOut.current && newDetail.current
-				? console.log(newPhoneNumber.current.value, checkinValue, checkoutValue, detailValue)
-				: false;
-
-			// TODO: 기존의 숙소 정보를 들고오고(전역으로 관리할 듯?) 수정한 내용이 반영되어야...초기화 ㄴㄴ?
-		}
+		// TODO: 서버에 보낼 때는 if로 수정
+		newPhoneNumber.current && newCheckIn.current && newCheckOut.current && newDetail.current
+			? console.log(newPhoneNumber.current.value, checkinValue, checkoutValue, detailValue)
+			: false;
 	};
 
 	return (
@@ -40,7 +41,15 @@ const ManageHouseEdit: React.FC<MyHouseDataHandleComp> = ({ house, setIsEditMode
 			<ManageReadTitle>
 				[{house.accomCategory}] {house.accomName}
 			</ManageReadTitle>
-			<HouseImg src='https://a.cdn-hotels.com/gdcs/production62/d1770/50e9f242-6f67-48a5-9b77-82aa6d64d78a.jpg?impolicy=fcrop&w=1600&h=1066&q=medium","zip_numbe' />
+			{/* <ImageUploader></ImageUploader> */}
+			{/* <span
+				onClick={() => {
+					console.log(newImgRef.current?.src);
+				}}
+			>
+				콘솔용
+			</span> */}
+			<HouseImg ref={newImgRef} src={house.img} />
 			<ManageHouseWrapper>
 				<ManageHouseContainer>
 					<ManageHouseEditTitle>전화번호</ManageHouseEditTitle>
@@ -56,7 +65,8 @@ const ManageHouseEdit: React.FC<MyHouseDataHandleComp> = ({ house, setIsEditMode
 						))}
 					</CheckBoxContainer>
 					{/* TODO: 상세설명 글자수 제한은 있는지? */}
-					<ManageHouseEditTitle>상세설명</ManageHouseEditTitle> <ManageHouseText rows={8} ref={newDetail} defaultValue={house.accomDetails} />
+					<ManageHouseEditTitle>상세설명</ManageHouseEditTitle>
+					<ManageHouseText rows={8} ref={newDetail} defaultValue={house.accomDetails} maxLength={300} />
 				</ManageHouseContainer>
 			</ManageHouseWrapper>
 			<HouseTabContainer>
