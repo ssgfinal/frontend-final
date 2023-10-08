@@ -1,6 +1,7 @@
 import Resizer from 'react-image-file-resizer';
+import { rootFontSize } from '../assets/styles';
 
-export const webpImageIncoder = (file: File) =>
+const webpImageIncoder = (file: File) =>
 	new Promise((resolve) => {
 		Resizer.imageFileResizer(
 			file, // Is the file of the image which will resized.
@@ -16,3 +17,11 @@ export const webpImageIncoder = (file: File) =>
 			'base64',
 		);
 	});
+
+const pxToRem = (pxUnitNum: number) => {
+	const rootFontNum = parseFloat(rootFontSize.slice(0, -2)); // rootFontSize를 숫자로 변환
+	const returnNum = pxUnitNum / rootFontNum;
+	return returnNum;
+};
+
+export { webpImageIncoder, pxToRem };
