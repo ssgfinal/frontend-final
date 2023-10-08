@@ -14,7 +14,7 @@ const ManageHouseEdit: React.FC<MyHouseDataHandleComp> = ({ house, setIsEditMode
 	const newCheckOut = useRef<HTMLInputElement | null>(null);
 	const newDetail = useRef<HTMLTextAreaElement | null>(null);
 
-	const [imgFile, setImgFile] = useState(house.img);
+	const [newImgFile, setNewImgFile] = useState(house.img);
 	const windowWidth = useCalWindowWidth();
 	const [uploaderSize, setUploaderSize] = useState({ width: '28rem', height: '21rem' });
 
@@ -38,7 +38,6 @@ const ManageHouseEdit: React.FC<MyHouseDataHandleComp> = ({ house, setIsEditMode
 		setUploaderSize({ width, height });
 	}, [windowWidth]);
 
-	//TODO: 수정 필요할지도
 	const [checkedList, setCheckedList] = useState<number[]>(house.service);
 	const onChangeCheckedList = (index: number, value: number) => {
 		const newCheckedList = [...checkedList];
@@ -47,29 +46,38 @@ const ManageHouseEdit: React.FC<MyHouseDataHandleComp> = ({ house, setIsEditMode
 	};
 
 	const onEditManageHouse = () => {
-		console.log(house.img, house.teleNumber, house.checkIn, house.checkOut, house.service, house.accomDetails);
-		const checkinValue = newCheckIn.current?.value;
-		const checkoutValue = newCheckOut.current?.value;
-		const detailValue = newDetail.current?.value;
-
+		const newCheckInValue = newCheckIn.current?.value;
+		const newCheckOutValue = newCheckOut.current?.value;
+		const newDetailValue = newDetail.current?.value;
+		const newPhoneNumberValue = newPhoneNumber.current?.value;
 		// TODO: 서버에 보낼 때는 if로 수정
-		newPhoneNumber.current && newCheckIn.current && newCheckOut.current && newDetail.current
-			? console.log(newPhoneNumber.current.value, checkinValue, checkoutValue, detailValue)
-			: false;
-	};
+		const { checkIn, checkOut, accomDetails, teleNumber, img } = house;
+		// 변경값이 없으면 수정 취소
+		if (
+			newCheckInValue === checkIn &&
+			newCheckOutValue === checkOut &&
+			newDetailValue === accomDetails &&
+			img === newImgFile &&
+			newPhoneNumberValue === teleNumber
+		) {
+			setIsEditMode(false);
+		}
 
-	console.log(uploaderSize);
+		// api.post()
+	};
+	console.log(newImgFile);
+	console.log(typeof newImgFile);
 
 	return (
 		<ManageWrapper>
 			<ManageReadTitle>
 				[{house.accomCategory}] {house.accomName}
 			</ManageReadTitle>
-			<ImageUploader width={uploaderSize.width} height={uploaderSize.height} setImage={setImgFile}>
+			<ImageUploader width={uploaderSize.width} height={uploaderSize.height} setImage={setNewImgFile}>
 				수정하기
 			</ImageUploader>
 
-			<HouseImg src={imgFile} />
+			<HouseImg src={newImgFile} />
 			<ManageHouseWrapper>
 				<ManageHouseContainer>
 					<ManageHouseEditTitle>전화번호</ManageHouseEditTitle>
