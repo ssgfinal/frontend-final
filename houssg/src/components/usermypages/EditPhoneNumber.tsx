@@ -36,6 +36,7 @@ const EditPhoneNumber = () => {
 			phoneNumber.current!.value = '';
 			authentication.current.value = '';
 			setMessage(false);
+			setTimeStatus('start');
 			dispatch(closeModal());
 		}
 	};

@@ -19,7 +19,7 @@ const EditNickName = () => {
 		const isNickName = newNickName.current?.value;
 
 		const testNickName = regSignUp.regNick.reg.test(`${isNickName}`) && isNickName !== userNickName;
-		console.log(isNickName);
+
 		if (newNickName.current) {
 			if (testNickName) {
 				try {
@@ -28,6 +28,7 @@ const EditNickName = () => {
 					newNickName.current!.value = '';
 					dispatch(closeModal());
 				} catch (error) {
+					alert('실패하였습니다.');
 					console.error(error);
 				}
 			} else {

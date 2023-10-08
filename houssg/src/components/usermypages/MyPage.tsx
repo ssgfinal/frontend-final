@@ -23,7 +23,7 @@ const coupons = [
 	{
 		userId: 'abc',
 		couponNumber: '123456724124',
-		couponName: '9월 이벤트',
+		couponName: '10월 한글날 이벤트',
 		isUsed: 0,
 		couponDiscount: 10000,
 		expitationDate: '2023-09-30 18:00:00',
@@ -31,7 +31,7 @@ const coupons = [
 	{
 		userId: 'abc',
 		couponNumber: '231721984721',
-		couponName: '9월 빅세일',
+		couponName: '10월 한글날 빅세일',
 		isUsed: 0,
 		couponDiscount: 50000,
 		expitationDate: '2023-09-30 18:00:00',
@@ -40,19 +40,22 @@ const coupons = [
 
 const reviews = [
 	{
-		reservationNumber: 1234567,
-		houseId: 7689,
+		reviewNumber: 1,
+		reservationNumber: 7654321,
+		houseId: 1234,
 		accomName: '가나다 Hotel',
 		userId: 'abc',
 		roomType: '패밀리룸',
-		writeDate: '2023-09-11 18:00:00',
+		writeDate: '2023-09-10 18:00:00',
 		reviewImage: accomodation,
-		rating: 4.5,
-		content: '야호 후기 좀 보여줭~',
+		rating: 3.5,
+		content:
+			'안녕하십니까 250자 글자 테스트 중입니다 과연 250자가 될까요?? 맥스렝스 썼는데 될지 안 될지 모르겠지만 250자가 그렇게 긴 글이 아니면서도 또 긴 글자이기도 하고 어떡하지 더이상은 쓸 내용이 없는데 언제까지 써야할까요??이제 진짜 없는데 언제까지 테스트로 글을 쓰고 있어야 하는지 제발 살려줘 이제 그만 멈춰 이 텍스트애리어 자식아 그만해라 250자 이제 넘은 거 같은데 언제까지 쳐야하는 건지 뉴뉴뉴뉴 이제 그만 치게 해줘 살려줘 언제까',
 		commentDate: null,
 		commentContent: null,
 	},
 	{
+		reviewNumber: 2,
 		reservationNumber: 7654321,
 		houseId: 1234,
 		accomName: '라마바 Hotel',
@@ -67,6 +70,7 @@ const reviews = [
 		commentContent: '감사용~~~',
 	},
 	{
+		reviewNumber: 3,
 		reservationNumber: 7664371,
 		houseId: 1235,
 		accomName: '사아자 Hotel',
@@ -83,22 +87,22 @@ const reviews = [
 ];
 
 const favorites: { houseId: number; accomName: string; houseAddress: string; userId: string; rating: number; favorite: boolean }[] = [
-	{
-		houseId: 1235,
-		accomName: '사아자 Hotel',
-		houseAddress: '강원도 영월군 무릉도원면 명마동길 44-37',
-		userId: 'abc',
-		rating: 4.0,
-		favorite: true,
-	},
-	{
-		houseId: 1234,
-		accomName: '라마바 Hotel',
-		houseAddress: '전라북도 전주시 완산구 향교길 23-3',
-		userId: 'abc',
-		rating: 3.5,
-		favorite: true,
-	},
+	// {
+	// 	houseId: 1235,
+	// 	accomName: '사아자 Hotel',
+	// 	houseAddress: '강원도 영월군 무릉도원면 명마동길 44-37',
+	// 	userId: 'user123',
+	// 	rating: 4.0,
+	// 	favorite: true,
+	// },
+	// {
+	// 	houseId: 1234,
+	// 	accomName: '라마바 Hotel',
+	// 	houseAddress: '전라북도 전주시 완산구 향교길 23-3',
+	// 	userId: 'abc',
+	// 	rating: 3.5,
+	// 	favorite: true,
+	// },
 ];
 
 const MyPage = () => {
@@ -151,16 +155,16 @@ const MyPage = () => {
 				<MyPageMainBox>
 					<MyNickName>
 						<IconImg src={ProfileCircle} />
-						<span>{userNickName}님</span>
+						<span>&nbsp;{userNickName}님</span>
 					</MyNickName>
 					<MyPoint>
 						<IconImg src={MyPointIcon} />
-						<span>{mypagemain[0].userPoint.toLocaleString()}P</span>
+						<span>&nbsp;{mypagemain[0].userPoint.toLocaleString()}P</span>
 					</MyPoint>
 					<MyCoupon>
 						<IconImg src={CouponIcon} />
 						<div>
-							쿠폰함<CouponList onClick={toggleDropdown}>{isDropdownOpen ? <>&#9650;</> : <>&#9660;</>}</CouponList>
+							&nbsp;쿠폰함&nbsp;<CouponList onClick={toggleDropdown}>{isDropdownOpen ? <>&#9650;</> : <>&#9660;</>}</CouponList>
 						</div>
 					</MyCoupon>
 					{isDropdownOpen && (
@@ -203,7 +207,7 @@ const MyPage = () => {
 export default MyPage;
 
 const MyPageWrapper = styled.div`
-	margin: 1rem;
+	margin: 2rem;
 	display: grid;
 	grid-template-columns: 0.3fr 1fr 0.3fr;
 	justify-content: center;
@@ -213,6 +217,7 @@ const MyPageWrapper = styled.div`
 	}
 
 	@media (max-width: 430px) {
+		margin: 1rem;
 		grid-template-columns: 0.1fr 1fr 0.1fr;
 		font-size: 0.8rem;
 	}
@@ -227,7 +232,7 @@ const MyPageMainContainer = styled.div`
 `;
 
 const MyPageMainBox = styled.div`
-	padding: 0.7rem;
+	padding: 1.3rem;
 	border-radius: 1rem;
 	box-shadow: 0px 0px 5px 0.5px ${color.unSelectColor};
 	background-color: ${color.backColor};
@@ -241,7 +246,7 @@ const MyPageMainBox = styled.div`
 const MyNickName = styled.div`
 	width: 100%;
 	padding: 0.5rem;
-	padding-bottom: 0.8rem;
+	padding-bottom: 1rem;
 	text-align: left;
 	border-bottom: 1px solid ${color.unSelectColor};
 	display: grid;
@@ -281,7 +286,7 @@ const MyCoupon = styled.div`
 	padding: 0.5rem;
 	text-align: left;
 	display: grid;
-	grid-template-columns: 1fr 15fr 2fr;
+	grid-template-columns: 1fr 20fr;
 	align-items: center;
 	letter-spacing: -0.9px;
 `;
@@ -305,6 +310,7 @@ const DropCouponList = styled.div`
 `;
 
 const CouponRegistration = styled.div`
+	margin-top: 1rem;
 	display: grid;
 	grid-template-columns: 5fr 1fr;
 
@@ -343,7 +349,7 @@ const CouponRegistration = styled.div`
 		outline: none;
 		color: ${color.color1};
 		border: 1px solid ${color.unSelectColor};
-		border-radius: 1rem;
+		border-radius: 0.4rem;
 		width: 95%;
 		padding: 0.5rem;
 		font-size: 1rem;

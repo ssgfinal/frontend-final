@@ -74,7 +74,11 @@ const MyInformationWrapper = styled.div`
 const MyInformationContainer = styled.div`
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr;
-	margin: 3vw 7vw;
+	margin: 4vw 5vw;
+
+	@media (max-width: 300px) {
+		grid-template-columns: 2fr 1fr 1fr;
+	}
 `;
 
 const TitleContainer = styled.div`
@@ -83,15 +87,12 @@ const TitleContainer = styled.div`
 	align-self: center;
 	font-weight: bold;
 	margin-bottom: 3rem;
-	@media (max-width: 900px) {
-		font-size: 0.9rem;
-	}
 
 	@media (max-width: 650px) {
 		font-size: 0.8rem;
 	}
 
-	@media (max-width: 530px) {
+	@media (max-width: 300px) {
 		font-size: 0.5rem;
 	}
 `;
@@ -101,16 +102,9 @@ const InputContainer = styled.div`
 	justify-self: left;
 	align-self: center;
 	margin-bottom: 3rem;
-	@media (max-width: 900px) {
-		font-size: 0.9rem;
-	}
 
 	@media (max-width: 650px) {
 		font-size: 0.8rem;
-	}
-
-	@media (max-width: 460px) {
-		font-size: 0.5rem;
 	}
 `;
 
@@ -119,15 +113,8 @@ const EditIconContainer = styled.img`
 	justify-self: right;
 	width: 1.3rem;
 	margin-bottom: 3rem;
-	@media (max-width: 900px) {
-		width: 1.2rem;
-	}
 
 	@media (max-width: 650px) {
-		width: 1.1rem;
-	}
-
-	@media (max-width: 530px) {
 		width: 1rem;
 	}
 `;

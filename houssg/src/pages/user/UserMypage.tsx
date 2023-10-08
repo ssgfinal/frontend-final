@@ -33,8 +33,8 @@ const MyPageWrapper = styled.div`
 `;
 
 const PleaseBox = styled.div`
-	margin: 10rem;
+	margin: 2rem;
 	color: ${color.color1};
-	font-size: 2rem;
+	font-size: 1rem;
 	font-weight: bold;
 `;

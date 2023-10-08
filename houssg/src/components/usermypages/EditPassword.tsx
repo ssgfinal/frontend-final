@@ -7,8 +7,8 @@ import { regSignUp } from '../../assets/constant';
 import { unvisible, visible } from '../../assets/icons';
 
 // TODO: 서버 > 새 비밀번호
-// import api from '../../api/api';
-// import { userUrl } from '../../assets/constant/urlConst';
+import api from '../../api/api';
+import { userUrl } from '../../assets/constant/urlConst';
 
 const EditPassword = (props: { userPassword: string }) => {
 	//TODO: 현재 비밀번호를 프론트에서 체크하는지?
@@ -87,18 +87,22 @@ const EditPassword = (props: { userPassword: string }) => {
 		}
 	}, [currentPassword, isValidPassword, newPassword, newPasswordCheck, password]);
 
-	const onEditPass = () => {
+	const onEditPass = async () => {
 		if (isValidPassword) {
-			// 서버에 전달
-
-			// 닫으면서 초기화
-			setIsVisibleArray([false, false, false]);
-			setPassword('');
-			setNewPassword('');
-			setNewPasswordCheck('');
-			setIsValidPassword(false);
-			setErrorMessage('');
-			dispatch(closeModal());
+			// TODO: 서버에 전달, 추후 수정
+			try {
+				await api.post(userUrl.updateMyPw, { newPassword });
+				setIsVisibleArray([false, false, false]);
+				setPassword('');
+				setNewPassword('');
+				setNewPasswordCheck('');
+				setIsValidPassword(false);
+				setErrorMessage('');
+				dispatch(closeModal());
+			} catch (error) {
+				alert('실패하였습니다.');
+				console.error(error);
+			}
 		}
 	};
 
