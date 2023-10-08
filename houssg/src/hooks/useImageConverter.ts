@@ -14,5 +14,5 @@ export const useImageConverter = () => {
 		}
 		return 'cancle';
 	};
-	return { imgRef, imgFile, setIncodedImg };
+	return { imgRef, imgFile, setIncodedImg, setImgFile };
 };
