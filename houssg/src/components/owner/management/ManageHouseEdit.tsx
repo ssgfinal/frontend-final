@@ -6,7 +6,7 @@ import { CheckBox } from '../register/element';
 import { useEffect, useRef, useState } from 'react';
 import { useCalWindowWidth } from '../../../hooks';
 import { ImageUploader } from '../../common';
-import { pxToRem } from '../../../utils';
+import { base64ToFile, pxToRem } from '../../../utils';
 
 const ManageHouseEdit: React.FC<MyHouseDataHandleComp> = ({ house, setIsEditMode }) => {
 	const newPhoneNumber = useRef<HTMLInputElement | null>(null);
@@ -14,10 +14,10 @@ const ManageHouseEdit: React.FC<MyHouseDataHandleComp> = ({ house, setIsEditMode
 	const newCheckOut = useRef<HTMLInputElement | null>(null);
 	const newDetail = useRef<HTMLTextAreaElement | null>(null);
 
-	const [newImgFile, setNewImgFile] = useState(house.img);
+	const [newImg, setNewImg] = useState(house.img);
 	const windowWidth = useCalWindowWidth();
 	const [uploaderSize, setUploaderSize] = useState({ width: '28rem', height: '21rem' });
-
+	const [newImgFile, setNewImgFile] = useState<File | null>(null);
 	useEffect(() => {
 		let widthNumber: number;
 		const ratio = 3 / 4;
@@ -51,13 +51,13 @@ const ManageHouseEdit: React.FC<MyHouseDataHandleComp> = ({ house, setIsEditMode
 		const newDetailValue = newDetail.current?.value;
 		const newPhoneNumberValue = newPhoneNumber.current?.value;
 		// TODO: 서버에 보낼 때는 if로 수정
-		const { checkIn, checkOut, accomDetails, teleNumber, img } = house;
+		const { checkIn, checkOut, accomDetails, teleNumber } = house;
 		// 변경값이 없으면 수정 취소
 		if (
 			newCheckInValue === checkIn &&
 			newCheckOutValue === checkOut &&
 			newDetailValue === accomDetails &&
-			img === newImgFile &&
+			newImgFile === null &&
 			newPhoneNumberValue === teleNumber
 		) {
 			setIsEditMode(false);
@@ -65,18 +65,22 @@ const ManageHouseEdit: React.FC<MyHouseDataHandleComp> = ({ house, setIsEditMode
 
 		// api.post()
 	};
-	// console.log(newImgFile);
+
+	const onAddNewFileData = (file: string) => {
+		// base64를 다시 인코딩
+		setNewImgFile(base64ToFile(file, house.accomName));
+	};
 
 	return (
 		<ManageWrapper>
 			<ManageReadTitle>
 				[{house.accomCategory}] {house.accomName}
 			</ManageReadTitle>
-			<ImageUploader width={uploaderSize.width} height={uploaderSize.height} setImage={setNewImgFile}>
+			<ImageUploader width={uploaderSize.width} height={uploaderSize.height} setImage={setNewImg} setImgFile={onAddNewFileData}>
 				수정하기
 			</ImageUploader>
 
-			<HouseImg src={newImgFile} />
+			<HouseImg src={newImg} />
 			<ManageHouseWrapper>
 				<ManageHouseContainer>
 					<ManageHouseEditTitle>전화번호</ManageHouseEditTitle>

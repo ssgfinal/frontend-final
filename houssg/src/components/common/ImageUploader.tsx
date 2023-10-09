@@ -8,7 +8,7 @@ import 'cropperjs/dist/cropper.css';
 import { capture, rotateL, rotateR } from '../../assets/icons';
 import { UploaderSize } from '../../types/common';
 
-const ImageUploader: React.FC<UploaderSize> = ({ height, width, children, setImage }) => {
+const ImageUploader: React.FC<UploaderSize> = ({ height, width, children, setImage, setImgFile }) => {
 	const { imgRef, imgFile, setIncodedImg } = useImageConverter();
 	const cropperRef = createRef<ReactCropperElement>();
 	const [isCropped, setIsCropped] = useState<boolean>(false);
@@ -29,6 +29,7 @@ const ImageUploader: React.FC<UploaderSize> = ({ height, width, children, setIma
 		if (typeof cropperRef.current?.cropper !== 'undefined') {
 			const succeedImg = cropperRef.current?.cropper.getCroppedCanvas().toDataURL('image/webp');
 			setImage(succeedImg);
+			setImgFile(succeedImg);
 			setIsCropped(true);
 			setIsUploading(false);
 		}
