@@ -16,8 +16,9 @@ const BriefHouse: React.FC<BriefHouseProps> = ({ house }) => {
 			{/* TODO: 현재) 이미지만 클릭시 숙소 상세 페이지로 이동
 		          안건) 글자도 클릭시 숙소 상세 페이지로 이동해야하는 거 아닌가?*/}
 			<HoverContainer
+				// < Link to = >는 자동으로 pointer 해줌
 				onClick={() => {
-					navigate(`/user/house`, { state: { house: house } });
+					navigate(`/user/houseDetail`, { state: { house: house } });
 				}}
 			>
 				<HouseImg src={house.img} />
@@ -26,7 +27,6 @@ const BriefHouse: React.FC<BriefHouseProps> = ({ house }) => {
 			</HoverContainer>
 
 			<HouseDetailContainer>
-				#
 				<div>
 					<span>
 						{house.accomName}
