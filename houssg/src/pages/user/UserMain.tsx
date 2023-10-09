@@ -19,12 +19,10 @@ const UserMain = () => {
 
 	useEffect(() => {
 		api.post(userUrl.ratingOrder).then(({ data }) => {
-			console.log('별점>', data);
 			setRatingOrder20(data);
 		});
 
 		api.post(userUrl.registrationOrder).then(({ data }) => {
-			console.log('등록순>', data);
 			setRegisterationOrder20(data);
 		});
 
