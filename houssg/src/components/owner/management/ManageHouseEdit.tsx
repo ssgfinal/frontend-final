@@ -65,8 +65,7 @@ const ManageHouseEdit: React.FC<MyHouseDataHandleComp> = ({ house, setIsEditMode
 
 		// api.post()
 	};
-	console.log(newImgFile);
-	console.log(typeof newImgFile);
+	// console.log(newImgFile);
 
 	return (
 		<ManageWrapper>

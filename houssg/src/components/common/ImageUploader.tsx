@@ -13,6 +13,7 @@ const ImageUploader: React.FC<UploaderSize> = ({ height, width, children, setIma
 	const cropperRef = createRef<ReactCropperElement>();
 	const [isCropped, setIsCropped] = useState<boolean>(false);
 	const [isUploading, setIsUploading] = useState<boolean>(false);
+
 	const setNewIncodeImg = async () => {
 		setIsUploading(true);
 		const result = await setIncodedImg();
