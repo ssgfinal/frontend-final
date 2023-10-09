@@ -1,5 +1,4 @@
 import { useState } from 'react';
-// import { useParams } from 'react-router-dom';
 import { styled } from 'styled-components';
 
 import { TabMenu } from '../../components/common/TabMenu';
@@ -9,9 +8,6 @@ import { HouseReview } from '../../components/house/HouseReview';
 import { HouseDescription } from '../../components/house/HouseDescription';
 
 export const UserHouseDetail = () => {
-	// 추후 쓸 변수
-	// const { houseId } = useParams();
-
 	const tabObj = [
 		['description', '소개'],
 		['roominfo', '객실'],
