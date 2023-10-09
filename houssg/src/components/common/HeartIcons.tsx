@@ -19,5 +19,7 @@ const HeartIcons: React.FC<Props> = ({ favorite }) => {
 export default HeartIcons;
 
 const HeartImg = styled.img`
-	width: 1rem;
+	width: 100%;
+	height: 100%;
+	/* width: 1rem; */
 `;

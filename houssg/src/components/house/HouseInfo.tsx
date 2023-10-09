@@ -5,6 +5,8 @@ import { accomodation } from '../../assets/icons';
 import Rating from '../common/Rating';
 
 import { houseServiceCategory } from '../../assets/constant';
+import HeartIcons from '../common/HeartIcons';
+import { color } from '../../assets/styles';
 export const HouseInfo = () => {
 	const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
@@ -35,11 +37,17 @@ export const HouseInfo = () => {
 
 	return (
 		<Container>
-			<Img src={accomodation} />
+			<AccomImg>
+				<Img src={accomodation} />
+				<OverHeartIcon>
+					<HeartIcons favorite={true} />
+				</OverHeartIcon>
+			</AccomImg>
 			<Info>
-				<div>숙소명</div>
-				찜하기 컴포넌트
-				<br />
+				<OneLine>
+					<div>센텀 무지개 호텔</div>
+					<HeartIcons favorite={true} />
+				</OneLine>
 				<RateBox>
 					<Rating rate={rate} readonly />
 				</RateBox>
@@ -60,8 +68,7 @@ export const HouseInfo = () => {
 									{accomServices.slice(0, 5).map((service, idx) => (
 										<Icon key={idx} src={service.icon} alt={service.text} />
 									))}
-
-									<MoreService onClick={toggleDropdown}>{isDropdownOpen ? '▲' : '▼'}</MoreService>
+									<MoreService onClick={toggleDropdown}>더보기 {isDropdownOpen ? '▲' : '▼'}</MoreService>
 								</>
 							)}
 						</Service>
@@ -83,7 +90,7 @@ const Container = styled.div`
 	margin: 5rem 0;
 	display: grid;
 	@media (min-width: 750px) {
-		grid-template-columns: 1fr 1fr;
+		grid-template-columns: 65% 35%;
 		grid-gap: 2rem;
 	}
 	@media (max-width: 750px) {
@@ -91,8 +98,22 @@ const Container = styled.div`
 		grid-template-columns: 1fr;
 	}
 `;
+
+const AccomImg = styled.div`
+	position: relative;
+	width: 100%;
+`;
+
+const OverHeartIcon = styled.div`
+	position: absolute;
+	width: 10%;
+	bottom: 1rem;
+	right: 1rem;
+`;
+
 const Img = styled.img`
 	width: 100%;
+	border-radius: 1rem;
 `;
 
 const Info = styled.div`
@@ -103,13 +124,26 @@ const Info = styled.div`
 	text-align: left;
 	align-items: center;
 `;
+
+const OneLine = styled.div`
+	display: grid;
+	grid-template-columns: 90% 10%;
+	/* display: flex;
+	justify-content: space-between; */
+	font-weight: bold;
+	font-size: 1.6rem;
+	align-items: start;
+	/* align-self: center; */
+`;
 const MoreService = styled.button`
 	&:hover {
 		cursor: pointer;
 	}
-
+	width: 5rem;
 	background-color: white;
 	border-width: 0;
+	font-size: 12px;
+	color: ${color.darkGrayColor};
 `;
 
 const DropdownContent = styled.div`
