@@ -2,18 +2,20 @@ const userUrl = {
 	// TODO: 백 mypage 관련 URL 나오면 수정 & 페이지별 구분?기능별구분?
 	// mypage
 	mypage: 'mypage/all',
-	updateNick: 'mypage/update-nick',
-	updatePhone: 'mypage/update-phone',
-	updateMyPw: 'mypage/update-pw',
+	updateNick: 'nick/update',
+	updatePhone: 'phone/update', // TODO: 폰 번호 수정!!새로운 번호 전달
+	phoneCheck: 'sms/sign-up', // 번호 중복확인
+	phoneAuthCheck: 'sms/check', // 인증번호 검사
+	updateMyPw: 'pw/update',
 	myCoupon: 'coupon/enroll-usercoupon', // 유저가 쿠폰 등록?
 	withdrawal: 'user/withdrawal',
-	myReview: 'mypage/review', // 마이페이지 리뷰 목록?
-	myFavorite: 'mypage/favorite', // 마이페이지 찜 목록?
+	myReview: 'mypage/review', // 마이페이지 리뷰 목록
+	myFavorite: 'mypage/favorite', // 마이페이지 찜 목록
 	// reservation
-	addReview: 'review/add', // 유저가 등록하는 리뷰?
+	addReview: 'review/add', // 유저가 등록하는 리뷰
 	// favorite
-	addFavorite: 'favorite/add', // 유저가 찜 하기?
-	delFavorite: 'favorite', // 유저 찜 해제?
+	addFavorite: 'favorite/add', // 유저가 찜 하기
+	delFavorite: 'favorite', // 유저 찜 해제
 };
 
 const authUrl = {

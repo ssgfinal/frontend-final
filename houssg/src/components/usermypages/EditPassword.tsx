@@ -89,9 +89,10 @@ const EditPassword = (props: { userPassword: string }) => {
 
 	const onEditPass = async () => {
 		if (isValidPassword) {
-			// TODO: 서버에 전달, 추후 수정
+			// TODO: 서버에 전달, 추후 수정 >> payload : 닉네임, 새로운 비밀번호?
 			try {
-				await api.post(userUrl.updateMyPw, { newPassword });
+				const userNickName = sessionStorage.getItem('nickname');
+				await api.post(userUrl.updateMyPw, { userNickName, newPassword });
 				setIsVisibleArray([false, false, false]);
 				setPassword('');
 				setNewPassword('');

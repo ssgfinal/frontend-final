@@ -13,26 +13,26 @@ const EditNickName = () => {
 	const dispatch = useAppDispatch();
 
 	const userNickName = sessionStorage.getItem('nickname');
-	const newNickName = useRef<HTMLInputElement | null>(null);
+	const isNewNickName = useRef<HTMLInputElement | null>(null);
 
 	const editNickName = async () => {
-		const isNickName = newNickName.current?.value;
+		const newNickName = isNewNickName.current?.value;
 
-		const testNickName = regSignUp.regNick.reg.test(`${isNickName}`) && isNickName !== userNickName;
+		const testNickName = regSignUp.regNick.reg.test(`${newNickName}`) && newNickName !== userNickName;
 
-		if (newNickName.current) {
+		if (isNewNickName.current) {
 			if (testNickName) {
+				// TODO: 서버로 보내기 추후 수정>> payload : 닉네임, 새로운 닉네임?
 				try {
-					await api.post(userUrl.updateNick, { isNickName });
-					// TODO: 서버로 보내기 추후 수정
-					newNickName.current!.value = '';
+					await api.post(userUrl.updateNick, { userNickName, newNickName });
+					isNewNickName.current!.value = '';
 					dispatch(closeModal());
 				} catch (error) {
 					alert('실패하였습니다.');
 					console.error(error);
 				}
 			} else {
-				if (isNickName === userNickName) {
+				if (newNickName === userNickName) {
 					alert('현재 사용 중인 닉네임입니다.');
 				} else {
 					alert('올바른 닉네임이 아닙니다.');
@@ -43,7 +43,7 @@ const EditNickName = () => {
 
 	return (
 		<EditNickNameWrapper>
-			<NewNickNameBox type="text" ref={newNickName} maxLength={8} placeholder="새로운 닉네임 입력" />
+			<NewNickNameBox type="text" ref={isNewNickName} maxLength={8} placeholder="새로운 닉네임 입력" />
 			<NickNameInstruction>{regSignUp.regNick.tooltip}</NickNameInstruction>
 			<EditButton onClick={editNickName}>수정완료</EditButton>
 		</EditNickNameWrapper>

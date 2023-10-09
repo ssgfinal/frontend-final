@@ -26,13 +26,19 @@ const MyFavorite: React.FC<MyFavoriteList> = ({ favorites }) => {
 
 	const [favorite, setFavorite] = useState(favorites);
 
-	//TODO: id가 유저id인지??
+	//TODO: id가 유저id인지??닉네임이 되어야 하는게 아닌지
 	// const user = favorites[0].userId;
 
-	//TODO: 403 error
+	// api 정의서
+	/*( 프론트 : 숙소 목록 페이지에서 받아서
+		숙소 상세 페이지에선 해당 정보는
+		api  요청이 아닌 리액트 쿼리에서 담아서 목록서 받은 데이터로 띄우기 )
+	*/
+
+	//TODO: 403 error >> payload : 아이디? >> 유저 아이디를 직접 넣어도 같은 에러, 스웨거도 에러
 	const myFavorite = async () => {
 		try {
-			const response = await api.post(userUrl.myFavorite);
+			const response = await api.post(userUrl.myFavorite, { id: 'hjr123' });
 			setFavorite(response.data);
 		} catch (error) {
 			console.error(error);
