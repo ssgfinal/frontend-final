@@ -3,106 +3,20 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
 
 import BriefHouse from '../house/BriefHouse';
-import { accomodation } from '../../assets/icons';
+// import { accomodation } from '../../assets/icons';
 
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 import { color } from '../../assets/styles';
 
-// TODO: 임시 데이터, Map 돌린 후는 삭제
-const house = [
-	{
-		houseId: 1,
-		name: '무지개멘션',
-		price: 38000,
-		rating: 1.3,
-		location: '부산시 수영구 센텀',
-		image: accomodation,
-	},
-	{
-		houseId: 2,
-		name: '무지개떡',
-		price: 44000,
-		rating: 1.7,
-		location: '부산시 중구 남포',
-		image: accomodation,
-	},
-	{
-		houseId: 3,
-		name: '파라다이스',
-		price: 44000,
-		rating: 2.1,
-		location: '부산시 중구 남포',
-		image: accomodation,
-	},
-	{
-		houseId: 4,
-		name: '환영펜션',
-		price: 44000,
-		rating: 2.9,
-		location: '부산시 중구 남포',
-		image: accomodation,
-	},
-	{
-		houseId: 5,
-		name: '환영펜션',
-		price: 44000,
-		rating: 3.0,
-		location: '부산시 중구 남포',
-		image: accomodation,
-	},
-	{
-		houseId: 6,
-		name: '환영펜션',
-		price: 44000,
-		rating: 4.01,
-		location: '부산시 중구 남포',
-		image: accomodation,
-	},
-	{
-		houseId: 7,
-		name: '환영펜션',
-		price: 44000,
-		rating: 4.99,
-		location: '부산시 중구 남포',
-		image: accomodation,
-	},
-	{
-		houseId: 8,
-		name: '환영펜션',
-		price: 44000,
-		rating: 5,
-		location: '부산시 중구 남포',
-		image: accomodation,
-	},
-	{
-		houseId: 9,
-		name: '환영펜션',
-		price: 44000,
-		rating: 5.0,
-		location: '부산시 중구 남포',
-		image: accomodation,
-	},
-	{
-		houseId: 10,
-		name: '환영펜션',
-		price: 44000,
-		rating: 3,
-		location: '부산시 중구 남포',
-		image: accomodation,
-	},
-	{
-		houseId: 11,
-		name: '환영펜션',
-		price: 44000,
-		rating: 0,
-		location: '부산시 중구 남포',
-		image: accomodation,
-	},
-];
+import { HouseBaseInfo } from '../../types';
 
-const HomeSlider = () => {
+interface HomeSliderProps {
+	houseList: HouseBaseInfo[];
+}
+
+const HomeSlider: React.FC<HomeSliderProps> = ({ houseList }) => {
 	// TODO: Map 돌릴 때 사용될 부분, 백 받은 후, 확인하고 오류가 있으면 수정 예정
 	//const [houses, setHouses] = useState([]);
 
@@ -136,7 +50,7 @@ const HomeSlider = () => {
 				modules={[Navigation]}
 				className="homeSwiper"
 			>
-				{house.map((item, index) => (
+				{houseList.map((item, index) => (
 					<SwiperSlide key={index}>
 						<BriefHouse house={item} />
 					</SwiperSlide>
