@@ -1,13 +1,14 @@
 // 유틸 함수 저장폴더
 
 //utils
-import { webpImageIncoder } from './utilFunction';
+import { webpImageIncoder, pxToRem, base64ToFile } from './utilFunction';
 import { isLoginFunc } from './isLogin';
 
 //window
 import { windowWarningState, removeWindowWarningState } from './windowEvent';
+
 //utils
-export { webpImageIncoder, isLoginFunc };
+export { webpImageIncoder, isLoginFunc, pxToRem, base64ToFile };
 
 // window
 export { windowWarningState, removeWindowWarningState };

@@ -15,7 +15,7 @@ const ManageHouseRead: React.FC<MyHouseDataHandleComp> = ({ house, setIsEditMode
 	const toggleDropdown = () => {
 		setIsDropdownOpen(!isDropdownOpen);
 	};
-	console.log(house.service, '서비스');
+
 	return (
 		<ManageWrapper>
 			<TitleContainer>
