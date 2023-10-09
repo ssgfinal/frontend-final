@@ -3,44 +3,42 @@ import { useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
 
 import Rating from '../common/Rating';
+import { HouseBaseInfo } from '../../types';
 
-interface House {
-	house: {
-		houseId: number;
-		name: string;
-		price: number;
-		rating: number;
-		location: string;
-		image: string;
-	};
+interface BriefHouseProps {
+	house: HouseBaseInfo;
 }
-
-const BriefHouse: React.FC<House> = ({ house }) => {
+const BriefHouse: React.FC<BriefHouseProps> = ({ house }) => {
 	const navigate = useNavigate();
 
 	return (
 		<BriefHouseWrapper>
+			{/* TODO: 현재) 이미지만 클릭시 숙소 상세 페이지로 이동
+		          안건) 글자도 클릭시 숙소 상세 페이지로 이동해야하는 거 아닌가?*/}
 			<HoverContainer
 				onClick={() => {
-					navigate(`/user/house/${house.houseId}`);
+					navigate(`/user/house`, { state: { house: house } });
 				}}
 			>
-				<HouseImg src={house.image} />
+				<HouseImg src={house.img} />
+				{/* TODO: 글자 클릭 시 이미지 효과 낼 수 있나? */}
 				<HoverBox></HoverBox>
 			</HoverContainer>
 
 			<HouseDetailContainer>
+				#
 				<div>
 					<span>
-						{house.location}&nbsp;
-						{house.name}&nbsp;
+						{house.accomName}
+						<br />
+						{house.accomAddress}&nbsp;
 					</span>
 				</div>
 				<RateBox>
-					<Rating rate={house.rating} readonly />
+					<Rating rate={house.avgRating} readonly />
 				</RateBox>
 				<PriceBox>
-					<div>{house.price.toLocaleString()}원</div>
+					<div>{house.minPrice.toLocaleString()}원</div>
 				</PriceBox>
 			</HouseDetailContainer>
 		</BriefHouseWrapper>
@@ -62,7 +60,7 @@ const BriefHouseWrapper = styled.div`
 `;
 
 const HouseDetailContainer = styled.div`
-	margin: 0 1rem 1rem 1rem;
+	/* margin: 0 1rem 1rem 1rem; */
 	padding: 0 1rem 1rem 1rem;
 
 	@media (max-width: 380px) {
@@ -76,7 +74,8 @@ const HouseDetailContainer = styled.div`
 
 // TODO: 숙소 이미지 hover시 지나가는 효과
 const HoverContainer = styled.div`
-	margin: 1rem;
+	/* TODO: 지금 상황에서 굳이 margin과 padding 둘 다 쓸 필요가 있나 여백을 2rem을 주고 싶더라도 걍 padding으로 2rem 줘도 되는거 아닌가? */
+	/* margin: 1rem; */
 	padding: 1rem;
 	position: relative;
 	overflow: hidden;
