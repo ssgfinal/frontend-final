@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { Select } from 'antd';
 import styled from 'styled-components';
 
@@ -11,6 +11,9 @@ const HouseInfoRegi: React.FC<RegiStepProps> = ({ step, goStep, funnelState }) =
 	const [houseNumber, setHouseNumber] = useState<string>('');
 	const [currentType, setCurrentType] = useState<string>(houseCategory[0].value);
 	const [checkedList, setCheckedList] = useState<number[]>(new Array(houseServiceCategory.length).fill(0));
+
+	const checkIn = useRef<HTMLInputElement | null>(null);
+	const checkOut = useRef<HTMLInputElement | null>(null);
 
 	const handleChange = (value: string) => {
 		setCurrentType(value);
@@ -35,9 +38,11 @@ const HouseInfoRegi: React.FC<RegiStepProps> = ({ step, goStep, funnelState }) =
 			</HouseInfoAligner>
 			<HouseInfoAligner>
 				<SemiTitle>체크인</SemiTitle>
+				<CheckInput type="time" ref={checkIn} />
 			</HouseInfoAligner>
 			<HouseInfoAligner>
 				<SemiTitle>체크아웃</SemiTitle>
+				<CheckInput type="time" ref={checkOut} />
 			</HouseInfoAligner>
 			<ServiceContainer>
 				<SemiTitle>서비스 및 시설</SemiTitle>
@@ -99,4 +104,26 @@ const CheckBoxContainer = styled.div`
 const HousePhoneNum = styled.input`
 	border-radius: 0.3rem;
 	padding: 0.4rem;
+`;
+
+const CheckInput = styled.input`
+	&:hover {
+		border: 1px solid ${color.color2};
+		outline: 2px solid ${color.color2};
+	}
+
+	cursor: pointer;
+	width: 100%;
+	text-align: center;
+	justify-self: center;
+	height: 2rem;
+	color: ${color.darkGrayColor};
+	border: 1px solid ${color.darkGrayColor};
+	border-radius: 0.3rem;
+	outline: none;
+
+	@media (max-width: 300px) {
+		height: 1.3rem;
+		font-size: 0.5rem;
+	}
 `;
