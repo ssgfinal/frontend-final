@@ -88,7 +88,7 @@ const MyFavorite: React.FC<MyFavoriteList> = ({ favorites }) => {
 								<div>{favoriteItem.houseAddress}</div>
 							</HouseAddressBox>
 							<FavoriteContainer>
-								<HeartIcons favorite={favoriteItem.favorite} />
+								<HeartIcons />
 							</FavoriteContainer>
 						</MyFavoriteContainer>
 					</div>
