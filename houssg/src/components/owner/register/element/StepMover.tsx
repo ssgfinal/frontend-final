@@ -11,34 +11,58 @@ const StepMover: React.FC<StepMoverType> = ({ goStep, step, data, inactive, last
 		if (data.houseImageFile !== null) {
 			formData.append('file', data.houseImageFile as File);
 		}
-		if (data.houseService) {
-			const dtoKey = ['nearbySea', 'parkingAvailable', 'pool', 'spa', 'wifi', 'twinBed', 'barbecue', 'noSmoking', 'luggageStorage', 'freeMovieOtt'];
 
-			const resultObject: Record<string, number> = {};
+		const requestData = {
+			accomName: data.name,
+			accomAddress: data.targetAddress,
+			teleNumber: data.houseNumber,
+			accomCategory: data.houseType,
+			accomDetails: data.detailText,
+			checkIn: data.checkIn,
+			checkOut: data.checkOut,
+			businessNumber: data.businessNum,
+			facilityDto: data.houseService,
+		};
 
-			// 배열의 길이를 기준으로 반복하면서 객체를 만듭니다.
-			for (let i = 0; i < dtoKey.length; i++) {
-				const key = dtoKey[i];
-				const value = data.houseService[i];
-				resultObject[key] = value;
-			}
-			const requestData = {
-				accomName: data.name,
-				accomAddress: data.targetAddress,
-				teleNumber: data.houseNumber,
-				accomCategory: data.houseType,
-				accomDetails: data.detailText,
-				checkIn: data.checkIn,
-				checkOut: data.checkOut,
-				businessNumber: data.businessNum,
-				facilityDto: resultObject,
-			};
-			const json = JSON.stringify(requestData);
-			const blob = new Blob([json], { type: 'application/json' });
-			formData.append('request', blob);
-			return api.post(ownerUrl.houseRegister, formData, { headers: { 'Content-Type': 'multipart/form-data' } });
-		}
+		console.log(data.houseImageFile, '이미지파일');
+		console.log(requestData, 'request');
+
+		const json = JSON.stringify(requestData);
+		const blob = new Blob([json], { type: 'application/json' });
+		formData.append('request', blob);
+		return api.post(ownerUrl.houseRegister, formData, { headers: { 'Content-Type': 'multipart/form-data' } });
 	};
+	// if (data.houseService) {
+	// 	const dtoKey = ['nearbySea', 'parkingAvailable', 'pool', 'spa', 'wifi', 'twinBed', 'barbecue', 'noSmoking', 'luggageStorage', 'freeMovieOtt'];
+
+	// 	const resultObject: Record<string, number> = {};
+
+	// 	// 배열의 길이를 기준으로 반복하면서 객체를 만듭니다.
+	// 	for (let i = 0; i < dtoKey.length; i++) {
+	// 		const key = dtoKey[i];
+	// 		const value = data.houseService[i];
+	// 		resultObject[key] = value;
+	// 	}
+	// 	const requestData = {
+	// 		accomName: data.name,
+	// 		accomAddress: data.targetAddress,
+	// 		teleNumber: data.houseNumber,
+	// 		accomCategory: data.houseType,
+	// 		accomDetails: data.detailText,
+	// 		checkIn: data.checkIn,
+	// 		checkOut: data.checkOut,
+	// 		businessNumber: data.businessNum,
+	// 		facilityDto: data.houseService,
+	// 	};
+
+	// 	console.log(data.houseImageFile, '이미지파일');
+	// 	console.log(requestData, 'request');
+
+	// 	const json = JSON.stringify(requestData);
+	// 	const blob = new Blob([json], { type: 'application/json' });
+	// 	formData.append('request', blob);
+	// 	return api.post(ownerUrl.houseRegister, formData, { headers: { 'Content-Type': 'multipart/form-data' } });
+	// }
 
 	return (
 		<StepBtnAligner>

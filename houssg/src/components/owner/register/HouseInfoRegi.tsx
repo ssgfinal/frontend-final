@@ -11,6 +11,8 @@ const HouseInfoRegi: React.FC<RegiStepProps> = ({ step, goStep, funnelState }) =
 	const [houseNumber, setHouseNumber] = useState<string>('');
 	const [currentType, setCurrentType] = useState<string>(houseCategory[0].value);
 	const [checkedList, setCheckedList] = useState<number[]>(new Array(houseServiceCategory.length).fill(0));
+	// const [checkIn ,setCheckIn] = useState("15:00")
+	// const [checkOut ,setCheckOut] = useState("12:00")
 
 	const checkIn = useRef<HTMLInputElement | null>(null);
 	const checkOut = useRef<HTMLInputElement | null>(null);
@@ -25,7 +27,7 @@ const HouseInfoRegi: React.FC<RegiStepProps> = ({ step, goStep, funnelState }) =
 		newCheckedList[index] = value;
 		setCheckedList([...newCheckedList]);
 	};
-
+	console.log(detailText.current?.value, 'detailText');
 	return (
 		<HouseRegiEachWrapper>
 			<UserReservationTitle>숙소 정보</UserReservationTitle>
@@ -67,8 +69,8 @@ const HouseInfoRegi: React.FC<RegiStepProps> = ({ step, goStep, funnelState }) =
 					houseNumber,
 					houseType: currentType,
 					checkIn: checkIn.current?.value,
-					checkOut: checkIn.current?.value,
-					detailText: checkIn.current?.value,
+					checkOut: checkOut.current?.value,
+					detailText: detailText.current?.value,
 				}}
 			/>
 		</HouseRegiEachWrapper>
