@@ -3,6 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { color } from '../../assets/styles/theme';
+import { useAppDispatch } from '../../hooks';
+import { openModal } from '../../store/redux/modalSlice';
+import { isLoginFunc } from '../../utils';
 
 interface RoomProps {
 	room: {
@@ -18,9 +21,16 @@ interface RoomProps {
 export const RoomDetail: React.FC<RoomProps> = ({ room }) => {
 	const navigate = useNavigate();
 
-	// 숫자를 1000 단위로 포맷하는 함수
-	const formatNumber = (value: number) => {
-		return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+	const dispatch = useAppDispatch();
+
+	const handleLink = () => {
+		const isLogin = isLoginFunc();
+		if (!isLogin) {
+			const modalSize = window.innerWidth >= 1000 ? 500 : 400;
+			dispatch(openModal({ modalComponent: 'auth', modalSize: modalSize }));
+		} else {
+			navigate(`/user/reservation/${room.id}`);
+		}
 	};
 
 	return (
@@ -37,14 +47,8 @@ export const RoomDetail: React.FC<RoomProps> = ({ room }) => {
 					))}
 				</div>
 				<Between>
-					<Center>{formatNumber(room.price)}원</Center>
-					<Button
-						onClick={() => {
-							navigate(`/user/reservation/${room.id}`);
-						}}
-					>
-						예약하기
-					</Button>
+					<Center>{room.price.toLocaleString()}원</Center>
+					<Button onClick={handleLink}>예약하기</Button>
 				</Between>
 			</Info>
 		</Wrapper>

@@ -1,70 +1,82 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { styled } from 'styled-components';
 
-import { accomodation } from '../../assets/icons';
 import Rating from '../common/Rating';
 
 import { houseServiceCategory } from '../../assets/constant';
+import HeartIcons from '../common/HeartIcons';
+import { color } from '../../assets/styles';
+import { useLocation } from 'react-router-dom';
 export const HouseInfo = () => {
+	const location = useLocation();
+	const house = location.state.house;
+
 	const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
 	const toggleDropdown = () => {
 		setIsDropdownOpen(!isDropdownOpen);
 	};
 
-	const rate = 3.4;
-	const location = '부산시 수영구 수영동';
-	const reviewCnt = 11400;
-	const startTime = 13;
-	const endTime = 11;
-
-	const accservice = [1, 1, 0, 0, 1, 0, 1, 1, 0, 1];
+	const [isLoading, setIsLoading] = useState(false);
 
 	interface ServiceList {
 		value: string;
 		text: string;
 		icon: string;
 	}
-	const accomServices: ServiceList[] = [];
+	const [accomServices, setAccomServices] = useState<ServiceList[]>([]);
 
-	accservice.forEach((existence, idx) => {
-		if (existence == 1) {
-			accomServices.push(houseServiceCategory[idx]);
-		}
-	});
+	useEffect(() => {
+		const updatedServices: ServiceList[] = [];
+		house &&
+			house.service.forEach((existence: number, idx: number) => {
+				if (existence === 1) {
+					updatedServices.push(houseServiceCategory[idx]);
+				}
+			});
+		setAccomServices(updatedServices);
+		setIsLoading(true);
+	}, [house]);
 
 	return (
 		<Container>
-			<Img src={accomodation} />
+			<AccomImg>
+				<Img src={house.img} />
+				<OverHeartIcon>
+					<HeartIcons favorite={house.isFavorite} />
+				</OverHeartIcon>
+			</AccomImg>
 			<Info>
-				<div>숙소명</div>
-				찜하기 컴포넌트
-				<br />
+				<OneLine>
+					<div>센텀 무지개 호텔</div>
+					<HeartIcons favorite={house.isFavorite} />
+				</OneLine>
 				<RateBox>
-					<Rating rate={rate} readonly />
+					<Rating rate={house.avgRating} readonly />
 				</RateBox>
-				(후기 : {reviewCnt.toLocaleString()}개)
-				<div>{location}</div>
+				(후기 : {house.reviewCount.toLocaleString()}개)
+				<div>{house.accomAddress}</div>
 				<div>
-					입실 ~ 퇴실 : {startTime}시 ~ {endTime}시
+					입실 ~ 퇴실 : {house.checkIn}시 ~ {house.checkOut}시
 				</div>
 				<div>
 					<div>
 						시설 및 서비스
 						<br />
-						<Service>
-							{accomServices.length <= 5 ? (
-								accomServices.map((service, idx) => <Icon key={idx} src={service.icon} alt={service.text} />)
-							) : (
-								<>
-									{accomServices.slice(0, 5).map((service, idx) => (
-										<Icon key={idx} src={service.icon} alt={service.text} />
-									))}
-
-									<MoreService onClick={toggleDropdown}>{isDropdownOpen ? '▲' : '▼'}</MoreService>
-								</>
-							)}
-						</Service>
+						{isLoading && (
+							<Service>
+								{accomServices.length <= 5 ? (
+									accomServices.map((service, idx) => <Icon key={idx} src={service.icon} alt={service.text} />)
+								) : (
+									<>
+										{accomServices.slice(0, 5).map((service, idx) => (
+											<Icon key={idx} src={service.icon} alt={service.text} />
+										))}
+										<MoreService onClick={toggleDropdown}>더보기 {isDropdownOpen ? '▲' : '▼'}</MoreService>
+									</>
+								)}
+							</Service>
+						)}
 					</div>
 					{isDropdownOpen && accomServices.length > 5 && (
 						<DropdownContent>
@@ -83,7 +95,7 @@ const Container = styled.div`
 	margin: 5rem 0;
 	display: grid;
 	@media (min-width: 750px) {
-		grid-template-columns: 1fr 1fr;
+		grid-template-columns: 65% 35%;
 		grid-gap: 2rem;
 	}
 	@media (max-width: 750px) {
@@ -91,8 +103,22 @@ const Container = styled.div`
 		grid-template-columns: 1fr;
 	}
 `;
+
+const AccomImg = styled.div`
+	position: relative;
+	width: 100%;
+`;
+
+const OverHeartIcon = styled.div`
+	position: absolute;
+	width: 10%;
+	bottom: 1rem;
+	right: 1rem;
+`;
+
 const Img = styled.img`
 	width: 100%;
+	border-radius: 1rem;
 `;
 
 const Info = styled.div`
@@ -103,13 +129,26 @@ const Info = styled.div`
 	text-align: left;
 	align-items: center;
 `;
+
+const OneLine = styled.div`
+	display: grid;
+	grid-template-columns: 90% 10%;
+	/* display: flex;
+	justify-content: space-between; */
+	font-weight: bold;
+	font-size: 1.6rem;
+	align-items: start;
+	/* align-self: center; */
+`;
 const MoreService = styled.button`
 	&:hover {
 		cursor: pointer;
 	}
-
+	width: 5rem;
 	background-color: white;
 	border-width: 0;
+	font-size: 12px;
+	color: ${color.darkGrayColor};
 `;
 
 const DropdownContent = styled.div`

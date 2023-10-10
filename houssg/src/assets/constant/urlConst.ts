@@ -1,3 +1,8 @@
+const userUrl = {
+	ratingOrder: 'accom/20/score',
+	registrationOrder: 'accom/20/date',
+};
+
 const authUrl = {
 	// auth
 	login: 'user/log-in',
@@ -21,4 +26,4 @@ const ownerUrl = {
 	houseRegister: 'accom/add',
 	myHouseList: 'mypage/accom',
 };
-export { authUrl, ownerUrl };
+export { userUrl, authUrl, ownerUrl };
