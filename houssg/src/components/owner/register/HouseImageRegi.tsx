@@ -5,17 +5,23 @@ import { ImageUploader } from '../../common';
 import { StepMover } from './element';
 import { SmallIndicatorText } from '../../../assets/styles/StyledComponents';
 import styled from 'styled-components';
+import { base64ToFile } from '../../../utils';
 
 const HouseImageRegi: React.FC<RegiStepProps> = ({ goStep, step, funnelState }) => {
 	const [houseImage, setHouseImage] = useState(funnelState?.houseImage ? funnelState.houseImage : '');
 	const width = '300px';
 	const height = '400px';
+	const [houseImageFile, setHouseImageFIle] = useState(funnelState?.houseImageFile ? funnelState.houseImageFile : null);
+
+	const onAddHouseImageFile = (file: string) => {
+		setHouseImageFIle(base64ToFile(file, funnelState?.name + ''));
+	};
 
 	return (
 		<HouseRegiEachWrapper>
 			<UserReservationTitle>숙소 이미지 등록</UserReservationTitle>
 
-			<ImageUploader width={width} height={height} setImage={setHouseImage}>
+			<ImageUploader width={width} height={height} setImage={setHouseImage} setImgFile={onAddHouseImageFile}>
 				{houseImage ? (
 					<>
 						<CroppedImg width={width} height={height} src={houseImage} alt="cropped" />
@@ -29,7 +35,7 @@ const HouseImageRegi: React.FC<RegiStepProps> = ({ goStep, step, funnelState }) 
 				)}
 			</ImageUploader>
 
-			<StepMover inactive={!houseImage} goStep={goStep} step={step} data={{ houseImage }} />
+			<StepMover inactive={!houseImage && !houseImageFile} goStep={goStep} step={step} data={{ houseImage, houseImageFile }} />
 		</HouseRegiEachWrapper>
 	);
 };
