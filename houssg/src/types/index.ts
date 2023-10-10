@@ -6,6 +6,7 @@ import { ManageNavProps, RoomComp, MyHouseData, MyHouseDataHandleComp } from './
 import { StyledActiveProps, SetStateToggle, UserType, UserTypeObject, RoomSlideProps, TimerProps, ProcessType } from './common';
 import { RegiStepProps, StepMoverType } from './regi';
 import { AuthLoginFunc, AuthSignUpFunc } from './rtk';
+import { UserMyPageType } from './mypage';
 import { HouseBaseInfo } from './house';
 
 // auth Regi manage
@@ -21,5 +22,7 @@ export type { ManageNavProps, RoomComp, MyHouseData, MyHouseDataHandleComp };
 export type { RegiStepProps, StepMoverType };
 //redux-toolkit
 export type { AuthLoginFunc, AuthSignUpFunc };
+//mypage 충돌 해결
+export type { UserMyPageType };
 // house
 export type { HouseBaseInfo };

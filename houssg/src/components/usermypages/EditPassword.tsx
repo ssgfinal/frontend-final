@@ -6,6 +6,10 @@ import { color } from '../../assets/styles';
 import { regSignUp } from '../../assets/constant';
 import { unvisible, visible } from '../../assets/icons';
 
+// TODO: 서버 > 새 비밀번호
+// import api from '../../api/api';
+// import { userUrl } from '../../assets/constant/urlConst';
+
 const EditPassword = () => {
 	const dispatch = useAppDispatch();
 
@@ -73,18 +77,23 @@ const EditPassword = () => {
 		}
 	}, [isValidPassword, newPassword, newPasswordCheck, password]);
 
-	const onEditPass = () => {
+	const onEditPass = async () => {
 		if (isValidPassword) {
-			// 서버에 전달
-
-			// 닫으면서 초기화
-			setIsVisibleArray([false, false, false]);
-			setPassword('');
-			setNewPassword('');
-			setNewPasswordCheck('');
-			setIsValidPassword(false);
-			setErrorMessage('');
-			dispatch(closeModal());
+			// TODO: 서버에 전달, 추후 수정 >> payload : 닉네임, 새로운 비밀번호?
+			try {
+				// const userNickName = sessionStorage.getItem('nickname');
+				// await api.post(userUrl.updateMyPw, { userNickName, newPassword });
+				setIsVisibleArray([false, false, false]);
+				setPassword('');
+				setNewPassword('');
+				setNewPasswordCheck('');
+				setIsValidPassword(false);
+				setErrorMessage('');
+				dispatch(closeModal());
+			} catch (error) {
+				alert('실패하였습니다.');
+				console.error(error);
+			}
 		}
 	};
 
@@ -118,7 +127,7 @@ const EditPassword = () => {
 			{errorMessage ? <ErrorMessage>{errorMessage}</ErrorMessage> : null}
 			<PasswordInstruction>{regSignUp.regPw.tooltip}</PasswordInstruction>
 
-			<EditPasswordButton onClick={onEditPass} disabled={!isValidPassword} style={cannotEdit}>
+			<EditPasswordButton type="button" onClick={onEditPass} disabled={!isValidPassword} style={cannotEdit}>
 				{isValidPassword ? '수정완료' : '수정불가'}
 			</EditPasswordButton>
 		</EditPasswordWrapper>
