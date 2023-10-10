@@ -12,11 +12,7 @@ import { houseCategory, userUrl } from '../../assets/constant';
 import { HouseBaseInfo } from '../../types';
 import api from '../../api/api';
 
-interface BriefHouseProps {
-	house: HouseBaseInfo[];
-}
-
-const UserHouseList: React.FC<BriefHouseProps> = () => {
+const UserHouseList = () => {
 	const handleChange = (value: { value: string; label: React.ReactNode }) => {
 		console.log(value); // { value: "lucy", key: "lucy", label: "Lucy (101)" }
 	};
@@ -45,7 +41,7 @@ const UserHouseList: React.FC<BriefHouseProps> = () => {
 			setHouseList(data);
 		});
 	}, []);
-
+	console.log(houseList);
 	return (
 		<>
 			<SearchWrapper>
