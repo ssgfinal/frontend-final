@@ -7,6 +7,7 @@ import { houseServiceCategory } from '../../assets/constant';
 import HeartIcons from '../common/HeartIcons';
 import { color } from '../../assets/styles';
 import { useLocation } from 'react-router-dom';
+
 export const HouseInfo = () => {
 	const location = useLocation();
 	const house = location.state.house;
@@ -43,21 +44,18 @@ export const HouseInfo = () => {
 			<AccomImg>
 				<Img src={house.img} />
 				<OverHeartIcon>
-					<HeartIcons favorite={house.isFavorite} />
+					<HeartIcons />
 				</OverHeartIcon>
 			</AccomImg>
 			<Info>
-				<OneLine>
-					<div>센텀 무지개 호텔</div>
-					<HeartIcons favorite={house.isFavorite} />
-				</OneLine>
+				<HouseName>센텀 무지개 호텔</HouseName>
 				<RateBox>
 					<Rating rate={house.avgRating} readonly />
 				</RateBox>
 				(후기 : {house.reviewCount.toLocaleString()}개)
 				<div>{house.accomAddress}</div>
 				<div>
-					입실 ~ 퇴실 : {house.checkIn}시 ~ {house.checkOut}시
+					입실 ~ 퇴실 : {house.checkIn} ~ {house.checkOut}
 				</div>
 				<div>
 					<div>
@@ -94,11 +92,11 @@ export const HouseInfo = () => {
 const Container = styled.div`
 	margin: 5rem 0;
 	display: grid;
-	@media (min-width: 750px) {
-		grid-template-columns: 65% 35%;
+	@media (min-width: 850px) {
+		grid-template-columns: 60% 40%;
 		grid-gap: 2rem;
 	}
-	@media (max-width: 750px) {
+	@media (max-width: 850px) {
 		margin-bottom: 0;
 		grid-template-columns: 1fr;
 	}
@@ -118,7 +116,9 @@ const OverHeartIcon = styled.div`
 
 const Img = styled.img`
 	width: 100%;
+	height: 100%;
 	border-radius: 1rem;
+	object-fit: cover;
 `;
 
 const Info = styled.div`
@@ -130,15 +130,12 @@ const Info = styled.div`
 	align-items: center;
 `;
 
-const OneLine = styled.div`
-	display: grid;
-	grid-template-columns: 90% 10%;
-	/* display: flex;
-	justify-content: space-between; */
+const HouseName = styled.div`
+	/* display: grid;
+	grid-template-columns: 90% 10%; */
 	font-weight: bold;
 	font-size: 1.6rem;
-	align-items: start;
-	/* align-self: center; */
+	/* align-items: start; */
 `;
 const MoreService = styled.button`
 	&:hover {
