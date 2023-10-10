@@ -73,7 +73,7 @@ const ReviewWrite = () => {
 				</PhotoReviewBox>
 				<ReviewImageContainer>
 					{appendImg ? (
-						<ImageUploader width={width} height={height} setImage={setImgFile}>
+						<ImageUploader width={width} height={height} setImage={setImgFile} setImgFile={() => console.log('TODO: 이미지 파일과 이미지 구별')}>
 							{imgFile ? (
 								<>
 									<PreviewBox width={width} height={height} src={imgFile.toString()} alt="이미지 미리보기" />

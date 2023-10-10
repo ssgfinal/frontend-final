@@ -279,6 +279,7 @@ const HouseRegiEachWrapper = styled.div`
 	${flexCenter}
 	flex-direction: column;
 	margin: 1rem 0;
+	max-width: 900px;
 `;
 
 //Auth

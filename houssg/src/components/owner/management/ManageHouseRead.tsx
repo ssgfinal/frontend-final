@@ -59,14 +59,11 @@ const ManageHouseRead: React.FC<MyHouseDataHandleComp> = ({ house, setIsEditMode
 			<SubInfoAligner>
 				<InfoTitleText>시설 및 서비스</InfoTitleText>
 				<ServiceContainer>
-					{/* {house.service.map((able, i) => {
-						return <ManageReadService key={i} src={houseServiceCategory[i].icon}></ManageReadService>;
-					})} */}
 					{house.service.map((able, i) => {
 						if (i >= 0 && i < houseServiceCategory.length && able) {
 							return <ManageReadService key={i} src={houseServiceCategory[i].icon}></ManageReadService>;
 						}
-						return null; // 혹은 다른 fallback 로직을 적용할 수 있음
+						return null;
 					})}
 				</ServiceContainer>
 				<InfoTitleText>상세설명</InfoTitleText>
