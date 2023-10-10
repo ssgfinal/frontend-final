@@ -3,6 +3,8 @@ const userUrl = {
 	//main
 	ratingOrder: 'accom/20/score',
 	registrationOrder: 'accom/20/date',
+
+	// deleteLike: 'favorite',
 	// mypage
 	mypage: 'mypage/all',
 	updateNick: 'nick/update',
@@ -15,11 +17,16 @@ const userUrl = {
 	withdrawal: 'user/withdrawal',
 	myReview: 'mypage/review', // 마이페이지 리뷰 목록
 	myFavorite: 'mypage/favorite', // 마이페이지 찜 목록
-	// reservation
-	addReview: 'review/add', // 유저가 등록하는 리뷰
 
 	// userhouselist
 	houseList: 'accom/all',
+
+	// reservation
+	addReview: 'review/add', // 유저가 등록하는 리뷰
+
+	// UserHouseDetail
+	like: 'favorite',
+	addLike: 'favorite/add',
 };
 
 const authUrl = {
