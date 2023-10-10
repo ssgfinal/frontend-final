@@ -1,12 +1,17 @@
+import { useLocation } from 'react-router-dom';
 import { ReservationCommonBox, UserReservationTitle, UserReservationLeft } from '../../assets/styles';
 
 export const RoomInfo = () => {
-	const houseName = '센텀 제일 가는 호텔';
-	const room = {
-		id: 1,
-		type: '스탠다드',
-		price: 32000,
-	};
+	const location = useLocation();
+	const houseName = location.state.houseName;
+	const room = location.state.room;
+	console.log('RoomInfo houseName > ', houseName, 'room > ', room);
+	// const houseName = '센텀 제일 가는 호텔';
+	// const room = {
+	// 	id: 1,
+	// 	type: '스탠다드',
+	// 	price: 32000,
+	// };
 
 	return (
 		<ReservationCommonBox>

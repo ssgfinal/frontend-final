@@ -48,7 +48,7 @@ export const HouseInfo = () => {
 				</OverHeartIcon>
 			</AccomImg>
 			<Info>
-				<HouseName>센텀 무지개 호텔</HouseName>
+				<HouseName>{house.accomName}</HouseName>
 				<RateBox>
 					<Rating rate={house.avgRating} readonly />
 				</RateBox>

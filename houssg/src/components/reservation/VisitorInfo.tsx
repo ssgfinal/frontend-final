@@ -5,13 +5,16 @@ import styled from 'styled-components';
 import { color, ReservationCommonBox, UserReservationTitle, UserReservationLeft } from '../../assets/styles';
 
 export const VisitorInfo = () => {
-	const reservation = {
-		id: 1,
-		night: 2,
-		price: 64000,
-		userNickName: '김도로뇽',
-		userPhone: '01012345678',
-	};
+	// const reservation = {
+	// 	id: 1,
+	// 	night: 2,
+	// 	price: 64000,
+	// 	userNickName: '김도로뇽',
+	// 	userPhone: '01012345678',
+	// };
+
+	const userNickName = sessionStorage.getItem('nickname');
+	const userPhone = sessionStorage.getItem('phone');
 
 	interface visitor {
 		name: string;
@@ -31,8 +34,8 @@ export const VisitorInfo = () => {
 		if (!isChecked === true) {
 			setVisitor({
 				...visitor,
-				name: reservation.userNickName,
-				phone: reservation.userPhone,
+				name: `${userNickName}`,
+				phone: `${userPhone}`,
 			});
 		} else {
 			setVisitor({
