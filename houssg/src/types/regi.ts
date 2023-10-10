@@ -1,6 +1,21 @@
 interface StepProps {
-	goStep: (step: number, newState?: { [key: string]: string | number | number[] | File | null }) => void;
+	goStep: (step: number, newState?: FunnelPropsType) => void;
 	step: number;
+}
+
+interface FunnelPropsType {
+	businessNum?: number;
+	name?: string;
+	businessImg?: string;
+	targetAddress?: string;
+	houseImage?: string;
+	houseService?: number[];
+	houseNumber?: string;
+	houseType?: string;
+	houseImageFile?: File;
+	checkIn?: string;
+	checkOut?: string;
+	detailText?: string;
 }
 
 interface RegiStepProps extends StepProps {
@@ -14,12 +29,15 @@ interface RegiStepProps extends StepProps {
 		houseNumber: string;
 		houseType: string;
 		houseImageFile: File;
+		checkIn: string;
+		checkOut: string;
+		detailText: string;
 	};
 }
 
 interface StepMoverType extends StepProps {
-	data: { [key: string]: string | number | number[] | File | null };
+	data: FunnelPropsType;
 	inactive: boolean;
 	last?: true;
 }
-export type { RegiStepProps, StepMoverType };
+export type { RegiStepProps, StepMoverType, FunnelPropsType };
