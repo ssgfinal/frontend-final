@@ -22,6 +22,7 @@ const userUrl = {
 	houseList: 'accom/all',
 
 	// reservation
+	review: 'reveiw', // 에약하기 페이지에서 띄울 데이터 요청하는 url
 	addReview: 'review/add', // 유저가 등록하는 리뷰
 
 	// UserHouseDetail
