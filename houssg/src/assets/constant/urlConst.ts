@@ -1,6 +1,9 @@
 const userUrl = {
 	ratingOrder: 'accom/20/score',
 	registrationOrder: 'accom/20/date',
+	like: 'favorite',
+	addLike: 'favorite/add',
+	// deleteLike: 'favorite',
 };
 
 const authUrl = {
