@@ -17,9 +17,9 @@ const userUrl = {
 	myFavorite: 'mypage/favorite', // 마이페이지 찜 목록
 	// reservation
 	addReview: 'review/add', // 유저가 등록하는 리뷰
-	// favorite
-	addFavorite: 'favorite/add', // 유저가 찜 하기
-	delFavorite: 'favorite', // 유저 찜 해제
+
+	// userhouselist
+	houseList: 'accom/all',
 };
 
 const authUrl = {
