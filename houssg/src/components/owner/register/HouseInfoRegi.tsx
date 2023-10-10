@@ -11,15 +11,17 @@ const HouseInfoRegi: React.FC<RegiStepProps> = ({ step, goStep, funnelState }) =
 	const [houseNumber, setHouseNumber] = useState<string>('');
 	const [currentType, setCurrentType] = useState<string>(houseCategory[0].value);
 	const [checkedList, setCheckedList] = useState<number[]>(new Array(houseServiceCategory.length).fill(0));
-	// const [checkIn ,setCheckIn] = useState("15:00")
-	// const [checkOut ,setCheckOut] = useState("12:00")
-
 	const checkIn = useRef<HTMLInputElement | null>(null);
 	const checkOut = useRef<HTMLInputElement | null>(null);
 	const detailText = useRef<HTMLTextAreaElement | null>(null);
+	const [infoDatas, setInfoDatas] = useState({ checkIn: '', checkOut: '', detailText: '' });
 
 	const handleChange = (value: string) => {
 		setCurrentType(value);
+	};
+
+	const onhandleInfoChange = (key: 'checkIn' | 'checkOut' | 'detailText', value: string) => {
+		setInfoDatas({ ...infoDatas, [key]: value });
 	};
 
 	const onChangeCheckedList = (index: number, value: number) => {
@@ -27,7 +29,7 @@ const HouseInfoRegi: React.FC<RegiStepProps> = ({ step, goStep, funnelState }) =
 		newCheckedList[index] = value;
 		setCheckedList([...newCheckedList]);
 	};
-	console.log(detailText.current?.value, 'detailText');
+
 	return (
 		<HouseRegiEachWrapper>
 			<UserReservationTitle>숙소 정보</UserReservationTitle>
@@ -41,11 +43,23 @@ const HouseInfoRegi: React.FC<RegiStepProps> = ({ step, goStep, funnelState }) =
 			</HouseInfoAligner>
 			<HouseInfoAligner>
 				<SemiTitle>체크인</SemiTitle>
-				<CheckInput type="time" ref={checkIn} />
+				<CheckInput
+					type="time"
+					ref={checkIn}
+					onChange={(e) => {
+						onhandleInfoChange('checkIn', e.target.value);
+					}}
+				/>
 			</HouseInfoAligner>
 			<HouseInfoAligner>
 				<SemiTitle>체크아웃</SemiTitle>
-				<CheckInput type="time" ref={checkOut} />
+				<CheckInput
+					type="time"
+					ref={checkOut}
+					onChange={(e) => {
+						onhandleInfoChange('checkOut', e.target.value);
+					}}
+				/>
 			</HouseInfoAligner>
 			<ServiceContainer>
 				<SemiTitle>서비스 및 시설</SemiTitle>
@@ -56,7 +70,14 @@ const HouseInfoRegi: React.FC<RegiStepProps> = ({ step, goStep, funnelState }) =
 				</CheckBoxContainer>
 			</ServiceContainer>
 			<SemiTitle>상세설명</SemiTitle>
-			<DetailText rows={8} ref={detailText} maxLength={300} />
+			<DetailText
+				rows={8}
+				ref={detailText}
+				maxLength={300}
+				onChange={(e) => {
+					onhandleInfoChange('detailText', e.target.value);
+				}}
+			/>
 
 			<StepMover
 				inactive={false}
@@ -68,9 +89,7 @@ const HouseInfoRegi: React.FC<RegiStepProps> = ({ step, goStep, funnelState }) =
 					houseService: checkedList,
 					houseNumber,
 					houseType: currentType,
-					checkIn: checkIn.current?.value,
-					checkOut: checkOut.current?.value,
-					detailText: detailText.current?.value,
+					...infoDatas,
 				}}
 			/>
 		</HouseRegiEachWrapper>
