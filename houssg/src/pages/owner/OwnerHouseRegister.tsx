@@ -17,7 +17,6 @@ const OwnerHouseRegister = () => {
 	const goStep = (step: number, newState?: FunnelPropsType) => {
 		navigate('', { state: { ...funnelState, step, ...newState } });
 	};
-	console.log(funnelState);
 
 	return (
 		<RegisterWrapper>

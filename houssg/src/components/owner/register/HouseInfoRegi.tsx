@@ -129,7 +129,7 @@ const ServiceContainer = styled.div`
 	${flexCenter};
 	flex-direction: column;
 	margin-bottom: 1rem;
-	margin-top: 0.2rem;
+	margin-top: 0.5rem;
 `;
 
 const CheckBoxContainer = styled.div`

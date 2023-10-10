@@ -12,8 +12,8 @@ import {
 } from './authFunction';
 
 // 사업자 관련
-import { getMyHouseListData } from './ownerFunction';
+import { getMyHouseListData, onRegiFunnelData } from './ownerFunction';
 
 export { authLoginFunc, authSignUpFunc, kakaoLoginFunc, kakaoSignUp, nickCheckFunc, idCheckFunc, onPhoneUsableCheck, phoneAuthCheck, onFindId };
 
-export { getMyHouseListData };
+export { getMyHouseListData, onRegiFunnelData };

@@ -40,7 +40,7 @@ const BusinessRegi: React.FC<RegiStepProps> = ({ goStep, step, funnelState }) =>
 	const onRegister = () => {
 		if (imgFile) {
 			setIsRegistered(true);
-			setBusinessData({ name: '숙소에서 받은 상호', businessNum: 21312322, businessImg: imgFile });
+			setBusinessData({ name: '숙소에서 받은 상호22', businessNum: 333312322, businessImg: imgFile });
 		}
 	};
 
