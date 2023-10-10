@@ -47,10 +47,7 @@ export const HouseInfo = () => {
 				</OverHeartIcon>
 			</AccomImg>
 			<Info>
-				<OneLine>
-					<div>센텀 무지개 호텔</div>
-					<HeartIcons />
-				</OneLine>
+				<HouseName>센텀 무지개 호텔</HouseName>
 				<RateBox>
 					<Rating rate={house.avgRating} readonly />
 				</RateBox>
@@ -130,15 +127,12 @@ const Info = styled.div`
 	align-items: center;
 `;
 
-const OneLine = styled.div`
-	display: grid;
-	grid-template-columns: 90% 10%;
-	/* display: flex;
-	justify-content: space-between; */
+const HouseName = styled.div`
+	/* display: grid;
+	grid-template-columns: 90% 10%; */
 	font-weight: bold;
 	font-size: 1.6rem;
-	align-items: start;
-	/* align-self: center; */
+	/* align-items: start; */
 `;
 const MoreService = styled.button`
 	&:hover {
