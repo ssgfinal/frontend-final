@@ -1,13 +1,13 @@
 import styled from 'styled-components';
-import { useEffect, useState } from 'react';
+// import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Rating from '../common/Rating';
 import { color } from '../../assets/styles';
 import hourClock from '../../utils/hourClock';
 
 // TODO: 서버 > 나의 후기 목록
-import api from '../../api/api';
-import { userUrl } from '../../assets/constant/urlConst';
+// import api from '../../api/api';
+// import { userUrl } from '../../assets/constant/urlConst';
 
 interface ReviewList {
 	reviews: {
@@ -29,7 +29,7 @@ interface ReviewList {
 const MyReview: React.FC<ReviewList> = ({ reviews }) => {
 	const navigate = useNavigate();
 
-	const [myReview, setMyReview] = useState(reviews);
+	// const [myReview, setMyReview] = useState(reviews);
 
 	//TODO: 403 error >> payload : 닉네임
 	/* 백로그 >> 2023-10-09T09:08:23.627Z  WARN 1 --- [nio-3200-exec-7] 
@@ -38,31 +38,31 @@ const MyReview: React.FC<ReviewList> = ({ reviews }) => {
 		 Required request parameter 'nickname' for method parameter type String is not present]
 	*/
 
-	const myReviewList = async (userNickName: string) => {
-		try {
-			const response = await api.post(userUrl.myReview, { nickname: userNickName });
-			console.log('resp' + response);
-			console.log('resp.data' + response.data);
-			setMyReview(response.data);
-		} catch (error) {
-			console.error(error);
-		}
-	};
+	// const myReviewList = async (userNickName: string) => {
+	// 	try {
+	// 		const response = await api.post(userUrl.myReview, { nickname: userNickName });
+	// 		console.log('resp' + response);
+	// 		console.log('resp.data' + response.data);
+	// 		setMyReview(response.data);
+	// 	} catch (error) {
+	// 		console.error(error);
+	// 	}
+	// };
 
-	useEffect(() => {
-		const userNickName = sessionStorage.getItem('nickname');
-		myReviewList(userNickName!);
-		// TODO: 서버 연결 후 수정
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
+	// useEffect(() => {
+	// 	const userNickName = sessionStorage.getItem('nickname');
+	// 	myReviewList(userNickName!);
+	// TODO: 서버 연결 후 수정
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	// }, []);
 
 	return (
 		<MyReviewWrapper>
-			{myReview.length === 0 ? (
+			{reviews.length === 0 ? (
 				<GrayFont>작성한 후기가 없습니다.😢</GrayFont>
 			) : (
 				<MyReviewContainer>
-					{myReview.map((review, index) => (
+					{reviews.map((review, index) => (
 						<div key={index}>
 							<MyReviewBox>
 								<HouseBox

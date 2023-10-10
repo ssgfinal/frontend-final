@@ -6,8 +6,8 @@ import { color } from '../../assets/styles';
 import { regSignUp } from '../../assets/constant';
 
 // TODO: 서버 > 새 닉네임
-import api from '../../api/api';
-import { userUrl } from '../../assets/constant/urlConst';
+// import api from '../../api/api';
+// import { userUrl } from '../../assets/constant/urlConst';
 
 const EditNickName = () => {
 	const dispatch = useAppDispatch();
@@ -23,14 +23,14 @@ const EditNickName = () => {
 		if (isNewNickName.current) {
 			if (testNickName) {
 				// TODO: 서버로 보내기 추후 수정>> payload : 닉네임, 새로운 닉네임?
-				try {
-					await api.post(userUrl.updateNick, { userNickName, newNickName });
-					isNewNickName.current!.value = '';
-					dispatch(closeModal());
-				} catch (error) {
-					alert('실패하였습니다.');
-					console.error(error);
-				}
+				// try {
+				// 	await api.post(userUrl.updateNick, { userNickName, newNickName });
+				// 	isNewNickName.current!.value = '';
+				dispatch(closeModal());
+				// } catch (error) {
+				// 	alert('실패하였습니다.');
+				// 	console.error(error);
+				// }
 			} else {
 				if (newNickName === userNickName) {
 					alert('현재 사용 중인 닉네임입니다.');

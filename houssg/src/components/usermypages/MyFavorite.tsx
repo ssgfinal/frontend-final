@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { useEffect, useState } from 'react';
+// import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Rating from '../common/Rating';
 import { color } from '../../assets/styles';
@@ -7,8 +7,8 @@ import { MapMarker } from '../../assets/icons';
 import HeartIcons from '../common/HeartIcons';
 
 // TODO: 서버 > 찜목록
-import api from '../../api/api';
-import { userUrl } from '../../assets/constant/urlConst';
+// import api from '../../api/api';
+// import { userUrl } from '../../assets/constant/urlConst';
 
 interface MyFavoriteList {
 	favorites: {
@@ -24,11 +24,11 @@ interface MyFavoriteList {
 const MyFavorite: React.FC<MyFavoriteList> = ({ favorites }) => {
 	const navigate = useNavigate();
 
-	const [favorite, setFavorite] = useState(favorites);
+	// const [favorite, setFavorite] = useState(favorites);
 
 	//TODO: id가 유저id인지??닉네임이 되어야 하는게 아닌지
 	// const user = favorites[0].userId;
-
+	// console.log('ID = ' + user);
 	// api 정의서
 	/*( 프론트 : 숙소 목록 페이지에서 받아서
 		숙소 상세 페이지에선 해당 정보는
@@ -36,22 +36,24 @@ const MyFavorite: React.FC<MyFavoriteList> = ({ favorites }) => {
 	*/
 
 	//TODO: 403 error >> payload : 아이디? >> 유저 아이디를 직접 넣어도 같은 에러, 스웨거도 에러
-	const myFavorite = async () => {
-		try {
-			const response = await api.post(userUrl.myFavorite, { id: 'hjr123' });
-			setFavorite(response.data);
-		} catch (error) {
-			console.error(error);
-		}
-	};
+	// const myFavorite = async () => {
+	// 	try {
+	// 		const response = await api.post(userUrl.myFavorite);
+	// 		setFavorite(response.data);
+	// 	} catch (error) {
+	// 		console.error(error);
+	// 	}
+	// };
 
-	useEffect(() => {
-		myFavorite();
-		// TODO: 서버 연결 후 수정
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
+	// const myFavorite = () => {};
 
-	// TODO: 서버 > 찜해제 (찜 컴퍼넌트에 하기)
+	// useEffect(() => {
+	// 	myFavorite();
+	// TODO: 서버 연결 후 수정
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	// }, []);
+
+	// TODO: 서버 > 찜해제
 	// const onMyFavorite = async () => {
 	// 	try {
 	// 		const response = await api.delete(userUrl.delFavorite, { houseId });
@@ -63,10 +65,10 @@ const MyFavorite: React.FC<MyFavoriteList> = ({ favorites }) => {
 
 	return (
 		<MyFavoriteWrapper>
-			{favorite.length === 0 ? (
+			{favorites.length === 0 ? (
 				<GrayFont>찜한 숙소가 없습니다.😢</GrayFont>
 			) : (
-				favorite.map((favoriteItem, index) => (
+				favorites.map((favoriteItem, index) => (
 					<div key={index}>
 						<MyFavoriteContainer>
 							<HouseNameBox>

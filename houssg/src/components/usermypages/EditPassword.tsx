@@ -7,14 +7,10 @@ import { regSignUp } from '../../assets/constant';
 import { unvisible, visible } from '../../assets/icons';
 
 // TODO: 서버 > 새 비밀번호
-import api from '../../api/api';
-import { userUrl } from '../../assets/constant/urlConst';
+// import api from '../../api/api';
+// import { userUrl } from '../../assets/constant/urlConst';
 
-const EditPassword = (props: { userPassword: string }) => {
-	//TODO: 현재 비밀번호를 프론트에서 체크하는지?
-	const currentPassword: string = props.userPassword;
-	console.log(props.userPassword);
-
+const EditPassword = () => {
 	const dispatch = useAppDispatch();
 
 	const [isVisibleArray, setIsVisibleArray] = useState([false, false, false]);
@@ -51,12 +47,6 @@ const EditPassword = (props: { userPassword: string }) => {
 	};
 
 	useEffect(() => {
-		if (password !== currentPassword) {
-			setIsValidPassword(false);
-			setErrorMessage('현재 비밀번호를 입력해 주세요.');
-			return;
-		}
-
 		if (newPassword === password && newPassword) {
 			setIsValidPassword(false);
 			setErrorMessage('비밀번호가 같습니다.');
@@ -85,14 +75,14 @@ const EditPassword = (props: { userPassword: string }) => {
 				setErrorMessage('비밀번호가 일치하지 않습니다.');
 			}
 		}
-	}, [currentPassword, isValidPassword, newPassword, newPasswordCheck, password]);
+	}, [isValidPassword, newPassword, newPasswordCheck, password]);
 
 	const onEditPass = async () => {
 		if (isValidPassword) {
 			// TODO: 서버에 전달, 추후 수정 >> payload : 닉네임, 새로운 비밀번호?
 			try {
-				const userNickName = sessionStorage.getItem('nickname');
-				await api.post(userUrl.updateMyPw, { userNickName, newPassword });
+				// const userNickName = sessionStorage.getItem('nickname');
+				// await api.post(userUrl.updateMyPw, { userNickName, newPassword });
 				setIsVisibleArray([false, false, false]);
 				setPassword('');
 				setNewPassword('');

@@ -4,10 +4,11 @@ const userUrl = {
 	mypage: 'mypage/all',
 	updateNick: 'nick/update',
 	updatePhone: 'phone/update', // TODO: 폰 번호 수정!!새로운 번호 전달
-	phoneCheck: 'sms/sign-up', // 번호 중복확인
+	phoneCheck: 'sms/change-phone', // 번호 중복확인
 	phoneAuthCheck: 'sms/check', // 인증번호 검사
 	updateMyPw: 'pw/update',
-	myCoupon: 'coupon/enroll-usercoupon', // 유저가 쿠폰 등록?
+	myCoupon: 'coupon/find-couponinfo', // 유저 쿠폰함
+	enrollCoupon: 'coupon/enroll-usercoupon', // 유저가 쿠폰 등록
 	withdrawal: 'user/withdrawal',
 	myReview: 'mypage/review', // 마이페이지 리뷰 목록
 	myFavorite: 'mypage/favorite', // 마이페이지 찜 목록

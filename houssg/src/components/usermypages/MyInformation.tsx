@@ -3,23 +3,17 @@ import { useAppDispatch } from '../../hooks';
 import { openModal } from '../../store/redux/modalSlice';
 import { color } from '../../assets/styles';
 import { EditIcon } from '../../assets/icons';
-import { UserMyPageType } from '../../types';
 
-interface MyPageMainProps {
-	mypagemain: UserMyPageType[];
-}
-
-const MyInformation: React.FC<MyPageMainProps> = ({ mypagemain }) => {
+const MyInformation = () => {
 	const userNickName = sessionStorage.getItem('nickname');
 	const userPhone = sessionStorage.getItem('phone');
-	const prop = mypagemain.length > 0 ? mypagemain[0].userPassword : '';
 
 	const dispatch = useAppDispatch();
 
 	const modalOpen = (component: string, message: string | null) => {
 		const modalSize = window.innerWidth >= 1000 ? 500 : 400;
 
-		dispatch(openModal({ modalComponent: component, modalSize: modalSize, modalText: message, modalProps: prop }));
+		dispatch(openModal({ modalComponent: component, modalSize: modalSize, modalText: message }));
 	};
 
 	return (

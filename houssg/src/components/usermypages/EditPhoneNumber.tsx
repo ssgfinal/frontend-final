@@ -7,8 +7,8 @@ import { Timer } from '../common';
 import { ProcessType } from '../../types';
 
 // TODO: 서버 > 새 폰번호 , test 콘솔 지우기
-import api from '../../api/api';
-import { userUrl } from '../../assets/constant/urlConst';
+// import api from '../../api/api';
+// import { userUrl } from '../../assets/constant/urlConst';
 
 const EditPhoneNumber = () => {
 	const dispatch = useAppDispatch();
@@ -20,22 +20,22 @@ const EditPhoneNumber = () => {
 	//const [status, setStatus] = useState(false);
 	const phoneNumber = useRef<HTMLInputElement | null>(null);
 	const authentication = useRef<HTMLInputElement | null>(null);
-	const [authorization, setAuthorization] = useState(false);
-	const newPhone = phoneNumber.current?.value;
+	// const [authorization, setAuthorization] = useState(false);
 
 	const onAuthentication = async () => {
 		// TODO: 문자전송 요청 500 error > 내 번호를 넣으면 400 error?
 		// request_count을 찾을 수 없다???
 
-		if (newPhone !== null && phoneNumber.current) {
+		if (phoneNumber.current) {
+			const newPhone = phoneNumber.current.value;
 			console.log('test 새로운 번호 = ' + newPhone);
-			try {
-				const response = await api.post(userUrl.phoneCheck, { recipientPhoneNumber: newPhone });
-				response.status === 200 && setAuthorization(true);
-			} catch (error) {
-				console.error(error);
-			}
-			console.log('test 인증은?' + authorization);
+			// try {
+			// 	const response = await api.post(userUrl.phoneCheck, { recipientPhoneNumber: newPhone });
+			// 	response.status === 200 && setAuthorization(true);
+			// } catch (error) {
+			// 	console.error(error);
+			// }
+			// console.log('test 인증은?' + authorization);
 			// console.log(phoneNumber.current.value);
 		}
 
@@ -60,7 +60,8 @@ const EditPhoneNumber = () => {
 			<EditPhoneNumberButton onClick={onAuthentication}>인증</EditPhoneNumberButton>
 			<Space></Space>
 			<PhoneNumberTitle>인증번호 입력</PhoneNumberTitle>
-			<PhoneNumberInput type="number" ref={authentication} disabled={timeStatus === 'start' || authorization} />
+			<PhoneNumberInput type="number" ref={authentication} disabled={timeStatus === 'start'} />
+			{/* <PhoneNumberInput type="number" ref={authentication} disabled={timeStatus === 'start' || authorization} /> */}
 			<EditPhoneNumberButton disabled={timeStatus === 'start'} onClick={onEditPhoneNumber}>
 				변경
 			</EditPhoneNumberButton>
