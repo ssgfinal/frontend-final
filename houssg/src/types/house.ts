@@ -3,10 +3,10 @@ interface HouseBaseInfo {
 	accomName: string;
 	minPrice: number;
 	avgRating: number;
-	reviewCount?: number;
+	reviewCount: number;
 	accomAddress: string;
 	img: string;
-	isFavorite?: true;
+	isFavorite: true;
 	accomCategory: string;
 	accomDetails: string;
 	addRequest?: number;
