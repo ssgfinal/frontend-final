@@ -1,3 +1,34 @@
+const userUrl = {
+	// TODO: 백 mypage 관련 URL 나오면 수정 & 페이지별 구분?기능별구분?
+	//main
+	ratingOrder: 'accom/20/score',
+	registrationOrder: 'accom/20/date',
+
+	// deleteLike: 'favorite',
+	// mypage
+	mypage: 'mypage/all',
+	updateNick: 'nick/update',
+	updatePhone: 'phone/update', // TODO: 폰 번호 수정!!새로운 번호 전달
+	phoneCheck: 'sms/change-phone', // 번호 중복확인
+	phoneAuthCheck: 'sms/check', // 인증번호 검사
+	updateMyPw: 'pw/update',
+	myCoupon: 'coupon/find-couponinfo', // 유저 쿠폰함
+	enrollCoupon: 'coupon/enroll-usercoupon', // 유저가 쿠폰 등록
+	withdrawal: 'user/withdrawal',
+	myReview: 'mypage/review', // 마이페이지 리뷰 목록
+	myFavorite: 'mypage/favorite', // 마이페이지 찜 목록
+
+	// userhouselist
+	houseList: 'accom/all',
+
+	// reservation
+	addReview: 'review/add', // 유저가 등록하는 리뷰
+
+	// UserHouseDetail
+	like: 'favorite',
+	addLike: 'favorite/add',
+};
+
 const authUrl = {
 	// auth
 	login: 'user/log-in',
@@ -21,4 +52,5 @@ const ownerUrl = {
 	houseRegister: 'accom/add',
 	myHouseList: 'mypage/accom',
 };
-export { authUrl, ownerUrl };
+
+export { userUrl, authUrl, ownerUrl };
