@@ -1,7 +1,6 @@
 const userRoute = {
 	main: '/',
 	houseList: '/user/house',
-	// houseDetail: '/user/house/:houseId',
 	houseDetail: '/user/houseDetail',
 	myPage: '/user/mypage',
 	reservationList: '/user/reservation',
