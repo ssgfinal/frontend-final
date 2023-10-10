@@ -18,7 +18,7 @@ export const RoomList = () => {
 			price: 20000,
 		},
 		{
-			id: 2,
+			id: 2471,
 			img: accomodation,
 			icon: [ocean, nosmoking],
 			type: '트윈룸',

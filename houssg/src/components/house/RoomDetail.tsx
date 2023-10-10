@@ -1,11 +1,12 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { color } from '../../assets/styles/theme';
 import { useAppDispatch } from '../../hooks';
 import { openModal } from '../../store/redux/modalSlice';
 import { isLoginFunc } from '../../utils';
+import { userRoute } from '../../assets/constant';
 
 interface RoomProps {
 	room: {
@@ -19,6 +20,9 @@ interface RoomProps {
 }
 
 export const RoomDetail: React.FC<RoomProps> = ({ room }) => {
+	const location = useLocation();
+	const house = location.state.house;
+
 	const navigate = useNavigate();
 
 	const dispatch = useAppDispatch();
@@ -29,7 +33,8 @@ export const RoomDetail: React.FC<RoomProps> = ({ room }) => {
 			const modalSize = window.innerWidth >= 1000 ? 500 : 400;
 			dispatch(openModal({ modalComponent: 'auth', modalSize: modalSize }));
 		} else {
-			navigate(`/user/reservation/${room.id}`);
+			// navigate(`${userRoute.reservation}${room.id}`, { state: { houseName: house.accomName, room: room } });
+			navigate(`${userRoute.reservation}`, { state: { houseName: house.accomName, room: room } });
 		}
 	};
 
