@@ -1,5 +1,8 @@
 const userUrl = {
 	// TODO: 백 mypage 관련 URL 나오면 수정 & 페이지별 구분?기능별구분?
+	//main
+	ratingOrder: 'accom/20/score',
+	registrationOrder: 'accom/20/date',
 	// mypage
 	mypage: 'mypage/all',
 	updateNick: 'nick/update',
@@ -42,4 +45,5 @@ const ownerUrl = {
 	houseRegister: 'accom/add',
 	myHouseList: 'mypage/accom',
 };
-export { authUrl, ownerUrl, userUrl };
+
+export { userUrl, authUrl, ownerUrl };
