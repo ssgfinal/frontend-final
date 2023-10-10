@@ -11,10 +11,10 @@ const HouseImageRegi: React.FC<RegiStepProps> = ({ goStep, step, funnelState }) 
 	const [houseImage, setHouseImage] = useState(funnelState?.houseImage ? funnelState.houseImage : '');
 	const width = '300px';
 	const height = '400px';
-	const [houseImageFile, setHouseImageFIle] = useState(funnelState?.houseImageFile ? funnelState.houseImageFile : null);
+	const [houseImageFile, setHouseImageFile] = useState(funnelState?.houseImageFile ? funnelState.houseImageFile : null);
 
 	const onAddHouseImageFile = (file: string) => {
-		setHouseImageFIle(base64ToFile(file, funnelState?.name + ''));
+		setHouseImageFile(base64ToFile(file, funnelState?.name + ''));
 	};
 
 	return (
@@ -35,7 +35,12 @@ const HouseImageRegi: React.FC<RegiStepProps> = ({ goStep, step, funnelState }) 
 				)}
 			</ImageUploader>
 
-			<StepMover inactive={!houseImage && !houseImageFile} goStep={goStep} step={step} data={{ houseImage, houseImageFile }} />
+			<StepMover
+				inactive={!houseImage && !houseImageFile}
+				goStep={goStep}
+				step={step}
+				data={{ houseImage, houseImageFile: houseImageFile ? houseImageFile : undefined }}
+			/>
 		</HouseRegiEachWrapper>
 	);
 };
