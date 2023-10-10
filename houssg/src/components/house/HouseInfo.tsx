@@ -43,13 +43,13 @@ export const HouseInfo = () => {
 			<AccomImg>
 				<Img src={house.img} />
 				<OverHeartIcon>
-					<HeartIcons favorite={house.isFavorite} />
+					<HeartIcons />
 				</OverHeartIcon>
 			</AccomImg>
 			<Info>
 				<OneLine>
 					<div>센텀 무지개 호텔</div>
-					<HeartIcons favorite={house.isFavorite} />
+					<HeartIcons />
 				</OneLine>
 				<RateBox>
 					<Rating rate={house.avgRating} readonly />
