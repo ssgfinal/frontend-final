@@ -30,7 +30,14 @@ const OwnerRoomRegister = () => {
 
 				<SliderContainer>
 					<RoomImgSlider data={houseImgs} setData={onEditHouseImgs}>
-						<ImageUploader width="320px" height="240px" setImage={onAddHouseImg}>
+						<ImageUploader
+							width="320px"
+							height="240px"
+							setImage={onAddHouseImg}
+							setImgFile={() => {
+								console.log('TODO: 하기');
+							}}
+						>
 							<div>업로드</div>
 						</ImageUploader>
 					</RoomImgSlider>
