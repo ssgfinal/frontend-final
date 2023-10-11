@@ -2,4 +2,8 @@ const ownerKey = {
 	myHouseList: 'myHouseList',
 };
 
-export { ownerKey };
+const roomKey = {
+	targetRoom: 'targetRoom',
+};
+
+export { ownerKey, roomKey };
