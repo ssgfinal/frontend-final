@@ -45,4 +45,12 @@ interface MyHouseDataHandleComp {
 	setIsEditMode: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export type { ManageNavProps, RoomData, RoomComp, MyHouseData, MyHouseDataHandleComp };
+interface EditMutationType {
+	newCheckInValue: string;
+	newCheckOutValue: string;
+	newDetailValue: string;
+	newPhoneNumberValue: string;
+	newImgFile: File | null;
+}
+
+export type { ManageNavProps, RoomData, RoomComp, MyHouseData, MyHouseDataHandleComp, EditMutationType };
