@@ -6,14 +6,10 @@ import { color, HoverText, IconContainer, NoIcon } from '../../assets/styles';
 import { useAppDispatch } from '../../hooks';
 import { openModal } from '../../store/redux/modalSlice';
 import { isLoginFunc } from '../../utils';
-import { Room, ServiceList } from '../../types';
+import { RoomData, ServiceList } from '../../types';
 import { roomServiceCategory } from '../../assets/constant';
 
-interface RoomProps {
-	room: Room;
-}
-
-export const RoomDetail: React.FC<RoomProps> = ({ room }) => {
+export const RoomDetail: React.FC<RoomData> = ({ room }) => {
 	const navigate = useNavigate();
 
 	const dispatch = useAppDispatch();
@@ -94,32 +90,6 @@ const Type = styled.div`
 	font-size: large;
 `;
 
-// const HoverText = styled.div`
-// 	position: absolute;
-// 	bottom: -1.5rem;
-// 	left: 50%;
-// 	transform: translateX(-50%);
-// 	display: none;
-// 	background-color: rgba(0, 0, 0, 0.7);
-// 	color: white;
-// 	padding: 10px;
-// 	border-radius: 4px;
-// 	pointer-events: none;
-// 	opacity: 0;
-// 	transition: opacity 0.3s;
-// 	white-space: nowrap;
-// `;
-
-// const IconContainer = styled.div`
-// 	position: relative;
-// 	display: inline-block;
-
-// 	&:hover ${HoverText} {
-// 		display: block;
-// 		opacity: 1;
-// 	}
-// `;
-
 const Icon = styled.img`
 	width: 2rem;
 `;
@@ -129,10 +99,6 @@ const Between = styled.div`
 	justify-content: space-between;
 `;
 
-// const Small = styled.div`
-// 	font-size: small;
-// 	color: ${color.darkGrayColor};
-// `;
 const Center = styled.div`
 	@media (min-width: 950px) {
 		width: 65%;

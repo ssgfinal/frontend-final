@@ -28,14 +28,4 @@ interface ServiceList {
 	icon: string;
 }
 
-interface Room {
-	roomNumber: number;
-	roomCategory: string;
-	roomImg?: string;
-	roomPrice: number;
-	roomAvailablity: number; // 숙소 상세 내역 페이지에선 안 씀, 추후 컬러명 바뀔 수 있음
-	accomNumber: number;
-	service: number[] | null;
-}
-
-export type { HouseBaseInfo, ServiceList, Room };
+export type { HouseBaseInfo, ServiceList };

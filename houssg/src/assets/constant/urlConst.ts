@@ -27,7 +27,6 @@ const userUrl = {
 	// UserHouseDetail
 	like: 'favorite',
 	addLike: 'favorite/add',
-	roomList: 'room/detail',
 };
 
 const authUrl = {
