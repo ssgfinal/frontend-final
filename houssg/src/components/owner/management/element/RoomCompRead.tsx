@@ -7,7 +7,7 @@ import { roomServiceCategory } from '../../../../assets/constant';
 
 const RoomCompRead: React.FC<RoomComp> = ({ room, setIsEditMode }) => {
 	const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-
+	console.log(room);
 	const toggleDropdown = () => {
 		setIsDropdownOpen(!isDropdownOpen);
 	};
@@ -42,7 +42,9 @@ const RoomCompRead: React.FC<RoomComp> = ({ room, setIsEditMode }) => {
 				<RoomSubContent>{room.roomPrice.toLocaleString()}원</RoomSubContent>
 				<InfoTitleText>시설 및 서비스</InfoTitleText>
 				<ServiceContainer>
-					{room.service.map((service, i) => !!service && <ManageReadService key={i} src={roomServiceCategory[i].icon}></ManageReadService>)}
+					{/* 추후 벡엔드 고치면 46번줄 제거 */}
+					{!!room.service &&
+						room.service.map((service, i) => !!service && <ManageReadService key={i} src={roomServiceCategory[i].icon}></ManageReadService>)}
 				</ServiceContainer>
 			</RoomContent>
 		</RoomContainer>
