@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { AddressFinder, BusinessRegi, HouseImageRegi, HouseInfoRegi } from '../../components/owner/register';
 import { useLocation, useNavigate } from 'react-router';
 import { useSaveNavigateState } from '../../hooks';
+import { FunnelPropsType } from '../../types';
 
 const OwnerHouseRegister = () => {
 	const navigate = useNavigate();
@@ -13,10 +14,9 @@ const OwnerHouseRegister = () => {
 	const funnelState = location.state;
 
 	const step = funnelState ? funnelState.step : 0;
-	const goStep = (step: number, newState?: { [key: string]: string | number | number[] }) => {
+	const goStep = (step: number, newState?: FunnelPropsType) => {
 		navigate('', { state: { ...funnelState, step, ...newState } });
 	};
-	console.log(funnelState);
 
 	return (
 		<RegisterWrapper>

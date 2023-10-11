@@ -17,7 +17,7 @@ interface UserReservationListProps {
 const detail = [
 	{
 		reservationNumber: 1234567,
-		paymentDate: '2023-08-01',
+		paymentDate: '2023-08-01  20:00:00',
 		guestName: '홍길동',
 		guestPhone: '010-1234-5678',
 		couponName: '',
@@ -29,7 +29,7 @@ const detail = [
 	},
 	{
 		reservationNumber: 7654321,
-		paymentDate: '2023-08-02',
+		paymentDate: '2023-08-02  20:00:00',
 		guestName: '김철수',
 		guestPhone: '010-1234-5678',
 		couponName: '9월 반값~',
@@ -41,7 +41,7 @@ const detail = [
 	},
 	{
 		reservationNumber: 3234567,
-		paymentDate: '2023-08-03',
+		paymentDate: '2023-08-03  20:00:00',
 		guestName: '김철수',
 		guestPhone: '010-1234-5678',
 		couponNumber: '123456789',
@@ -53,7 +53,7 @@ const detail = [
 	},
 	{
 		reservationNumber: 5654321,
-		paymentDate: '2023-08-04',
+		paymentDate: '2023-08-04  20:00:00',
 		guestName: '김철수',
 		guestPhone: '010-1234-5678',
 		couponNumber: '123456789',
@@ -123,9 +123,8 @@ const ReservationList: React.FC<UserReservationListProps> = ({ reservations }) =
 
 	// 예약상태 배경색 변경
 	const statusStyle = {
-		color: reservations.reservationStatus === 0 ? color.color1 : reservations.reservationStatus === 1 ? color.color1 : color.backColor,
-		backgroundColor:
-			reservations.reservationStatus === 0 ? color.color5 : reservations.reservationStatus === 1 ? color.unSelectColor : color.unSelectColor,
+		color: reservations.reservationStatus === 0 ? color.color1 : reservations.reservationStatus === 1 ? color.backColor : color.backColor,
+		backgroundColor: reservations.reservationStatus === 0 ? color.color5 : reservations.reservationStatus === 1 ? color.color1 : color.darkGrayColor,
 	};
 
 	const dispatch = useAppDispatch();
@@ -148,6 +147,21 @@ const ReservationList: React.FC<UserReservationListProps> = ({ reservations }) =
 						>
 							취소하기
 						</ReservationButton>
+					) : reservations.reservationStatus === 1 ? (
+						reservations.reviewNumber ? (
+							<ReviewWriteButton>후기삭제</ReviewWriteButton>
+						) : (
+							// TODO: 한 번 등록되면 버튼막거나 후기 삭제??
+
+							<ReviewWriteButton
+								hidden={false}
+								onClick={() => {
+									modalOpen('userReview', null);
+								}}
+							>
+								후기등록
+							</ReviewWriteButton>
+						)
 					) : (
 						<div></div>
 					)}
@@ -162,14 +176,14 @@ const ReservationList: React.FC<UserReservationListProps> = ({ reservations }) =
 					</ImageBox>
 					<DetailBox>
 						<ReservationStatusBox style={statusStyle}>{getStatusString(reservations.reservationStatus)}</ReservationStatusBox>
-						<ReservationNameBox>
+						<div>
 							{reservations.accomName}&nbsp;({reservations.roomCategory})
-						</ReservationNameBox>
-						<ReservationStartDateBox>{formatDate(reservations.reservationStartDate)}~</ReservationStartDateBox>
-						<ReservationEndDateBox>
+						</div>
+						<div>{formatDate(reservations.reservationStartDate)}~</div>
+						<div>
 							{formatDate(reservations.reservationEndDate)}
 							{formatPeriod(reservations.reservationStartDate, reservations.reservationEndDate)}
-						</ReservationEndDateBox>
+						</div>
 						<RoomPriceBox>{reservations.roomPrice.toLocaleString()}원</RoomPriceBox>
 					</DetailBox>
 				</DetailContainer>
@@ -222,39 +236,77 @@ const ReservationBox = styled.div`
 const ReservationButton = styled.button`
 	justify-self: right;
 	align-self: center;
-	border: 1px solid;
+	border: none;
 	border-radius: 0.5rem;
-	background-color: ${color.color1};
+	background-color: ${color.unSelectColor};
 	color: ${color.backColor};
 	font-weight: bold;
 
 	&:hover {
 		cursor: pointer;
-		border: 1px solid;
+		border: none;
 		border-radius: 0.5rem;
-		border-color: ${color.color3};
-		background-color: ${color.color3};
+		background-color: ${color.darkGrayColor};
 		color: ${color.backColor};
 		font-weight: bold;
 	}
 
 	@media (max-width: 700px) {
 		font-size: 0.5rem;
-		border: 1px solid;
 
 		&:hover {
 			font-size: 0.5rem;
-			border: 1px solid;
 		}
 	}
 
 	@media (min-width: 700px) and (max-width: 1400px) {
 		font-size: 0.7rem;
-		border: 1.5px solid;
 
 		&:hover {
 			font-size: 0.7rem;
-			border: 1.5px solid;
+		}
+	}
+
+	@media (min-width: 1400px) {
+		font-size: 0.9rem;
+
+		&:hover {
+			font-size: 0.9rem;
+		}
+	}
+`;
+
+const ReviewWriteButton = styled.button`
+	justify-self: right;
+	align-self: center;
+	border: none;
+	border-radius: 0.5rem;
+	background-color: ${color.color5};
+	color: ${color.color1};
+	font-weight: bold;
+
+	&:hover {
+		cursor: pointer;
+		border: none;
+		border-radius: 0.5rem;
+		background-color: ${color.color1};
+		color: ${color.backColor};
+		font-weight: bold;
+	}
+
+	@media (max-width: 700px) {
+		font-size: 0.5rem;
+
+		&:hover {
+			font-size: 0.5rem;
+		}
+	}
+
+	@media (min-width: 700px) and (max-width: 1400px) {
+		font-size: 0.7rem;
+
+		&:hover {
+			font-size: 0.7rem;
 		}
 	}
 
@@ -302,12 +354,6 @@ const ReservationStatusBox = styled.div`
 	line-height: 1rem;
 	font-weight: bold;
 `;
-
-const ReservationNameBox = styled.div``;
-
-const ReservationStartDateBox = styled.div``;
-
-const ReservationEndDateBox = styled.div``;
 
 const RoomPriceBox = styled.div`
 	font-weight: bold;
@@ -372,7 +418,7 @@ const DetailBox = styled.div`
 	grid-row-start: 2;
 	grid-row-end: 3;
 	font-size: 0.8rem;
-	color: ${color.color1};
+	color: ${color.darkGrayColor};
 	text-align: left;
 	display: grid;
 

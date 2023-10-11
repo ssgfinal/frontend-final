@@ -20,6 +20,7 @@ interface ReservationsType extends ReservationDetailType {
 	accomName: string; // 숙소명
 	roomCategory: string; // 객실 종류
 	roomPrice: number; // 객실 가격
+	reviewNumber: number; // 리뷰번호
 }
 
 export type { ReservationDetailType, ReservationsType };

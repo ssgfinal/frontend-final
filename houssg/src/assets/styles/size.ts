@@ -12,5 +12,6 @@ const devideThird = {
 	second: '800px',
 	third: '500px',
 };
+const rootFontSize = window.getComputedStyle(document.documentElement).getPropertyValue('font-size');
 
-export { devideOnce, devideTwice, devideThird };
+export { devideOnce, devideTwice, devideThird, rootFontSize };

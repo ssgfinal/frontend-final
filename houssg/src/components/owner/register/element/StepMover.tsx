@@ -1,13 +1,33 @@
 import styled from 'styled-components';
 import { StepMoverType } from '../../../../types';
 import { color } from '../../../../assets/styles';
+import { onRegiFunnelData } from '../../../../helper';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { ownerKey, ownerRoute } from '../../../../assets/constant';
+import { useNavigate } from 'react-router-dom';
 
 const StepMover: React.FC<StepMoverType> = ({ goStep, step, data, inactive, last }) => {
+	const queryClient = useQueryClient();
+	const navigate = useNavigate();
+
+	const { mutate } = useMutation({
+		mutationFn: () => onRegiFunnelData(data),
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: [ownerKey.myHouseList] });
+			alert('성공');
+			navigate(ownerRoute.management);
+		},
+	});
+
+	const onRegiHandler = () => {
+		mutate();
+	};
+
 	return (
 		<StepBtnAligner>
 			{!!step && <StepBtn onClick={() => goStep(step - 1)}>이전</StepBtn>}
 			{last ? (
-				<StepBtn $inactive={inactive} onClick={() => !inactive && console.log(data)}>
+				<StepBtn $inactive={inactive} onClick={onRegiHandler}>
 					등록하기
 				</StepBtn>
 			) : (

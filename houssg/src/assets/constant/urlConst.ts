@@ -1,24 +1,63 @@
+const userUrl = {
+	// TODO: 백 mypage 관련 URL 나오면 수정 & 페이지별 구분?기능별구분?
+	//main
+	ratingOrder: 'accom/20/score',
+	registrationOrder: 'accom/20/date',
+
+	// deleteLike: 'favorite',
+	// mypage
+	mypage: 'mypage/all',
+	updateNick: 'nick/update',
+	updatePhone: 'phone/update', // TODO: 폰 번호 수정!!새로운 번호 전달
+	phoneCheck: 'sms/change-phone', // 번호 중복확인
+	phoneAuthCheck: 'sms/check', // 인증번호 검사
+	updateMyPw: 'pw/update',
+	myCoupon: 'coupon/find-couponinfo', // 유저 쿠폰함
+	enrollCoupon: 'coupon/enroll-usercoupon', // 유저가 쿠폰 등록
+	withdrawal: 'user/withdrawal',
+	myReview: 'mypage/review', // 마이페이지 리뷰 목록
+	myFavorite: 'mypage/favorite', // 마이페이지 찜 목록
+
+	// userhouselist
+	houseList: 'accom/all',
+
+	// reservation
+	addReview: 'review/add', // 유저가 등록하는 리뷰
+
+	// UserHouseDetail
+	like: 'favorite',
+	addLike: 'favorite/add',
+};
+
 const authUrl = {
 	// auth
-	login: 'user/login',
-	logout: 'user/logout',
-	signUp: 'user/signup',
-	idCheck: 'user/idcheck',
-	nickCheck: 'user/nicknamecheck',
-	phoneCheck: 'message/sms',
-	phoneAuthCheck: 'message/sms-check',
-	findId: 'user/findid',
-	findIdCheck: 'message/sms-check-findid',
-	findPw: 'user/findpw',
-	updatePw: 'user/updatePassword',
+	login: 'user/log-in',
+	logout: 'user/log-out',
+	signUp: 'user/sign-up',
+	idCheck: 'user/id-check',
+	nickCheck: 'user/nickname-check',
+	findId: 'user/find-id',
+	findPw: 'user/find-pw',
+	updatePw: 'user/update-pw',
+	phoneCheck: 'sms/sign-up',
+	phoneAuthCheck: 'sms/check',
+	findIdCheck: 'sms/check-findid',
 	//TODO:
 	kakaoLogin: 'user/kakao',
 	kakaoAdd: 'user/kakaAdd',
-
 	//
 };
 
 const ownerUrl = {
 	houseRegister: 'accom/add',
+	myHouseList: 'mypage/accom',
+	houseEdit: 'accom',
 };
-export { authUrl, ownerUrl };
+
+const roomUrl = {
+	roomList: 'room/detail',
+	roomAdd: 'room/add',
+	roomEdit: 'room',
+};
+
+export { userUrl, authUrl, ownerUrl, roomUrl };

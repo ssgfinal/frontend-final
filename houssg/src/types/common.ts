@@ -18,7 +18,7 @@ interface UploaderSize {
 	width: string;
 	children: ReactNode;
 	setImage: React.Dispatch<React.SetStateAction<string>> | ((data: string) => void);
-	setParentState?: React.Dispatch<React.SetStateAction<boolean>>;
+	setImgFile: (file: string) => void;
 }
 
 interface RoomSlideProps {
@@ -28,7 +28,7 @@ interface RoomSlideProps {
 	setData?: (index: number) => void;
 }
 
-type ProcessType = 'start' | 'process' | 'end';
+type ProcessType = 'start' | 'process' | 'restricted' | 'end';
 
 interface TimerProps {
 	time: number;

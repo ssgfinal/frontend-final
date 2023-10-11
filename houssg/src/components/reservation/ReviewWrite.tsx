@@ -1,141 +1,265 @@
-import { useState, FormEvent } from 'react';
+import { useState, useRef, FormEvent } from 'react';
 import styled from 'styled-components';
 import { color } from '../../assets/styles';
 import Rating from '../common/Rating';
+import { closeModal } from '../../store/redux/modalSlice';
+import { useAppDispatch } from '../../hooks';
+import { ImageUploader } from '../common';
+import { SmallIndicatorText } from '../../assets/styles/StyledComponents';
+import { photo } from '../../assets/icons';
 
 const ReviewWrite = () => {
-	const [activeReview, setActiveReview] = useState('');
-	console.log('적힌 글자 > ' + activeReview);
+	const activeReview = useRef<HTMLTextAreaElement | null>(null);
 	const [activeRate, setActiveRate] = useState<number>(0);
 	const [overReview, setOverReview] = useState(false);
+	const [appendImg, setAppendImg] = useState(false);
+	const [imgFile, setImgFile] = useState('');
+	const width = '100%';
+	const height = '40%';
 
-	const handleWriteReview = (text: string) => {
-		if (text.length > 250) {
-			setOverReview(true);
-		} else {
+	const dispatch = useAppDispatch();
+
+	// TODO: useRef, 사업자 후기도 고쳐야 할 듯
+	const onCharacters = () => {
+		const activeReviewValue = activeReview.current?.value;
+
+		if (activeReviewValue!.length < 250) {
 			setOverReview(false);
-			setActiveReview(text);
+		} else {
+			setOverReview(true);
 		}
 	};
+
+	// TODO: form 안 각 태그들에 name 써야하는지
 	const submit = (e: FormEvent) => {
 		e.preventDefault();
 
-		const formData = new FormData();
-		formData.append('review', activeReview);
-		const formElement = e.target as HTMLFormElement;
+		const reviewValue = activeReview.current?.value;
 
-		if (formElement.uploadFile.files.length > 0) {
-			formData.append('uploadFile', formElement.uploadFile.files[0]);
+		const formData = new FormData();
+
+		formData.append('rate', activeRate.toString());
+
+		formData.append('review', reviewValue!.toString());
+
+		if (appendImg && imgFile) {
+			const baseImg = imgFile?.toString() as string;
+			formData.append('uploadFile', baseImg);
+		} else {
+			setImgFile(imgFile);
+			setImgFile('');
 		}
+		dispatch(closeModal());
+	};
+
+	// 포토리뷰 체크박스
+	const onPhotoCheck = () => {
+		const isCheck = !appendImg;
+		setAppendImg(isCheck);
 	};
 
 	return (
-		<div>
-			<InputBox>
-				{/* 하우스 번호 : {houseId}{' '} */}
+		<ReviewWrapper>
+			<p>📝 나의 후기</p>
+			<FormContainer name="frm" onSubmit={submit} encType="multipart/form-data">
 				<RateBox>
 					<Rating rate={activeRate} setRate={setActiveRate} />
 				</RateBox>
-				<form name="frm" onSubmit={submit} encType="multipart/form-data">
-					<Input>
-						<Textarea placeholder={`후기를 작성해주세요\n( 최대 250자 )`} onChange={(e) => handleWriteReview(e.target.value)} value={activeReview} />
-						<AddPhoto>
-							<FileInput type="file" name="uploadFile" />
-							<Text> + 사진</Text>
-						</AddPhoto>
-						<Enroll type="submit" value="등록" />
-					</Input>
-					<OverTextWarning>{overReview ? <> ※ 최대 글자수 250자를 초과하였습니다.</> : <></>}</OverTextWarning>
-				</form>
-			</InputBox>
-		</div>
+				<ReviewTextarea onChange={onCharacters} placeholder={`후기를 작성해주세요\n( 최대 250자 )`} rows={3} ref={activeReview} maxLength={250} />
+				{overReview ? <OverTextWarning>※ 최대 글자수 250자를 초과하였습니다.</OverTextWarning> : <></>}
+				<PhotoReviewBox>
+					📷 포토리뷰
+					<PhotoReviewBoxInput type="checkbox" onClick={onPhotoCheck}></PhotoReviewBoxInput>
+				</PhotoReviewBox>
+				<ReviewImageContainer>
+					{appendImg ? (
+						<ImageUploader width={width} height={height} setImage={setImgFile} setImgFile={() => console.log('TODO: 이미지 파일과 이미지 구별')}>
+							{imgFile ? (
+								<>
+									<PreviewBox width={width} height={height} src={imgFile.toString()} alt="이미지 미리보기" />
+									<SmallIndicatorText>이미지 클릭시 교체</SmallIndicatorText>
+								</>
+							) : (
+								<AddPhoto htmlFor="file">
+									+<PhotoBox src={photo} alt="이미지 올리기"></PhotoBox>
+								</AddPhoto>
+							)}
+						</ImageUploader>
+					) : (
+						<></>
+					)}
+				</ReviewImageContainer>
+				<Enroll type="submit" value="등록" />
+			</FormContainer>
+		</ReviewWrapper>
 	);
 };
 
 export default ReviewWrite;
 
-const InputBox = styled.div`
-	margin-bottom: 3rem;
+const ReviewWrapper = styled.div`
+	margin: 1.5rem 0 1rem 0;
+
+	p {
+		text-align: center;
+		font-weight: bold;
+		padding-bottom: 1rem;
+	}
+
+	@media (max-width: 430px) {
+		font-size: 0.8rem;
+	}
+`;
+
+const FormContainer = styled.form`
+	display: grid;
+	grid-template-columns: 4fr 1fr 1fr;
+
+	@media (max-width: 320px) {
+		grid-template-columns: 3fr 1fr 1fr;
+	}
 `;
 
 const RateBox = styled.div`
-	width: 25%;
-`;
-const Input = styled.div`
-	margin: 1rem 0;
-	display: grid;
-	grid-gap: 1rem;
-	white-space: 'pre-wrap';
+	width: 75%;
+	font-size: 1rem;
+	line-height: 1rem;
+	margin-bottom: 0.3rem;
 
-	@media (min-width: 1500px) {
-		grid-template-columns: 8fr 1fr 1.5fr;
-	}
-	@media (min-width: 750px) and (max-width: 1500px) {
-		grid-template-columns: 3fr 1fr 1fr;
-	}
-	@media (max-width: 750px) {
-		grid-template-columns: 1fr 1fr;
-	}
-`;
-
-const Textarea = styled.textarea`
-	padding: 0.5rem;
-	border-color: ${color.color1};
-	border-radius: 0.5rem;
-	resize: none;
-	&::-webkit-scrollbar {
-		width: 0.5rem;
-	}
-	&::-webkit-scrollbar-thumb {
-		background-color: ${color.color1};
-		border-radius: 10px;
-	}
-	&::-webkit-scrollbar-track {
-		border-radius: 0.5rem;
-		box-shadow: inset 0px 0px 5px white;
-	}
-	@media (max-width: 750px) {
-		grid-column-start: 1;
-		grid-column-end: 3;
+	@media (max-width: 320px) {
+		font-size: 0.5rem;
+		ul {
+			margin-right: -15vw;
+			font-size: 0.7rem;
+		}
 	}
 `;
 
 const AddPhoto = styled.label`
-	padding: 1rem 1rem;
 	display: grid;
-	@media (min-width: 750px) {
-		grid-template-columns: 8fr 1fr 1.5fr;
-	}
-	grid-template-rows: 14fr 1fr;
-	background-color: ${color.color1};
-	color: white;
-	border: none;
-	border-radius: 1rem;
-	cursor: pointer;
-`;
-
-const FileInput = styled.input`
-	display: none;
-`;
-
-const Text = styled.div`
 	align-self: center;
-	text-align: center;
+	margin: 0.3rem;
+	padding: 0.5rem;
+	background-color: ${color.color5};
+	border-radius: 5rem;
+	cursor: pointer;
+	color: ${color.color1};
+	font-weight: bold;
+`;
+
+const PhotoBox = styled.img`
+	grid-column-start: 2;
+	grid-column-end: 3;
+	align-self: center;
+	width: 1.5rem;
+`;
+
+const ReviewTextarea = styled.textarea`
+	grid-column-start: 1;
+	grid-column-end: 3;
+	grid-row-start: 2;
+	grid-row-end: 3;
+	align-self: center;
+	margin-bottom: 0.5rem;
+
+	border-color: ${color.color1};
+	border-radius: 0.5rem;
+	outline: none;
+	resize: none;
+
+	&::-webkit-scrollbar {
+		display: none;
+	}
+
+	@media (max-width: 900px) {
+		font-size: 0.8rem;
+	}
+
+	@media (max-width: 320px) {
+		font-size: 0.5rem;
+	}
+`;
+
+const PreviewBox = styled.img`
+	border: 1px solid ${color.darkGrayColor};
+	border-radius: 0.5rem;
+	width: 100%;
+	height: 40%;
+`;
+
+const ReviewImageContainer = styled.div`
+	grid-column-start: 1;
+	grid-column-end: 4;
+	grid-row-start: 4;
+	grid-row-end: 5;
+
+	@media (max-width: 370px) {
+		grid-row-start: 5;
+		grid-row-end: 6;
+	}
+`;
+
+const PhotoReviewBox = styled.div`
+	grid-column-start: 2;
+	grid-column-end: 4;
+	grid-row-start: 3;
+	grid-row-end: 4;
+	display: flex;
+	justify-content: flex-end;
+	font-weight: bold;
+	margin-bottom: 0.5rem;
+
+	@media (max-width: 370px) {
+		grid-column-start: 1;
+		grid-column-end: 4;
+		grid-row-start: 4;
+		grid-row-end: 5;
+		justify-content: center;
+	}
+`;
+
+const PhotoReviewBoxInput = styled.input`
+	accent-color: ${color.color1};
 `;
 
 const Enroll = styled.input`
+	grid-column-start: 3;
+	grid-column-end: 4;
+	grid-row-start: 2;
+	grid-row-end: 3;
+	justify-self: flex-end;
+	margin-bottom: 0.5rem;
 	background-color: ${color.color1};
-	color: white;
+	color: ${color.backColor};
 	border: solid;
-	border-radius: 1rem;
+	border-radius: 0.5rem;
 	border-color: ${color.color1};
 	font-size: 1rem;
 	cursor: pointer;
+
+	@media (max-width: 900px) {
+		font-size: 0.8rem;
+	}
+
+	@media (max-width: 320px) {
+		font-size: 0.5rem;
+	}
 `;
 
 const OverTextWarning = styled.div`
-	color: red;
+	grid-column-start: 1;
+	grid-column-end: 2;
+	grid-row-start: 3;
+	grid-row-end: 4;
+	align-self: center;
+	color: ${color.red};
 	opacity: 0.8;
 	text-align: left;
-	font-size: small;
+	font-size: 0.3rem;
+	margin-bottom: 0.5rem;
+
+	@media (max-width: 370px) {
+		grid-column-start: 1;
+		grid-column-end: 4;
+	}
 `;

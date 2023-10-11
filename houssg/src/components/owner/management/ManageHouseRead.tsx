@@ -3,11 +3,11 @@ import { styled } from 'styled-components';
 
 import { HouseInfoContainer, InfoText, InfoTitleText, InfoWrapper, NavClickComp, SubInfoAligner, color, devideOnce } from '../../../assets/styles';
 import { ManageNav, ManageTabComp } from '.';
-import { SetStateToggle } from '../../../types';
+import { MyHouseDataHandleComp } from '../../../types';
 import { MapMarker, moreIcon } from '../../../assets/icons';
 import { houseServiceCategory } from '../../../assets/constant';
 
-const ManageHouseRead: React.FC<SetStateToggle> = ({ setIsEditMode }) => {
+const ManageHouseRead: React.FC<MyHouseDataHandleComp> = ({ house, setIsEditMode }) => {
 	const [isRoomSelected, setIsRoomSelected] = useState(0); // 처음 0 room 1 , review 2
 	const [isOpenTabComp, setIsOpenTabComp] = useState(false);
 	const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -19,7 +19,9 @@ const ManageHouseRead: React.FC<SetStateToggle> = ({ setIsEditMode }) => {
 	return (
 		<ManageWrapper>
 			<TitleContainer>
-				<ManageReadTitle>[리조트] 영등포 라이프스타일 F HOTEL</ManageReadTitle>
+				<ManageReadTitle>
+					[{house.accomCategory}] {house.accomName}
+				</ManageReadTitle>
 				<DropdownBox>
 					<MoreBox src={moreIcon} onClick={toggleDropdown}></MoreBox>
 					{isDropdownOpen && (
@@ -38,32 +40,34 @@ const ManageHouseRead: React.FC<SetStateToggle> = ({ setIsEditMode }) => {
 				</DropdownBox>
 			</TitleContainer>
 			<HouseInfoContainer>
-				<HouseImg src='https://a.cdn-hotels.com/gdcs/production62/d1770/50e9f242-6f67-48a5-9b77-82aa6d64d78a.jpg?impolicy=fcrop&w=1600&h=1066&q=medium","zip_numbe' />
+				<HouseImg src={house.img} />
 				<InfoWrapper>
 					<InfoTitleText>전화번호</InfoTitleText>
-					<ManageReadSubTitle>0350500001</ManageReadSubTitle>
+					<ManageReadSubTitle>{house.teleNumber}</ManageReadSubTitle>
 					<InfoTitleText>입/퇴실 시간</InfoTitleText>
-					<ManageReadSubTitle>15:00/13:00</ManageReadSubTitle>
+					<ManageReadSubTitle>
+						{house.checkIn}/{house.checkOut}
+					</ManageReadSubTitle>
 					<InfoTitleText>사업자 번호</InfoTitleText>
-					<ManageReadSubTitle>123-45-67890</ManageReadSubTitle>
+					<ManageReadSubTitle>{house.businessNumber}</ManageReadSubTitle>
 					<ManageReadAddress>
 						<img src={MapMarker} />
-						강원도 영월군 무릉도원면 명마동길 44-37
+						{house.accomAddress}
 					</ManageReadAddress>
 				</InfoWrapper>
 			</HouseInfoContainer>
 			<SubInfoAligner>
 				<InfoTitleText>시설 및 서비스</InfoTitleText>
 				<ServiceContainer>
-					{houseServiceCategory.map((service, i) => (
-						<ManageReadService key={i} src={service.icon}></ManageReadService>
-					))}
+					{house.service.map((able, i) => {
+						if (i >= 0 && i < houseServiceCategory.length && able) {
+							return <ManageReadService key={i} src={houseServiceCategory[i].icon}></ManageReadService>;
+						}
+						return null;
+					})}
 				</ServiceContainer>
 				<InfoTitleText>상세설명</InfoTitleText>
-				<InfoText>
-					Lorem ipsum dolor sit amet consectetur adipisicing elit. Ad architecto doloremque repudiandae culpa nulla a alias quasi temporibus similique
-					ex. Aliquam dolores quas pariatur consectetur itaque suscipit provident nobis earum!
-				</InfoText>
+				<InfoText>{house.accomDetails}</InfoText>
 			</SubInfoAligner>
 			<ManageNav
 				isRoomSelected={isRoomSelected}
@@ -71,7 +75,7 @@ const ManageHouseRead: React.FC<SetStateToggle> = ({ setIsEditMode }) => {
 				setIsOpenTabComp={setIsOpenTabComp}
 				isOpenTabComp={isOpenTabComp}
 			/>
-			{isOpenTabComp && <ManageTabComp isRoomSelected={isRoomSelected} />}
+			{isOpenTabComp && <ManageTabComp accomNumber={house.accomNumber} isRoomSelected={isRoomSelected} />}
 		</ManageWrapper>
 	);
 };
@@ -86,6 +90,7 @@ const ManageWrapper = styled.div`
 const TitleContainer = styled.div`
 	display: grid;
 	grid-template-columns: 25fr 1fr;
+	padding-top: 0.5rem;
 	margin-bottom: 1rem;
 `;
 

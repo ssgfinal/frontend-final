@@ -18,6 +18,7 @@ const SignUp: React.FC<AuthProps> = ({ authStep, setAuthStep }) => {
 	const [userPwCheck, setUserPwCheck] = useState('');
 	const [userPhone, setUserPhone] = useState('');
 	const [verificationCode, setVerificationCode] = useState('');
+	const [smsId, setSmsId] = useState('');
 	const [timeStatus, setTimeStatus] = useState<ProcessType>('start');
 	const { regId, regPw, regNick, regPhone } = regSignUp;
 	const [time, setTime] = useState(0);
@@ -37,17 +38,15 @@ const SignUp: React.FC<AuthProps> = ({ authStep, setAuthStep }) => {
 	};
 
 	const onPhoneCheck = () => {
-		if (!isLoading) {
-			setTimeStatus('start');
-			setTime(180);
-			onPhoneUsableCheck(userPhone, setIsLoading);
-		}
+		!isLoading && timeStatus !== 'restricted'
+			? onPhoneUsableCheck(userPhone, setIsLoading, setSmsId, setTimeStatus, setTime)
+			: alert('재시도는 요청 후 10초가 지나야 합니다.');
 	};
 
 	const onPhoneAuthCheck = () => {
 		if (!isLoading) {
 			setConfirmed(true);
-			phoneAuthCheck(verificationCode, setIsLoading);
+			phoneAuthCheck(verificationCode, smsId, setIsLoading, setConfirmed);
 		}
 	};
 
@@ -57,9 +56,11 @@ const SignUp: React.FC<AuthProps> = ({ authStep, setAuthStep }) => {
 	}, [userPhone]);
 
 	useEffect(() => {
-		status === 'success' && setAuthStep('login');
-		resetAuthStatus();
-	}, [status, setAuthStep]);
+		if (status === 'success') {
+			dispatch(resetAuthStatus());
+			setAuthStep('login');
+		}
+	}, [status, setAuthStep, dispatch]);
 
 	return (
 		<AuthContainer $pending={isLoading}>
@@ -96,7 +97,8 @@ const SignUp: React.FC<AuthProps> = ({ authStep, setAuthStep }) => {
 					<Timer time={time} setTimeStatus={setTimeStatus} timeStatus={timeStatus} />
 				</>
 			)}
-			<AuthSubmitBtn onClick={onSignUp} disabled={!confirmed}>
+			<AuthSubmitBtn onClick={onSignUp} disabled={false}>
+				{/* <AuthSubmitBtn onClick={onSignUp} disabled={!confirmed}> */}
 				회원가입하기
 			</AuthSubmitBtn>
 			<AuthModeBtn authStep={authStep} setAuthStep={setAuthStep}>

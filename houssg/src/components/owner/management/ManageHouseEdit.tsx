@@ -1,62 +1,130 @@
-import { HouseTabContainer, ManageReadTitle, NavClickComp, color, devideOnce } from '../../../assets/styles';
+import { HouseTabContainer, ManageReadTitle, NavClickComp, color } from '../../../assets/styles';
 import { styled } from 'styled-components';
-import { SetStateToggle } from '../../../types';
-import { houseServiceCategory } from '../../../assets/constant';
+import { EditMutationType, MyHouseDataHandleComp } from '../../../types';
+import { houseServiceCategory, ownerKey } from '../../../assets/constant';
 import { CheckBox } from '../register/element';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { useCalWindowWidth } from '../../../hooks';
+import { ImageUploader } from '../../common';
+import { base64ToFile, pxToRem } from '../../../utils';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { onEditManageHouseApi } from '../../../helper/ownerFunction';
 
-const ManageHouseEdit: React.FC<SetStateToggle> = ({ setIsEditMode }) => {
+const ManageHouseEdit: React.FC<MyHouseDataHandleComp> = ({ house, setIsEditMode }) => {
 	const newPhoneNumber = useRef<HTMLInputElement | null>(null);
 	const newCheckIn = useRef<HTMLInputElement | null>(null);
 	const newCheckOut = useRef<HTMLInputElement | null>(null);
 	const newDetail = useRef<HTMLTextAreaElement | null>(null);
-	//TODO: 수정 필요할지도
-	const [checkedList, setCheckedList] = useState<number[]>(new Array(houseServiceCategory.length).fill(0));
+	const [checkedList, setCheckedList] = useState<number[]>(house.service);
+
+	const [newImg, setNewImg] = useState(house.img);
+	const [newImgFile, setNewImgFile] = useState<File | null>(null);
+	// 이미지 업로더 라이브러리 크기 동적으로 주기
+	const windowWidth = useCalWindowWidth();
+	const [uploaderSize, setUploaderSize] = useState({ width: '28rem', height: '21rem' });
+	useEffect(() => {
+		let widthNumber: number;
+		const ratio = 3 / 4;
+		switch (true) {
+			case windowWidth < 427:
+				widthNumber = 16;
+				break;
+			case windowWidth >= 427 && windowWidth < 747:
+				widthNumber = pxToRem(windowWidth) * 0.6;
+				console.log(widthNumber);
+				break;
+			default:
+				widthNumber = 28;
+		}
+		const width = widthNumber + 'rem';
+		const height = widthNumber * ratio + 'rem';
+		setUploaderSize({ width, height });
+	}, [windowWidth]);
+
 	const onChangeCheckedList = (index: number, value: number) => {
 		const newCheckedList = [...checkedList];
 		newCheckedList[index] = value;
 		setCheckedList([...newCheckedList]);
 	};
 
-	const onEditManageHouse = () => {
-		{
-			const checkinValue = newCheckIn.current?.value;
-			const checkoutValue = newCheckOut.current?.value;
-			const detailValue = newDetail.current?.value;
+	const onAddNewFileData = (file: string) => {
+		setNewImgFile(base64ToFile(file, house.accomName));
+	};
 
-			// TODO: 서버에 보낼 때는 if로 수정
-			newPhoneNumber.current && newCheckIn.current && newCheckOut.current && newDetail.current
-				? console.log(newPhoneNumber.current.value, checkinValue, checkoutValue, detailValue)
-				: false;
+	const queryClient = useQueryClient();
 
-			// TODO: 기존의 숙소 정보를 들고오고(전역으로 관리할 듯?) 수정한 내용이 반영되어야...초기화 ㄴㄴ?
+	const { mutate } = useMutation({
+		mutationFn: ({
+			accomNumber,
+			newCheckInValue,
+			newCheckOutValue,
+			newDetailValue,
+			newPhoneNumberValue,
+			checkedList,
+			newImgFile,
+		}: EditMutationType) =>
+			onEditManageHouseApi(accomNumber, newCheckInValue, newCheckOutValue, newDetailValue, newPhoneNumberValue, checkedList, newImgFile),
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: [ownerKey.myHouseList] });
+			alert('수정완료');
+			setIsEditMode(false);
+		},
+	});
+
+	const onEditHouseData = () => {
+		const newCheckInValue = newCheckIn.current?.value;
+		const newCheckOutValue = newCheckOut.current?.value;
+		const newDetailValue = newDetail.current?.value;
+		const newPhoneNumberValue = newPhoneNumber.current?.value;
+		const { checkIn, checkOut, accomDetails, teleNumber } = house;
+
+		// 변경값이 없으면 수정 취소
+		if (
+			newCheckInValue === checkIn &&
+			newCheckOutValue === checkOut &&
+			newDetailValue === accomDetails &&
+			newImgFile === null &&
+			checkedList === house.service &&
+			newPhoneNumberValue === teleNumber
+		) {
+			setIsEditMode(false);
+			return;
 		}
+		// 벨류가 비거나 undefined가 아니라면
+		if (!!newCheckInValue && !!newCheckOutValue && !!newDetailValue && !!newPhoneNumberValue)
+			mutate({ accomNumber: house.accomNumber, newCheckInValue, newCheckOutValue, newDetailValue, newPhoneNumberValue, checkedList, newImgFile });
 	};
 
 	return (
 		<ManageWrapper>
-			<ManageReadTitle>[리조트] 영등포 라이프스타일 F HOTEL</ManageReadTitle>
-			<HouseImg src='https://a.cdn-hotels.com/gdcs/production62/d1770/50e9f242-6f67-48a5-9b77-82aa6d64d78a.jpg?impolicy=fcrop&w=1600&h=1066&q=medium","zip_numbe' />
+			<ManageReadTitle>
+				[{house.accomCategory}] {house.accomName}
+			</ManageReadTitle>
+			<ImageUploader width={uploaderSize.width} height={uploaderSize.height} setImage={setNewImg} setImgFile={onAddNewFileData}>
+				수정하기
+			</ImageUploader>
+			<HouseImg src={newImg} />
 			<ManageHouseWrapper>
 				<ManageHouseContainer>
 					<ManageHouseEditTitle>전화번호</ManageHouseEditTitle>
-					<ManageHouseInput type="number" ref={newPhoneNumber} placeholder="예시) 01012345678" />
-					<ManageHouseEditTitle>입/퇴실 시간</ManageHouseEditTitle> <ManageHouseCheckinInput type="time" ref={newCheckIn} />
+					<ManageHouseInput type="number" ref={newPhoneNumber} defaultValue={house.teleNumber} placeholder="예시) 01012345678" />
+					<ManageHouseEditTitle>입/퇴실 시간</ManageHouseEditTitle>
+					<ManageHouseCheckinInput type="time" ref={newCheckIn} defaultValue={house.checkIn} />
 					<ManageHouseSpan>&frasl;</ManageHouseSpan>
-					<ManageHouseCheckoutInput type="time" ref={newCheckOut} />
+					<ManageHouseCheckoutInput type="time" ref={newCheckOut} defaultValue={house.checkOut} />
 					<ManageHouseEditTitle>시설 및 서비스</ManageHouseEditTitle>
 					<CheckBoxContainer>
-						{/* TODO: 체크박스 추후 수정 */}
 						{houseServiceCategory.map((service, i) => (
 							<CheckBox key={service.value} element={service} index={i} isChecked={!!checkedList[i]} setCheckedList={onChangeCheckedList} />
 						))}
 					</CheckBoxContainer>
 					{/* TODO: 상세설명 글자수 제한은 있는지? */}
-					<ManageHouseEditTitle>상세설명</ManageHouseEditTitle> <ManageHouseText rows={8} ref={newDetail} />
+					<ManageHouseEditTitle>상세설명</ManageHouseEditTitle>
+					<ManageHouseText rows={8} ref={newDetail} defaultValue={house.accomDetails} maxLength={300} />
 				</ManageHouseContainer>
 			</ManageHouseWrapper>
 			<HouseTabContainer>
-				<NavClickComp onClick={onEditManageHouse}>수정완료</NavClickComp>
+				<NavClickComp onClick={onEditHouseData}>수정완료</NavClickComp>
 				<NavClickComp onClick={() => setIsEditMode(false)}>취소하기</NavClickComp>
 			</HouseTabContainer>
 		</ManageWrapper>
@@ -81,20 +149,12 @@ const ManageWrapper = styled.div`
 
 const HouseImg = styled.img`
 	justify-self: center;
-	max-width: 27rem;
+	max-width: 28rem;
 	margin-bottom: 0.5rem;
 	object-fit: contain;
 	border-radius: 0.5rem;
-
-	@media screen and (max-width: ${devideOnce.first}) {
-		max-width: none;
-		width: 23rem;
-	}
-
-	@media (max-width: 2000px) {
-		width: 80%;
-		transition: width 0.2s;
-	}
+	width: 60vw;
+	min-width: 16rem;
 `;
 
 const ManageHouseWrapper = styled.div`
@@ -213,6 +273,7 @@ const ManageHouseInput = styled.input`
 	background-color: transparent;
 	resize: none;
 	height: 2rem;
+	padding-left: 0.5rem;
 
 	@media (max-width: 300px) {
 		height: 1.3rem;

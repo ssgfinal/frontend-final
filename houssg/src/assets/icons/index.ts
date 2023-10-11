@@ -1,25 +1,36 @@
-import declarationIcon from './declaration.svg';
-import moreIcon from './moreIcon.svg';
-import deleteIcon from './deleteIcon.svg';
-import houssg from './houssg.svg';
-import MapMarker from './mapmarker.svg';
-import ProfileCircle from './profilecircle.svg';
-import ReviewIcon from './review.svg';
+// 더미데이터&삭제 예정인?
+import MyHeartIcon from './myheart.svg'; //보라 하트
+import deleteIcon from './deleteIcon.svg'; // 휴지통
+import ReviewIcon from './review.svg'; // 리뷰
+import Desert from './Desert.jpg'; // 배너
+import accomodation from './숙소대표이미지1.jpg'; // 숙소
+import houssg from './houssg.svg'; // 글자로고
+
+//기타
+import guest from './guestIcon.svg';
+import ceo from './ceoIcon.svg';
+import cancel from './cancelIcon.svg';
 import EditIcon from './edit.svg';
-import CouponIcon from './coupon.svg';
-import MyPointIcon from './mypoint.svg';
+import moreIcon from './moreIcon.svg';
+import declarationIcon from './declaration.svg';
 import FullHeartIcon from './FullHeart.svg';
 import HeartIcon from './Heart.svg';
-import MyHeartIcon from './myheart.svg';
-import Desert from './Desert.jpg';
-import accomodation from './숙소대표이미지1.jpg';
+
+// 로그인 로그아웃
 import unvisible from './unvisible.svg';
 import visible from './visible.svg';
-// 로그인 로그아웃
 import logo from './logo.svg';
 import login from './login.svg';
 import logout from './logout.svg';
+
+// 마이페이지
+import ProfileCircle from './profilecircle.svg';
+import CouponIcon from './coupon.svg';
+import MyPointIcon from './mypoint.svg';
+import MapMarker from './mapmarker.svg';
+
 // 사진관련
+import photo from './photoIcon.svg';
 import rotateR from './rotateR.svg';
 import rotateL from './rotateL.svg';
 import capture from './capture.svg';
@@ -37,12 +48,20 @@ import ott from './ott.svg';
 import ocean from './ocean_view.svg';
 import pc from './pc.svg';
 
-export { MapMarker, ProfileCircle, ReviewIcon, EditIcon, CouponIcon, MyPointIcon, FullHeartIcon, HeartIcon, MyHeartIcon, rotateR, rotateL, capture };
+// 더미데이터&삭제 예정인?
+export { MyHeartIcon, deleteIcon, ReviewIcon, Desert, accomodation, houssg };
 
-export { moreIcon, deleteIcon, declarationIcon };
+// 기타
+export { guest, ceo, cancel, EditIcon, moreIcon, declarationIcon, FullHeartIcon, HeartIcon };
 
-export { houssg, Desert, accomodation, unvisible, visible };
+// 로그인 로그아웃
+export { unvisible, visible, logo, login, logout };
 
-export { logo, login, logout };
+// 마이페이지
+export { ProfileCircle, CouponIcon, MyPointIcon, MapMarker };
 
+// 사진관련
+export { photo, rotateR, rotateL, capture };
+
+// 시설 및 서비스 아이콘
 export { beach, parking, pool, bath, wifi, bed, barbecue, nosmoking, luggage, ott, ocean, pc };

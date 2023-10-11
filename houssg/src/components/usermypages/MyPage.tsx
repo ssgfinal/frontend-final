@@ -1,87 +1,103 @@
 import { styled } from 'styled-components';
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { TabMenu } from '../common/TabMenu';
 import MyCoupons from './MyCoupons';
 import MyInformation from './MyInformation';
 import MyReview from './MyReview';
 import MyFavorite from './MyFavorite';
 import { color } from '../../assets/styles';
-import { CouponIcon, MyPointIcon, ProfileCircle, accomodation } from '../../assets/icons';
+import { CouponIcon, MyPointIcon, ProfileCircle } from '../../assets/icons';
 
-interface MyPageMain {
-	mypagemain: {
-		userId: string;
-		userNickName: string;
-		userPoint: number;
-	};
-}
+// TODO: 더미데이터
+import { accomodation } from '../../assets/icons';
 
-const informations = [
+// TODO: 서버 > 쿠폰등록
+// import api from '../../api/api';
+// import { userUrl } from '../../assets/constant/urlConst';
+
+const mypagemain: { userPoint: number; userPassword: string }[] = [
 	{
-		userId: 'abc',
-		userNickName: '홍길동',
-		userPhoneNumber: '01012345678',
-		userPassword: 1234,
+		userPoint: 1000,
+		userPassword: '1q2w3e4r!',
 	},
 ];
 
 const coupons = [
 	{
-		userId: 'abc',
+		userId: 'hjr123',
 		couponNumber: '123456724124',
-		couponName: '9월 이벤트',
+		couponName: '10월 한글날 이벤트',
 		isUsed: 0,
 		couponDiscount: 10000,
+		expitationDate: '2023-09-30 18:00:00',
 	},
 	{
 		userId: 'abc',
 		couponNumber: '231721984721',
-		couponName: '9월 빅세일',
+		couponName: '10월 한글날 빅세일',
 		isUsed: 0,
 		couponDiscount: 50000,
+		expitationDate: '2023-09-30 18:00:00',
 	},
 ];
 
-const reviews = [
+const reviews: {
+	reviewNumber: number;
+	reservationNumber: number;
+	houseId: number;
+	accomName: string;
+	userId: string;
+	roomType: string;
+	writeDate: string;
+	reviewImage: string | null;
+	rating: number;
+	content: string;
+	commentDate: string | null;
+	commentContent: string | null;
+}[] = [
 	{
-		reservationNumber: 1234567,
-		houseId: 7689,
+		reviewNumber: 1,
+		reservationNumber: 7654321,
+		houseId: 1234,
 		accomName: '가나다 Hotel',
 		userId: 'abc',
 		roomType: '패밀리룸',
-		writeDate: '2023-09-11',
+		writeDate: '2023-09-10 18:00:00',
 		reviewImage: accomodation,
-		rating: 4.5,
-		content: '야호 후기 좀 보여줭~',
+		rating: 3.5,
+		content:
+			'안녕하십니까 250자 글자 테스트 중입니다 과연 250자가 될까요?? 맥스렝스 썼는데 될지 안 될지 모르겠지만 250자가 그렇게 긴 글이 아니면서도 또 긴 글자이기도 하고 어떡하지 더이상은 쓸 내용이 없는데 언제까지 써야할까요??이제 진짜 없는데 언제까지 테스트로 글을 쓰고 있어야 하는지 제발 살려줘 이제 그만 멈춰 이 텍스트애리어 자식아 그만해라 250자 이제 넘은 거 같은데 언제까지 쳐야하는 건지 뉴뉴뉴뉴 이제 그만 치게 해줘 살려줘 언제까',
 		commentDate: null,
 		commentContent: null,
 	},
 	{
+		reviewNumber: 2,
 		reservationNumber: 7654321,
 		houseId: 1234,
 		accomName: '라마바 Hotel',
 		userId: 'abc',
 		roomType: '더블룸',
-		writeDate: '2023-09-12',
+		writeDate: '2023-09-12 18:00:00',
 		reviewImage: accomodation,
 		rating: 3.5,
 		content:
 			'보통이네용 후기를 작성해야 하는데 작성하기 싫어용 근데 써야해요 어쩌죠? 쓸 내용이 없습니다. 이제 없음 진짜 없음 어떡하지ㅠㅠㅠㅠ하지만 써야하겠죠 가나다라마바사아자차카타파하',
-		commentDate: '2023-09-13',
+		commentDate: '2023-09-13 18:00:00',
 		commentContent: '감사용~~~',
 	},
 	{
+		reviewNumber: 3,
 		reservationNumber: 7664371,
 		houseId: 1235,
 		accomName: '사아자 Hotel',
-		userId: 'abc',
+		userId: 'hjr123',
 		roomType: '스위트룸',
-		writeDate: '2023-09-13',
+		writeDate: '2023-09-13 18:00:00',
 		reviewImage: null,
 		rating: 4.0,
 		content:
 			'Lorem ipsum dolor sit amet consectetur adipisicing elit. Itaque, fugiat adipisci deserunt porro quia totam provident animi nemo labore temporibus voluptatem mollitia nostrum assumenda enim similique in doloribus eos consequatur.',
-		commentDate: '2023-09-14',
+		commentDate: '2023-09-14 18:00:00',
 		commentContent: '감사해용~~~',
 	},
 ];
@@ -91,7 +107,7 @@ const favorites: { houseId: number; accomName: string; houseAddress: string; use
 		houseId: 1235,
 		accomName: '사아자 Hotel',
 		houseAddress: '강원도 영월군 무릉도원면 명마동길 44-37',
-		userId: 'abc',
+		userId: 'hjr123',
 		rating: 4.0,
 		favorite: true,
 	},
@@ -105,21 +121,40 @@ const favorites: { houseId: number; accomName: string; houseAddress: string; use
 	},
 ];
 
-const MyPage: React.FC<MyPageMain> = ({ mypagemain }) => {
+const MyPage = () => {
+	const userNickName = sessionStorage.getItem('nickname');
+
+	// const [mypagemain, setMypagemain] = useState(null);
+	const [mypage, setMypage] = useState(mypagemain);
 	const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+	const newCoupon = useRef<HTMLInputElement | null>(null);
+
+	const myPageData = async () => {
+		try {
+			// const response = await api.post(userUrl.mypage);
+			const resp = mypage;
+			const data = [...resp];
+			// setMypage(response.data);
+			setMypage(data);
+		} catch (error) {
+			console.error(error);
+		}
+	};
+
+	useEffect(() => {
+		myPageData();
+		// TODO: 서버 연결 후 수정
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
 
 	const toggleDropdown = () => {
 		setIsDropdownOpen(!isDropdownOpen);
 	};
 
-	const onCouponNumber = (e: React.ChangeEvent<HTMLInputElement>) => {
-		// TODO: 쿠폰번호 입력..렌더링 생각하기ㅠ, couponNumber >> useRef로 바꾸기?
-		const couponNumber = e.target.value;
-		console.log(couponNumber); // TODO: 나중에 지우기
-	};
-
 	const onRegistration = () => {
-		// TODO: 입력한 쿠폰번호 등록하기
+		// TODO: 입력한 쿠폰 등록
+		const couponValue = newCoupon.current?.value;
+		console.log(couponValue);
 	};
 
 	const tabObj = [
@@ -132,27 +167,26 @@ const MyPage: React.FC<MyPageMain> = ({ mypagemain }) => {
 
 	return (
 		<MyPageWrapper>
-			<MyPageIconContainer>1:1문의</MyPageIconContainer>
 			<MyPageMainContainer>
 				<MyPageMainBox>
 					<MyNickName>
 						<IconImg src={ProfileCircle} />
-						<span>{mypagemain.userNickName}님</span>
+						<span>&nbsp;{userNickName}님</span>
 					</MyNickName>
 					<MyPoint>
 						<IconImg src={MyPointIcon} />
-						<span>{mypagemain.userPoint}P</span>
+						<span>&nbsp;{mypagemain[0].userPoint.toLocaleString()}P</span>
 					</MyPoint>
 					<MyCoupon>
 						<IconImg src={CouponIcon} />
 						<div>
-							쿠폰함<CouponList onClick={toggleDropdown}>{isDropdownOpen ? <>&#9650;</> : <>&#9660;</>}</CouponList>
+							&nbsp;쿠폰함&nbsp;<CouponList onClick={toggleDropdown}>{isDropdownOpen ? <>&#9650;</> : <>&#9660;</>}</CouponList>
 						</div>
 					</MyCoupon>
 					{isDropdownOpen && (
 						<DropdownContent>
 							<CouponRegistration>
-								<input type="text" onChange={onCouponNumber} placeholder="쿠폰번호 입력" />
+								<input type="text" ref={newCoupon} placeholder="쿠폰번호 입력" />
 								<button onClick={onRegistration}>등록</button>
 							</CouponRegistration>
 							<DropCouponList>
@@ -175,7 +209,7 @@ const MyPage: React.FC<MyPageMain> = ({ mypagemain }) => {
 			</MyPageTabContainer>
 			<MyPageContentsContainer>
 				{clickTab === 'MyInformation' ? (
-					<MyInformation informations={informations} />
+					<MyInformation />
 				) : clickTab === 'MyReview' ? (
 					<MyReview reviews={reviews} />
 				) : (
@@ -189,7 +223,7 @@ const MyPage: React.FC<MyPageMain> = ({ mypagemain }) => {
 export default MyPage;
 
 const MyPageWrapper = styled.div`
-	margin: 1rem;
+	margin: 2rem;
 	display: grid;
 	grid-template-columns: 0.3fr 1fr 0.3fr;
 	justify-content: center;
@@ -199,24 +233,10 @@ const MyPageWrapper = styled.div`
 	}
 
 	@media (max-width: 430px) {
+		margin: 1rem;
 		grid-template-columns: 0.1fr 1fr 0.1fr;
 		font-size: 0.8rem;
 	}
-
-	@media (max-width: 320px) {
-		grid-template-columns: 0.1fr 1fr 0.1fr;
-		font-size: 0.5rem;
-	}
-`;
-
-const MyPageIconContainer = styled.div`
-	grid-column-start: 2;
-	grid-column-end: 3;
-	grid-row-start: 1;
-	grid-row-end: 2;
-	justify-self: right;
-	align-self: center;
-	font-size: 0.4rem;
 `;
 
 const MyPageMainContainer = styled.div`
@@ -228,7 +248,7 @@ const MyPageMainContainer = styled.div`
 `;
 
 const MyPageMainBox = styled.div`
-	padding: 0.7rem;
+	padding: 1.3rem;
 	border-radius: 1rem;
 	box-shadow: 0px 0px 5px 0.5px ${color.unSelectColor};
 	background-color: ${color.backColor};
@@ -242,7 +262,7 @@ const MyPageMainBox = styled.div`
 const MyNickName = styled.div`
 	width: 100%;
 	padding: 0.5rem;
-	padding-bottom: 0.8rem;
+	padding-bottom: 1rem;
 	text-align: left;
 	border-bottom: 1px solid ${color.unSelectColor};
 	display: grid;
@@ -260,11 +280,6 @@ const IconImg = styled.img`
 
 	@media (max-width: 430px) {
 		width: 0.8rem;
-		margin-right: 1vw;
-	}
-
-	@media (max-width: 320px) {
-		width: 0.7rem;
 		margin-right: 1vw;
 	}
 `;
@@ -287,7 +302,7 @@ const MyCoupon = styled.div`
 	padding: 0.5rem;
 	text-align: left;
 	display: grid;
-	grid-template-columns: 1fr 15fr 2fr;
+	grid-template-columns: 1fr 20fr;
 	align-items: center;
 	letter-spacing: -0.9px;
 `;
@@ -311,14 +326,11 @@ const DropCouponList = styled.div`
 `;
 
 const CouponRegistration = styled.div`
+	margin-top: 1rem;
 	display: grid;
 	grid-template-columns: 5fr 1fr;
 
 	@media (max-width: 900px) {
-		grid-template-columns: 5fr 1fr;
-	}
-
-	@media (max-width: 430px) {
 		grid-template-columns: 5fr 1fr;
 	}
 
@@ -339,10 +351,6 @@ const CouponRegistration = styled.div`
 		@media (max-width: 430px) {
 			font-size: 0.5rem;
 		}
-
-		@media (max-width: 320px) {
-			font-size: 0.05rem;
-		}
 	}
 
 	button:hover {
@@ -357,7 +365,7 @@ const CouponRegistration = styled.div`
 		outline: none;
 		color: ${color.color1};
 		border: 1px solid ${color.unSelectColor};
-		border-radius: 1rem;
+		border-radius: 0.4rem;
 		width: 95%;
 		padding: 0.5rem;
 		font-size: 1rem;

@@ -5,20 +5,38 @@ interface ManageNavProps {
 	setIsOpenTabComp: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-interface RoomData {
-	room: {
-		accom_number: number;
-		room_image: string;
-		room_number: number;
-		room_category: string;
-		room_detail: string;
-		room_price: number;
-		room_count: number;
-	};
+interface MyHouseData {
+	accomNumber: number;
+	accomName: string;
+	accomAddress: string;
+	teleNumber: string;
+	accomCategory: string;
+	accomDetails: string;
+	checkIn: string;
+	checkOut: string;
+	businessNumber: string;
+	id: string;
+	auth: number;
+	approvalRequest: number;
+	deletionRequest: number;
+	img: string;
+	addRequest: number;
+	service: number[];
 }
 
-interface RoomComp extends RoomData {
+interface MyHouseDataHandleComp {
+	house: MyHouseData;
 	setIsEditMode: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export type { ManageNavProps, RoomData, RoomComp };
+interface EditMutationType {
+	accomNumber: number;
+	newCheckInValue: string;
+	newCheckOutValue: string;
+	newDetailValue: string;
+	newPhoneNumberValue: string;
+	checkedList: number[];
+	newImgFile: File | null;
+}
+
+export type { ManageNavProps, MyHouseData, MyHouseDataHandleComp, EditMutationType };

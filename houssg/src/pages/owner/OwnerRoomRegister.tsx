@@ -28,6 +28,7 @@ const OwnerRoomRegister = () => {
 				<RegiRoomSubComp>
 					<RegiRoomSubTitle>객실사진</RegiRoomSubTitle>
 
+<<<<<<< HEAD
 					{!isLoading && houseImgs.length !== 0 && (
 						<SliderContainer>
 							<RoomImgSlider data={houseImgs} setData={onEditHouseImgs}></RoomImgSlider>
@@ -44,6 +45,22 @@ const OwnerRoomRegister = () => {
 						)}
 					</ImageUploader>
 				</RegiRoomSubComp>
+=======
+				<SliderContainer>
+					<RoomImgSlider data={houseImgs} setData={onEditHouseImgs}>
+						<ImageUploader
+							width="320px"
+							height="240px"
+							setImage={onAddHouseImg}
+							setImgFile={() => {
+								console.log('TODO: 하기');
+							}}
+						>
+							<div>업로드</div>
+						</ImageUploader>
+					</RoomImgSlider>
+				</SliderContainer>
+>>>>>>> main
 				<br />
 				<RegiRoomSubComp>
 					<RegiRoomSubTitle>객실 서비스</RegiRoomSubTitle>

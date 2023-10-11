@@ -1,14 +1,16 @@
-import React from 'react';
+import { useState, useEffect } from 'react';
 
 import { Select } from 'antd';
 import { Input, Space, DatePicker } from 'antd';
 
 import styled from 'styled-components';
 import { color } from '../../assets/styles';
-import { accomodation } from '../../assets/icons';
+// import { accomodation } from '../../assets/icons';
 
 import BriefHouse from '../../components/house/BriefHouse';
-import { houseCategory } from '../../assets/constant';
+import { houseCategory, userUrl } from '../../assets/constant';
+import { HouseBaseInfo } from '../../types';
+import api from '../../api/api';
 
 const UserHouseList = () => {
 	const handleChange = (value: { value: string; label: React.ReactNode }) => {
@@ -21,98 +23,6 @@ const UserHouseList = () => {
 
 	const { RangePicker } = DatePicker;
 
-	// 더미 데이터 (추후 삭제 예정)
-	const house = [
-		{
-			houseId: 1,
-			name: '무지개멘션',
-			price: 38000,
-			rating: 1.3,
-			location: '부산시 수영구 센텀',
-			image: accomodation,
-		},
-		{
-			houseId: 2,
-			name: '무지개떡',
-			price: 44000,
-			rating: 1.7,
-			location: '부산시 중구 남포',
-			image: accomodation,
-		},
-		{
-			houseId: 3,
-			name: '파라다이스',
-			price: 44000,
-			rating: 2.1,
-			location: '부산시 중구 남포',
-			image: accomodation,
-		},
-		{
-			houseId: 4,
-			name: '환영펜션',
-			price: 44000,
-			rating: 2.9,
-			location: '부산시 중구 남포',
-			image: accomodation,
-		},
-		{
-			houseId: 5,
-			name: '환영펜션',
-			price: 44000,
-			rating: 3.0,
-			location: '부산시 중구 남포',
-			image: accomodation,
-		},
-		{
-			houseId: 6,
-			name: '환영펜션',
-			price: 44000,
-			rating: 4.01,
-			location: '부산시 중구 남포',
-			image: accomodation,
-		},
-		{
-			houseId: 7,
-			name: '환영펜션',
-			price: 44000,
-			rating: 4.99,
-			location: '부산시 중구 남포',
-			image: accomodation,
-		},
-		{
-			houseId: 8,
-			name: '환영펜션',
-			price: 44000,
-			rating: 5,
-			location: '부산시 중구 남포',
-			image: accomodation,
-		},
-		{
-			houseId: 9,
-			name: '환영펜션',
-			price: 44000,
-			rating: 5.0,
-			location: '부산시 중구 남포',
-			image: accomodation,
-		},
-		{
-			houseId: 10,
-			name: '환영펜션',
-			price: 44000,
-			rating: 3,
-			location: '부산시 중구 남포',
-			image: accomodation,
-		},
-		{
-			houseId: 11,
-			name: '환영펜션',
-			price: 44000,
-			rating: 0,
-			location: '부산시 중구 남포',
-			image: accomodation,
-		},
-	];
-
 	// <Select>에 필요한 배열
 	const order = [
 		{
@@ -124,7 +34,14 @@ const UserHouseList = () => {
 			label: '최근 등록순',
 		},
 	];
-
+	const [houseList, setHouseList] = useState<HouseBaseInfo[]>([]);
+	//TODO: 로딩은 나중에...
+	useEffect(() => {
+		api.post(userUrl.houseList).then(({ data }) => {
+			setHouseList(data);
+		});
+	}, []);
+	console.log(houseList);
 	return (
 		<>
 			<SearchWrapper>
@@ -158,7 +75,7 @@ const UserHouseList = () => {
 				/>
 			</SearchResultBar>
 			<SearchResultContents>
-				{house.map((h, idx) => (
+				{houseList.map((h, idx) => (
 					<BriefHouse house={h} key={idx} />
 				))}
 			</SearchResultContents>

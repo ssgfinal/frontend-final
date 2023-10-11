@@ -65,12 +65,14 @@ const FindInputAligner = styled.div`
 	gap: 0.5rem;
 `;
 
-const CheckerContainer = styled.div`
+const CheckerContainer = styled.div<{ $pending?: boolean }>`
 	width: 100%;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	position: relative;
+
+	cursor: ${(props) => props.$pending && 'wait'};
 `;
 
 const UseAbilitiyChecker = styled.button`
@@ -277,6 +279,7 @@ const HouseRegiEachWrapper = styled.div`
 	${flexCenter}
 	flex-direction: column;
 	margin: 1rem 0;
+	max-width: 900px;
 `;
 
 //Auth
