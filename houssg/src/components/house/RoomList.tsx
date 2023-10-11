@@ -3,45 +3,31 @@
 import styled from 'styled-components';
 
 import { RoomDetail } from './RoomDetail';
-import { accomodation } from '../../assets/icons';
-import { ocean, nosmoking } from '../../assets/icons';
+// import { accomodation } from '../../assets/icons';
+// import { ocean, nosmoking } from '../../assets/icons';
+import { useEffect, useState } from 'react';
+import { Room } from '../../types';
+import { userUrl } from '../../assets/constant';
+import api from '../../api/api';
+import { useLocation } from 'react-router-dom';
 
 export const RoomList = () => {
-	// const { houseId } = useParams();
-	const rooms = [
-		{
-			id: 1,
-			img: accomodation,
-			icon: [ocean, nosmoking],
-			type: '스탠다드',
-			service: '트윈 베드, 오션뷰',
-			price: 20000,
-		},
-		{
-			id: 2,
-			img: accomodation,
-			icon: [ocean, nosmoking],
-			type: '트윈룸',
-			service: 'pc',
-			price: 20000,
-		},
-		{
-			id: 3,
-			img: accomodation,
-			icon: [ocean, nosmoking],
-			type: '패밀리룸',
-			service: '스파, 금연객실',
-			price: 20000,
-		},
-	];
+	const location = useLocation();
+	const house = location.state.house;
 
-	return (
-		<Wrapper>
-			{rooms.map((room) => (
-				<RoomDetail key={room.id} room={room} />
-			))}
-		</Wrapper>
-	);
+	const [roomList, setRoomList] = useState<Room[]>();
+
+	useEffect(() => {
+		try {
+			api.get(userUrl.roomList, { params: { accomNumber: house.accomNumber } }).then(({ data }) => {
+				setRoomList(data);
+			});
+		} catch (error) {
+			console.error('데이터를 불러오는데 실패했습니다.', error);
+		}
+	}, []);
+
+	return <Wrapper>{roomList && roomList.map((room) => <RoomDetail key={room.roomNumber} room={room} />)}</Wrapper>;
 };
 
 const Wrapper = styled.div`

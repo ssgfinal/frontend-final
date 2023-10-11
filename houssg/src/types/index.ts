@@ -7,7 +7,7 @@ import { StyledActiveProps, SetStateToggle, UserType, UserTypeObject, RoomSlideP
 import { RegiStepProps, StepMoverType, FunnelPropsType } from './regi';
 import { AuthLoginFunc, AuthSignUpFunc } from './rtk';
 import { UserMyPageType } from './mypage';
-import { HouseBaseInfo } from './house';
+import { HouseBaseInfo, ServiceList, Room } from './houseDetailPage';
 
 // auth Regi manage
 export type { AuthProps, AuthInputType, AuthModeType, AuthPropsWithState, IdFindingType, SmsParameter };
@@ -25,4 +25,4 @@ export type { AuthLoginFunc, AuthSignUpFunc };
 //mypage 충돌 해결
 export type { UserMyPageType };
 // house
-export type { HouseBaseInfo };
+export type { HouseBaseInfo, ServiceList, Room };
