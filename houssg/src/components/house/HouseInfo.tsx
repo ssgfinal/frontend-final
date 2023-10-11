@@ -82,7 +82,10 @@ export const HouseInfo = () => {
 					{isDropdownOpen && accomServices.length > 5 && (
 						<DropdownContent>
 							{accomServices.slice(5).map((service, idx) => (
-								<Icon key={idx} src={service.icon} alt={service.text} />
+								<IconContainer key={idx}>
+									<Icon src={service.icon} alt={service.text} />
+									<HoverText>{service.text}</HoverText>
+								</IconContainer>
 							))}
 						</DropdownContent>
 					)}

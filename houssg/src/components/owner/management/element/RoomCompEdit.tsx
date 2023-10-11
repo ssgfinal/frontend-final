@@ -28,14 +28,14 @@ const RoomCompEdit: React.FC<RoomComp> = ({ room, setIsEditMode }) => {
 	return (
 		<RoomEditWrapper>
 			{/* TODO: 이미지 수정하기, 슬라이더? */}
-			<RoomImg src={room.room_image} />
+			<RoomImg src={'TODO: 추후 백엔드 이미지 첨부'} />
 			<RoomEditContainer>
 				<RoomEditTitle>종류</RoomEditTitle>
-				<RoomEditInput type="text" defaultValue={room.room_category} ref={newRoomCategory}></RoomEditInput>
+				<RoomEditInput type="text" defaultValue={room.roomCategory} ref={newRoomCategory}></RoomEditInput>
 				<RoomEditTitle>개수</RoomEditTitle>
-				<RoomEditInput type="number" defaultValue={room.room_count} ref={newRoomCount}></RoomEditInput>
+				<RoomEditInput type="number" defaultValue={room.roomAvailability} ref={newRoomCount}></RoomEditInput>
 				<RoomEditTitle>가격</RoomEditTitle>
-				<RoomEditInput type="number" defaultValue={room.room_price} ref={newRoomPrice}></RoomEditInput>
+				<RoomEditInput type="number" defaultValue={room.roomPrice} ref={newRoomPrice}></RoomEditInput>
 				<RoomEditDetailTitle>시설 및 서비스</RoomEditDetailTitle>
 				<RoomServiceContainer>
 					{roomServiceCategory.map((service, i) => (

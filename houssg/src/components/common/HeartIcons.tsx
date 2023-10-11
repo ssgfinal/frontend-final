@@ -34,7 +34,7 @@ const HeartIcons = () => {
 				if (isLike) {
 					api.post(userUrl.addLike);
 				} else {
-					api.delete(userUrl.like);
+					// api.delete(userUrl.like);
 				}
 			}
 		};
