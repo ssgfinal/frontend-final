@@ -1,21 +1,16 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { color } from '../../assets/styles/theme';
+import { color, HoverText, IconContainer, NoIcon } from '../../assets/styles';
 import { useAppDispatch } from '../../hooks';
 import { openModal } from '../../store/redux/modalSlice';
 import { isLoginFunc } from '../../utils';
+import { Room, ServiceList } from '../../types';
+import { roomServiceCategory } from '../../assets/constant';
 
 interface RoomProps {
-	room: {
-		id: number;
-		img: string;
-		icon: string[];
-		type: string;
-		service: string;
-		price: number;
-	};
+	room: Room;
 }
 
 export const RoomDetail: React.FC<RoomProps> = ({ room }) => {
@@ -23,31 +18,49 @@ export const RoomDetail: React.FC<RoomProps> = ({ room }) => {
 
 	const dispatch = useAppDispatch();
 
+	const [roomServieceList, setRoomServiceList] = useState<ServiceList[]>([]);
+
+	useEffect(() => {
+		const updatedServices: ServiceList[] = [];
+		room.service &&
+			room.service.forEach((existence: number, idx: number) => {
+				if (existence === 1) {
+					updatedServices.push(roomServiceCategory[idx]);
+				}
+			});
+		setRoomServiceList(updatedServices);
+	}, [room]);
+
 	const handleLink = () => {
 		const isLogin = isLoginFunc();
 		if (!isLogin) {
 			const modalSize = window.innerWidth >= 1000 ? 500 : 400;
 			dispatch(openModal({ modalComponent: 'auth', modalSize: modalSize }));
 		} else {
-			navigate(`/user/reservation/${room.id}`);
+			navigate(`/user/reservation/${room.roomNumber}`);
 		}
 	};
 
 	return (
 		<Wrapper>
-			<RommImg src={room.img} />
+			<RommImg src={room.roomImg} alt="객실 이미지" />
 			<Info>
-				<Type>{room.type}</Type>
+				<Type>{room.roomCategory}</Type>
+				<div>시설 및 서비스</div>
 				<div>
-					{room.icon.map((iconSrc, index) => (
-						<React.Fragment key={index}>
-							<Icon src={iconSrc} />
-							&nbsp;&nbsp;&nbsp;
-						</React.Fragment>
-					))}
+					{roomServieceList.length !== 0 ? (
+						roomServieceList.map((service, idx) => (
+							<IconContainer key={idx}>
+								<Icon src={service.icon} alt={service.text} />
+								<HoverText>{service.text}</HoverText>
+							</IconContainer>
+						))
+					) : (
+						<NoIcon>미등록</NoIcon>
+					)}
 				</div>
 				<Between>
-					<Center>{room.price.toLocaleString()}원</Center>
+					<Center>{room.roomPrice.toLocaleString()}원</Center>
 					<Button onClick={handleLink}>예약하기</Button>
 				</Between>
 			</Info>
@@ -81,6 +94,32 @@ const Type = styled.div`
 	font-size: large;
 `;
 
+// const HoverText = styled.div`
+// 	position: absolute;
+// 	bottom: -1.5rem;
+// 	left: 50%;
+// 	transform: translateX(-50%);
+// 	display: none;
+// 	background-color: rgba(0, 0, 0, 0.7);
+// 	color: white;
+// 	padding: 10px;
+// 	border-radius: 4px;
+// 	pointer-events: none;
+// 	opacity: 0;
+// 	transition: opacity 0.3s;
+// 	white-space: nowrap;
+// `;
+
+// const IconContainer = styled.div`
+// 	position: relative;
+// 	display: inline-block;
+
+// 	&:hover ${HoverText} {
+// 		display: block;
+// 		opacity: 1;
+// 	}
+// `;
+
 const Icon = styled.img`
 	width: 2rem;
 `;
@@ -89,6 +128,11 @@ const Between = styled.div`
 	display: flex;
 	justify-content: space-between;
 `;
+
+// const Small = styled.div`
+// 	font-size: small;
+// 	color: ${color.darkGrayColor};
+// `;
 const Center = styled.div`
 	@media (min-width: 950px) {
 		width: 65%;
