@@ -7,7 +7,6 @@ import { roomServiceCategory } from '../../../../assets/constant';
 
 const RoomCompRead: React.FC<RoomComp> = ({ room, setIsEditMode }) => {
 	const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-	console.log(room);
 	const toggleDropdown = () => {
 		setIsDropdownOpen(!isDropdownOpen);
 	};

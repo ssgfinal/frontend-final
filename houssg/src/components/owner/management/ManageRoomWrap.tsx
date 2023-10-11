@@ -20,7 +20,6 @@ const ManageRoomWrap: React.FC<{ accomNumber: number }> = ({ accomNumber }) => {
 		},
 	);
 
-	isSuccess && console.log(data, '성공시');
 	isError && console.log(error, 'error');
 
 	if (isLoading) {
