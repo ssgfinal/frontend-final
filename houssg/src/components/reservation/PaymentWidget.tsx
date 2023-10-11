@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { loadPaymentWidget, PaymentWidgetInstance } from '@tosspayments/payment-widget-sdk';
-import { useParams } from 'react-router-dom';
+// import { useParams } from 'react-router-dom';
 import { Provision } from './Provision';
 import { color, ReservationCommonBox, UserReservationTitle } from '../../assets/styles';
 import styled from 'styled-components';
@@ -11,11 +11,28 @@ import styled from 'styled-components';
 const clientKey = 'test_ck_D5GePWvyJnrK0W0k6q8gLzN97Eoq';
 const customerKey = 'YbX2HuSlsC9uVJW6NMRMj';
 
-interface PaymentWidgetProps {
-	payment: number;
+interface Coupon {
+	couponId: string;
+	couponName: string;
+	// expirationDate: string; // 예약하기 페이지에선 없어도 될 듯
+	discountPrice: number;
 }
-export const PaymentWidget: React.FC<PaymentWidgetProps> = ({ payment }) => {
-	const { roomId } = useParams();
+
+interface GiveReservation {
+	roomId: number;
+	selectedReservationDate?: string;
+	visitorName: string;
+	visitorPhone: string;
+	usingCoupon: Coupon; // 프론트에서 선택한 쿠폰 한개
+	usingPoint: number;
+	paymentPrice: number;
+}
+
+interface PaymentWidgetProps {
+	selectedReservation: GiveReservation;
+}
+export const PaymentWidget: React.FC<PaymentWidgetProps> = ({ selectedReservation }) => {
+	// const { roomId } = useParams();
 
 	const paymentWidgetRef = useRef<PaymentWidgetInstance | null>(null);
 	const paymentMethodsWidgetRef = useRef<ReturnType<PaymentWidgetInstance['renderPaymentMethods']> | null>(null);
@@ -25,7 +42,7 @@ export const PaymentWidget: React.FC<PaymentWidgetProps> = ({ payment }) => {
 			const paymentWidget = await loadPaymentWidget(clientKey, customerKey);
 			// loadPaymentWidget : PaymentWidget 인스턴스를 반환하는 메서드
 			// PaymentWidget : 해당 인스턴스를 사용해서 결제위젯을 렌더링 함, 결제위젯 인스턴스는 결제를 요청하는 requestPayment()라는 함수도 반환
-			const paymentMethodsWidget = paymentWidget.renderPaymentMethods('#payment-widget', payment);
+			const paymentMethodsWidget = paymentWidget.renderPaymentMethods('#payment-widget', selectedReservation.paymentPrice);
 			// renderPaymentMethods로 결제위젯을 렌더링
 			// paymentWidget.renderPaymentMethods()에서 updateAmount()를 반환함
 
@@ -33,7 +50,7 @@ export const PaymentWidget: React.FC<PaymentWidgetProps> = ({ payment }) => {
 			// useRef를 사용해서 인스턴스 저장
 			paymentMethodsWidgetRef.current = paymentMethodsWidget;
 		})();
-	}, [payment]);
+	}, [selectedReservation]);
 
 	// 가격이 바뀌면 updateAmount를 호출하는 코드
 	// 현재는 할인을 다른 컴포넌트서 실행
@@ -50,21 +67,22 @@ export const PaymentWidget: React.FC<PaymentWidgetProps> = ({ payment }) => {
 
 	const paymentWidgetButtonFunc = () => {
 		const paymentWidget = paymentWidgetRef.current;
-
+		// console.log('PaymentWidget selectedReservation > ', selectedReservation);
 		try {
+			// console.log('PaymentWidget seletedReservation > ', selectedReservation);
 			paymentWidget?.requestPayment({
 				//원래 맨앞에 await이 있었음 근데 async는 없어서 에러 뜨길래 일단 지움
 				orderId: 'abcdefgh',
 				orderName: '토스 티셔츠 외 2건',
 				customerName: '김토스',
 				customerEmail: 'customer123@gmail.com',
-				successUrl: `${window.location.origin}/user/reservation/${roomId}`,
+				successUrl: `${window.location.origin}/user/reservation/${selectedReservation.roomId}`,
 				failUrl: `${window.location.origin}/user/house`,
 				//   successUrl: `${window.location.origin}/success`,
 				//   failUrl: `${window.location.origin}/fail`,
 			});
 		} catch (err) {
-			console.log(err);
+			// console.log(err);
 		}
 	};
 

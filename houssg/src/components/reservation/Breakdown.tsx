@@ -36,7 +36,7 @@ interface BreakdownProps {
 	// setPayment: React.Dispatch<React.SetStateAction<number>>;
 	initReservation: GetReservation;
 	selectedReservation: GiveReservation;
-	setSelectedReservation: React.Dispatch<React.SetStateAction<GiveReservation | undefined>>;
+	setSelectedReservation: React.Dispatch<React.SetStateAction<GiveReservation>>;
 }
 export const Breakdown: React.FC<BreakdownProps> = ({
 	// payment, setPayment,
@@ -58,7 +58,7 @@ export const Breakdown: React.FC<BreakdownProps> = ({
 	// 		discountPrice: 1200,
 	// 	},
 	// ];
-	initReservation && console.log('Breakdown couponList > ', initReservation);
+	// initReservation && console.log('Breakdown couponList > ', initReservation);
 
 	// const totalPoint = 35;
 
@@ -93,11 +93,9 @@ export const Breakdown: React.FC<BreakdownProps> = ({
 		reservation.night,
 		room.price,
 		// , setPayment
-		selectedReservation,
-		setSelectedReservation,
 	]);
 
-	console.log('Breakdown 총액 > ', selectedReservation.paymentPrice);
+	// console.log('Breakdown 총액 > ', selectedReservation.paymentPrice);
 
 	// const [selectedCoupon, setSelectedCoupon] = useState({
 	// 	couponId: '0',
@@ -118,7 +116,7 @@ export const Breakdown: React.FC<BreakdownProps> = ({
 
 	const handlePoint = (e: React.ChangeEvent<HTMLInputElement>) => {
 		if (isNaN(Number(e.target.value))) {
-			console.log('숫자 아님');
+			// console.log('숫자 아님');
 			setPointStatus('text');
 			// setPoint(0);
 			setSelectedReservation({
@@ -172,11 +170,13 @@ export const Breakdown: React.FC<BreakdownProps> = ({
 	}, [
 		reservation.night,
 		room.price,
-		// , setPayment
-		selectedReservation,
+		// , setPayment,
+		selectedReservation.usingCoupon,
+		selectedReservation.usingPoint,
 		setSelectedReservation,
 	]);
 
+	console.log('Brealdown ');
 	return (
 		<>
 			<ReservationCommonBox>

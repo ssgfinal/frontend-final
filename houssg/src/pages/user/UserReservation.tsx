@@ -44,17 +44,31 @@ export const UserReservation = () => {
 	// 백 연동 시 roomId 보낼 때 사용할 변수들
 	const location = useLocation();
 	const room = location.state.room;
-	console.log('UserReservation useLocation room > ', room);
+	// console.log('UserReservation useLocation room > ', room);
 
 	const [initReservation, setInitReservation] = useState<GetReservation>();
-	const [selectedReservation, setSelectedReservation] = useState<GiveReservation | undefined>();
+	const [selectedReservation, setSelectedReservation] = useState<GiveReservation>({
+		roomId: room.roomId,
+		selectedReservationDate: '',
+		visitorName: '',
+		visitorPhone: '',
+		usingCoupon: {
+			couponId: '',
+			couponName: '',
+			// expirationDate: '', // 예약하기 페이지에선 없어도 될 듯
+			discountPrice: 0,
+		},
+		// 프론트에서 선택한 쿠폰 한개
+		usingPoint: 0,
+		paymentPrice: 0,
+	});
 
 	// TODO: 백과 연동 ( 예약하기 페이지 들어왔을 때 뿌려줄 데이터 받아오는 api)
 	useEffect(() => {
 		// api.get(userUrl.review + `?roomId=${room.roomId}`).then(({ data }) => {
 		// 	// setInitReservation(data);
 		// });
-		console.log('UserReservation useEffect 돈다~');
+		// console.log('UserReservation useEffect 돈다~');
 		setInitReservation({
 			roomId: room.roomId,
 			reservationAvailability: [true],
@@ -74,6 +88,10 @@ export const UserReservation = () => {
 			],
 			totalPoint: 35,
 		});
+		setSelectedReservation({
+			...selectedReservation,
+			roomId: room.rommId,
+		});
 	}, []);
 
 	// 결제 금액
@@ -83,8 +101,8 @@ export const UserReservation = () => {
 		<Wrapper>
 			<RoomInfo />
 			<BookerInfo />
-			<VisitorInfo />
-			{initReservation && selectedReservation && (
+			<VisitorInfo selectedReservation={selectedReservation} setSelectedReservation={setSelectedReservation} />
+			{initReservation && (
 				<>
 					<Breakdown
 						// payment={payment} setPayment={setPayment}
@@ -94,7 +112,7 @@ export const UserReservation = () => {
 					/>
 					<PaymentWidget
 						// payment={payment}
-						payment={selectedReservation.paymentPrice}
+						selectedReservation={selectedReservation}
 					/>
 				</>
 			)}

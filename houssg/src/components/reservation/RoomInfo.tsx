@@ -5,7 +5,7 @@ export const RoomInfo = () => {
 	const location = useLocation();
 	const houseName = location.state.houseName;
 	const room = location.state.room;
-	console.log('RoomInfo houseName > ', houseName, 'room > ', room);
+	// console.log('RoomInfo houseName > ', houseName, 'room > ', room);
 	// const houseName = '센텀 제일 가는 호텔';
 	// const room = {
 	// 	id: 1,
