@@ -14,7 +14,7 @@ const RoomCompRead: React.FC<RoomComp> = ({ room, setIsEditMode }) => {
 
 	return (
 		<RoomContainer>
-			<RoomCategory>✧&nbsp;{room.room_category}&nbsp;✧</RoomCategory>
+			<RoomCategory>✧&nbsp;{room.roomCategory}&nbsp;✧</RoomCategory>
 			<DropdownBox>
 				<MoreBox src={moreIcon} onClick={toggleDropdown}></MoreBox>
 				{isDropdownOpen && (
@@ -30,21 +30,19 @@ const RoomCompRead: React.FC<RoomComp> = ({ room, setIsEditMode }) => {
 					</ButtonAligner>
 				)}
 			</DropdownBox>
-			<RoomImg src={room.room_image} />
+			<RoomImg src={'TODO:추후 반영'} />
 			<RoomContent>
 				<RoomSubTitle>
 					<span>개수</span>
 				</RoomSubTitle>
-				<RoomSubContent>{room.room_count}개</RoomSubContent>
+				<RoomSubContent>{room.roomAvailability}개</RoomSubContent>
 				<RoomSubTitle>
 					<span>가격</span>
 				</RoomSubTitle>
-				<RoomSubContent>{room.room_price.toLocaleString()}원</RoomSubContent>
+				<RoomSubContent>{room.roomPrice.toLocaleString()}원</RoomSubContent>
 				<InfoTitleText>시설 및 서비스</InfoTitleText>
 				<ServiceContainer>
-					{roomServiceCategory.map((service, i) => (
-						<ManageReadService key={i} src={service.icon}></ManageReadService>
-					))}
+					{room.service.map((service, i) => !!service && <ManageReadService key={i} src={roomServiceCategory[i].icon}></ManageReadService>)}
 				</ServiceContainer>
 			</RoomContent>
 		</RoomContainer>

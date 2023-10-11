@@ -70,10 +70,6 @@ const houseServiceCategory = [
 
 const roomServiceCategory = [
 	{
-		value: 'city_view',
-		text: '씨티 뷰',
-	},
-	{
 		value: 'ocean_view',
 		text: '오션 뷰',
 		icon: ocean,

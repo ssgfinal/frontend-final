@@ -75,7 +75,7 @@ const ManageHouseRead: React.FC<MyHouseDataHandleComp> = ({ house, setIsEditMode
 				setIsOpenTabComp={setIsOpenTabComp}
 				isOpenTabComp={isOpenTabComp}
 			/>
-			{isOpenTabComp && <ManageTabComp isRoomSelected={isRoomSelected} />}
+			{isOpenTabComp && <ManageTabComp accomNumber={house.accomNumber} isRoomSelected={isRoomSelected} />}
 		</ManageWrapper>
 	);
 };
