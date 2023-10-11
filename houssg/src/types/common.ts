@@ -19,6 +19,7 @@ interface UploaderSize {
 	children: ReactNode;
 	setImage: React.Dispatch<React.SetStateAction<string>> | ((data: string) => void);
 	setImgFile: (file: string) => void;
+	setIsListUploading?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 interface RoomSlideProps {

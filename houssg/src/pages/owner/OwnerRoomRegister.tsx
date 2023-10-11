@@ -1,53 +1,52 @@
 import { useState } from 'react';
-import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { RegiHeadText, color, flexCenter } from '../../assets/styles';
 import { ImageUploader, RoomImgSlider } from '../../components/common';
+import { base64ToFile } from '../../utils';
+import { useParams } from 'react-router';
 
 const OwnerRoomRegister = () => {
-	const { houseId } = useParams();
 	const [houseImgs, setHouseImgs] = useState<string[]>([]);
-	const [isLoading, setIsLoading] = useState(false);
-	const onEditHouseImgs = (index: number) => {
-		// houseImgs 배열에서 해당 인덱스의 요소를 제거하고 새 배열을 생성합니다.
-		const updatedHouseImgs = [...houseImgs];
-		updatedHouseImgs.splice(index, 1);
+	const [houseImgFiles, setHouseImgFiles] = useState<File[]>([]);
+	const [isListUploading, setIsListUploading] = useState(false);
+	const { houseId } = useParams();
 
-		// 변경된 배열을 React 상태에 업데이트합니다.
-		setHouseImgs(updatedHouseImgs);
+	const onEditHouseImgs = (index: number) => {
+		setHouseImgs((prevHouseImg) => {
+			return prevHouseImg.filter((_, i) => i !== index);
+		});
+		setHouseImgFiles((prevHouseFile) => {
+			return prevHouseFile.filter((_, i) => i !== index);
+		});
 	};
 
 	const onAddHouseImg = (data: string) => {
 		setHouseImgs([...houseImgs, data]);
 	};
-	// console.log(houseImgs);
+
+	const onAddHouseImgFile = (data: string) => {
+		setHouseImgFiles([...houseImgFiles, base64ToFile(data, houseId + '')]);
+	};
+
 	return (
 		<RoomRegisterWrap>
 			<RegiHeadText>객실 등록</RegiHeadText>
 			<RegisterInputWrapper>
 				<RegiRoomSubComp>
 					<RegiRoomSubTitle>객실사진</RegiRoomSubTitle>
-
-					{!isLoading && houseImgs.length !== 0 && (
-						<SliderContainer>
+					{houseImgs.length !== 0 && (
+						<SliderContainer $isLoading={isListUploading}>
 							<RoomImgSlider data={houseImgs} setData={onEditHouseImgs}></RoomImgSlider>
 						</SliderContainer>
 					)}
 					{/*TODO: 이미지 작아졌을 때 */}
-					<ImageUploader
-						width="320px"
-						height="240px"
-						setImage={onAddHouseImg}
-						setImgFile={() => {
-							console.log('TODO: 하기');
-						}}
-					>
+					<ImageUploader width="320px" height="240px" setImage={onAddHouseImg} setImgFile={onAddHouseImgFile} setIsListUploading={setIsListUploading}>
 						{houseImgs.length === 0 ? (
 							<SliderContainer>
 								<SliderContainerInnerAligner>이미지 등록</SliderContainerInnerAligner>
 							</SliderContainer>
 						) : (
-							<div>추가 업로드</div>
+							houseImgs.length < 10 && <div>추가 업로드</div>
 						)}
 					</ImageUploader>
 				</RegiRoomSubComp>
@@ -63,7 +62,6 @@ const OwnerRoomRegister = () => {
 					<RegiRoomSubText>객실종류</RegiRoomSubText>
 				</RegiRoomSubComp>
 			</RegisterInputWrapper>
-			<div>{houseId}</div>
 		</RoomRegisterWrap>
 	);
 };
@@ -81,14 +79,10 @@ const RegisterInputWrapper = styled.div`
 	margin-top: 1.5rem;
 `;
 
-const SliderContainer = styled.div`
+const SliderContainer = styled.div<{ $isLoading?: boolean }>`
 	width: 95%;
 	max-width: 400px;
-	/* height: 30vw;
-	@media screen and (min-width: 1000px) {
-		width: 400px;
-		height: 300px;
-	} */
+	display: ${(props) => props.$isLoading && 'none'};
 `;
 
 const SliderContainerInnerAligner = styled.div`
@@ -97,6 +91,8 @@ const SliderContainerInnerAligner = styled.div`
 	height: 100%;
 	border: 1px solid #ccc;
 	border-radius: 10px;
+	min-height: 400px;
+	min-width: 280px;
 `;
 
 const RegiRoomSubComp = styled.div`
