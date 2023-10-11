@@ -15,6 +15,7 @@ const ManageHouseEdit: React.FC<MyHouseDataHandleComp> = ({ house, setIsEditMode
 	const newCheckIn = useRef<HTMLInputElement | null>(null);
 	const newCheckOut = useRef<HTMLInputElement | null>(null);
 	const newDetail = useRef<HTMLTextAreaElement | null>(null);
+	const [checkedList, setCheckedList] = useState<number[]>(house.service);
 
 	const [newImg, setNewImg] = useState(house.img);
 	const [newImgFile, setNewImgFile] = useState<File | null>(null);
@@ -40,8 +41,6 @@ const ManageHouseEdit: React.FC<MyHouseDataHandleComp> = ({ house, setIsEditMode
 		setUploaderSize({ width, height });
 	}, [windowWidth]);
 
-	const [checkedList, setCheckedList] = useState<number[]>(house.service);
-
 	const onChangeCheckedList = (index: number, value: number) => {
 		const newCheckedList = [...checkedList];
 		newCheckedList[index] = value;
@@ -55,8 +54,16 @@ const ManageHouseEdit: React.FC<MyHouseDataHandleComp> = ({ house, setIsEditMode
 	const queryClient = useQueryClient();
 
 	const { mutate } = useMutation({
-		mutationFn: ({ newCheckInValue, newCheckOutValue, newDetailValue, newPhoneNumberValue, newImgFile }: EditMutationType) =>
-			onEditManageHouseApi(newCheckInValue, newCheckOutValue, newDetailValue, newPhoneNumberValue, newImgFile),
+		mutationFn: ({
+			accomNumber,
+			newCheckInValue,
+			newCheckOutValue,
+			newDetailValue,
+			newPhoneNumberValue,
+			checkedList,
+			newImgFile,
+		}: EditMutationType) =>
+			onEditManageHouseApi(accomNumber, newCheckInValue, newCheckOutValue, newDetailValue, newPhoneNumberValue, checkedList, newImgFile),
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: [ownerKey.myHouseList] });
 			alert('수정완료');
@@ -70,12 +77,14 @@ const ManageHouseEdit: React.FC<MyHouseDataHandleComp> = ({ house, setIsEditMode
 		const newDetailValue = newDetail.current?.value;
 		const newPhoneNumberValue = newPhoneNumber.current?.value;
 		const { checkIn, checkOut, accomDetails, teleNumber } = house;
+
 		// 변경값이 없으면 수정 취소
 		if (
 			newCheckInValue === checkIn &&
 			newCheckOutValue === checkOut &&
 			newDetailValue === accomDetails &&
 			newImgFile === null &&
+			checkedList === house.service &&
 			newPhoneNumberValue === teleNumber
 		) {
 			setIsEditMode(false);
@@ -83,7 +92,7 @@ const ManageHouseEdit: React.FC<MyHouseDataHandleComp> = ({ house, setIsEditMode
 		}
 		// 벨류가 비거나 undefined가 아니라면
 		if (!!newCheckInValue && !!newCheckOutValue && !!newDetailValue && !!newPhoneNumberValue)
-			mutate({ newCheckInValue, newCheckOutValue, newDetailValue, newPhoneNumberValue, newImgFile });
+			mutate({ accomNumber: house.accomNumber, newCheckInValue, newCheckOutValue, newDetailValue, newPhoneNumberValue, checkedList, newImgFile });
 	};
 
 	return (

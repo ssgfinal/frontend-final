@@ -46,10 +46,12 @@ interface MyHouseDataHandleComp {
 }
 
 interface EditMutationType {
+	accomNumber: number;
 	newCheckInValue: string;
 	newCheckOutValue: string;
 	newDetailValue: string;
 	newPhoneNumberValue: string;
+	checkedList: number[];
 	newImgFile: File | null;
 }
 
