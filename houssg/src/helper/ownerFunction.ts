@@ -31,10 +31,12 @@ const onRegiFunnelData = (data: FunnelPropsType) => {
 };
 
 const onEditManageHouseApi = (
+	accomNumber: number,
 	newCheckInValue: string,
 	newCheckOutValue: string,
 	newDetailValue: string,
 	newPhoneNumberValue: string,
+	checkedList: number[],
 	newImgFile: File | null,
 ) => {
 	const formData = new FormData();
@@ -42,10 +44,12 @@ const onEditManageHouseApi = (
 		formData.append('file', newImgFile);
 	}
 	const requestData = {
+		accomNumber,
 		teleNumber: newPhoneNumberValue,
 		accomDetails: newDetailValue,
 		checkIn: newCheckInValue,
 		checkOut: newCheckOutValue,
+		facilityDto: checkedList,
 	};
 
 	const json = JSON.stringify(requestData);
