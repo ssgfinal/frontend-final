@@ -26,6 +26,9 @@ import {
 	ManageReadTitle,
 } from './StyledComponents';
 
+// comon
+import { SmallIndicatorText, HoverText, IconContainer, NoIcon } from './StyledComponents';
+
 //UserReservation.tsx
 import { ReservationCommonBox, UserReservationTitle, UserReservationLeft } from './StyledComponents';
 //OwnerRegi
@@ -51,6 +54,9 @@ export {
 	FinderRouteAligner,
 	FindInputAligner,
 };
+
+// common
+export { SmallIndicatorText, HoverText, IconContainer, NoIcon };
 
 //UserReservation
 export { ReservationCommonBox, UserReservationTitle, UserReservationLeft };

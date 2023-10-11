@@ -254,6 +254,41 @@ const SmallIndicatorText = styled.div`
 	font-weight: 600;
 `;
 
+// facility & service
+// IconContainer 태그(부모 태그) 안 icon을 띄우는 img 태그(자식 태그)와 HoverText 태그(자식 태그)가 있는 구조
+// img 태그와 HoverText 태그는 형제 관계
+// 태그 구조는 RoomDetail.tsx 파일 참고
+const HoverText = styled.div`
+	position: absolute;
+	bottom: -1.5rem;
+	left: 50%;
+	transform: translateX(-50%);
+	display: none;
+	background-color: rgba(0, 0, 0, 0.7);
+	color: white;
+	padding: 10px;
+	border-radius: 4px;
+	pointer-events: none;
+	opacity: 0;
+	transition: opacity 0.3s;
+	white-space: nowrap;
+`;
+
+const IconContainer = styled.div`
+	position: relative;
+	display: inline-block;
+
+	&:hover ${HoverText} {
+		display: block;
+		opacity: 1;
+	}
+`;
+
+const NoIcon = styled.div`
+	font-size: small;
+	color: ${color.darkGrayColor};
+`;
+
 // UserReservation.tsx
 
 const ReservationCommonBox = styled.div`
@@ -292,7 +327,7 @@ export { ManageReadTitle };
 // 등록
 export { RegiHeadText, HouseRegiEachWrapper };
 // common
-export { SmallIndicatorText };
+export { SmallIndicatorText, HoverText, IconContainer, NoIcon };
 
 // 유저 예약
 export { ReservationCommonBox, UserReservationTitle, UserReservationLeft };

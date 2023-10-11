@@ -3,10 +3,9 @@ import { ownerRegiImg } from '../../../assets/images';
 import { useImageConverter } from '../../../hooks';
 import styled from 'styled-components';
 import { useEffect } from 'react';
-import { HouseRegiEachWrapper, UserReservationTitle, color } from '../../../assets/styles';
+import { HouseRegiEachWrapper, UserReservationTitle, color, SmallIndicatorText } from '../../../assets/styles';
 import { RegiStepProps } from '../../../types';
 import { StepMover } from './element';
-import { SmallIndicatorText } from '../../../assets/styles/StyledComponents';
 
 const BusinessRegi: React.FC<RegiStepProps> = ({ goStep, step, funnelState }) => {
 	const [isLoading, setIsLoading] = useState(true);

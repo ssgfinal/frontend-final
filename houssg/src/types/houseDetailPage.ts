@@ -1,3 +1,5 @@
+// 숙소 상세 페이지에서 쓰는 자료형들
+
 interface HouseBaseInfo {
 	accomNumber: number;
 	accomName: string;
@@ -20,4 +22,10 @@ interface HouseBaseInfo {
 	teleNumber: string;
 }
 
-export type { HouseBaseInfo };
+interface ServiceList {
+	value: string;
+	text: string;
+	icon: string;
+}
+
+export type { HouseBaseInfo, ServiceList };
