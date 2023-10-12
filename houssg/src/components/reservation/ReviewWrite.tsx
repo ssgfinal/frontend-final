@@ -1,11 +1,10 @@
 import { useState, useRef, FormEvent } from 'react';
 import styled from 'styled-components';
-import { color } from '../../assets/styles';
+import { color, SmallIndicatorText } from '../../assets/styles';
 import Rating from '../common/Rating';
 import { closeModal } from '../../store/redux/modalSlice';
 import { useAppDispatch } from '../../hooks';
 import { ImageUploader } from '../common';
-import { SmallIndicatorText } from '../../assets/styles/StyledComponents';
 import { photo } from '../../assets/icons';
 
 const ReviewWrite = () => {

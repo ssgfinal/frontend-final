@@ -1,27 +1,31 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { color } from '../../assets/styles/theme';
+import { color, HoverText, IconContainer, NoIcon } from '../../assets/styles';
 import { useAppDispatch } from '../../hooks';
 import { openModal } from '../../store/redux/modalSlice';
 import { isLoginFunc } from '../../utils';
+import { RoomData, ServiceList } from '../../types';
+import { roomServiceCategory } from '../../assets/constant';
 
-interface RoomProps {
-	room: {
-		id: number;
-		img: string;
-		icon: string[];
-		type: string;
-		service: string;
-		price: number;
-	};
-}
-
-export const RoomDetail: React.FC<RoomProps> = ({ room }) => {
+export const RoomDetail: React.FC<RoomData> = ({ room }) => {
 	const navigate = useNavigate();
 
 	const dispatch = useAppDispatch();
+
+	const [roomServieceList, setRoomServiceList] = useState<ServiceList[]>([]);
+
+	useEffect(() => {
+		const updatedServices: ServiceList[] = [];
+		room.service &&
+			room.service.forEach((existence: number, idx: number) => {
+				if (existence === 1) {
+					updatedServices.push(roomServiceCategory[idx]);
+				}
+			});
+		setRoomServiceList(updatedServices);
+	}, [room]);
 
 	const handleLink = () => {
 		const isLogin = isLoginFunc();
@@ -29,25 +33,30 @@ export const RoomDetail: React.FC<RoomProps> = ({ room }) => {
 			const modalSize = window.innerWidth >= 1000 ? 500 : 400;
 			dispatch(openModal({ modalComponent: 'auth', modalSize: modalSize }));
 		} else {
-			navigate(`/user/reservation/${room.id}`);
+			navigate(`/user/reservation/${room.roomNumber}`);
 		}
 	};
 
 	return (
 		<Wrapper>
-			<RommImg src={room.img} />
+			<RommImg src={room.roomImg} alt="객실 이미지" />
 			<Info>
-				<Type>{room.type}</Type>
+				<Type>{room.roomCategory}</Type>
+				<div>시설 및 서비스</div>
 				<div>
-					{room.icon.map((iconSrc, index) => (
-						<React.Fragment key={index}>
-							<Icon src={iconSrc} />
-							&nbsp;&nbsp;&nbsp;
-						</React.Fragment>
-					))}
+					{roomServieceList.length !== 0 ? (
+						roomServieceList.map((service, idx) => (
+							<IconContainer key={idx}>
+								<Icon src={service.icon} alt={service.text} />
+								<HoverText>{service.text}</HoverText>
+							</IconContainer>
+						))
+					) : (
+						<NoIcon>미등록</NoIcon>
+					)}
 				</div>
 				<Between>
-					<Center>{room.price.toLocaleString()}원</Center>
+					<Center>{room.roomPrice.toLocaleString()}원</Center>
 					<Button onClick={handleLink}>예약하기</Button>
 				</Between>
 			</Info>
@@ -89,6 +98,7 @@ const Between = styled.div`
 	display: flex;
 	justify-content: space-between;
 `;
+
 const Center = styled.div`
 	@media (min-width: 950px) {
 		width: 65%;

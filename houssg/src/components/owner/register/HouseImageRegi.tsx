@@ -1,9 +1,8 @@
 import { useState } from 'react';
-import { HouseRegiEachWrapper, UserReservationTitle } from '../../../assets/styles';
+import { HouseRegiEachWrapper, UserReservationTitle, SmallIndicatorText } from '../../../assets/styles';
 import { RegiStepProps } from '../../../types';
 import { ImageUploader } from '../../common';
 import { StepMover } from './element';
-import { SmallIndicatorText } from '../../../assets/styles/StyledComponents';
 import styled from 'styled-components';
 import { base64ToFile } from '../../../utils';
 

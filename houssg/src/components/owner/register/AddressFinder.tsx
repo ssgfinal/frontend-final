@@ -1,11 +1,10 @@
 import { useState } from 'react';
 import DaumPostcode, { Address } from 'react-daum-postcode';
 import KakaoMap from '../../common/KakaoMap';
-import { HouseRegiEachWrapper, UserReservationTitle, flexCenter } from '../../../assets/styles';
+import { HouseRegiEachWrapper, UserReservationTitle, flexCenter, SmallIndicatorText } from '../../../assets/styles';
 import styled from 'styled-components';
 import { RegiStepProps } from '../../../types';
 import { StepMover } from './element';
-import { SmallIndicatorText } from '../../../assets/styles/StyledComponents';
 
 const AddressFinder: React.FC<RegiStepProps> = ({ goStep, step, funnelState }) => {
 	const [targetAddress, setTargetAddress] = useState(funnelState?.targetAddress ? funnelState.targetAddress : '');
