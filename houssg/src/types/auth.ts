@@ -19,6 +19,7 @@ interface AuthInputType {
 	setValue: React.Dispatch<React.SetStateAction<string>>;
 	password?: boolean;
 	reg?: { reg: RegExp; tooltip: string };
+	keyPressFunc?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
 }
 
 interface AuthModeType extends AuthProps {

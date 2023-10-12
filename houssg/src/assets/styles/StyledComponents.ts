@@ -240,7 +240,7 @@ const ManageReadTitle = styled.div`
 //OwnerRegi
 const RegiHeadText = styled.div`
 	margin-top: 0.5rem;
-	font-size: 1.5rem;
+	font-size: 1.7rem;
 	font-weight: bold;
 	color: ${color.color1};
 `;

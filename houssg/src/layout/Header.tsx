@@ -8,6 +8,7 @@ import { authUrl, ownerRoute, userRoute } from '../assets/constant';
 import { checkLogout, isLoginState } from '../store/redux/authSlice';
 import api from '../api/api';
 import { color } from '../assets/styles';
+
 const Header = () => {
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
@@ -18,13 +19,18 @@ const Header = () => {
 		isUser ? navigate(userRoute.main) : navigate(ownerRoute.main);
 	};
 
-	const onChangeUserType = () => {
-		navigate(isUser ? ownerRoute.main : userRoute.main);
-	};
-
 	const loginModalOpen = () => {
 		const modalSize = window.innerWidth >= 1000 ? 500 : 400;
 		dispatch(openModal({ modalComponent: 'auth', modalSize: modalSize }));
+	};
+
+	const onChangeUserType = () => {
+		if (isUser && !isLogin) {
+			alert('로그인 부탁드립니다.');
+			loginModalOpen();
+			return;
+		}
+		navigate(isUser ? ownerRoute.main : userRoute.main);
 	};
 
 	const logoutFunc = () => {

@@ -10,6 +10,7 @@ import { closeModal, isModalOpen } from '../../store/redux/modalSlice';
 import { AuthProps } from '../../types';
 import { __postLogin, authStatus, isLoginState, resetAuthStatus } from '../../store/redux/authSlice';
 import { authLoginFunc } from '../../helper';
+import { handleEnterPress } from '../../utils';
 
 const Login: React.FC<AuthProps> = ({ authStep, setAuthStep }) => {
 	const dispatch = useAppDispatch();
@@ -36,6 +37,9 @@ const Login: React.FC<AuthProps> = ({ authStep, setAuthStep }) => {
 		}
 	}, [dispatch, isLogin]);
 
+	const keyPressFunc = (e: React.KeyboardEvent<HTMLInputElement>) => {
+		handleEnterPress(e, onLogin);
+	};
 	return (
 		<AuthContainer>
 			<AuthTitle>로그인</AuthTitle>
@@ -43,7 +47,7 @@ const Login: React.FC<AuthProps> = ({ authStep, setAuthStep }) => {
 			{modalState && (
 				<>
 					<AuthInput setValue={setUserId} title="아이디" />
-					<AuthInput setValue={setUserPw} title="비밀번호" password />
+					<AuthInput setValue={setUserPw} title="비밀번호" password keyPressFunc={keyPressFunc} />
 				</>
 			)}
 			<FinderRouteAligner>

@@ -6,9 +6,12 @@ import { isLoginFunc } from './isLogin';
 
 //window
 import { windowWarningState, removeWindowWarningState } from './windowEvent';
-
+//keyboard
+import { handleEnterPress } from './keyBoard';
 //utils
 export { webpImageIncoder, isLoginFunc, pxToRem, base64ToFile };
 
 // window
 export { windowWarningState, removeWindowWarningState };
+
+export { handleEnterPress };

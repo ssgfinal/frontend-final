@@ -4,12 +4,22 @@ import { RegiHeadText, color, flexCenter } from '../../assets/styles';
 import { ImageUploader, RoomImgSlider } from '../../components/common';
 import { base64ToFile } from '../../utils';
 import { useParams } from 'react-router';
+import { CheckBox } from '../../components/owner/register/element';
+import { roomServiceCategory } from '../../assets/constant';
 
 const OwnerRoomRegister = () => {
+	const { houseId } = useParams();
 	const [houseImgs, setHouseImgs] = useState<string[]>([]);
 	const [houseImgFiles, setHouseImgFiles] = useState<File[]>([]);
+
 	const [isListUploading, setIsListUploading] = useState(false);
-	const { houseId } = useParams();
+	const [checkedList, setCheckedList] = useState<number[]>(new Array(roomServiceCategory.length).fill(0));
+
+	const onChangeCheckedList = (index: number, value: number) => {
+		const newCheckedList = [...checkedList];
+		newCheckedList[index] = value;
+		setCheckedList([...newCheckedList]);
+	};
 
 	const onEditHouseImgs = (index: number) => {
 		setHouseImgs((prevHouseImg) => {
@@ -30,12 +40,12 @@ const OwnerRoomRegister = () => {
 
 	return (
 		<RoomRegisterWrap>
-			<RegiHeadText>객실 등록</RegiHeadText>
+			<RegiHeadText>객실 등록하기</RegiHeadText>
 			<RegisterInputWrapper>
 				<RegiRoomSubComp>
-					<RegiRoomSubTitle>객실사진</RegiRoomSubTitle>
-					{houseImgs.length !== 0 && (
-						<SliderContainer $isLoading={isListUploading}>
+					<RegiRoomSubTitle>객실 사진</RegiRoomSubTitle>
+					{!isListUploading && houseImgs.length !== 0 && (
+						<SliderContainer>
 							<RoomImgSlider data={houseImgs} setData={onEditHouseImgs}></RoomImgSlider>
 						</SliderContainer>
 					)}
@@ -49,17 +59,27 @@ const OwnerRoomRegister = () => {
 							houseImgs.length < 10 && <div>추가 업로드</div>
 						)}
 					</ImageUploader>
-				</RegiRoomSubComp>
-				<br />
-				<RegiRoomSubComp>
-					<RegiRoomSubTitle>객실 서비스</RegiRoomSubTitle>
-				</RegiRoomSubComp>
-				<RegiRoomSubComp>
 					<RegiRoomSubTitle>객실 정보</RegiRoomSubTitle>
-
-					<RegiRoomSubText>방 개수</RegiRoomSubText>
-					<RegiRoomSubText>객실 가격</RegiRoomSubText>
-					<RegiRoomSubText>객실종류</RegiRoomSubText>
+					<InputGridAligner $service>
+						<RegiRoomSubText>서비스</RegiRoomSubText>
+						<CheckBoxContainer>
+							{roomServiceCategory.map((service, i) => (
+								<CheckBox key={service.value} element={service} index={i} isChecked={!!checkedList[i]} setCheckedList={onChangeCheckedList} />
+							))}
+						</CheckBoxContainer>
+					</InputGridAligner>
+					<InputGridAligner>
+						<RegiRoomSubText>종류</RegiRoomSubText>
+						<InputStyler></InputStyler>
+					</InputGridAligner>
+					<InputGridAligner>
+						<RegiRoomSubText>방 개수</RegiRoomSubText>
+						<InputStyler></InputStyler>
+					</InputGridAligner>
+					<InputGridAligner>
+						<RegiRoomSubText>가격</RegiRoomSubText>
+						<InputStyler></InputStyler>
+					</InputGridAligner>
 				</RegiRoomSubComp>
 			</RegisterInputWrapper>
 		</RoomRegisterWrap>
@@ -101,18 +121,91 @@ const RegiRoomSubComp = styled.div`
 	width: 60vw;
 	max-width: 1000px;
 	min-width: 270px;
-	padding: 1rem 0;
+	padding: 0.5rem 0;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	margin-bottom: 1rem;
+	padding-left: 1rem;
 `;
 const RegiRoomSubTitle = styled.div`
+	margin-top: 1.5rem;
 	font-size: 1.25rem;
 	font-weight: 600;
-	color: ${color.color1};
-	margin-bottom: 1rem;
+	color: ${color.color2};
+	margin-bottom: 1.5rem;
 `;
 
 const RegiRoomSubText = styled.div`
 	font-size: 1rem;
+	font-weight: 600;
+`;
+
+const InputGridAligner = styled.div<{ $service?: true }>`
+	width: 80%;
+	display: grid;
+	grid-template-columns: 4fr 6fr;
+	align-items: ${(props) => !props.$service && 'center'};
+	margin-bottom: 1rem;
+	@media screen and (max-width: 1000px) {
+		grid-template-columns: 3fr 7fr;
+	}
+	@media screen and (max-width: 600px) {
+		width: 90%;
+	}
+`;
+
+const CheckBoxContainer = styled.div`
+	color: ${color.darkGrayColor};
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: flex-start;
+	gap: 1rem;
+	padding-bottom: 1rem;
+	max-width: 18rem;
+	@media screen and (max-width: 600px) {
+		gap: 0.7rem;
+		font-size: 0.8rem;
+		max-width: 10rem;
+	}
+`;
+
+const InputStyler = styled.input`
+	&::-webkit-outer-spin-button,
+	&::-webkit-inner-spin-button {
+		-webkit-appearance: none;
+		margin: 0;
+	}
+
+	&:hover {
+		border: 1px solid ${color.color2};
+		outline: 2px solid ${color.color2};
+	}
+
+	grid-column-start: 2;
+	grid-column-end: 3;
+	justify-self: left;
+	width: 70%;
+	outline: none;
+	border: 1px solid ${color.darkGrayColor};
+	border-radius: 0.3rem;
+	color: ${color.darkGrayColor};
+	background-color: transparent;
+	resize: none;
+	height: 2rem;
+	text-align: center;
+
+	@media (max-width: 300px) {
+		grid-column-start: 1;
+		grid-column-end: 3;
+		height: 1.3rem;
+		width: 100%;
+		font-size: 0.8rem;
+	}
+
+	@media (min-width: 300px) and (max-width: 400px) {
+		width: 100%;
+		grid-column-start: 1;
+		grid-column-end: 3;
+	}
 `;
