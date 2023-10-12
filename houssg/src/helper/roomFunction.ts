@@ -5,4 +5,7 @@ const getTargetRoomData = async (accomNumber: number) => {
 	return await api.get(roomUrl.roomList + '?accomNumber=' + accomNumber);
 };
 
-export { getTargetRoomData };
+const addTargetRoom = async (formData: FormData) => {
+	return await api.post(roomUrl.roomAdd, formData, { headers: { 'Content-Type': 'multipart/form-data' } });
+};
+export { getTargetRoomData, addTargetRoom };
