@@ -56,7 +56,7 @@ const OwnerRoomRegister = () => {
 								<SliderContainerInnerAligner>이미지 등록</SliderContainerInnerAligner>
 							</SliderContainer>
 						) : (
-							houseImgs.length < 10 && <div>추가 업로드</div>
+							houseImgs.length < 10 && <MoreImgBtn>추가 업로드</MoreImgBtn>
 						)}
 					</ImageUploader>
 					<RegiRoomSubTitle>객실 정보</RegiRoomSubTitle>
@@ -74,14 +74,18 @@ const OwnerRoomRegister = () => {
 					</InputGridAligner>
 					<InputGridAligner>
 						<RegiRoomSubText>방 개수</RegiRoomSubText>
-						<InputStyler></InputStyler>
+						<InputStyler type="number"></InputStyler>
 					</InputGridAligner>
 					<InputGridAligner>
 						<RegiRoomSubText>가격</RegiRoomSubText>
-						<InputStyler></InputStyler>
+						<InputStyler type="number"></InputStyler>
 					</InputGridAligner>
 				</RegiRoomSubComp>
 			</RegisterInputWrapper>
+			<SubmitButtonAligner>
+				<RegiRoomBtn $disable={true}>등록하기</RegiRoomBtn>
+				<RegiRoomBtn>취소</RegiRoomBtn>
+			</SubmitButtonAligner>
 		</RoomRegisterWrap>
 	);
 };
@@ -130,7 +134,7 @@ const RegiRoomSubComp = styled.div`
 `;
 const RegiRoomSubTitle = styled.div`
 	margin-top: 1.5rem;
-	font-size: 1.25rem;
+	font-size: 1.35rem;
 	font-weight: 600;
 	color: ${color.color2};
 	margin-bottom: 1.5rem;
@@ -139,6 +143,18 @@ const RegiRoomSubTitle = styled.div`
 const RegiRoomSubText = styled.div`
 	font-size: 1rem;
 	font-weight: 600;
+`;
+
+const MoreImgBtn = styled.div`
+	background-color: ${color.color3};
+	color: ${color.backColor};
+	font-size: 0.9rem;
+	padding: 0.5rem;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border-radius: 4px;
+	font-weight: 500;
 `;
 
 const InputGridAligner = styled.div<{ $service?: true }>`
@@ -186,6 +202,7 @@ const InputStyler = styled.input`
 	grid-column-end: 3;
 	justify-self: left;
 	width: 70%;
+	max-width: 17rem;
 	outline: none;
 	border: 1px solid ${color.darkGrayColor};
 	border-radius: 0.3rem;
@@ -194,18 +211,34 @@ const InputStyler = styled.input`
 	resize: none;
 	height: 2rem;
 	text-align: center;
+`;
 
-	@media (max-width: 300px) {
-		grid-column-start: 1;
-		grid-column-end: 3;
-		height: 1.3rem;
-		width: 100%;
-		font-size: 0.8rem;
+const SubmitButtonAligner = styled.div`
+	width: 60vw;
+	max-width: 1000px;
+	min-width: 270px;
+	display: flex;
+	flex-direction: row;
+	justify-content: end;
+	align-items: center;
+	height: 2rem;
+	padding-right: 0.5rem;
+	@media screen and (min-width: 800px) {
+		padding-right: 1rem;
 	}
+`;
 
-	@media (min-width: 300px) and (max-width: 400px) {
-		width: 100%;
-		grid-column-start: 1;
-		grid-column-end: 3;
+const RegiRoomBtn = styled.div<{ $disable?: boolean }>`
+	margin-left: 1rem;
+	color: ${color.backColor};
+	background-color: ${color.color2};
+	padding: 0.5rem;
+	border-radius: 0.5rem;
+	font-weight: 600;
+	opacity: 0.8;
+	cursor: ${(props) => (props.$disable ? 'not-allowed' : 'pointer')};
+	transition: opacity 0.2s ease;
+	&:hover {
+		opacity: ${(props) => !props.$disable && 1};
 	}
 `;
