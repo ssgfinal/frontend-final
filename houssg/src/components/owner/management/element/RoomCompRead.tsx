@@ -10,6 +10,8 @@ const RoomCompRead: React.FC<RoomComp> = ({ room, setIsEditMode }) => {
 	const toggleDropdown = () => {
 		setIsDropdownOpen(!isDropdownOpen);
 	};
+	// TODO:
+	console.log(room);
 
 	return (
 		<RoomContainer>

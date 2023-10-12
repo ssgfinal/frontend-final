@@ -7,6 +7,7 @@ import { MyHouseData } from '../../../types';
 const ManageWrapComp: React.FC<{ house: MyHouseData }> = ({ house }) => {
 	const [isEditMode, setIsEditMode] = useState(false);
 	const { approvalRequest, deletionRequest } = house;
+	console.log(house);
 	const approveState = ['등록', '요청중', '거절'];
 	const regiState = deletionRequest === 1 ? '삭제요청중' : approveState[approvalRequest] || '알 수 없음';
 	//TODO: 보근님 수정하면 변경
