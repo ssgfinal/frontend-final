@@ -34,7 +34,6 @@ import photo from './photoIcon.svg';
 import rotateR from './rotateR.svg';
 import rotateL from './rotateL.svg';
 import capture from './capture.svg';
-
 // 시설 및 서비스 아이콘
 import beach from './beach.svg';
 import parking from './parking.svg';

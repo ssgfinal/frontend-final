@@ -1,14 +1,29 @@
 import styled from 'styled-components';
-import { RoomList } from '../../../assets/constant/reservationDummy';
 import RoomCompToggler from './element/RoomCompToggler';
 import { useNavigate } from 'react-router-dom';
-import { ownerRoute } from '../../../assets/constant';
-const ManageRoomWrap = () => {
+import { ownerRoute, roomKey } from '../../../assets/constant';
+import { useQuery } from '@tanstack/react-query';
+import { getTargetRoomData } from '../../../helper';
+import { RoomDataType } from '../../../types';
+const ManageRoomWrap: React.FC<{ accomNumber: number }> = ({ accomNumber }) => {
 	const navigate = useNavigate();
-	//TODO: 부모 컴퍼넌트의 ID값 받기
 	const goRoomAddComp = () => {
-		navigate(ownerRoute.roomRegi + '1');
+		navigate(ownerRoute.roomRegi + accomNumber);
 	};
+
+	const { isLoading, data, isSuccess, isError, error } = useQuery<{ data: RoomDataType[] }>(
+		[roomKey.targetRoom, accomNumber],
+		() => getTargetRoomData(accomNumber),
+		{
+			cacheTime: 5 * 60 * 1000,
+			staleTime: 3 * 60 * 1000,
+		},
+	);
+	isError && console.log(error, 'error');
+
+	if (isLoading) {
+		return <div>로딩중...</div>;
+	}
 
 	return (
 		<div>
@@ -19,9 +34,11 @@ const ManageRoomWrap = () => {
 			>
 				객실 추가하기
 			</RoomAddBtn>
-			{RoomList.map((room) => (
-				<RoomCompToggler room={room} key={room.room_number} />
-			))}
+			{isSuccess && data.data.length ? (
+				data.data.map((room) => <RoomCompToggler room={room} key={room.roomNumber} />)
+			) : (
+				<div>등록된 객실이 없습니다.</div>
+			)}
 		</div>
 	);
 };

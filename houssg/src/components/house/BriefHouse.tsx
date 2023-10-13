@@ -3,12 +3,10 @@ import { useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
 
 import Rating from '../common/Rating';
-import { HouseBaseInfo } from '../../types';
+import { HouseProps } from '../../types';
+import { userRoute } from '../../assets/constant';
 
-interface BriefHouseProps {
-	house: HouseBaseInfo;
-}
-const BriefHouse: React.FC<BriefHouseProps> = ({ house }) => {
+const BriefHouse: React.FC<HouseProps> = ({ house }) => {
 	const navigate = useNavigate();
 
 	return (
@@ -18,7 +16,7 @@ const BriefHouse: React.FC<BriefHouseProps> = ({ house }) => {
 			<HoverContainer
 				// < Link to = >는 자동으로 pointer 해줌
 				onClick={() => {
-					navigate(`/user/houseDetail`, { state: { house: house } });
+					navigate(userRoute.houseDetail + house.accomNumber);
 				}}
 			>
 				<HouseImg src={house.img} />

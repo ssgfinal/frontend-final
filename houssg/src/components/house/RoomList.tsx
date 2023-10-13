@@ -1,47 +1,31 @@
-// import { useParams } from 'react-router-dom';
-
 import styled from 'styled-components';
 
 import { RoomDetail } from './RoomDetail';
-import { accomodation } from '../../assets/icons';
-import { ocean, nosmoking } from '../../assets/icons';
+import { RoomDataType } from '../../types';
+import { roomKey } from '../../assets/constant';
+import { useParams } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
+import { getTargetRoomData } from '../../helper';
 
 export const RoomList = () => {
-	// const { houseId } = useParams();
-	const rooms = [
-		{
-			id: 1,
-			img: accomodation,
-			icon: [ocean, nosmoking],
-			type: '스탠다드',
-			service: '트윈 베드, 오션뷰',
-			price: 20000,
-		},
-		{
-			id: 2471,
-			img: accomodation,
-			icon: [ocean, nosmoking],
-			type: '트윈룸',
-			service: 'pc',
-			price: 20000,
-		},
-		{
-			id: 3,
-			img: accomodation,
-			icon: [ocean, nosmoking],
-			type: '패밀리룸',
-			service: '스파, 금연객실',
-			price: 20000,
-		},
-	];
+	const { houseId } = useParams();
 
-	return (
-		<Wrapper>
-			{rooms.map((room) => (
-				<RoomDetail key={room.id} room={room} />
-			))}
-		</Wrapper>
+	const { isLoading, data, isSuccess, isError, error } = useQuery<{ data: RoomDataType[] }>(
+		[roomKey.targetRoom, houseId],
+		() => getTargetRoomData(Number(houseId)),
+		{
+			cacheTime: 5 * 60 * 1000, // 5분
+			staleTime: 2 * 60 * 1000, // 2분
+		},
 	);
+
+	isError && console.log(error, 'error');
+
+	if (isLoading) {
+		return <div>로딩중...</div>;
+	}
+
+	return <Wrapper>{isSuccess && data.data.map((room) => <RoomDetail key={room.roomNumber} room={room} />)}</Wrapper>;
 };
 
 const Wrapper = styled.div`
@@ -60,6 +44,5 @@ const Wrapper = styled.div`
 
 	@media (max-width: 650px) {
 		grid-template-columns: 1fr;
-		/* grid-gap: 1rem; */
 	}
 `;

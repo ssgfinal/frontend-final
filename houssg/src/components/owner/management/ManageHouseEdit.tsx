@@ -1,27 +1,30 @@
 import { HouseTabContainer, ManageReadTitle, NavClickComp, color } from '../../../assets/styles';
 import { styled } from 'styled-components';
-import { MyHouseDataHandleComp } from '../../../types';
-import { houseServiceCategory } from '../../../assets/constant';
+import { EditMutationType, MyHouseDataHandleComp } from '../../../types';
+import { houseServiceCategory, ownerKey } from '../../../assets/constant';
 import { CheckBox } from '../register/element';
 import { useEffect, useRef, useState } from 'react';
 import { useCalWindowWidth } from '../../../hooks';
 import { ImageUploader } from '../../common';
 import { base64ToFile, pxToRem } from '../../../utils';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { onEditManageHouseApi } from '../../../helper/ownerFunction';
 
 const ManageHouseEdit: React.FC<MyHouseDataHandleComp> = ({ house, setIsEditMode }) => {
 	const newPhoneNumber = useRef<HTMLInputElement | null>(null);
 	const newCheckIn = useRef<HTMLInputElement | null>(null);
 	const newCheckOut = useRef<HTMLInputElement | null>(null);
 	const newDetail = useRef<HTMLTextAreaElement | null>(null);
+	const [checkedList, setCheckedList] = useState<number[]>(house.service);
 
 	const [newImg, setNewImg] = useState(house.img);
+	const [newImgFile, setNewImgFile] = useState<File | null>(null);
+	// 이미지 업로더 라이브러리 크기 동적으로 주기
 	const windowWidth = useCalWindowWidth();
 	const [uploaderSize, setUploaderSize] = useState({ width: '28rem', height: '21rem' });
-	const [newImgFile, setNewImgFile] = useState<File | null>(null);
 	useEffect(() => {
 		let widthNumber: number;
 		const ratio = 3 / 4;
-
 		switch (true) {
 			case windowWidth < 427:
 				widthNumber = 16;
@@ -38,37 +41,58 @@ const ManageHouseEdit: React.FC<MyHouseDataHandleComp> = ({ house, setIsEditMode
 		setUploaderSize({ width, height });
 	}, [windowWidth]);
 
-	const [checkedList, setCheckedList] = useState<number[]>(house.service);
 	const onChangeCheckedList = (index: number, value: number) => {
 		const newCheckedList = [...checkedList];
 		newCheckedList[index] = value;
 		setCheckedList([...newCheckedList]);
 	};
 
-	const onEditManageHouse = () => {
+	const onAddNewFileData = (file: string) => {
+		setNewImgFile(base64ToFile(file, house.accomName));
+	};
+
+	const queryClient = useQueryClient();
+
+	const { mutate } = useMutation({
+		mutationFn: ({
+			accomNumber,
+			newCheckInValue,
+			newCheckOutValue,
+			newDetailValue,
+			newPhoneNumberValue,
+			checkedList,
+			newImgFile,
+		}: EditMutationType) =>
+			onEditManageHouseApi(accomNumber, newCheckInValue, newCheckOutValue, newDetailValue, newPhoneNumberValue, checkedList, newImgFile),
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: [ownerKey.myHouseList] });
+			alert('수정완료');
+			setIsEditMode(false);
+		},
+	});
+
+	const onEditHouseData = () => {
 		const newCheckInValue = newCheckIn.current?.value;
 		const newCheckOutValue = newCheckOut.current?.value;
 		const newDetailValue = newDetail.current?.value;
 		const newPhoneNumberValue = newPhoneNumber.current?.value;
-		// TODO: 서버에 보낼 때는 if로 수정
 		const { checkIn, checkOut, accomDetails, teleNumber } = house;
+
 		// 변경값이 없으면 수정 취소
 		if (
 			newCheckInValue === checkIn &&
 			newCheckOutValue === checkOut &&
 			newDetailValue === accomDetails &&
 			newImgFile === null &&
+			checkedList === house.service &&
 			newPhoneNumberValue === teleNumber
 		) {
 			setIsEditMode(false);
+			return;
 		}
-
-		// api.post()
-	};
-
-	const onAddNewFileData = (file: string) => {
-		// base64를 다시 인코딩
-		setNewImgFile(base64ToFile(file, house.accomName));
+		// 벨류가 비거나 undefined가 아니라면
+		if (!!newCheckInValue && !!newCheckOutValue && !!newDetailValue && !!newPhoneNumberValue)
+			mutate({ accomNumber: house.accomNumber, newCheckInValue, newCheckOutValue, newDetailValue, newPhoneNumberValue, checkedList, newImgFile });
 	};
 
 	return (
@@ -79,7 +103,6 @@ const ManageHouseEdit: React.FC<MyHouseDataHandleComp> = ({ house, setIsEditMode
 			<ImageUploader width={uploaderSize.width} height={uploaderSize.height} setImage={setNewImg} setImgFile={onAddNewFileData}>
 				수정하기
 			</ImageUploader>
-
 			<HouseImg src={newImg} />
 			<ManageHouseWrapper>
 				<ManageHouseContainer>
@@ -101,7 +124,7 @@ const ManageHouseEdit: React.FC<MyHouseDataHandleComp> = ({ house, setIsEditMode
 				</ManageHouseContainer>
 			</ManageHouseWrapper>
 			<HouseTabContainer>
-				<NavClickComp onClick={onEditManageHouse}>수정완료</NavClickComp>
+				<NavClickComp onClick={onEditHouseData}>수정완료</NavClickComp>
 				<NavClickComp onClick={() => setIsEditMode(false)}>취소하기</NavClickComp>
 			</HouseTabContainer>
 		</ManageWrapper>

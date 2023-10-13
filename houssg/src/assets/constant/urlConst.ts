@@ -26,8 +26,10 @@ const userUrl = {
 	addReview: 'review/add', // 유저가 등록하는 리뷰
 
 	// UserHouseDetail
+	houseDetail: 'accom/detail',
 	like: 'favorite',
 	addLike: 'favorite/add',
+	reviewList: 'review/all/accom',
 };
 
 const authUrl = {
@@ -52,6 +54,13 @@ const authUrl = {
 const ownerUrl = {
 	houseRegister: 'accom/add',
 	myHouseList: 'mypage/accom',
+	houseEdit: 'accom',
 };
 
-export { userUrl, authUrl, ownerUrl };
+const roomUrl = {
+	roomList: 'room/detail',
+	roomAdd: 'room/add',
+	roomEdit: 'room',
+};
+
+export { userUrl, authUrl, ownerUrl, roomUrl };

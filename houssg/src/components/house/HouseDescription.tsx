@@ -1,18 +1,12 @@
-// import { useParams } from 'react-router-dom';
 import { styled } from 'styled-components';
 import { color } from '../../assets/styles';
-import { useLocation } from 'react-router-dom';
+import React from 'react';
 
-export const HouseDescription = () => {
-	const location = useLocation();
-	const house = location.state.house;
-
-	return (
-		<Wrapper>
-			{/* 하우스 번호 : {houseId}{' '} */}
-			{house.accomDetails}
-		</Wrapper>
-	);
+interface HouseDescriptionProps {
+	houseDetail: string;
+}
+const HouseDescription: React.FC<HouseDescriptionProps> = ({ houseDetail }) => {
+	return <Wrapper>{houseDetail}</Wrapper>;
 };
 
 const Wrapper = styled.div`
@@ -25,3 +19,5 @@ const Wrapper = styled.div`
 	min-height: 15rem;
 	line-height: 1.5rem;
 `;
+
+export default HouseDescription;

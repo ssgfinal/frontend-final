@@ -1,17 +1,14 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { styled } from 'styled-components';
 
 import Rating from '../common/Rating';
 
 import { houseServiceCategory } from '../../assets/constant';
 import HeartIcons from '../common/HeartIcons';
-import { color } from '../../assets/styles';
-import { useLocation } from 'react-router-dom';
+import { color, HoverText, IconContainer, NoIcon } from '../../assets/styles';
+import { HouseProps, ServiceList } from '../../types';
 
-export const HouseInfo = () => {
-	const location = useLocation();
-	const house = location.state.house;
-
+export const HouseInfo: React.FC<HouseProps> = ({ house }) => {
 	const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
 	const toggleDropdown = () => {
@@ -20,11 +17,6 @@ export const HouseInfo = () => {
 
 	const [isLoading, setIsLoading] = useState(false);
 
-	interface ServiceList {
-		value: string;
-		text: string;
-		icon: string;
-	}
 	const [accomServices, setAccomServices] = useState<ServiceList[]>([]);
 
 	useEffect(() => {
@@ -63,15 +55,27 @@ export const HouseInfo = () => {
 						<br />
 						{isLoading && (
 							<Service>
-								{accomServices.length <= 5 ? (
-									accomServices.map((service, idx) => <Icon key={idx} src={service.icon} alt={service.text} />)
+								{accomServices.length !== 0 ? (
+									accomServices.length <= 5 ? (
+										accomServices.map((service, idx) => (
+											<IconContainer key={idx}>
+												<Icon src={service.icon} alt={service.text} />
+												<HoverText>{service.text}</HoverText>
+											</IconContainer>
+										))
+									) : (
+										<>
+											{accomServices.slice(0, 5).map((service, idx) => (
+												<IconContainer key={idx}>
+													<Icon src={service.icon} alt={service.text} />
+													<HoverText>{service.text}</HoverText>
+												</IconContainer>
+											))}
+											<MoreService onClick={toggleDropdown}>더보기 {isDropdownOpen ? '▲' : '▼'}</MoreService>
+										</>
+									)
 								) : (
-									<>
-										{accomServices.slice(0, 5).map((service, idx) => (
-											<Icon key={idx} src={service.icon} alt={service.text} />
-										))}
-										<MoreService onClick={toggleDropdown}>더보기 {isDropdownOpen ? '▲' : '▼'}</MoreService>
-									</>
+									<NoIcon>미등록</NoIcon>
 								)}
 							</Service>
 						)}
@@ -79,7 +83,10 @@ export const HouseInfo = () => {
 					{isDropdownOpen && accomServices.length > 5 && (
 						<DropdownContent>
 							{accomServices.slice(5).map((service, idx) => (
-								<Icon key={idx} src={service.icon} alt={service.text} />
+								<IconContainer key={idx}>
+									<Icon src={service.icon} alt={service.text} />
+									<HoverText>{service.text}</HoverText>
+								</IconContainer>
 							))}
 						</DropdownContent>
 					)}

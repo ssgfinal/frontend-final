@@ -7,7 +7,7 @@ import { useDebounce } from '../../../hooks';
 import { Tooltip } from 'antd';
 import { AuthInputType } from '../../../types';
 
-const AuthInput: React.FC<AuthInputType> = ({ title, password, setValue, reg }) => {
+const AuthInput: React.FC<AuthInputType> = ({ title, password, setValue, reg, keyPressFunc }) => {
 	const [isVisible, setIsVisible] = useState(password);
 	const [inputValue, setInputValue] = useState('');
 	const [isUsable, setIsUsable] = useState(true); // 처음엔 툴팁 안보이도록 true로 설정
@@ -38,7 +38,7 @@ const AuthInput: React.FC<AuthInputType> = ({ title, password, setValue, reg }) 
 						<AuthInputSheet type={isVisible ? 'password' : 'text'} onChange={onChangeInput} />
 					</Tooltip>
 				) : (
-					<AuthInputSheet type={isVisible ? 'password' : 'text'} onChange={onChangeInput} />
+					<AuthInputSheet type={isVisible ? 'password' : 'text'} onChange={onChangeInput} onKeyDown={keyPressFunc} />
 				)}
 
 				{password && (
