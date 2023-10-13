@@ -34,8 +34,11 @@ const ManageRoomWrap: React.FC<{ accomNumber: number }> = ({ accomNumber }) => {
 			>
 				객실 추가하기
 			</RoomAddBtn>
-			{/* TODO: */}
-			{isSuccess && data.data ? data.data.map((room) => <RoomCompToggler room={room} key={room.roomNumber} />) : <div>등록된 객실이 없습니다.</div>}
+			{isSuccess && data.data.length ? (
+				data.data.map((room) => <RoomCompToggler room={room} key={room.roomNumber} />)
+			) : (
+				<div>등록된 객실이 없습니다.</div>
+			)}
 		</div>
 	);
 };
