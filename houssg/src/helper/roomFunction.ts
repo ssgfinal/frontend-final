@@ -11,7 +11,7 @@ const addTargetRoom = async (formData: FormData) => {
 };
 
 const returnAddRoomFormData = ({ roomCountValue, roomCategoryValue, roomPriceValue, houseImgFiles, houseId, checkedList }: AddRoomProps) => {
-	if (houseId) {
+	if (!houseId) {
 		alert('잘못된 접근입니다.');
 		return 'false';
 	}
