@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { styled } from 'styled-components';
 
 import { TabMenu } from '../../components/common/TabMenu';
@@ -6,6 +6,10 @@ import { HouseInfo } from '../../components/house/HouseInfo';
 import { RoomList } from '../../components/house/RoomList';
 import { HouseReview } from '../../components/house/HouseReview';
 import { HouseDescription } from '../../components/house/HouseDescription';
+import { useParams } from 'react-router-dom';
+import api from '../../api/api';
+import { userUrl } from '../../assets/constant';
+import { HouseBaseInfo } from '../../types';
 
 export const UserHouseDetail = () => {
 	const tabObj = [
@@ -14,17 +18,42 @@ export const UserHouseDetail = () => {
 		['review', '후기'],
 	];
 
+	const { houseId } = useParams();
+	const [house, setHouse] = useState<HouseBaseInfo>();
+
 	const [clickTab, setClickTab] = useState<string>('description');
+
+	useEffect(() => {
+		try {
+			api.post(userUrl.houseDetail, null, { params: { accomNumber: houseId } }).then(({ data }) => {
+				setHouse(data);
+			});
+		} catch (error) {
+			console.error('데이터를 불러오는데 실패했습니다.', error);
+		}
+	}, []);
 
 	return (
 		<Wrapper>
-			<HouseInfo />
-			<div>
-				<Tab>
-					<TabMenu tabObj={tabObj} clickTab={clickTab} setClickTab={setClickTab} />
-				</Tab>
-				<div>{clickTab === 'description' ? <HouseDescription /> : clickTab === 'roominfo' ? <RoomList /> : <HouseReview />}</div>
-			</div>
+			{house && (
+				<>
+					<HouseInfo house={house} />
+					<div>
+						<Tab>
+							<TabMenu tabObj={tabObj} clickTab={clickTab} setClickTab={setClickTab} />
+						</Tab>
+						<div>
+							{clickTab === 'description' ? (
+								<HouseDescription houseDetail={house.accomDetails} />
+							) : clickTab === 'roominfo' ? (
+								<RoomList />
+							) : (
+								<HouseReview />
+							)}
+						</div>
+					</div>
+				</>
+			)}
 		</Wrapper>
 	);
 };

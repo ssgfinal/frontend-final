@@ -35,7 +35,7 @@ const App = () => {
 			<Route path={userRoute.main} element={<RouteWrap />}>
 				<Route index element={<UserMain />} />
 				<Route path={userRoute.houseList} element={<UserHouseList />} />
-				<Route path={userRoute.houseDetail} element={<UserHouseDetail />} />
+				<Route path={userRoute.houseDetail + ':houseId'} element={<UserHouseDetail />} />
 
 				<Route path={userRoute.myPage} element={<UserMypage />} />
 				<Route path={userRoute.reservationList} element={<UserReservationList />} />
