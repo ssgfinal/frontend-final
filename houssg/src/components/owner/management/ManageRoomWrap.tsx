@@ -15,8 +15,8 @@ const ManageRoomWrap: React.FC<{ accomNumber: number }> = ({ accomNumber }) => {
 		[roomKey.targetRoom, accomNumber],
 		() => getTargetRoomData(accomNumber),
 		{
-			cacheTime: 5 * 60 * 1000, // 5분
-			staleTime: 3 * 60 * 1000, // 2분
+			cacheTime: 5 * 60 * 1000,
+			staleTime: 3 * 60 * 1000,
 		},
 	);
 	isError && console.log(error, 'error');
