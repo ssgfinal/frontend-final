@@ -8,21 +8,21 @@ import { useNavigate } from 'react-router-dom';
 import { CheckBox } from '../../components/owner/register/element';
 import { ownerRoute, roomKey, roomServiceCategory } from '../../assets/constant';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { addTargetRoom } from '../../helper';
+import { addTargetRoom, returnAddRoomFormData } from '../../helper';
 
 const OwnerRoomRegister = () => {
-	const { houseId } = useParams();
-
 	const queryClient = useQueryClient();
 	const navigate = useNavigate();
+
+	const { houseId } = useParams();
 	const [houseImgs, setHouseImgs] = useState<string[]>([]);
 	const [houseImgFiles, setHouseImgFiles] = useState<File[]>([]);
-
-	const [isListUploading, setIsListUploading] = useState(false);
 	const [checkedList, setCheckedList] = useState<number[]>(new Array(roomServiceCategory.length).fill(0));
 	const roomCategory = useRef<HTMLInputElement | null>(null);
 	const roomCount = useRef<HTMLInputElement | null>(null);
 	const roomPrice = useRef<HTMLInputElement | null>(null);
+
+	const [isListUploading, setIsListUploading] = useState(false);
 
 	const onChangeCheckedList = (index: number, value: number) => {
 		const newCheckedList = [...checkedList];
@@ -61,29 +61,10 @@ const OwnerRoomRegister = () => {
 		const roomCategoryValue = roomCategory.current?.value;
 		const roomPriceValue = roomPrice.current?.value;
 
-		if (!roomCountValue && !roomCategoryValue && !roomPriceValue && !houseImgFiles.length) {
-			alert('빈 값이 존재합니다.');
+		const formData = returnAddRoomFormData({ roomCountValue, roomCategoryValue, roomPriceValue, houseImgFiles, houseId, checkedList });
+		if (formData === 'false') {
 			return;
 		}
-
-		const formData = new FormData();
-
-		houseImgFiles.forEach((file) => {
-			formData.append('multiFile', file);
-		});
-
-		const requestData = {
-			accomNumber: houseId,
-			roomCategory: roomCategoryValue,
-			roomPrice: roomPriceValue,
-			roomAvailability: roomCountValue,
-			roomServiceDto: checkedList,
-		};
-
-		const json = JSON.stringify(requestData);
-		const blob = new Blob([json], { type: 'application/json' });
-		formData.append('request', blob);
-
 		mutate(formData);
 	};
 
@@ -132,9 +113,7 @@ const OwnerRoomRegister = () => {
 				</RegiRoomSubComp>
 			</RegisterInputWrapper>
 			<SubmitButtonAligner>
-				<RegiRoomBtn $disable={false} onClick={onAddRoom}>
-					등록하기
-				</RegiRoomBtn>
+				<RegiRoomBtn onClick={onAddRoom}>등록하기</RegiRoomBtn>
 				<RegiRoomBtn>취소</RegiRoomBtn>
 			</SubmitButtonAligner>
 		</RoomRegisterWrap>
@@ -155,7 +134,7 @@ const RegisterInputWrapper = styled.div`
 `;
 
 const SliderContainer = styled.div<{ $isLoading?: boolean }>`
-	width: 95%;
+	width: 100%;
 	max-width: 400px;
 	display: ${(props) => props.$isLoading && 'none'};
 `;
