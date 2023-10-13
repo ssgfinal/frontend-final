@@ -53,7 +53,7 @@ const BusinessRegi: React.FC<RegiStepProps> = ({ goStep, step, funnelState }) =>
 			} catch (err) {
 				alert('사업자 인증에 실패했습니다');
 			} finally {
-				setIsLoading(true);
+				setIsLoading(false);
 			}
 		}
 	};
@@ -92,8 +92,8 @@ const BusinessRegi: React.FC<RegiStepProps> = ({ goStep, step, funnelState }) =>
 			</div>
 			{isRegistered && (
 				<div>
-					<div>숙소명 : {businessData.name} </div>
-					<div>사업자 번호 : {businessData.businessNum}</div>
+					<RegisteredInfoText>숙소명 : {businessData.name} </RegisteredInfoText>
+					<RegisteredInfoText>사업자 번호 : {businessData.businessNum}</RegisteredInfoText>
 				</div>
 			)}
 			<StepMover inactive={!isRegistered} goStep={goStep} step={step} data={businessData} />
@@ -124,6 +124,8 @@ const StyledImg = styled.img<{ $isLoading: boolean; $isRegistered: boolean }>`
 	max-width: 18rem;
 	object-fit: contain;
 	cursor: ${(props) => !props.$isRegistered && 'pointer'};
+	cursor: ${(props) => props.$isLoading && 'wait'};
+
 	margin: 0.5rem 0;
 	min-height: 50px;
 	min-width: 50px;
@@ -136,4 +138,25 @@ const InstructionBottomText = styled.div`
 	line-height: 1.2rem;
 `;
 
-const BusinessRegiBtn = styled.button<{ $isLoading: boolean }>``;
+const RegisteredInfoText = styled.div`
+	margin-bottom: 0.5rem;
+	font-weight: 600;
+	font-size: 1rem;
+	@media screen and (max-width: 400px) {
+		font-size: 0.8rem;
+	}
+`;
+
+const BusinessRegiBtn = styled.div<{ $isLoading: boolean }>`
+	cursor: pointer;
+	font-weight: 900;
+	color: ${color.color2};
+	height: 1.2rem;
+	transition: color 0.1s, font-size 0.1s;
+	cursor: ${(props) => props.$isLoading && 'wait'};
+
+	&:hover {
+		color: ${color.color1};
+		font-size: 1.1rem;
+	}
+`;
