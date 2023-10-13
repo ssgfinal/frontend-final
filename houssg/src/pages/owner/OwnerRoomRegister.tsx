@@ -1,19 +1,28 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import styled from 'styled-components';
 import { RegiHeadText, color, flexCenter } from '../../assets/styles';
 import { ImageUploader, RoomImgSlider } from '../../components/common';
 import { base64ToFile } from '../../utils';
 import { useParams } from 'react-router';
+import { useNavigate } from 'react-router-dom';
 import { CheckBox } from '../../components/owner/register/element';
-import { roomServiceCategory } from '../../assets/constant';
+import { ownerRoute, roomKey, roomServiceCategory } from '../../assets/constant';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { addTargetRoom, returnAddRoomFormData } from '../../helper';
 
 const OwnerRoomRegister = () => {
+	const queryClient = useQueryClient();
+	const navigate = useNavigate();
+
 	const { houseId } = useParams();
 	const [houseImgs, setHouseImgs] = useState<string[]>([]);
 	const [houseImgFiles, setHouseImgFiles] = useState<File[]>([]);
+	const [checkedList, setCheckedList] = useState<number[]>(new Array(roomServiceCategory.length).fill(0));
+	const roomCategory = useRef<HTMLInputElement | null>(null);
+	const roomCount = useRef<HTMLInputElement | null>(null);
+	const roomPrice = useRef<HTMLInputElement | null>(null);
 
 	const [isListUploading, setIsListUploading] = useState(false);
-	const [checkedList, setCheckedList] = useState<number[]>(new Array(roomServiceCategory.length).fill(0));
 
 	const onChangeCheckedList = (index: number, value: number) => {
 		const newCheckedList = [...checkedList];
@@ -36,6 +45,27 @@ const OwnerRoomRegister = () => {
 
 	const onAddHouseImgFile = (data: string) => {
 		setHouseImgFiles([...houseImgFiles, base64ToFile(data, houseId + '')]);
+	};
+
+	const { mutate } = useMutation({
+		mutationFn: (formData: FormData) => addTargetRoom(formData),
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: [roomKey.targetRoom, houseId] });
+			alert('성공');
+			navigate(ownerRoute.management);
+		},
+	});
+
+	const onAddRoom = () => {
+		const roomCountValue = roomCount.current?.value;
+		const roomCategoryValue = roomCategory.current?.value;
+		const roomPriceValue = roomPrice.current?.value;
+
+		const formData = returnAddRoomFormData({ roomCountValue, roomCategoryValue, roomPriceValue, houseImgFiles, houseId, checkedList });
+		if (formData === 'false') {
+			return;
+		}
+		mutate(formData);
 	};
 
 	return (
@@ -70,20 +100,20 @@ const OwnerRoomRegister = () => {
 					</InputGridAligner>
 					<InputGridAligner>
 						<RegiRoomSubText>종류</RegiRoomSubText>
-						<InputStyler></InputStyler>
+						<InputStyler ref={roomCategory} placeholder="ex) 일반룸"></InputStyler>
 					</InputGridAligner>
 					<InputGridAligner>
 						<RegiRoomSubText>방 개수</RegiRoomSubText>
-						<InputStyler type="number"></InputStyler>
+						<InputStyler type="number" ref={roomCount} min={0} defaultValue={1}></InputStyler>
 					</InputGridAligner>
 					<InputGridAligner>
 						<RegiRoomSubText>가격</RegiRoomSubText>
-						<InputStyler type="number"></InputStyler>
+						<InputStyler type="number" ref={roomPrice} min={0} placeholder="ex) 10000"></InputStyler>
 					</InputGridAligner>
 				</RegiRoomSubComp>
 			</RegisterInputWrapper>
 			<SubmitButtonAligner>
-				<RegiRoomBtn $disable={true}>등록하기</RegiRoomBtn>
+				<RegiRoomBtn onClick={onAddRoom}>등록하기</RegiRoomBtn>
 				<RegiRoomBtn>취소</RegiRoomBtn>
 			</SubmitButtonAligner>
 		</RoomRegisterWrap>
@@ -104,7 +134,7 @@ const RegisterInputWrapper = styled.div`
 `;
 
 const SliderContainer = styled.div<{ $isLoading?: boolean }>`
-	width: 95%;
+	width: 100%;
 	max-width: 400px;
 	display: ${(props) => props.$isLoading && 'none'};
 `;

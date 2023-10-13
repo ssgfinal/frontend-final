@@ -37,11 +37,10 @@ const UserHouseList = () => {
 	const [houseList, setHouseList] = useState<HouseBaseInfo[]>([]);
 	//TODO: 로딩은 나중에...
 	useEffect(() => {
-		api.post(userUrl.houseList).then(({ data }) => {
+		api.get(userUrl.houseList).then(({ data }) => {
 			setHouseList(data);
 		});
 	}, []);
-	console.log(houseList);
 	return (
 		<>
 			<SearchWrapper>

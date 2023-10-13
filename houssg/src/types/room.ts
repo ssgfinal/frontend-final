@@ -17,4 +17,13 @@ interface RoomComp extends RoomData {
 	setIsEditMode: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export type { RoomDataType, RoomData, RoomComp };
+interface AddRoomProps {
+	roomCountValue?: string;
+	roomCategoryValue?: string;
+	roomPriceValue?: string;
+	houseImgFiles: File[];
+	houseId?: string;
+	checkedList: number[];
+}
+
+export type { RoomDataType, RoomData, RoomComp, AddRoomProps };

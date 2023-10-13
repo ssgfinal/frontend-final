@@ -15,11 +15,10 @@ const ManageRoomWrap: React.FC<{ accomNumber: number }> = ({ accomNumber }) => {
 		[roomKey.targetRoom, accomNumber],
 		() => getTargetRoomData(accomNumber),
 		{
-			cacheTime: 5 * 60 * 1000, // 5분
-			staleTime: 2 * 60 * 1000, // 2분
+			cacheTime: 5 * 60 * 1000,
+			staleTime: 3 * 60 * 1000,
 		},
 	);
-
 	isError && console.log(error, 'error');
 
 	if (isLoading) {
@@ -35,7 +34,11 @@ const ManageRoomWrap: React.FC<{ accomNumber: number }> = ({ accomNumber }) => {
 			>
 				객실 추가하기
 			</RoomAddBtn>
-			{isSuccess && data.data.map((room) => <RoomCompToggler room={room} key={room.roomNumber} />)}
+			{isSuccess && data.data.length ? (
+				data.data.map((room) => <RoomCompToggler room={room} key={room.roomNumber} />)
+			) : (
+				<div>등록된 객실이 없습니다.</div>
+			)}
 		</div>
 	);
 };
