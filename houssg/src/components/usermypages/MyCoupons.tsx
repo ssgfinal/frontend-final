@@ -1,25 +1,20 @@
 import styled from 'styled-components';
 import { color } from '../../assets/styles';
 import hourClock from '../../utils/hourClock';
+import { MyCouponList } from '../../types/mypage';
 
 interface CouponList {
-	coupons: {
-		userId: string;
-		couponNumber: string;
-		couponName: string;
-		isUsed: number;
-		couponDiscount: number;
-		expitationDate: string;
-	};
+	data: MyCouponList;
 }
 
-const MyCoupons: React.FC<CouponList> = ({ coupons }) => {
+const MyCoupons: React.FC<CouponList> = ({ data }) => {
+	console.log('쿠폰함 컴퍼넌트=>' + data);
 	return (
 		<div>
 			<CouponsWrapper>
-				<p>{coupons.couponName}</p>
-				<p>{coupons.couponDiscount.toLocaleString()}원</p>
-				<p>유효기간 : ~ {hourClock(coupons.expitationDate)}</p>
+				<p>{data.couponName}</p>
+				<p>{data.couponDiscount.toLocaleString()}원</p>
+				<p>유효기간 : ~ {hourClock(data.expitationDate)}</p>
 			</CouponsWrapper>
 		</div>
 	);

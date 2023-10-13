@@ -6,4 +6,9 @@ const roomKey = {
 	targetRoom: 'targetRoom',
 };
 
-export { ownerKey, roomKey };
+const userKey = {
+	myCouponList: 'myCouponList',
+	enrollCoupon: 'enrollCoupon',
+};
+
+export { ownerKey, roomKey, userKey };
