@@ -20,6 +20,7 @@ const StepMover: React.FC<StepMoverType> = ({ goStep, step, data, inactive, last
 	});
 
 	const onRegiHandler = () => {
+		//TODO: 조건문 추가
 		mutate();
 	};
 

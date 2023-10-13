@@ -17,7 +17,6 @@ interface MyHouseData {
 	businessNumber: string;
 	id: string;
 	auth: number;
-	approvalRequest: number;
 	deletionRequest: number;
 	img: string;
 	addRequest: number;
