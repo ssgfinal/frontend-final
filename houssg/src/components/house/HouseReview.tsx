@@ -14,7 +14,6 @@ export const HouseReview = () => {
 	const [reviewList, setReviewList] = useState<ReviewType[]>([]);
 
 	useEffect(() => {
-		console.log('useEffect 실행');
 		try {
 			api.get(userUrl.reviewList, { params: { accomNumber: houseId } }).then(({ data }) => {
 				setReviewList(data);
