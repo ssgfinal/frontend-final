@@ -4,7 +4,7 @@ interface StepProps {
 }
 
 interface FunnelPropsType {
-	businessNum?: number;
+	businessNum?: string;
 	name?: string;
 	businessImg?: string;
 	targetAddress?: string;
@@ -20,7 +20,7 @@ interface FunnelPropsType {
 
 interface RegiStepProps extends StepProps {
 	funnelState?: {
-		businessNum: number;
+		businessNum: string;
 		name: string;
 		businessImg: string;
 		targetAddress: string;
