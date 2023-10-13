@@ -5,7 +5,7 @@ import { useEffect } from 'react';
 import { RouteWrap } from './layout';
 import { OwnerHouseRegister, OwnerIncome, OwnerMain, OwnerManagement, OwnerReservation, OwnerRoomRegister } from './pages/owner';
 import { UserHouseList, UserMain, UserMypage, UserReservationList } from './pages/user';
-import { UserHouseDetail } from './pages/user/UserHouseDetail';
+import UserHouseDetail from './pages/user/UserHouseDetail';
 import { UserReservation } from './pages/user/UserReservation';
 import { ownerRoute, userRoute } from './assets/constant';
 import { useAppDispatch, useLogin, usePathname } from './hooks';
@@ -35,7 +35,7 @@ const App = () => {
 			<Route path={userRoute.main} element={<RouteWrap />}>
 				<Route index element={<UserMain />} />
 				<Route path={userRoute.houseList} element={<UserHouseList />} />
-				<Route path={userRoute.houseDetail} element={<UserHouseDetail />} />
+				<Route path={userRoute.houseDetail + ':houseId'} element={<UserHouseDetail />} />
 
 				<Route path={userRoute.myPage} element={<UserMypage />} />
 				<Route path={userRoute.reservationList} element={<UserReservationList />} />

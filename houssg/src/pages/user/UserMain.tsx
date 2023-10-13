@@ -18,11 +18,11 @@ const UserMain = () => {
 	const [isLoading, setIsLoading] = useState(false);
 
 	useEffect(() => {
-		api.post(userUrl.ratingOrder).then(({ data }) => {
+		api.get(userUrl.ratingOrder).then(({ data }) => {
 			setRatingOrder20(data);
 		});
 
-		api.post(userUrl.registrationOrder).then(({ data }) => {
+		api.get(userUrl.registrationOrder).then(({ data }) => {
 			setRegisterationOrder20(data);
 		});
 
