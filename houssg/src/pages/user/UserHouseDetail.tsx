@@ -5,13 +5,13 @@ import { TabMenu } from '../../components/common/TabMenu';
 import { HouseInfo } from '../../components/house/HouseInfo';
 import { RoomList } from '../../components/house/RoomList';
 import { HouseReview } from '../../components/house/HouseReview';
-import { HouseDescription } from '../../components/house/HouseDescription';
 import { useParams } from 'react-router-dom';
 import api from '../../api/api';
 import { userUrl } from '../../assets/constant';
 import { HouseBaseInfo } from '../../types';
+import HouseDescription from '../../components/house/HouseDescription';
 
-export const UserHouseDetail = () => {
+const UserHouseDetail = () => {
 	const tabObj = [
 		['description', '소개'],
 		['roominfo', '객실'],
@@ -57,6 +57,8 @@ export const UserHouseDetail = () => {
 		</Wrapper>
 	);
 };
+
+export default UserHouseDetail;
 
 const Wrapper = styled.div`
 	width: 70vw;

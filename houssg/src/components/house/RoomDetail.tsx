@@ -39,7 +39,7 @@ export const RoomDetail: React.FC<RoomData> = ({ room }) => {
 
 	return (
 		<Wrapper>
-			<RommImg src={room.roomImg} alt="객실 이미지" />
+			<RoomImg src={room.roomImg} alt="객실 이미지" />
 			<Info>
 				<Type>{room.roomCategory}</Type>
 				<div>시설 및 서비스</div>
@@ -72,7 +72,7 @@ const Wrapper = styled.div`
 	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
 `;
 
-const RommImg = styled.img`
+const RoomImg = styled.img`
 	width: 100%;
 	border-radius: 1rem;
 `;
@@ -81,7 +81,7 @@ const Info = styled.div`
 	display: grid;
 	text-align: left;
 	grid-template-rows: repeat(3, 1fr);
-	grid-gap: 1rem;
+	grid-gap: 0.7rem;
 	align-items: center;
 `;
 
@@ -91,7 +91,8 @@ const Type = styled.div`
 `;
 
 const Icon = styled.img`
-	width: 2rem;
+	width: 1.7rem;
+	margin: 0 0.3rem;
 `;
 
 const Between = styled.div`

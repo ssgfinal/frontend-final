@@ -5,7 +5,7 @@ import React from 'react';
 interface HouseDescriptionProps {
 	houseDetail: string;
 }
-export const HouseDescription: React.FC<HouseDescriptionProps> = ({ houseDetail }) => {
+const HouseDescription: React.FC<HouseDescriptionProps> = ({ houseDetail }) => {
 	return <Wrapper>{houseDetail}</Wrapper>;
 };
 
@@ -19,3 +19,5 @@ const Wrapper = styled.div`
 	min-height: 15rem;
 	line-height: 1.5rem;
 `;
+
+export default HouseDescription;

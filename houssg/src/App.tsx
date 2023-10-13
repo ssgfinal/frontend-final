@@ -5,7 +5,7 @@ import { useEffect } from 'react';
 import { RouteWrap } from './layout';
 import { OwnerHouseRegister, OwnerIncome, OwnerMain, OwnerManagement, OwnerReservation, OwnerRoomRegister } from './pages/owner';
 import { UserHouseList, UserMain, UserMypage, UserReservationList } from './pages/user';
-import { UserHouseDetail } from './pages/user/UserHouseDetail';
+import UserHouseDetail from './pages/user/UserHouseDetail';
 import { UserReservation } from './pages/user/UserReservation';
 import { ownerRoute, userRoute } from './assets/constant';
 import { useAppDispatch, useLogin, usePathname } from './hooks';
