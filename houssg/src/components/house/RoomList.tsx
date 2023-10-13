@@ -25,6 +25,7 @@ export const RoomList = () => {
 		return <div>로딩중...</div>;
 	}
 
+	console.log('api로 받은 룸 리스트 >', data);
 	return <Wrapper>{isSuccess && data.data.map((room) => <RoomDetail key={room.roomNumber} room={room} />)}</Wrapper>;
 };
 

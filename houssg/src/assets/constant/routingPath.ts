@@ -4,8 +4,7 @@ const userRoute = {
 	houseDetail: '/user/houseDetail/',
 	myPage: '/user/mypage',
 	reservationList: '/user/reservation',
-	// reservation: '/user/reservation/',
-	reservation: '/user/reservationDetail',
+	reservation: '/user/reservation/',
 };
 
 const ownerRoute = {

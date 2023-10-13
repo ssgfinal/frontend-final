@@ -28,6 +28,7 @@ export const RoomDetail: React.FC<RoomData> = ({ room }) => {
 	}, [room]);
 
 	const handleLink = () => {
+		console.log('RoomDetail 선택된 roomId > ', room.roomNumber);
 		const isLogin = isLoginFunc();
 		if (!isLogin) {
 			const modalSize = window.innerWidth >= 1000 ? 500 : 400;

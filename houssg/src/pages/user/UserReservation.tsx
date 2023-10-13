@@ -1,5 +1,4 @@
-// import { useLocation, useParams } from 'react-router-dom';
-import { useLocation } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 import styled from 'styled-components';
 
@@ -39,7 +38,8 @@ interface GiveReservation {
 	paymentPrice: number;
 }
 export const UserReservation = () => {
-	// const { roomId } = useParams();
+	const { roomId } = useParams();
+	console.log('roomId > ', roomId);
 
 	// 백 연동 시 roomId 보낼 때 사용할 변수들
 	const location = useLocation();
