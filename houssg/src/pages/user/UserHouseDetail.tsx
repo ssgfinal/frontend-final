@@ -25,7 +25,7 @@ export const UserHouseDetail = () => {
 
 	useEffect(() => {
 		try {
-			api.post(userUrl.houseDetail, null, { params: { accomNumber: houseId } }).then(({ data }) => {
+			api.get(userUrl.houseDetail, { params: { accomNumber: houseId } }).then(({ data }) => {
 				setHouse(data);
 			});
 		} catch (error) {
