@@ -2,35 +2,24 @@ import React from 'react';
 import Rating from '../common/Rating';
 import { styled } from 'styled-components';
 import { color } from '../../assets/styles';
-
-interface ReviewProps {
-	review: {
-		id: number;
-		writedate: string;
-		writer: string;
-		roomtype: string;
-		rate: number;
-		content: string;
-		img?: string;
-	};
-}
+import { ReviewProps } from '../../types';
 
 export const Review: React.FC<ReviewProps> = ({ review }) => {
 	return (
-		<Wrapper key={review.id}>
-			<WriteDate>{review.writedate}</WriteDate>
+		<Wrapper key={review.reviewNumber}>
+			<WriteDate>{review.reviewCreationTime}</WriteDate>
 			<OneLine>
 				<Title>작성자</Title>
-				<Content>{review.writer}</Content>
+				<Content>{review.nickname}</Content>
 				<Title>객실</Title>
-				<Content>{review.roomtype}</Content>
+				<Content>{review.roomCategory}</Content>
 			</OneLine>
 			<RateBox>
-				<Rating readonly rate={review.rate} />
+				<Rating readonly rate={review.reveiwRating} />
 			</RateBox>
 			<ReviewContent>
 				{review.img ? <Img src={review.img} /> : <></>}
-				<ReviewText>{review.content}</ReviewText>
+				<ReviewText>{review.reviewContent}</ReviewText>
 			</ReviewContent>
 		</Wrapper>
 	);

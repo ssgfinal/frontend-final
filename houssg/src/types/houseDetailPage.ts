@@ -7,7 +7,7 @@ interface HouseBaseInfo {
 	avgRating: number;
 	reviewCount: number;
 	accomAddress: string;
-	img: string;
+	img?: string;
 	isFavorite: true;
 	accomCategory: string;
 	accomDetails: string;
@@ -22,10 +22,34 @@ interface HouseBaseInfo {
 	teleNumber: string;
 }
 
+interface HouseProps {
+	house: HouseBaseInfo;
+}
+
+interface HouseListProps {
+	houseList: HouseBaseInfo[];
+}
+
 interface ServiceList {
 	value: string;
 	text: string;
 	icon: string;
 }
 
-export type { HouseBaseInfo, ServiceList };
+interface ReviewType {
+	reviewNumber: number;
+	reviewCreationTime: string;
+	nickname: string;
+	roomCategory: string;
+	reveiwRating: number;
+	img?: string;
+	reviewContent: string;
+	reviewCommentTime?: string;
+	reviewComment?: string;
+}
+
+interface ReviewProps {
+	review: ReviewType;
+}
+
+export type { HouseBaseInfo, HouseProps, HouseListProps, ServiceList, ReviewType, ReviewProps };
