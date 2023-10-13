@@ -48,7 +48,7 @@ const OwnerRoomRegister = () => {
 	};
 
 	const { mutate } = useMutation({
-		mutationFn: () => addTargetRoom(data),
+		mutationFn: (formData: FormData) => addTargetRoom(formData),
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: [roomKey.targetRoom, houseId] });
 			alert('성공');
@@ -57,10 +57,36 @@ const OwnerRoomRegister = () => {
 	});
 
 	const onAddRoom = () => {
-		mutate();
+		const roomCountValue = roomCount.current?.value;
+		const roomCategoryValue = roomCategory.current?.value;
+		const roomPriceValue = roomPrice.current?.value;
+
+		if (!roomCountValue && !roomCategoryValue && !roomPriceValue && !houseImgFiles.length) {
+			alert('빈 값이 존재합니다.');
+			return;
+		}
+
+		const formData = new FormData();
+
+		houseImgFiles.forEach((file) => {
+			formData.append('multiFile', file);
+		});
+
+		const requestData = {
+			accomNumber: houseId,
+			roomCategory: roomCategoryValue,
+			roomPrice: roomPriceValue,
+			roomAvailability: roomCountValue,
+			roomServiceDto: checkedList,
+		};
+
+		const json = JSON.stringify(requestData);
+		const blob = new Blob([json], { type: 'application/json' });
+		formData.append('request', blob);
+
+		mutate(formData);
 	};
 
-	console.log(houseImgFiles);
 	return (
 		<RoomRegisterWrap>
 			<RegiHeadText>객실 등록하기</RegiHeadText>
@@ -101,12 +127,12 @@ const OwnerRoomRegister = () => {
 					</InputGridAligner>
 					<InputGridAligner>
 						<RegiRoomSubText>가격</RegiRoomSubText>
-						<InputStyler type="number" ref={roomPrice} min={0} defaultValue={10000}></InputStyler>
+						<InputStyler type="number" ref={roomPrice} min={0} placeholder="ex) 10000"></InputStyler>
 					</InputGridAligner>
 				</RegiRoomSubComp>
 			</RegisterInputWrapper>
 			<SubmitButtonAligner>
-				<RegiRoomBtn $disable={true} onClick={onAddRoom}>
+				<RegiRoomBtn $disable={false} onClick={onAddRoom}>
 					등록하기
 				</RegiRoomBtn>
 				<RegiRoomBtn>취소</RegiRoomBtn>
