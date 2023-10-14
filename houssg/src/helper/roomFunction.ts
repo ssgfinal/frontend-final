@@ -10,29 +10,43 @@ const addTargetRoom = async (formData: FormData) => {
 	return await api.post(roomUrl.roomAdd, formData, { headers: { 'Content-Type': 'multipart/form-data' } });
 };
 
-const returnAddRoomFormData = ({ roomCountValue, roomCategoryValue, roomPriceValue, houseImgFiles, houseId, checkedList }: AddRoomProps) => {
+const editTargetRoom = async (formData: FormData) => {
+	return await api.patch(roomUrl.roomEdit, formData, { headers: { 'Content-Type': 'multipart/form-data' } });
+};
+
+const returnRoomFormData = ({
+	roomCountValue,
+	roomCategoryValue,
+	roomPriceValue,
+	roomImgFiles,
+	houseId,
+	checkedList,
+	roomNumber,
+	resistImgs,
+}: AddRoomProps) => {
 	if (!houseId) {
 		alert('잘못된 접근입니다.');
 		return 'false';
 	}
 
-	if (!roomCountValue && !roomCategoryValue && !roomPriceValue && !houseImgFiles.length) {
+	if (!roomCountValue && !roomCategoryValue && !roomPriceValue && !roomImgFiles.length) {
 		alert('빈 값이 존재합니다.');
 		return 'false';
 	}
 
 	const formData = new FormData();
 
-	houseImgFiles.forEach((file) => {
+	roomImgFiles.forEach((file) => {
 		formData.append('multiFile', file);
 	});
-
 	const requestData = {
 		accomNumber: houseId,
 		roomCategory: roomCategoryValue,
 		roomPrice: roomPriceValue,
 		roomAvailability: roomCountValue,
 		roomServiceDto: checkedList,
+		roomNumber,
+		resistImgs,
 	};
 
 	const json = JSON.stringify(requestData);
@@ -41,4 +55,4 @@ const returnAddRoomFormData = ({ roomCountValue, roomCategoryValue, roomPriceVal
 	return formData;
 };
 
-export { getTargetRoomData, addTargetRoom, returnAddRoomFormData };
+export { getTargetRoomData, addTargetRoom, returnRoomFormData, editTargetRoom };
