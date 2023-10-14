@@ -121,23 +121,16 @@ const MyPage = () => {
 	// 쿠폰 등록
 	const queryClient = useQueryClient();
 
-	const { mutate } = useMutation(
-		(couponNumber: string) => {
-			return setCouponList(couponNumber);
+	const { mutate } = useMutation((couponNumber: string) => setCouponList(couponNumber), {
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: [userKey.myCoupon] });
+			alert('등록완료');
 		},
-		{
-			onSuccess: () => {
-				queryClient.invalidateQueries({ queryKey: [userKey.myCoupon] });
-				alert('등록완료');
-			},
+		onError: (error) => {
+			console.log(error);
+			alert('error');
 		},
-		{
-			onError: (error) => {
-				console.log(error);
-				alert('등록실패');
-			},
-		},
-	);
+	});
 
 	const onRegistration = () => {
 		const couponNumber = newCoupon.current?.value;
