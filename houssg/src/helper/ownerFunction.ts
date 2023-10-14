@@ -59,4 +59,5 @@ const onEditManageHouseApi = (
 	return api.patch(ownerUrl.houseEdit, formData, { headers: { 'Content-Type': 'multipart/form-data' } });
 };
 
-export { getMyHouseListData, onRegiFunnelData, onEditManageHouseApi };
+const getHouseReview = (accomNumber: number) => api.get(ownerUrl.houseReview + '?accomNumber=' + accomNumber);
+export { getMyHouseListData, onRegiFunnelData, onEditManageHouseApi, getHouseReview };

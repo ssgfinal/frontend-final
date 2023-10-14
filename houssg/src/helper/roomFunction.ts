@@ -22,7 +22,7 @@ const returnRoomFormData = ({
 	houseId,
 	checkedList,
 	roomNumber,
-	resistImgs,
+	resistImage,
 }: AddRoomProps) => {
 	if (!houseId) {
 		alert('잘못된 접근입니다.');
@@ -46,9 +46,8 @@ const returnRoomFormData = ({
 		roomAvailability: roomCountValue,
 		roomServiceDto: checkedList,
 		roomNumber,
-		resistImgs,
+		resistImage,
 	};
-
 	const json = JSON.stringify(requestData);
 	const blob = new Blob([json], { type: 'application/json' });
 	formData.append('request', blob);

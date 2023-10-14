@@ -58,8 +58,11 @@ const RoomCompEdit: React.FC<RoomComp> = ({ room, setIsEditMode }) => {
 		mutationFn: (formData: FormData) => editTargetRoom(formData),
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: [roomKey.targetRoom, room.accomNumber] });
-			// alert('성공');
-			// TODO: setIsEditMode(false)
+			alert('성공');
+			setIsEditMode(false);
+		},
+		onError: () => {
+			alert('실패');
 		},
 	});
 
@@ -68,13 +71,13 @@ const RoomCompEdit: React.FC<RoomComp> = ({ room, setIsEditMode }) => {
 		const roomCountValue = newRoomCount.current?.value;
 		const roomPriceValue = newRoomPrice.current?.value;
 		const houseId = room.accomNumber + '';
-		const resistImgs = roomImgs.filter((imageUrl) => imageUrl.startsWith('http'));
-
+		const resistImage = roomImgs.filter((imageUrl) => imageUrl.startsWith('http'));
+		const roomNumber = room.roomNumber + '';
 		if (
 			roomCategoryValue === room.roomCategory &&
 			roomCountValue === room.roomAvailability + '' &&
 			roomPriceValue === room.roomPrice + '' &&
-			resistImgs.length === room.imgs.length &&
+			resistImage.length === room.imgs.length &&
 			!roomImgFiles.length &&
 			checkedList === room.service
 		) {
@@ -82,10 +85,20 @@ const RoomCompEdit: React.FC<RoomComp> = ({ room, setIsEditMode }) => {
 			return;
 		}
 
-		const formData = returnRoomFormData({ roomCountValue, roomCategoryValue, roomPriceValue, roomImgFiles, houseId, checkedList, resistImgs });
+		const formData = returnRoomFormData({
+			roomCountValue,
+			roomCategoryValue,
+			roomPriceValue,
+			roomImgFiles,
+			houseId,
+			roomNumber,
+			checkedList,
+			resistImage,
+		});
 		if (formData === 'false') {
 			return;
 		}
+
 		mutate(formData);
 	};
 

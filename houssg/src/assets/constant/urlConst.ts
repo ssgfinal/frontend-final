@@ -55,6 +55,11 @@ const ownerUrl = {
 	myHouseList: 'mypage/accom',
 	houseEdit: 'accom',
 	checkBusinessNumber: 'naverOcr',
+
+	houseReview: 'review/all/accom',
+	addComment: 'review/comment/add',
+	reportReview: 'review/report',
+	patchComment: 'review/comment',
 };
 
 const roomUrl = {

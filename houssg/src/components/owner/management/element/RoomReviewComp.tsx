@@ -5,27 +5,9 @@ import { useAppDispatch } from '../../../../hooks';
 import { openModal } from '../../../../store/redux/modalSlice';
 import { color } from '../../../../assets/styles';
 import hourClock from '../../../../utils/hourClock';
+import { OwnerHouseReviewType } from '../../../../types';
 
-interface ReviewType {
-	review: {
-		review_writer: string;
-		review_number: number;
-		reservation_number: number;
-		review_content: string;
-		rating: number;
-		report_status: number;
-		creation_time: string;
-		roomType: string; // 방 타입
-		reviewImage: string | null; // 리뷰 이미지
-		comment: {
-			text: string;
-			date: string;
-		} | null;
-		member_id: number;
-	};
-}
-
-const RoomReviewComp: React.FC<ReviewType> = ({ review }) => {
+const RoomReviewComp: React.FC<{ review: OwnerHouseReviewType }> = ({ review }) => {
 	const dispatch = useAppDispatch();
 	const modalOpen = (component: string, message: string | null) => {
 		const modalSize = window.innerWidth >= 1000 ? 500 : 400;
@@ -36,8 +18,8 @@ const RoomReviewComp: React.FC<ReviewType> = ({ review }) => {
 		<>
 			<ReviewWrapper>
 				<ReviewContainer>
-					<ReviewDate>{hourClock(review.creation_time)}</ReviewDate>
-					<ReviewWriter>{review.review_writer}</ReviewWriter>
+					<ReviewDate>{hourClock(review.reviewCreationTime)}</ReviewDate>
+					<ReviewWriter>{review.nickname}</ReviewWriter>
 					<DeclarationContainer>
 						<DeclarationBox
 							src={declarationIcon}
@@ -48,21 +30,21 @@ const RoomReviewComp: React.FC<ReviewType> = ({ review }) => {
 						></DeclarationBox>
 						&nbsp;<span>신고하기</span>
 					</DeclarationContainer>
-					<ReviewRoomType>{review.roomType}</ReviewRoomType>
+					<ReviewRoomType>{review.roomCategory}</ReviewRoomType>
 					<RatingBox>
-						<Rating rate={review.rating} readonly></Rating>
+						<Rating rate={review.reviewRating} readonly></Rating>
 					</RatingBox>
 					<ContentsBox>
 						<ContentBox>
-							<ImageBox>{review.reviewImage && <img src={review.reviewImage} />}</ImageBox>
-							{review.reviewImage ? <ImageField>{review.review_content}</ImageField> : <NonImageField>{review.review_content}</NonImageField>}
+							<ImageBox>{review.img && <img src={review.img} />}</ImageBox>
+							{review.img ? <ImageField>{review.reviewContent}</ImageField> : <NonImageField>{review.reviewContent}</NonImageField>}
 						</ContentBox>
 					</ContentsBox>
-					{review.comment ? (
+					{review.reviewComment ? (
 						<CommentContainer>
 							<NickName>💌 나의 답변</NickName>
-							<CommentDate>{hourClock(review.comment.date)}</CommentDate>
-							<CommentText>{review.comment.text}</CommentText>
+							<CommentDate>{hourClock(review.reviewCommentTime)}</CommentDate>
+							<CommentText>{review.reviewComment}</CommentText>
 						</CommentContainer>
 					) : (
 						<CommentButtonContainer>
