@@ -6,6 +6,15 @@ interface MyCouponList {
 	expirationStatus: number;
 }
 
+interface EnrollCouponList {
+	id: string;
+	couponNumber: string;
+	couponName: string;
+	discount: number;
+	expirationDate: string;
+	isUsed: number;
+}
+
 interface MyReviews {
 	reviewNumber: number;
 	content: string;
@@ -24,4 +33,4 @@ interface MyReviews {
 	accomName: string;
 }
 
-export type { MyCouponList, MyReviews };
+export type { MyCouponList, EnrollCouponList, MyReviews };

@@ -1,5 +1,5 @@
 import { styled } from 'styled-components';
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef } from 'react';
 import { TabMenu } from '../common/TabMenu';
 import MyCoupons from './MyCoupons';
 import MyInformation from './MyInformation';
@@ -12,12 +12,12 @@ import { CouponIcon, MyPointIcon, ProfileCircle } from '../../assets/icons';
 import { accomodation } from '../../assets/icons';
 
 // TODO: 서버 > 쿠폰등록
-import api from '../../api/api';
-import { userUrl } from '../../assets/constant/urlConst';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+
 // import { MyCouponList } from '../../types';
 // import { useQuery } from '@tanstack/react-query';
-// import { userKey } from '../../assets/constant/queryKey';
-// import { myCouponList } from '../../helper';
+import { userKey } from '../../assets/constant/queryKey';
+import { setCouponList } from '../../helper';
 
 const reviews: {
 	reviewNumber: number;
@@ -105,7 +105,6 @@ const MyPage = () => {
 	const newCoupon = useRef<HTMLInputElement | null>(null);
 
 	const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-	// const [mypage, setMypage] = useState<MyCouponList>();
 
 	const toggleDropdown = () => {
 		setIsDropdownOpen(!isDropdownOpen);
@@ -119,33 +118,27 @@ const MyPage = () => {
 
 	const [clickTab, setClickTab] = useState<string>('MyInformation');
 
-	const myCouponList = async () => {
-		try {
-			const response = await api.get(userUrl.myCoupon);
-			// console.log('비동기 작업' + JSON.stringify(response.data));
-			// return response.data;
-			return response.data;
-		} catch (error) {
-			console.error(error);
-			throw error;
-		}
-	};
-
-	useEffect(() => {
-		myCouponList();
-	}, []);
-
 	// 쿠폰 등록
-	const onRegistration = async () => {
-		const couponValue = newCoupon.current?.value;
+	const queryClient = useQueryClient();
 
-		if (newCoupon.current) {
-			try {
-				return await api.post(userUrl.enrollCoupon, { couponNumber: couponValue });
-			} catch (error) {
-				console.log(error);
-			}
-		} else if (couponValue === '') {
+	const { mutate } = useMutation(
+		(couponNumber: string) => {
+			return setCouponList(couponNumber);
+		},
+		{
+			onSuccess: () => {
+				queryClient.invalidateQueries({ queryKey: [userKey.myCoupon] });
+				alert('등록완료');
+			},
+		},
+	);
+
+	const onRegistration = () => {
+		const couponNumber = newCoupon.current?.value;
+
+		if (newCoupon.current && couponNumber) {
+			mutate(couponNumber);
+		} else if (couponNumber === '') {
 			alert('쿠폰번호를 입력해주세요.');
 		}
 	};
