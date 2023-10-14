@@ -63,10 +63,9 @@ const RoomContainer = styled.div`
 	}
 `;
 
-const SliderContainer = styled.div<{ $isLoading?: boolean }>`
+const SliderContainer = styled.div`
 	width: 100%;
 	max-width: 15rem;
-	display: ${(props) => props.$isLoading && 'none'};
 	margin: 0 auto;
 	@media screen and (max-width: 800px) {
 		max-width: 18rem;
