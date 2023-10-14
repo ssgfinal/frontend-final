@@ -1,22 +1,46 @@
 import styled from 'styled-components';
+import { useQuery } from '@tanstack/react-query';
 import { color } from '../../assets/styles';
-import hourClock from '../../utils/hourClock';
-import { MyCouponList } from '../../types/mypage';
+import { MyCouponList } from '../../types';
+import { userKey } from '../../assets/constant/queryKey';
+import { getCouponList } from '../../helper';
 
-interface CouponList {
-	data: MyCouponList;
-}
+const MyCoupons = () => {
+	const { isLoading, data, isSuccess, isError, error } = useQuery<{ data: MyCouponList[] }>([userKey.myCoupon], () => getCouponList(), {
+		cacheTime: 5 * 60 * 1000, // 5분
+		staleTime: 2 * 60 * 1000, // 2분
+		retry: 2,
+	});
 
-const MyCoupons: React.FC<CouponList> = ({ data }) => {
-	console.log('쿠폰함 컴퍼넌트=>' + data);
+	isError && console.log(error, 'error');
+
+	if (isLoading) {
+		return <div>로딩중...</div>;
+	}
+
 	return (
-		<div>
-			<CouponsWrapper>
-				<p>{data.couponName}</p>
-				<p>{data.couponDiscount.toLocaleString()}원</p>
-				<p>유효기간 : ~ {hourClock(data.expitationDate)}</p>
-			</CouponsWrapper>
-		</div>
+		isSuccess && (
+			<>
+				{data.data?.map((coupon, i) => {
+					if (coupon) {
+						return (
+							<div key={i}>
+								{coupon.expirationStatus !== 1 ? (
+									<CouponsWrapper>
+										<p>{coupon.couponName}</p>
+										<p>{coupon.discount.toLocaleString()}원</p>
+										<p>유효기간 : ~ {coupon.expirationDate}</p>
+									</CouponsWrapper>
+								) : (
+									<NullBox>등록된 쿠폰이 없습니다.</NullBox>
+								)}
+							</div>
+						);
+					}
+					return null;
+				})}
+			</>
+		)
 	);
 };
 
@@ -71,4 +95,9 @@ const CouponsWrapper = styled.div`
 			font-size: 0.5rem;
 		}
 	}
+`;
+
+const NullBox = styled.div`
+	text-align: center;
+	margin: auto;
 `;

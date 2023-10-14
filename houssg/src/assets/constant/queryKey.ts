@@ -7,7 +7,7 @@ const roomKey = {
 };
 
 const userKey = {
-	myCouponList: 'myCouponList',
+	myCoupon: 'myCoupon',
 	enrollCoupon: 'enrollCoupon',
 };
 

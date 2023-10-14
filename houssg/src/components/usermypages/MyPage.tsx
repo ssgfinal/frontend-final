@@ -1,5 +1,5 @@
 import { styled } from 'styled-components';
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { TabMenu } from '../common/TabMenu';
 import MyCoupons from './MyCoupons';
 import MyInformation from './MyInformation';
@@ -14,9 +14,10 @@ import { accomodation } from '../../assets/icons';
 // TODO: 서버 > 쿠폰등록
 import api from '../../api/api';
 import { userUrl } from '../../assets/constant/urlConst';
-import { MyCouponList } from '../../types/mypage';
-import { useQuery } from '@tanstack/react-query';
-import { userKey } from '../../assets/constant/queryKey';
+// import { MyCouponList } from '../../types';
+// import { useQuery } from '@tanstack/react-query';
+// import { userKey } from '../../assets/constant/queryKey';
+// import { myCouponList } from '../../helper';
 
 const reviews: {
 	reviewNumber: number;
@@ -104,6 +105,7 @@ const MyPage = () => {
 	const newCoupon = useRef<HTMLInputElement | null>(null);
 
 	const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+	// const [mypage, setMypage] = useState<MyCouponList>();
 
 	const toggleDropdown = () => {
 		setIsDropdownOpen(!isDropdownOpen);
@@ -117,30 +119,21 @@ const MyPage = () => {
 
 	const [clickTab, setClickTab] = useState<string>('MyInformation');
 
-	// 쿠폰 목록
-	const { status, isLoading, isError, error, isSuccess, data } = useQuery<{ mypage: MyCouponList[] }>(
-		[userKey.myCouponList],
-		async () => {
-			try {
-				const resp = await api.get(userUrl.myCoupon);
-				return resp.data;
-			} catch (error) {
-				console.error(error);
-			}
-		},
-		{
-			cacheTime: 5 * 60 * 1000, // 5분
-			staleTime: 2 * 60 * 1000, // 2분
-		},
-	);
+	const myCouponList = async () => {
+		try {
+			const response = await api.get(userUrl.myCoupon);
+			// console.log('비동기 작업' + JSON.stringify(response.data));
+			// return response.data;
+			return response.data;
+		} catch (error) {
+			console.error(error);
+			throw error;
+		}
+	};
 
-	isError && console.log(error, 'error');
-
-	if (isLoading) {
-		return <div>로딩중...</div>;
-	}
-
-	console.log('상태는?' + status + '    data는?' + typeof data);
+	useEffect(() => {
+		myCouponList();
+	}, []);
 
 	// 쿠폰 등록
 	const onRegistration = async () => {
@@ -183,17 +176,7 @@ const MyPage = () => {
 								<button onClick={onRegistration}>등록</button>
 							</CouponRegistration>
 							<DropCouponList>
-								{isSuccess && data.mypage !== undefined ? (
-									<>
-										{data.mypage.map((data) => (
-											<div key={data.couponName}>
-												<MyCoupons data={data} />
-											</div>
-										))}
-									</>
-								) : (
-									<NullBox>등록된 쿠폰이 없습니다.</NullBox>
-								)}
+								<MyCoupons />
 							</DropCouponList>
 						</DropdownContent>
 					)}
@@ -441,9 +424,4 @@ const MyPageContentsContainer = styled.div`
 	border-radius: 1rem;
 	box-shadow: 0px 0px 5px 0.5px ${color.color3};
 	background-color: ${color.backColor};
-`;
-
-const NullBox = styled.div`
-	text-align: center;
-	margin: 1rem;
 `;

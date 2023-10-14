@@ -1,9 +1,9 @@
 interface MyCouponList {
 	couponNumber: string;
 	couponName: string;
-	couponDiscount: number;
-	expitationDate: string;
-	expitationStatus: number;
+	discount: number;
+	expirationDate: string;
+	expirationStatus: number;
 }
 
 interface MyReviews {
