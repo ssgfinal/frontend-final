@@ -131,6 +131,12 @@ const MyPage = () => {
 				alert('등록완료');
 			},
 		},
+		{
+			onError: (error) => {
+				console.log(error);
+				alert('등록실패');
+			},
+		},
 	);
 
 	const onRegistration = () => {
