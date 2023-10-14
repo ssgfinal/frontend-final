@@ -4,12 +4,16 @@ import { styled } from 'styled-components';
 import { color } from '../../../../assets/styles';
 import { roomServiceCategory } from '../../../../assets/constant';
 import { CheckBox } from '../../register/element';
+import { RoomImgSlider } from '../../../common';
+import { useFocusRef } from '../../../../hooks';
 
 const RoomCompEdit: React.FC<RoomComp> = ({ room, setIsEditMode }) => {
 	const [checkedList, setCheckedList] = useState<number[]>(new Array(roomServiceCategory.length).fill(0));
 	const newRoomCategory = useRef<HTMLInputElement | null>(null);
 	const newRoomCount = useRef<HTMLInputElement | null>(null);
 	const newRoomPrice = useRef<HTMLInputElement | null>(null);
+
+	useFocusRef(newRoomCategory, []);
 
 	const onChangeCheckedList = (index: number, value: number) => {
 		const newCheckedList = [...checkedList];
@@ -27,8 +31,10 @@ const RoomCompEdit: React.FC<RoomComp> = ({ room, setIsEditMode }) => {
 
 	return (
 		<RoomEditWrapper>
-			{/* TODO: 이미지 수정하기, 슬라이더? */}
-			<RoomImg src={'TODO: 추후 백엔드 이미지 첨부'} />
+			<InstructionText>객실 수정...</InstructionText>
+			<SliderContainer>
+				<RoomImgSlider data={room.imgs}></RoomImgSlider>
+			</SliderContainer>
 			<RoomEditContainer>
 				<RoomEditTitle>종류</RoomEditTitle>
 				<RoomEditInput type="text" defaultValue={room.roomCategory} ref={newRoomCategory}></RoomEditInput>
@@ -43,7 +49,7 @@ const RoomCompEdit: React.FC<RoomComp> = ({ room, setIsEditMode }) => {
 					))}
 				</RoomServiceContainer>
 			</RoomEditContainer>
-			<RoomEditButton onClick={onRoomEdit}>수정완료</RoomEditButton>
+			<RoomEditCancelButton onClick={onRoomEdit}>수정완료</RoomEditCancelButton>
 			<RoomEditCancelButton
 				onClick={() => {
 					setIsEditMode(false);
@@ -59,12 +65,22 @@ export default RoomCompEdit;
 
 const RoomEditWrapper = styled.div`
 	margin: 1rem;
+	padding: 1rem 0;
+	box-shadow: 0px 8px 8px -4px rgba(0, 0, 0, 0.2), 0px -8px 8px -4px rgba(0, 0, 0, 0.2);
 `;
 
-const RoomImg = styled.img`
-	justify-self: center;
-	width: 80%;
-	border-radius: 0.5rem;
+const InstructionText = styled.div`
+	margin: 1rem auto;
+`;
+
+const SliderContainer = styled.div<{ $isLoading?: boolean }>`
+	width: 100%;
+	max-width: 15rem;
+	display: ${(props) => props.$isLoading && 'none'};
+	margin: 0 auto;
+	@media screen and (max-width: 800px) {
+		max-width: 18rem;
+	}
 `;
 
 const RoomEditTitle = styled.div`
@@ -89,8 +105,7 @@ const RoomEditTitle = styled.div`
 `;
 
 const RoomEditDetailTitle = styled.div`
-	grid-column-start: 1;
-	grid-column-end: 3;
+	margin-top: 0.3rem;
 	color: ${color.color1};
 	font-size: 1rem;
 	font-weight: bold;
@@ -163,25 +178,11 @@ const RoomServiceContainer = styled.div`
 	}
 `;
 
-const RoomEditButton = styled.button`
-	cursor: pointer;
-	border: none;
-	font-size: 0.8rem;
-	font-weight: bold;
-	background-color: ${color.backColor};
-	width: 50%;
-	padding: 0.8rem;
-
-	&:hover {
-		color: ${color.color1};
-	}
-`;
-
 const RoomEditCancelButton = styled.button`
 	cursor: pointer;
 	border: none;
-	font-size: 0.8rem;
-	font-weight: bold;
+	font-size: 1.05rem;
+	font-weight: 600;
 	background-color: ${color.backColor};
 	width: 50%;
 	padding: 0.8rem;
