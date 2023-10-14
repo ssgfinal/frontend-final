@@ -9,6 +9,7 @@ const roomKey = {
 const userKey = {
 	myCoupon: 'myCoupon',
 	enrollCoupon: 'enrollCoupon',
+	myReview: 'myReview',
 };
 
 export { ownerKey, roomKey, userKey };

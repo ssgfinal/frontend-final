@@ -8,77 +8,11 @@ import MyFavorite from './MyFavorite';
 import { color } from '../../assets/styles';
 import { CouponIcon, MyPointIcon, ProfileCircle } from '../../assets/icons';
 
-// TODO: 더미데이터
-import { accomodation } from '../../assets/icons';
-
-// TODO: 서버 > 쿠폰등록
+// 쿠폰등록
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-// import { MyCouponList } from '../../types';
-// import { useQuery } from '@tanstack/react-query';
 import { userKey } from '../../assets/constant/queryKey';
 import { setCouponList } from '../../helper';
-
-const reviews: {
-	reviewNumber: number;
-	reservationNumber: number;
-	houseId: number;
-	accomName: string;
-	userId: string;
-	roomType: string;
-	writeDate: string;
-	reviewImage: string | null;
-	rating: number;
-	content: string;
-	commentDate: string | null;
-	commentContent: string | null;
-}[] = [
-	{
-		reviewNumber: 1,
-		reservationNumber: 7654321,
-		houseId: 1234,
-		accomName: '가나다 Hotel',
-		userId: 'abc',
-		roomType: '패밀리룸',
-		writeDate: '2023-09-10 18:00:00',
-		reviewImage: accomodation,
-		rating: 3.5,
-		content:
-			'안녕하십니까 250자 글자 테스트 중입니다 과연 250자가 될까요?? 맥스렝스 썼는데 될지 안 될지 모르겠지만 250자가 그렇게 긴 글이 아니면서도 또 긴 글자이기도 하고 어떡하지 더이상은 쓸 내용이 없는데 언제까지 써야할까요??이제 진짜 없는데 언제까지 테스트로 글을 쓰고 있어야 하는지 제발 살려줘 이제 그만 멈춰 이 텍스트애리어 자식아 그만해라 250자 이제 넘은 거 같은데 언제까지 쳐야하는 건지 뉴뉴뉴뉴 이제 그만 치게 해줘 살려줘 언제까',
-		commentDate: null,
-		commentContent: null,
-	},
-	{
-		reviewNumber: 2,
-		reservationNumber: 7654321,
-		houseId: 1234,
-		accomName: '라마바 Hotel',
-		userId: 'abc',
-		roomType: '더블룸',
-		writeDate: '2023-09-12 18:00:00',
-		reviewImage: accomodation,
-		rating: 3.5,
-		content:
-			'보통이네용 후기를 작성해야 하는데 작성하기 싫어용 근데 써야해요 어쩌죠? 쓸 내용이 없습니다. 이제 없음 진짜 없음 어떡하지ㅠㅠㅠㅠ하지만 써야하겠죠 가나다라마바사아자차카타파하',
-		commentDate: '2023-09-13 18:00:00',
-		commentContent: '감사용~~~',
-	},
-	{
-		reviewNumber: 3,
-		reservationNumber: 7664371,
-		houseId: 1235,
-		accomName: '사아자 Hotel',
-		userId: 'hjr123',
-		roomType: '스위트룸',
-		writeDate: '2023-09-13 18:00:00',
-		reviewImage: null,
-		rating: 4.0,
-		content:
-			'Lorem ipsum dolor sit amet consectetur adipisicing elit. Itaque, fugiat adipisci deserunt porro quia totam provident animi nemo labore temporibus voluptatem mollitia nostrum assumenda enim similique in doloribus eos consequatur.',
-		commentDate: '2023-09-14 18:00:00',
-		commentContent: '감사해용~~~',
-	},
-];
 
 const favorites: { houseId: number; accomName: string; houseAddress: string; userId: string; rating: number; favorite: boolean }[] = [
 	{
@@ -128,7 +62,7 @@ const MyPage = () => {
 		},
 		onError: (error) => {
 			console.log(error);
-			alert('error');
+			alert('등록실패');
 		},
 	});
 
@@ -182,13 +116,7 @@ const MyPage = () => {
 				<div></div>
 			</MyPageTabContainer>
 			<MyPageContentsContainer>
-				{clickTab === 'MyInformation' ? (
-					<MyInformation />
-				) : clickTab === 'MyReview' ? (
-					<MyReview reviews={reviews} />
-				) : (
-					<MyFavorite favorites={favorites} />
-				)}
+				{clickTab === 'MyInformation' ? <MyInformation /> : clickTab === 'MyReview' ? <MyReview /> : <MyFavorite favorites={favorites} />}
 			</MyPageContentsContainer>
 		</MyPageWrapper>
 	);
