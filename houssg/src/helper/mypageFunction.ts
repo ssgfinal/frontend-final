@@ -2,9 +2,9 @@ import api from '../api/api';
 import { userUrl } from '../assets/constant';
 
 // 쿠폰
-const getCouponList = () => api.get(userUrl.myCoupon);
+const getMyCouponList = () => api.get(userUrl.myCoupon);
 
-const setCouponList = async (couponNumber: string) => {
+const setMyCouponList = async (couponNumber: string) => {
 	try {
 		return await api.post(userUrl.enrollCoupon, { couponNumber: couponNumber });
 	} catch (error) {
@@ -15,4 +15,7 @@ const setCouponList = async (couponNumber: string) => {
 // 리뷰
 const getMyReviewList = () => api.get(userUrl.myReview);
 
-export { getCouponList, setCouponList, getMyReviewList };
+// 찜
+const getMyFavoriteList = () => api.get(userUrl.myFavorite);
+
+export { getMyCouponList, setMyCouponList, getMyReviewList, getMyFavoriteList };

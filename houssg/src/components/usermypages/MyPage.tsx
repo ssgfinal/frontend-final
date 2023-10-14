@@ -12,26 +12,7 @@ import { CouponIcon, MyPointIcon, ProfileCircle } from '../../assets/icons';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { userKey } from '../../assets/constant/queryKey';
-import { setCouponList } from '../../helper';
-
-const favorites: { houseId: number; accomName: string; houseAddress: string; userId: string; rating: number; favorite: boolean }[] = [
-	{
-		houseId: 1235,
-		accomName: '사아자 Hotel',
-		houseAddress: '강원도 영월군 무릉도원면 명마동길 44-37',
-		userId: 'hjr123',
-		rating: 4.0,
-		favorite: true,
-	},
-	{
-		houseId: 1234,
-		accomName: '라마바 Hotel',
-		houseAddress: '전라북도 전주시 완산구 향교길 23-3',
-		userId: 'abc',
-		rating: 3.5,
-		favorite: true,
-	},
-];
+import { setMyCouponList } from '../../helper';
 
 const MyPage = () => {
 	const userNickName = sessionStorage.getItem('nickname');
@@ -55,7 +36,7 @@ const MyPage = () => {
 	// 쿠폰 등록
 	const queryClient = useQueryClient();
 
-	const { mutate } = useMutation((couponNumber: string) => setCouponList(couponNumber), {
+	const { mutate } = useMutation((couponNumber: string) => setMyCouponList(couponNumber), {
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: [userKey.myCoupon] });
 			alert('등록완료');
@@ -116,7 +97,7 @@ const MyPage = () => {
 				<div></div>
 			</MyPageTabContainer>
 			<MyPageContentsContainer>
-				{clickTab === 'MyInformation' ? <MyInformation /> : clickTab === 'MyReview' ? <MyReview /> : <MyFavorite favorites={favorites} />}
+				{clickTab === 'MyInformation' ? <MyInformation /> : clickTab === 'MyReview' ? <MyReview /> : <MyFavorite />}
 			</MyPageContentsContainer>
 		</MyPageWrapper>
 	);

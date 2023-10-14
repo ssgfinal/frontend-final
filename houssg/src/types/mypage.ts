@@ -33,4 +33,13 @@ interface MyReviewList {
 	nickname: string;
 }
 
-export type { MyCouponList, EnrollCouponList, MyReviewList };
+interface MyFavoriteList {
+	accomNumber: number;
+	accomName: string;
+	accomAddress: string;
+	id: string;
+	avgRating: number;
+	isFavorite: boolean; // true?
+}
+
+export type { MyCouponList, EnrollCouponList, MyReviewList, MyFavoriteList };
