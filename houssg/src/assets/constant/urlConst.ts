@@ -12,7 +12,7 @@ const userUrl = {
 	phoneCheck: 'sms/change-phone', // 번호 중복확인
 	phoneAuthCheck: 'sms/check', // 인증번호 검사
 	updateMyPw: 'pw/update',
-	myCoupon: 'coupon/find-couponinfo', // 유저 쿠폰함
+	myCoupon: 'coupon/mypage', // 유저 쿠폰함
 	enrollCoupon: 'coupon/enroll-usercoupon', // 유저가 쿠폰 등록
 	withdrawal: 'user/withdrawal',
 	myReview: 'mypage/review', // 마이페이지 리뷰 목록

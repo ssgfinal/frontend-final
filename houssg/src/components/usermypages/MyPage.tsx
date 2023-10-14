@@ -1,5 +1,5 @@
 import { styled } from 'styled-components';
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef } from 'react';
 import { TabMenu } from '../common/TabMenu';
 import MyCoupons from './MyCoupons';
 import MyInformation from './MyInformation';
@@ -12,34 +12,12 @@ import { CouponIcon, MyPointIcon, ProfileCircle } from '../../assets/icons';
 import { accomodation } from '../../assets/icons';
 
 // TODO: 서버 > 쿠폰등록
-// import api from '../../api/api';
-// import { userUrl } from '../../assets/constant/urlConst';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-const mypagemain: { userPoint: number; userPassword: string }[] = [
-	{
-		userPoint: 1000,
-		userPassword: '1q2w3e4r!',
-	},
-];
-
-const coupons = [
-	{
-		userId: 'hjr123',
-		couponNumber: '123456724124',
-		couponName: '10월 한글날 이벤트',
-		isUsed: 0,
-		couponDiscount: 10000,
-		expitationDate: '2023-09-30 18:00:00',
-	},
-	{
-		userId: 'abc',
-		couponNumber: '231721984721',
-		couponName: '10월 한글날 빅세일',
-		isUsed: 0,
-		couponDiscount: 50000,
-		expitationDate: '2023-09-30 18:00:00',
-	},
-];
+// import { MyCouponList } from '../../types';
+// import { useQuery } from '@tanstack/react-query';
+import { userKey } from '../../assets/constant/queryKey';
+import { setCouponList } from '../../helper';
 
 const reviews: {
 	reviewNumber: number;
@@ -123,38 +101,13 @@ const favorites: { houseId: number; accomName: string; houseAddress: string; use
 
 const MyPage = () => {
 	const userNickName = sessionStorage.getItem('nickname');
-
-	// const [mypagemain, setMypagemain] = useState(null);
-	const [mypage, setMypage] = useState(mypagemain);
-	const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+	const userPoint = sessionStorage.getItem('point');
 	const newCoupon = useRef<HTMLInputElement | null>(null);
 
-	const myPageData = async () => {
-		try {
-			// const response = await api.post(userUrl.mypage);
-			const resp = mypage;
-			const data = [...resp];
-			// setMypage(response.data);
-			setMypage(data);
-		} catch (error) {
-			console.error(error);
-		}
-	};
-
-	useEffect(() => {
-		myPageData();
-		// TODO: 서버 연결 후 수정
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
+	const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
 	const toggleDropdown = () => {
 		setIsDropdownOpen(!isDropdownOpen);
-	};
-
-	const onRegistration = () => {
-		// TODO: 입력한 쿠폰 등록
-		const couponValue = newCoupon.current?.value;
-		console.log(couponValue);
 	};
 
 	const tabObj = [
@@ -164,6 +117,30 @@ const MyPage = () => {
 	];
 
 	const [clickTab, setClickTab] = useState<string>('MyInformation');
+
+	// 쿠폰 등록
+	const queryClient = useQueryClient();
+
+	const { mutate } = useMutation((couponNumber: string) => setCouponList(couponNumber), {
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: [userKey.myCoupon] });
+			alert('등록완료');
+		},
+		onError: (error) => {
+			console.log(error);
+			alert('error');
+		},
+	});
+
+	const onRegistration = () => {
+		const couponNumber = newCoupon.current?.value;
+
+		if (newCoupon.current && couponNumber) {
+			mutate(couponNumber);
+		} else if (couponNumber === '') {
+			alert('쿠폰번호를 입력해주세요.');
+		}
+	};
 
 	return (
 		<MyPageWrapper>
@@ -175,8 +152,9 @@ const MyPage = () => {
 					</MyNickName>
 					<MyPoint>
 						<IconImg src={MyPointIcon} />
-						<span>&nbsp;{mypagemain[0].userPoint.toLocaleString()}P</span>
+						{userPoint !== null ? <span>&nbsp;{userPoint.toLocaleString()}P</span> : <span>&nbsp;0P</span>}
 					</MyPoint>
+
 					<MyCoupon>
 						<IconImg src={CouponIcon} />
 						<div>
@@ -190,11 +168,7 @@ const MyPage = () => {
 								<button onClick={onRegistration}>등록</button>
 							</CouponRegistration>
 							<DropCouponList>
-								{coupons.map((coupon, index) => (
-									<div key={index}>
-										<MyCoupons coupons={coupon} />
-									</div>
-								))}
+								<MyCoupons />
 							</DropCouponList>
 						</DropdownContent>
 					)}

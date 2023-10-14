@@ -1,16 +1,36 @@
-interface UserMyPageType {
-	// userId: string; // 백만 들고있기
-	// userNickName: string; // session에서 가져오기?
-	userPoint: number;
-	// userPhoneNumber: string; // session에서 가져오기?
-	userPassword: string;
-	// userId: string; // TODO: 쿠폰 나중에
-	// couponNumber: string;
-	// couponName: string;
-	// isUsed: number;
-	// couponDiscount: number;
-	// expitationDate: string;
+interface MyCouponList {
+	couponNumber: string;
+	couponName: string;
+	discount: number;
+	expirationDate: string;
+	expirationStatus: number;
 }
-[];
 
-export type { UserMyPageType };
+interface EnrollCouponList {
+	id: string;
+	couponNumber: string;
+	couponName: string;
+	discount: number;
+	expirationDate: string;
+	isUsed: number;
+}
+
+interface MyReviews {
+	reviewNumber: number;
+	content: string;
+	rating: number;
+	reviewDate: string;
+	commentContent: string | null;
+	commentDate: string | null;
+	managerId: string;
+	reportStatus: number;
+	reservationNumber: number;
+	roomNumber: number;
+	accomNumber: number;
+	reviewImage: string | null;
+	roomType: string;
+	houseId: number;
+	accomName: string;
+}
+
+export type { MyCouponList, EnrollCouponList, MyReviews };
