@@ -8,15 +8,15 @@ import { useNavigate } from 'react-router-dom';
 import { CheckBox } from '../../components/owner/register/element';
 import { ownerRoute, roomKey, roomServiceCategory } from '../../assets/constant';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { addTargetRoom, returnAddRoomFormData } from '../../helper';
+import { addTargetRoom, returnRoomFormData } from '../../helper';
 
 const OwnerRoomRegister = () => {
 	const queryClient = useQueryClient();
 	const navigate = useNavigate();
 
 	const { houseId } = useParams();
-	const [houseImgs, setHouseImgs] = useState<string[]>([]);
-	const [houseImgFiles, setHouseImgFiles] = useState<File[]>([]);
+	const [roomImgs, setRoomImgs] = useState<string[]>([]);
+	const [roomImgFiles, setRoomImgFiles] = useState<File[]>([]);
 	const [checkedList, setCheckedList] = useState<number[]>(new Array(roomServiceCategory.length).fill(0));
 	const roomCategory = useRef<HTMLInputElement | null>(null);
 	const roomCount = useRef<HTMLInputElement | null>(null);
@@ -30,21 +30,21 @@ const OwnerRoomRegister = () => {
 		setCheckedList([...newCheckedList]);
 	};
 
-	const onEditHouseImgs = (index: number) => {
-		setHouseImgs((prevHouseImg) => {
-			return prevHouseImg.filter((_, i) => i !== index);
+	const onEditRoomImgs = (index: number) => {
+		setRoomImgs((prevRoomImg) => {
+			return prevRoomImg.filter((_, i) => i !== index);
 		});
-		setHouseImgFiles((prevHouseFile) => {
+		setRoomImgFiles((prevHouseFile) => {
 			return prevHouseFile.filter((_, i) => i !== index);
 		});
 	};
 
-	const onAddHouseImg = (data: string) => {
-		setHouseImgs([...houseImgs, data]);
+	const onAddRoomImg = (data: string) => {
+		setRoomImgs([...roomImgs, data]);
 	};
 
-	const onAddHouseImgFile = (data: string) => {
-		setHouseImgFiles([...houseImgFiles, base64ToFile(data, houseId + '')]);
+	const onAddRoomImgFile = (data: string) => {
+		setRoomImgFiles([...roomImgFiles, base64ToFile(data, houseId + '')]);
 	};
 
 	const { mutate } = useMutation({
@@ -61,7 +61,7 @@ const OwnerRoomRegister = () => {
 		const roomCategoryValue = roomCategory.current?.value;
 		const roomPriceValue = roomPrice.current?.value;
 
-		const formData = returnAddRoomFormData({ roomCountValue, roomCategoryValue, roomPriceValue, houseImgFiles, houseId, checkedList });
+		const formData = returnRoomFormData({ roomCountValue, roomCategoryValue, roomPriceValue, roomImgFiles, houseId, checkedList });
 		if (formData === 'false') {
 			return;
 		}
@@ -74,19 +74,19 @@ const OwnerRoomRegister = () => {
 			<RegisterInputWrapper>
 				<RegiRoomSubComp>
 					<RegiRoomSubTitle>객실 사진</RegiRoomSubTitle>
-					{!isListUploading && houseImgs.length !== 0 && (
+					{!isListUploading && roomImgs.length !== 0 && (
 						<SliderContainer>
-							<RoomImgSlider data={houseImgs} setData={onEditHouseImgs}></RoomImgSlider>
+							<RoomImgSlider data={roomImgs} setData={onEditRoomImgs}></RoomImgSlider>
 						</SliderContainer>
 					)}
 					{/*TODO: 이미지 작아졌을 때 */}
-					<ImageUploader width="320px" height="240px" setImage={onAddHouseImg} setImgFile={onAddHouseImgFile} setIsListUploading={setIsListUploading}>
-						{houseImgs.length === 0 ? (
+					<ImageUploader width="320px" height="240px" setImage={onAddRoomImg} setImgFile={onAddRoomImgFile} setIsListUploading={setIsListUploading}>
+						{roomImgs.length === 0 ? (
 							<SliderContainer>
 								<SliderContainerInnerAligner>이미지 등록</SliderContainerInnerAligner>
 							</SliderContainer>
 						) : (
-							houseImgs.length < 10 && <MoreImgBtn>추가 업로드</MoreImgBtn>
+							roomImgs.length < 10 && <MoreImgBtn>추가 업로드</MoreImgBtn>
 						)}
 					</ImageUploader>
 					<RegiRoomSubTitle>객실 정보</RegiRoomSubTitle>

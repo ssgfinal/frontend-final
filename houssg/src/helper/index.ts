@@ -15,7 +15,7 @@ import {
 import { getMyHouseListData, onRegiFunnelData } from './ownerFunction';
 
 // 객실 관련
-import { getTargetRoomData, addTargetRoom, returnAddRoomFormData } from './roomFunction';
+import { getTargetRoomData, addTargetRoom, returnRoomFormData, editTargetRoom } from './roomFunction';
 
 // 마이페이지 관련
 import { getCouponList, setCouponList } from './mypageFunction';
@@ -24,6 +24,6 @@ export { authLoginFunc, authSignUpFunc, kakaoLoginFunc, kakaoSignUp, nickCheckFu
 
 export { getMyHouseListData, onRegiFunnelData };
 
-export { getTargetRoomData, addTargetRoom, returnAddRoomFormData };
+export { getTargetRoomData, addTargetRoom, editTargetRoom, returnRoomFormData };
 
 export { getCouponList, setCouponList };
