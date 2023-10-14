@@ -15,10 +15,10 @@ import {
 import { getMyHouseListData, onRegiFunnelData } from './ownerFunction';
 
 // 객실 관련
-import { getTargetRoomData, addTargetRoom, returnAddRoomFormData } from './roomFunction';
+import { getTargetRoomData, addTargetRoom, returnRoomFormData, editTargetRoom } from './roomFunction';
 
 export { authLoginFunc, authSignUpFunc, kakaoLoginFunc, kakaoSignUp, nickCheckFunc, idCheckFunc, onPhoneUsableCheck, phoneAuthCheck, onFindId };
 
 export { getMyHouseListData, onRegiFunnelData };
 
-export { getTargetRoomData, addTargetRoom, returnAddRoomFormData };
+export { getTargetRoomData, addTargetRoom, editTargetRoom, returnRoomFormData };

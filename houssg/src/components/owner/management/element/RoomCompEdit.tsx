@@ -1,17 +1,26 @@
 import { useRef, useState } from 'react';
 import { RoomComp } from '../../../../types';
 import { styled } from 'styled-components';
-import { color } from '../../../../assets/styles';
-import { roomServiceCategory } from '../../../../assets/constant';
+import { color, flexCenter } from '../../../../assets/styles';
+import { roomKey, roomServiceCategory } from '../../../../assets/constant';
 import { CheckBox } from '../../register/element';
-import { RoomImgSlider } from '../../../common';
+import { ImageUploader, RoomImgSlider } from '../../../common';
 import { useFocusRef } from '../../../../hooks';
+import { base64ToFile } from '../../../../utils';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { editTargetRoom, returnRoomFormData } from '../../../../helper';
 
 const RoomCompEdit: React.FC<RoomComp> = ({ room, setIsEditMode }) => {
-	const [checkedList, setCheckedList] = useState<number[]>(new Array(roomServiceCategory.length).fill(0));
+	const queryClient = useQueryClient();
+
+	const [checkedList, setCheckedList] = useState<number[]>(room.service);
 	const newRoomCategory = useRef<HTMLInputElement | null>(null);
 	const newRoomCount = useRef<HTMLInputElement | null>(null);
 	const newRoomPrice = useRef<HTMLInputElement | null>(null);
+	const [roomImgs, setRoomImgs] = useState<string[]>(room.imgs);
+	const [roomImgFiles, setRoomImgFiles] = useState<File[]>([]);
+	const [isListUploading, setIsListUploading] = useState(false);
+	const sliderFocusRef = useRef<HTMLDivElement | null>(null);
 
 	useFocusRef(newRoomCategory, []);
 
@@ -21,20 +30,83 @@ const RoomCompEdit: React.FC<RoomComp> = ({ room, setIsEditMode }) => {
 		setCheckedList([...newCheckedList]);
 	};
 
+	const onEditRoomImgs = (index: number) => {
+		setRoomImgs((prevRoomImg) => {
+			return prevRoomImg.filter((_, i) => i !== index);
+		});
+		setRoomImgFiles((prevHouseFile) => {
+			return prevHouseFile.filter((_, i) => i !== index);
+		});
+	};
+
+	const onAddRoomImg = (data: string) => {
+		setRoomImgs([...roomImgs, data]);
+		if (sliderFocusRef.current) {
+			sliderFocusRef.current.scrollIntoView({
+				behavior: 'smooth',
+				block: 'center',
+				inline: 'center',
+			});
+		}
+	};
+
+	const onAddRoomImgFile = (data: string) => {
+		setRoomImgFiles([...roomImgFiles, base64ToFile(data, room.accomNumber + '')]);
+	};
+
+	const { mutate } = useMutation({
+		mutationFn: (formData: FormData) => editTargetRoom(formData),
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: [roomKey.targetRoom, room.accomNumber] });
+			// alert('성공');
+			// TODO: setIsEditMode(false)
+		},
+	});
+
 	const onRoomEdit = () => {
-		const newCategory = newRoomCategory.current?.value;
-		const newCount = newRoomCount.current?.value;
-		const newPrice = newRoomPrice.current?.value;
-		//TODO: 수정 추가 후, 콘솔 지우기
-		console.log(newCategory, newCount, newPrice);
+		const roomCategoryValue = newRoomCategory.current?.value;
+		const roomCountValue = newRoomCount.current?.value;
+		const roomPriceValue = newRoomPrice.current?.value;
+		const houseId = room.accomNumber + '';
+		const resistImgs = roomImgs.filter((imageUrl) => imageUrl.startsWith('http'));
+
+		if (
+			roomCategoryValue === room.roomCategory &&
+			roomCountValue === room.roomAvailability + '' &&
+			roomPriceValue === room.roomPrice + '' &&
+			resistImgs.length === room.imgs.length &&
+			!roomImgFiles.length &&
+			checkedList === room.service
+		) {
+			setIsEditMode(false);
+			return;
+		}
+
+		const formData = returnRoomFormData({ roomCountValue, roomCategoryValue, roomPriceValue, roomImgFiles, houseId, checkedList, resistImgs });
+		if (formData === 'false') {
+			return;
+		}
+		mutate(formData);
 	};
 
 	return (
 		<RoomEditWrapper>
-			<InstructionText>객실 수정...</InstructionText>
-			<SliderContainer>
-				<RoomImgSlider data={room.imgs}></RoomImgSlider>
-			</SliderContainer>
+			<InstructionText>객실 수정중...</InstructionText>
+			{!isListUploading && roomImgs.length !== 0 && (
+				<SliderContainer ref={sliderFocusRef}>
+					<RoomImgSlider data={roomImgs} setData={onEditRoomImgs}></RoomImgSlider>
+				</SliderContainer>
+			)}
+			{/*TODO: 이미지 작아졌을 때 */}
+			<ImageUploader width="320px" height="240px" setImage={onAddRoomImg} setImgFile={onAddRoomImgFile} setIsListUploading={setIsListUploading}>
+				{roomImgs.length === 0 ? (
+					<SliderContainer>
+						<SliderContainerInnerAligner>이미지 등록</SliderContainerInnerAligner>
+					</SliderContainer>
+				) : (
+					roomImgs.length < 10 && <MoreImgBtn>추가 업로드</MoreImgBtn>
+				)}
+			</ImageUploader>
 			<RoomEditContainer>
 				<RoomEditTitle>종류</RoomEditTitle>
 				<RoomEditInput type="text" defaultValue={room.roomCategory} ref={newRoomCategory}></RoomEditInput>
@@ -42,13 +114,13 @@ const RoomCompEdit: React.FC<RoomComp> = ({ room, setIsEditMode }) => {
 				<RoomEditInput type="number" defaultValue={room.roomAvailability} ref={newRoomCount}></RoomEditInput>
 				<RoomEditTitle>가격</RoomEditTitle>
 				<RoomEditInput type="number" defaultValue={room.roomPrice} ref={newRoomPrice}></RoomEditInput>
-				<RoomEditDetailTitle>시설 및 서비스</RoomEditDetailTitle>
-				<RoomServiceContainer>
-					{roomServiceCategory.map((service, i) => (
-						<CheckBox key={service.value} element={service} index={i} isChecked={!!checkedList[i]} setCheckedList={onChangeCheckedList} />
-					))}
-				</RoomServiceContainer>
 			</RoomEditContainer>
+			<RoomEditDetailTitle>시설 및 서비스</RoomEditDetailTitle>
+			<RoomServiceContainer>
+				{roomServiceCategory.map((service, i) => (
+					<CheckBox key={service.value} element={service} index={i} isChecked={!!checkedList[i]} setCheckedList={onChangeCheckedList} />
+				))}
+			</RoomServiceContainer>
 			<RoomEditCancelButton onClick={onRoomEdit}>수정완료</RoomEditCancelButton>
 			<RoomEditCancelButton
 				onClick={() => {
@@ -71,6 +143,8 @@ const RoomEditWrapper = styled.div`
 
 const InstructionText = styled.div`
 	margin: 1rem auto;
+	font-weight: 600;
+	font-size: 1.2rem;
 `;
 
 const SliderContainer = styled.div<{ $isLoading?: boolean }>`
@@ -105,7 +179,7 @@ const RoomEditTitle = styled.div`
 `;
 
 const RoomEditDetailTitle = styled.div`
-	margin-top: 0.3rem;
+	margin-top: 0.5rem;
 	color: ${color.color1};
 	font-size: 1rem;
 	font-weight: bold;
@@ -166,13 +240,17 @@ const RoomEditContainer = styled.div`
 `;
 
 const RoomServiceContainer = styled.div`
-	grid-column-start: 1;
-	grid-column-end: 3;
 	display: flex;
 	flex-wrap: wrap;
-	justify-content: flex-start;
+	justify-content: center;
 	color: ${color.darkGrayColor};
+	margin-top: 0.5rem;
 
+	@media screen and (max-width: 500px) {
+		max-width: 280px;
+		margin-inline: auto;
+		gap: 0.5rem;
+	}
 	@media (max-width: 300px) {
 		font-size: 0.8rem;
 	}
@@ -190,4 +268,26 @@ const RoomEditCancelButton = styled.button`
 	&:hover {
 		color: ${color.color1};
 	}
+`;
+
+const SliderContainerInnerAligner = styled.div`
+	${flexCenter}
+	width: 100%;
+	height: 100%;
+	border: 1px solid #ccc;
+	border-radius: 10px;
+	min-height: 400px;
+	min-width: 280px;
+`;
+
+const MoreImgBtn = styled.div`
+	background-color: ${color.color3};
+	color: ${color.backColor};
+	font-size: 0.9rem;
+	padding: 0.5rem;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border-radius: 4px;
+	font-weight: 500;
 `;

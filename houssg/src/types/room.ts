@@ -21,9 +21,11 @@ interface AddRoomProps {
 	roomCountValue?: string;
 	roomCategoryValue?: string;
 	roomPriceValue?: string;
-	houseImgFiles: File[];
+	roomImgFiles: File[];
 	houseId?: string;
 	checkedList: number[];
+	roomNumber?: string;
+	resistImgs?: string[];
 }
 
 export type { RoomDataType, RoomData, RoomComp, AddRoomProps };
