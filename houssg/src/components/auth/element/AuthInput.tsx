@@ -19,7 +19,7 @@ const AuthInput: React.FC<AuthInputType> = ({ title, password, setValue, reg, ke
 		setInputValue(e.target.value);
 	};
 
-	const debouncedValue = useDebounce(inputValue, 200);
+	const debouncedValue = useDebounce(inputValue, 100);
 	useEffect(() => {
 		if (debouncedValue) {
 			if (reg) {
