@@ -14,6 +14,10 @@ const RoomReviewComp: React.FC<{ review: OwnerHouseReviewType }> = ({ review }) 
 		dispatch(openModal({ modalComponent: component, modalSize: modalSize, modalText: message }));
 	};
 
+	const onOpenReportModal = () => {
+		modalOpen('declaration', review.reviewNumber + '');
+	};
+
 	return (
 		<>
 			<ReviewWrapper>
@@ -21,13 +25,7 @@ const RoomReviewComp: React.FC<{ review: OwnerHouseReviewType }> = ({ review }) 
 					<ReviewDate>{hourClock(review.reviewCreationTime)}</ReviewDate>
 					<ReviewWriter>{review.nickname}</ReviewWriter>
 					<DeclarationContainer>
-						<DeclarationBox
-							src={declarationIcon}
-							onClick={() => {
-								modalOpen('declaration', null);
-							}}
-							alt="신고하기"
-						></DeclarationBox>
+						<DeclarationBox src={declarationIcon} onClick={onOpenReportModal} alt="신고하기"></DeclarationBox>
 						&nbsp;<span>신고하기</span>
 					</DeclarationContainer>
 					<ReviewRoomType>{review.roomCategory}</ReviewRoomType>

@@ -24,6 +24,7 @@ export const RoomList = () => {
 	if (isLoading) {
 		return <div>로딩중...</div>;
 	}
+	console.log(data);
 
 	return <Wrapper>{isSuccess && data.data.map((room) => <RoomDetail key={room.roomNumber} room={room} />)}</Wrapper>;
 };

@@ -17,7 +17,10 @@ const ManageReview: React.FC<{ accomNumber: number }> = ({ accomNumber }) => {
 	);
 
 	isSuccess && console.log(data);
-	isError && console.log(error, 'error');
+	if (isError) {
+		console.log(error, 'error');
+		return <div>실패...</div>;
+	}
 
 	if (isLoading) {
 		return <div>로딩중...</div>;
