@@ -4,14 +4,13 @@ import { RoomComp } from '../../../../types';
 import { moreIcon } from '../../../../assets/icons';
 import { color } from '../../../../assets/styles';
 import { roomServiceCategory } from '../../../../assets/constant';
+import { RoomImgSlider } from '../../../common';
 
 const RoomCompRead: React.FC<RoomComp> = ({ room, setIsEditMode }) => {
 	const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 	const toggleDropdown = () => {
 		setIsDropdownOpen(!isDropdownOpen);
 	};
-	// TODO:
-	console.log(room);
 
 	return (
 		<RoomContainer>
@@ -31,7 +30,9 @@ const RoomCompRead: React.FC<RoomComp> = ({ room, setIsEditMode }) => {
 					</ButtonAligner>
 				)}
 			</DropdownBox>
-			<RoomImg src={'TODO:추후 반영'} />
+			<SliderContainer>
+				<RoomImgSlider data={room.imgs}></RoomImgSlider>
+			</SliderContainer>
 			<RoomContent>
 				<RoomSubTitle>
 					<span>개수</span>
@@ -43,9 +44,7 @@ const RoomCompRead: React.FC<RoomComp> = ({ room, setIsEditMode }) => {
 				<RoomSubContent>{room.roomPrice.toLocaleString()}원</RoomSubContent>
 				<InfoTitleText>시설 및 서비스</InfoTitleText>
 				<ServiceContainer>
-					{/* 추후 벡엔드 고치면 46번줄 제거 */}
-					{!!room.service &&
-						room.service.map((service, i) => !!service && <ManageReadService key={i} src={roomServiceCategory[i].icon}></ManageReadService>)}
+					{room.service.map((service, i) => !!service && <ManageReadService key={i} src={roomServiceCategory[i].icon}></ManageReadService>)}
 				</ServiceContainer>
 			</RoomContent>
 		</RoomContainer>
@@ -54,23 +53,6 @@ const RoomCompRead: React.FC<RoomComp> = ({ room, setIsEditMode }) => {
 
 export default RoomCompRead;
 
-const RoomImg = styled.img`
-	width: 95%;
-	border-radius: 0.5rem;
-	grid-column-start: 1;
-	grid-column-end: 2;
-	grid-row-start: 2;
-	grid-row-end: 3;
-
-	@media (max-width: 800px) {
-		justify-self: center;
-		width: 80%;
-		grid-column-start: 1;
-		grid-column-end: 3;
-		margin: 1rem;
-	}
-`;
-
 const RoomContainer = styled.div`
 	padding-bottom: 1rem;
 	margin: 0.5rem;
@@ -78,6 +60,15 @@ const RoomContainer = styled.div`
 
 	@media (max-width: 800px) {
 		grid-template-columns: 12fr 1fr;
+	}
+`;
+
+const SliderContainer = styled.div`
+	width: 100%;
+	max-width: 15rem;
+	margin: 0 auto;
+	@media screen and (max-width: 800px) {
+		max-width: 18rem;
 	}
 `;
 

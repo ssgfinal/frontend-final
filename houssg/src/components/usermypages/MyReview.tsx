@@ -1,102 +1,74 @@
-import styled from 'styled-components';
-// import { useEffect, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
+
+import { userKey } from '../../assets/constant/queryKey';
+import { MyReviewList } from '../../types';
+import { getMyReviewList } from '../../helper';
 import Rating from '../common/Rating';
-import { color } from '../../assets/styles';
 import hourClock from '../../utils/hourClock';
 
-// TODO: 서버 > 나의 후기 목록
-// import api from '../../api/api';
-// import { userUrl } from '../../assets/constant/urlConst';
+import { color } from '../../assets/styles';
 
-interface ReviewList {
-	reviews: {
-		reviewNumber: number;
-		reservationNumber: number;
-		houseId: number;
-		accomName: string;
-		userId: string;
-		roomType: string;
-		writeDate: string;
-		reviewImage: string | null;
-		rating: number;
-		content: string;
-		commentDate: string | null;
-		commentContent: string | null;
-	}[];
-}
-
-const MyReview: React.FC<ReviewList> = ({ reviews }) => {
+const MyReview = () => {
 	const navigate = useNavigate();
 
-	// const [myReview, setMyReview] = useState(reviews);
+	// 나의 후기 목록
+	const { isLoading, data, isSuccess, isError, error } = useQuery<{ data: MyReviewList[] }>([userKey.myReview], () => getMyReviewList(), {
+		cacheTime: 5 * 60 * 1000,
+		staleTime: 2 * 60 * 1000,
+		retry: 2,
+	});
 
-	//TODO: 403 error >> payload : 닉네임
-	/* 백로그 >> 2023-10-09T09:08:23.627Z  WARN 1 --- [nio-3200-exec-7] 
-	.w.s.m.s.DefaultHandlerExceptionResolver :
-	 Resolved [org.springframework.web.bind.MissingServletRequestParameterException:
-		 Required request parameter 'nickname' for method parameter type String is not present]
-	*/
+	isError && console.log(error, 'error');
 
-	// const myReviewList = async (userNickName: string) => {
-	// 	try {
-	// 		const response = await api.post(userUrl.myReview, { nickname: userNickName });
-	// 		console.log('resp' + response);
-	// 		console.log('resp.data' + response.data);
-	// 		setMyReview(response.data);
-	// 	} catch (error) {
-	// 		console.error(error);
-	// 	}
-	// };
-
-	// useEffect(() => {
-	// 	const userNickName = sessionStorage.getItem('nickname');
-	// 	myReviewList(userNickName!);
-	// TODO: 서버 연결 후 수정
-	// eslint-disable-next-line react-hooks/exhaustive-deps
-	// }, []);
+	if (isLoading) {
+		return <div>로딩중...</div>;
+	}
 
 	return (
-		<MyReviewWrapper>
-			{reviews.length === 0 ? (
-				<GrayFont>작성한 후기가 없습니다.😢</GrayFont>
-			) : (
-				<MyReviewContainer>
-					{reviews.map((review, index) => (
-						<div key={index}>
-							<MyReviewBox>
-								<HouseBox
-									onClick={() => {
-										navigate(`/user/house/${review.houseId}`);
-									}}
-								>
-									{review.accomName}&nbsp;({review.reservationNumber})<input type="hidden" value={review.houseId} />
-									<ArrowBox>&gt;</ArrowBox>
-								</HouseBox>
-								<RoomBox>{review.roomType}</RoomBox>
-								<RateBox>
-									<Rating rate={review.rating} readonly />
-								</RateBox>
-								<DateBox>{hourClock(review.writeDate)}</DateBox>
-								<ContentsBox>
-									<ContentBox>
-										<ImageBox>{review.reviewImage && <img src={review.reviewImage} />}</ImageBox>
-										{review.reviewImage ? <TextareaField>{review.content}</TextareaField> : <NonImageField>{review.content}</NonImageField>}
-									</ContentBox>
-								</ContentsBox>
-							</MyReviewBox>
-							{review.commentDate && (
-								<CommentContainer>
-									<HouseReviewNickName>💌 숙소 답변</HouseReviewNickName>
-									<HouseReviewDate>{hourClock(review.commentDate)}</HouseReviewDate>
-									<HouseReviewContent>{review.commentContent}</HouseReviewContent>
-								</CommentContainer>
-							)}
-						</div>
-					))}
-				</MyReviewContainer>
-			)}
-		</MyReviewWrapper>
+		isSuccess && (
+			<MyReviewWrapper>
+				{data.data.length === 0 ? (
+					<GrayFont>작성한 후기가 없습니다.😢</GrayFont>
+				) : (
+					<MyReviewContainer>
+						{data.data.map((review, index) => (
+							<div key={index}>
+								<MyReviewBox>
+									<HouseBox
+										onClick={() => {
+											navigate(`/user/house/${review.accomNumber}`);
+										}}
+									>
+										{review.accomName}&nbsp;({review.reservationNumber})<input type="hidden" value={review.accomNumber} />
+										<ArrowBox>&gt;</ArrowBox>
+									</HouseBox>
+									<RoomBox>{review.roomCategory}</RoomBox>
+									<RateBox>
+										<Rating rate={review.reviewRating} readonly />
+									</RateBox>
+									<DateBox>{hourClock(review.reviewCreationTime)}</DateBox>
+									<ContentsBox>
+										<ContentBox>
+											<ImageBox>{review.img && <img src={review.img} />}</ImageBox>
+											{review.img ? <TextareaField>{review.reviewContent}</TextareaField> : <NonImageField>{review.reviewContent}</NonImageField>}
+										</ContentBox>
+									</ContentsBox>
+								</MyReviewBox>
+								{review.reviewCommentTime && (
+									<CommentContainer>
+										<HouseReviewNickName>💌 숙소 답변</HouseReviewNickName>
+										<HouseReviewDate>{hourClock(review.reviewCommentTime)}</HouseReviewDate>
+										<HouseReviewContent>{review.reviewComment}</HouseReviewContent>
+									</CommentContainer>
+								)}
+							</div>
+						))}
+					</MyReviewContainer>
+				)}
+			</MyReviewWrapper>
+		)
 	);
 };
 

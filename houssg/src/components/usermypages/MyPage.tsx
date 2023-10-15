@@ -1,160 +1,28 @@
+import { useState, useRef } from 'react';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { styled } from 'styled-components';
-import { useState, useRef, useEffect } from 'react';
-import { TabMenu } from '../common/TabMenu';
+
 import MyCoupons from './MyCoupons';
 import MyInformation from './MyInformation';
 import MyReview from './MyReview';
 import MyFavorite from './MyFavorite';
+
+import { TabMenu } from '../common/TabMenu';
+import { setMyCouponList } from '../../helper';
+import { userKey } from '../../assets/constant/queryKey';
+
 import { color } from '../../assets/styles';
 import { CouponIcon, MyPointIcon, ProfileCircle } from '../../assets/icons';
 
-// TODO: 더미데이터
-import { accomodation } from '../../assets/icons';
-
-// TODO: 서버 > 쿠폰등록
-// import api from '../../api/api';
-// import { userUrl } from '../../assets/constant/urlConst';
-
-const mypagemain: { userPoint: number; userPassword: string }[] = [
-	{
-		userPoint: 1000,
-		userPassword: '1q2w3e4r!',
-	},
-];
-
-const coupons = [
-	{
-		userId: 'hjr123',
-		couponNumber: '123456724124',
-		couponName: '10월 한글날 이벤트',
-		isUsed: 0,
-		couponDiscount: 10000,
-		expitationDate: '2023-09-30 18:00:00',
-	},
-	{
-		userId: 'abc',
-		couponNumber: '231721984721',
-		couponName: '10월 한글날 빅세일',
-		isUsed: 0,
-		couponDiscount: 50000,
-		expitationDate: '2023-09-30 18:00:00',
-	},
-];
-
-const reviews: {
-	reviewNumber: number;
-	reservationNumber: number;
-	houseId: number;
-	accomName: string;
-	userId: string;
-	roomType: string;
-	writeDate: string;
-	reviewImage: string | null;
-	rating: number;
-	content: string;
-	commentDate: string | null;
-	commentContent: string | null;
-}[] = [
-	{
-		reviewNumber: 1,
-		reservationNumber: 7654321,
-		houseId: 1234,
-		accomName: '가나다 Hotel',
-		userId: 'abc',
-		roomType: '패밀리룸',
-		writeDate: '2023-09-10 18:00:00',
-		reviewImage: accomodation,
-		rating: 3.5,
-		content:
-			'안녕하십니까 250자 글자 테스트 중입니다 과연 250자가 될까요?? 맥스렝스 썼는데 될지 안 될지 모르겠지만 250자가 그렇게 긴 글이 아니면서도 또 긴 글자이기도 하고 어떡하지 더이상은 쓸 내용이 없는데 언제까지 써야할까요??이제 진짜 없는데 언제까지 테스트로 글을 쓰고 있어야 하는지 제발 살려줘 이제 그만 멈춰 이 텍스트애리어 자식아 그만해라 250자 이제 넘은 거 같은데 언제까지 쳐야하는 건지 뉴뉴뉴뉴 이제 그만 치게 해줘 살려줘 언제까',
-		commentDate: null,
-		commentContent: null,
-	},
-	{
-		reviewNumber: 2,
-		reservationNumber: 7654321,
-		houseId: 1234,
-		accomName: '라마바 Hotel',
-		userId: 'abc',
-		roomType: '더블룸',
-		writeDate: '2023-09-12 18:00:00',
-		reviewImage: accomodation,
-		rating: 3.5,
-		content:
-			'보통이네용 후기를 작성해야 하는데 작성하기 싫어용 근데 써야해요 어쩌죠? 쓸 내용이 없습니다. 이제 없음 진짜 없음 어떡하지ㅠㅠㅠㅠ하지만 써야하겠죠 가나다라마바사아자차카타파하',
-		commentDate: '2023-09-13 18:00:00',
-		commentContent: '감사용~~~',
-	},
-	{
-		reviewNumber: 3,
-		reservationNumber: 7664371,
-		houseId: 1235,
-		accomName: '사아자 Hotel',
-		userId: 'hjr123',
-		roomType: '스위트룸',
-		writeDate: '2023-09-13 18:00:00',
-		reviewImage: null,
-		rating: 4.0,
-		content:
-			'Lorem ipsum dolor sit amet consectetur adipisicing elit. Itaque, fugiat adipisci deserunt porro quia totam provident animi nemo labore temporibus voluptatem mollitia nostrum assumenda enim similique in doloribus eos consequatur.',
-		commentDate: '2023-09-14 18:00:00',
-		commentContent: '감사해용~~~',
-	},
-];
-
-const favorites: { houseId: number; accomName: string; houseAddress: string; userId: string; rating: number; favorite: boolean }[] = [
-	{
-		houseId: 1235,
-		accomName: '사아자 Hotel',
-		houseAddress: '강원도 영월군 무릉도원면 명마동길 44-37',
-		userId: 'hjr123',
-		rating: 4.0,
-		favorite: true,
-	},
-	{
-		houseId: 1234,
-		accomName: '라마바 Hotel',
-		houseAddress: '전라북도 전주시 완산구 향교길 23-3',
-		userId: 'abc',
-		rating: 3.5,
-		favorite: true,
-	},
-];
-
 const MyPage = () => {
 	const userNickName = sessionStorage.getItem('nickname');
-
-	// const [mypagemain, setMypagemain] = useState(null);
-	const [mypage, setMypage] = useState(mypagemain);
-	const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+	const userPoint = sessionStorage.getItem('point');
 	const newCoupon = useRef<HTMLInputElement | null>(null);
 
-	const myPageData = async () => {
-		try {
-			// const response = await api.post(userUrl.mypage);
-			const resp = mypage;
-			const data = [...resp];
-			// setMypage(response.data);
-			setMypage(data);
-		} catch (error) {
-			console.error(error);
-		}
-	};
-
-	useEffect(() => {
-		myPageData();
-		// TODO: 서버 연결 후 수정
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
+	const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
 	const toggleDropdown = () => {
 		setIsDropdownOpen(!isDropdownOpen);
-	};
-
-	const onRegistration = () => {
-		// TODO: 입력한 쿠폰 등록
-		const couponValue = newCoupon.current?.value;
-		console.log(couponValue);
 	};
 
 	const tabObj = [
@@ -165,18 +33,43 @@ const MyPage = () => {
 
 	const [clickTab, setClickTab] = useState<string>('MyInformation');
 
+	// 쿠폰 등록
+	const queryClient = useQueryClient();
+
+	const { mutate } = useMutation((couponNumber: string) => setMyCouponList(couponNumber), {
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: [userKey.myCoupon] });
+			alert('등록완료');
+		},
+		onError: (error) => {
+			console.log(error);
+			alert('등록실패');
+		},
+	});
+
+	const onRegistration = () => {
+		const couponNumber = newCoupon.current?.value;
+
+		if (newCoupon.current && couponNumber) {
+			mutate(couponNumber);
+		} else if (couponNumber === '') {
+			alert('쿠폰번호를 입력해주세요.');
+		}
+	};
+
 	return (
 		<MyPageWrapper>
 			<MyPageMainContainer>
 				<MyPageMainBox>
 					<MyNickName>
 						<IconImg src={ProfileCircle} />
-						<span>&nbsp;{userNickName}님</span>
+						{userNickName !== null ? <span>&nbsp;{userNickName}님</span> : <span>&nbsp;_님</span>}
 					</MyNickName>
 					<MyPoint>
 						<IconImg src={MyPointIcon} />
-						<span>&nbsp;{mypagemain[0].userPoint.toLocaleString()}P</span>
+						{userPoint !== null ? <span>&nbsp;{userPoint.toLocaleString()}P</span> : <span>&nbsp;0P</span>}
 					</MyPoint>
+
 					<MyCoupon>
 						<IconImg src={CouponIcon} />
 						<div>
@@ -190,11 +83,7 @@ const MyPage = () => {
 								<button onClick={onRegistration}>등록</button>
 							</CouponRegistration>
 							<DropCouponList>
-								{coupons.map((coupon, index) => (
-									<div key={index}>
-										<MyCoupons coupons={coupon} />
-									</div>
-								))}
+								<MyCoupons />
 							</DropCouponList>
 						</DropdownContent>
 					)}
@@ -208,13 +97,7 @@ const MyPage = () => {
 				<div></div>
 			</MyPageTabContainer>
 			<MyPageContentsContainer>
-				{clickTab === 'MyInformation' ? (
-					<MyInformation />
-				) : clickTab === 'MyReview' ? (
-					<MyReview reviews={reviews} />
-				) : (
-					<MyFavorite favorites={favorites} />
-				)}
+				{clickTab === 'MyInformation' ? <MyInformation /> : clickTab === 'MyReview' ? <MyReview /> : <MyFavorite />}
 			</MyPageContentsContainer>
 		</MyPageWrapper>
 	);

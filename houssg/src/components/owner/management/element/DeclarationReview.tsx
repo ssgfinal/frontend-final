@@ -1,16 +1,18 @@
 import styled from 'styled-components';
 import { useRef } from 'react';
 import { color } from '../../../../assets/styles';
-import { useAppDispatch } from '../../../../hooks';
-import { closeModal } from '../../../../store/redux/modalSlice';
+import { useAppDispatch, useAppSelector } from '../../../../hooks';
+import { closeModal, modalText } from '../../../../store/redux/modalSlice';
 
 const DeclarationReview = () => {
 	const declarationOption = useRef<HTMLSelectElement | null>(null);
 	const dispatch = useAppDispatch();
+	const reportReviewId = useAppSelector(modalText);
 
 	const onDeclaration = () => {
 		const declarationReason = declarationOption.current?.value;
 		//TODO: 신고하기~콘솔 지우기
+		console.log(reportReviewId);
 		console.log(declarationReason);
 		dispatch(closeModal());
 	};

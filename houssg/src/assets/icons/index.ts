@@ -3,7 +3,7 @@ import MyHeartIcon from './myheart.svg'; //보라 하트
 import deleteIcon from './deleteIcon.svg'; // 휴지통
 import ReviewIcon from './review.svg'; // 리뷰
 import Desert from './Desert.jpg'; // 배너
-import accomodation from './숙소대표이미지1.jpg'; // 숙소
+import accomodation from './숙소대표이미지1.jpg'; // 숙소 예약확인에서는 미사용
 import houssg from './houssg.svg'; // 글자로고
 
 //기타

@@ -8,6 +8,7 @@ import { openModal } from '../../store/redux/modalSlice';
 import { isLoginFunc } from '../../utils';
 import { RoomDataType, ServiceList } from '../../types';
 import { roomServiceCategory } from '../../assets/constant';
+import { RoomImgSlider } from '../common';
 
 interface RoomDetailProps {
 	room: RoomDataType;
@@ -43,7 +44,9 @@ export const RoomDetail: React.FC<RoomDetailProps> = ({ room, houseId, houseName
 
 	return (
 		<Wrapper>
-			<RoomImg src={room.roomImg} alt="객실 이미지" />
+			<SliderContainer>
+				<RoomImgSlider data={room.imgs}></RoomImgSlider>
+			</SliderContainer>
 			<Info>
 				<Type>{room.roomCategory}</Type>
 				<div>시설 및 서비스</div>
@@ -68,17 +71,13 @@ export const RoomDetail: React.FC<RoomDetailProps> = ({ room, houseId, houseName
 	);
 };
 
+export default RoomDetail;
 const Wrapper = styled.div`
 	padding: 2rem;
 	border-radius: 1rem;
 	display: grid;
 	grid-gap: 1rem;
 	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-`;
-
-const RoomImg = styled.img`
-	width: 100%;
-	border-radius: 1rem;
 `;
 
 const Info = styled.div`
@@ -132,4 +131,15 @@ const Button = styled.button`
 	border: none;
 	border-radius: 1rem;
 	color: white;
+`;
+
+const SliderContainer = styled.div`
+	width: 100%;
+	max-width: 15rem;
+	margin: 0 auto;
+	border-radius: 1rem;
+
+	@media screen and (max-width: 800px) {
+		max-width: 18rem;
+	}
 `;

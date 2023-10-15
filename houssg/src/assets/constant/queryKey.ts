@@ -1,9 +1,18 @@
 const ownerKey = {
 	myHouseList: 'myHouseList',
+	houseReview: 'houseReview',
 };
 
 const roomKey = {
 	targetRoom: 'targetRoom',
 };
 
-export { ownerKey, roomKey };
+const userKey = {
+	myCoupon: 'myCoupon',
+	enrollCoupon: 'enrollCoupon',
+	myReview: 'myReview',
+	myFavorite: 'myFavorite',
+	myReservation: 'myReservation',
+};
+
+export { ownerKey, roomKey, userKey };

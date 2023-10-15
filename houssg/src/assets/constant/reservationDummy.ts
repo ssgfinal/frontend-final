@@ -2,6 +2,7 @@
 
 import { accomodation } from '../icons';
 
+// TODO: 제거 사업자는 안씀
 export const ReviewDummy = [
 	{
 		review_writer: '무조',

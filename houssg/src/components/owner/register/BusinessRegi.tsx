@@ -6,14 +6,17 @@ import { useEffect } from 'react';
 import { HouseRegiEachWrapper, UserReservationTitle, color, SmallIndicatorText } from '../../../assets/styles';
 import { RegiStepProps } from '../../../types';
 import { StepMover } from './element';
+import { ownerUrl } from '../../../assets/constant';
+import api from '../../../api/api';
 
 const BusinessRegi: React.FC<RegiStepProps> = ({ goStep, step, funnelState }) => {
-	const [isLoading, setIsLoading] = useState(true);
+	const [isLoading, setIsLoading] = useState(false);
 	const [isRegistered, setIsRegistered] = useState(false);
 	const { imgRef, imgFile, setIncodedImg } = useImageConverter();
-	const [businessData, setBusinessData] = useState<{ name: string; businessNum: number; businessImg: string }>({
+	const [businessImgFile, setBusinessImgFile] = useState<File>();
+	const [businessData, setBusinessData] = useState<{ name: string; businessNum: string; businessImg: string }>({
 		name: '',
-		businessNum: 0,
+		businessNum: '',
 		businessImg: '',
 	});
 
@@ -23,29 +26,37 @@ const BusinessRegi: React.FC<RegiStepProps> = ({ goStep, step, funnelState }) =>
 			setBusinessData({ name: funnelState.name, businessNum: funnelState.businessNum, businessImg: funnelState.businessImg });
 			setIsRegistered(true);
 		}
-		setIsLoading(false);
 	}, [funnelState]);
 
 	// 이미지 선택
 	const onChangeBusinessImg = async () => {
-		const result = await setIncodedImg();
-		if (result !== 'cancle') {
-			setBusinessData({ ...businessData, businessImg: result });
-			setIsRegistered(false);
+		const selectedFile = imgRef.current?.files ? imgRef.current.files[0] : null;
+		if (selectedFile) {
+			const result = await setIncodedImg();
+			if (result !== 'cancle') {
+				setBusinessData({ ...businessData, businessImg: result });
+				setBusinessImgFile(selectedFile);
+				setIsRegistered(false);
+			}
 		}
 	};
-
 	// 등록 완료
-	const onRegister = () => {
-		if (imgFile) {
-			setIsRegistered(true);
-			setBusinessData({ name: '숙소에서 받은 상호22', businessNum: 333312322, businessImg: imgFile });
+	const onCheckOCRImage = async () => {
+		if (!isLoading && imgFile && businessImgFile) {
+			const formData = new FormData();
+			formData.append('file', businessImgFile);
+			setIsLoading(true);
+			try {
+				const { data } = await api.post(ownerUrl.checkBusinessNumber, formData, { headers: { 'Content-Type': 'multipart/form-data' } });
+				setBusinessData({ name: data.accomName, businessNum: data.businessNumber, businessImg: imgFile });
+				setIsRegistered(true);
+			} catch (err) {
+				alert('사업자 인증에 실패했습니다');
+			} finally {
+				setIsLoading(false);
+			}
 		}
 	};
-
-	if (isLoading) {
-		return null;
-	}
 
 	return (
 		<HouseRegiEachWrapper>
@@ -54,25 +65,35 @@ const BusinessRegi: React.FC<RegiStepProps> = ({ goStep, step, funnelState }) =>
 			<div>
 				<InputWrapper>
 					{!isRegistered && <InstructionLabel>{imgFile ? '사업자 등록을 진행해주세요' : '견본을 클릭해서 등록해주세요'}</InstructionLabel>}
-					<FileRegiInput type="file" accept="image/*" onChange={onChangeBusinessImg} ref={imgRef} />
+					<FileRegiInput type="file" accept=".png, .jpg" onChange={onChangeBusinessImg} ref={imgRef} />
 					<StyledImg
-						onClick={() => imgRef.current?.click()}
+						$isLoading={isLoading}
+						$isRegistered={isRegistered}
+						onClick={() => !isLoading && !isRegistered && imgRef.current?.click()}
 						src={businessData.businessImg ? businessData.businessImg : ownerRegiImg}
 						alt="사업자 이미지"
 					/>
 				</InputWrapper>
 				{!businessData.businessImg ? (
-					<InstructionBottomText>이미지 등록시 유의해야 할 조건들을 대충 나열한 글,, 나중에 구체화 되면 반영할듯</InstructionBottomText>
-				) : !isRegistered ? (
-					<button onClick={onRegister}>사업자 등록</button>
+					<InstructionBottomText>
+						견본과 유사한 양식의 png, jpg의
+						<br /> 사업자 등록증을 업로드 해주세요
+					</InstructionBottomText>
 				) : (
-					<SmallIndicatorText>이미지 클릭으로 수정</SmallIndicatorText>
+					!isRegistered && (
+						<>
+							<SmallIndicatorText>이미지 클릭으로 수정</SmallIndicatorText>
+							<BusinessRegiBtn $isLoading={isLoading} onClick={onCheckOCRImage}>
+								사업자 등록
+							</BusinessRegiBtn>
+						</>
+					)
 				)}
 			</div>
 			{isRegistered && (
 				<div>
-					<div>숙소명 :{businessData.name} </div>
-					<div>사업자 번호 : {businessData.businessNum}</div>
+					<RegisteredInfoText>숙소명 : {businessData.name} </RegisteredInfoText>
+					<RegisteredInfoText>사업자 번호 : {businessData.businessNum}</RegisteredInfoText>
 				</div>
 			)}
 			<StepMover inactive={!isRegistered} goStep={goStep} step={step} data={businessData} />
@@ -99,15 +120,43 @@ const InputWrapper = styled.div`
 	align-items: center;
 `;
 
-const StyledImg = styled.img`
-	width: 18rem;
+const StyledImg = styled.img<{ $isLoading: boolean; $isRegistered: boolean }>`
+	max-width: 18rem;
 	object-fit: contain;
-	cursor: pointer;
+	cursor: ${(props) => !props.$isRegistered && 'pointer'};
+	cursor: ${(props) => props.$isLoading && 'wait'};
+
 	margin: 0.5rem 0;
 	min-height: 50px;
 	min-width: 50px;
 `;
 
 const InstructionBottomText = styled.div`
-	width: 18rem;
+	max-width: 18rem;
+	color: ${color.color3};
+	font-weight: 600;
+	line-height: 1.2rem;
+`;
+
+const RegisteredInfoText = styled.div`
+	margin-bottom: 0.5rem;
+	font-weight: 600;
+	font-size: 1rem;
+	@media screen and (max-width: 400px) {
+		font-size: 0.8rem;
+	}
+`;
+
+const BusinessRegiBtn = styled.div<{ $isLoading: boolean }>`
+	cursor: pointer;
+	font-weight: 900;
+	color: ${color.color2};
+	height: 1.2rem;
+	transition: color 0.1s, font-size 0.1s;
+	cursor: ${(props) => props.$isLoading && 'wait'};
+
+	&:hover {
+		color: ${color.color1};
+		font-size: 1.1rem;
+	}
 `;

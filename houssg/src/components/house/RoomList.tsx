@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { RoomDetail } from './RoomDetail';
+import RoomDetail from './RoomDetail';
 import { RoomDataType } from '../../types';
 import { roomKey } from '../../assets/constant';
 import { useParams } from 'react-router-dom';
@@ -27,6 +27,7 @@ export const RoomList: React.FC<RoomListProps> = ({ houseName }) => {
 	if (isLoading) {
 		return <div>로딩중...</div>;
 	}
+	console.log(data);
 
 	return (
 		<Wrapper>

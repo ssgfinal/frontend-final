@@ -23,6 +23,7 @@ const __postLogin = createAsyncThunk('POST_LOGIN', async (payload: { id: string;
 			sessionStorage.setItem('refreshtoken', headers.refreshtoken);
 			sessionStorage.setItem('nickname', data.nickname);
 			sessionStorage.setItem('phone', data.phone);
+			sessionStorage.setItem('point', data.point);
 		}
 		return thunkAPI.fulfillWithValue(data);
 	} catch (error) {
@@ -61,6 +62,7 @@ const authSlice = createSlice({
 			sessionStorage.removeItem('refreshtoken');
 			sessionStorage.removeItem('nickname');
 			sessionStorage.removeItem('phone');
+			sessionStorage.removeItem('point');
 		},
 		resetAuthStatus: (state) => {
 			state.status = 'idle';

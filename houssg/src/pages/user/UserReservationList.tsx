@@ -1,149 +1,43 @@
 import { styled } from 'styled-components';
 
 import ReservationList from '../../components/reservation/ReservationList';
-import { accomodation } from '../../assets/icons';
-import { useEffect, useState } from 'react';
-// TODO: 같은 유저의 예약정보 뿌리기..나중에 수정
-// import { useIsUser } from '../../hooks';
-
-// TODO: 더미 데이터 기능구현 후 지우기
-
-const reservations = [
-	{
-		userId: 'abc',
-		outdoorView: accomodation,
-		reservationStatus: 0,
-		reservationStartDate: '2023-09-02 20:00:00',
-		reservationEndDate: '2023-09-03 04:00:00',
-		accomName: '가나다 Hotel',
-		roomCategory: 'Standard',
-		roomPrice: 100000,
-		reviewNumber: 0,
-		reservationNumber: 1234567,
-		paymentDate: '2023-08-01 20:00:00',
-		guestName: '홍길동',
-		guestPhone: '010-1234-5678',
-		couponName: '9월 할인',
-		couponNumber: '123456789',
-		isUsed: 0,
-		couponDiscount: 10000,
-		pointDiscount: 5000,
-		payment: 90000,
-	},
-	{
-		userId: 'abc',
-		outdoorView: accomodation,
-		reservationStatus: 2,
-		reservationStartDate: '2023-09-03 20:00:00',
-		reservationEndDate: '2023-09-05 10:00:00',
-		accomName: '가나다 Hotel',
-		roomCategory: 'Standard',
-		roomPrice: 223000,
-		reviewNumber: 0,
-		reservationNumber: 7654321,
-		paymentDate: '2023-08-02 20:00:00',
-		guestName: '김철수',
-		guestPhone: '010-1234-5678',
-		couponName: '9월 반값~',
-		couponNumber: '123456789',
-		isUsed: 1,
-		couponDiscount: 50000,
-		pointDiscount: 5000,
-		payment: 100000,
-	},
-	{
-		userId: 'abc',
-		outdoorView: accomodation,
-		reservationStatus: 1,
-		reservationStartDate: '2023-09-02 20:00:00',
-		reservationEndDate: '2023-09-03 20:00:00',
-		accomName: '가나다 Hotel',
-		roomCategory: 'Standard',
-		roomPrice: 178000,
-		reviewNumber: 0,
-		reservationNumber: 3234567,
-		paymentDate: '2023-08-03 20:00:00',
-		guestName: '김철수',
-		guestPhone: '010-1234-5678',
-		couponName: '9월',
-		couponNumber: '123456789',
-		isUsed: 1,
-		couponDiscount: 20000,
-		pointDiscount: 3000,
-		payment: 98000,
-	},
-	{
-		userId: 'abc',
-		outdoorView: accomodation,
-		reservationStatus: 1,
-		reservationStartDate: '2023-09-03 20:00:00',
-		reservationEndDate: '2023-09-08 20:00:00',
-		accomName: '가나다 Hotel',
-		roomCategory: 'Standard',
-		roomPrice: 212000,
-		reviewNumber: 1,
-		reservationNumber: 5654321,
-		paymentDate: '2023-08-04 20:00:00',
-		guestName: '김철수',
-		guestPhone: '010-1234-5678',
-		couponName: '9월',
-		couponNumber: '123456789',
-		isUsed: 1,
-		couponDiscount: 10000,
-		pointDiscount: 5000,
-		payment: 102000,
-	},
-];
+import { useQuery } from '@tanstack/react-query';
+import { userKey } from '../../assets/constant/queryKey';
+import { api } from '../../api';
+import { userUrl } from '../../assets/constant';
+import { MyReservation } from '../../types';
 
 const UserReservationList = () => {
-	{
-		/* TODO: 같은 유저의 예약정보 뿌리기..나중에 수정 */
+	const getMyReservation = () => api.get(userUrl.myReservation);
+	const { isLoading, data, isSuccess, isError, error } = useQuery<{ data: MyReservation[] }>([userKey.myReservation], getMyReservation, {
+		cacheTime: 5 * 60 * 1000,
+		staleTime: 2 * 60 * 1000,
+	});
+
+	isSuccess && console.log(data);
+
+	if (isError) {
+		console.log(error);
+		return <div>에러가 있습니다.</div>;
 	}
-	//const isUser = useIsUser();
 
-	// TODO: 서버 연결하면 윗줄사용, 현재는 더미데이터
-	// const [reservations, setReservations] = useState([]);
-	const [reservs, setReservs] = useState(reservations);
-
-	const Server = async () => {
-		try {
-			const response = reservs;
-			//await fetch('http://localhost:3200/');
-			const data = response;
-			// await response.json();
-			setReservs(data);
-		} catch (error) {
-			console.error('데이터를 불러오는 데 실패했습니다.', error);
-		}
-	};
-
-	useEffect(() => {
-		Server();
-		// TODO: 서버 연결 후 수정
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
+	if (isLoading) {
+		<div>로딩중입니다.</div>;
+	}
 
 	return (
 		<UserReservationWrapper>
 			<UserReservationContainer>
-				{/* TODO: 같은 유저의 예약정보 뿌리기..나중에 수정 */}
-				{/* {reservations.map((userItem, userIndex) => (
-					<div key={userIndex}>
-						{reservs.map(
-							(reserItem, reserIndex) =>
-								reserItem.user_id === userItem.user_id && (
-									<div key={reserIndex}>
-										<ReservationList reservations={reserItem} />
-									</div>
-								),
-						)}
-					</div>
-				))} */}
-				{reservations.map((reserItem, index) => (
-					<div key={index}>
-						<ReservationList reservations={reserItem} />
-					</div>
-				))}
+				{isSuccess &&
+					(data.data.length === 0 ? (
+						<div>없음</div>
+					) : (
+						data.data.map((reservation) => (
+							<div key={reservation.reservationNumber}>
+								<ReservationList reservations={reservation} />
+							</div>
+						))
+					))}
 			</UserReservationContainer>
 		</UserReservationWrapper>
 	);

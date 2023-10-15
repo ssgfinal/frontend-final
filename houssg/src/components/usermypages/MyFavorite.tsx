@@ -1,100 +1,65 @@
+import { useQuery } from '@tanstack/react-query';
 import styled from 'styled-components';
-// import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+
+import { userKey } from '../../assets/constant/queryKey';
+import { MyFavoriteList } from '../../types';
+import { getMyFavoriteList } from '../../helper';
 import Rating from '../common/Rating';
+
 import { color } from '../../assets/styles';
 import { MapMarker } from '../../assets/icons';
 import HeartIcons from '../common/HeartIcons';
 
-// TODO: 서버 > 찜목록
-// import api from '../../api/api';
-// import { userUrl } from '../../assets/constant/urlConst';
-
-interface MyFavoriteList {
-	favorites: {
-		houseId: number;
-		accomName: string;
-		houseAddress: string;
-		userId: string;
-		rating: number;
-		favorite: boolean;
-	}[];
-}
-
-const MyFavorite: React.FC<MyFavoriteList> = ({ favorites }) => {
+const MyFavorite = () => {
 	const navigate = useNavigate();
 
-	// const [favorite, setFavorite] = useState(favorites);
+	const { isLoading, data, isSuccess, isError, error } = useQuery<{ data: MyFavoriteList[] }>([userKey.myFavorite], () => getMyFavoriteList(), {
+		cacheTime: 5 * 60 * 1000,
+		staleTime: 2 * 60 * 1000,
+		retry: 2,
+	});
 
-	//TODO: id가 유저id인지??닉네임이 되어야 하는게 아닌지
-	// const user = favorites[0].userId;
-	// console.log('ID = ' + user);
-	// api 정의서
-	/*( 프론트 : 숙소 목록 페이지에서 받아서
-		숙소 상세 페이지에선 해당 정보는
-		api  요청이 아닌 리액트 쿼리에서 담아서 목록서 받은 데이터로 띄우기 )
-	*/
+	isError && console.log(error, 'error');
 
-	//TODO: 403 error >> payload : 아이디? >> 유저 아이디를 직접 넣어도 같은 에러, 스웨거도 에러
-	// const myFavorite = async () => {
-	// 	try {
-	// 		const response = await api.post(userUrl.myFavorite);
-	// 		setFavorite(response.data);
-	// 	} catch (error) {
-	// 		console.error(error);
-	// 	}
-	// };
-
-	// const myFavorite = () => {};
-
-	// useEffect(() => {
-	// 	myFavorite();
-	// TODO: 서버 연결 후 수정
-	// eslint-disable-next-line react-hooks/exhaustive-deps
-	// }, []);
-
-	// TODO: 서버 > 찜해제
-	// const onMyFavorite = async () => {
-	// 	try {
-	// 		const response = await api.delete(userUrl.delFavorite, { houseId });
-	// 		setFavorite(response.data);
-	// 	} catch (error) {
-	// 		console.error(error);
-	// 	}
-	// };
+	if (isLoading) {
+		return <div>로딩중...</div>;
+	}
 
 	return (
-		<MyFavoriteWrapper>
-			{favorites.length === 0 ? (
-				<GrayFont>찜한 숙소가 없습니다.😢</GrayFont>
-			) : (
-				favorites.map((favoriteItem, index) => (
-					<div key={index}>
-						<MyFavoriteContainer>
-							<HouseNameBox>
-								<span
-									onClick={() => {
-										navigate(`/user/house/${favoriteItem.houseId}`);
-									}}
-								>
-									{favoriteItem.accomName}
-								</span>
-							</HouseNameBox>
-							<HouseRateBox>
-								<Rating rate={favoriteItem.rating} readonly />
-							</HouseRateBox>
-							<HouseAddressBox>
-								<img src={MapMarker} alt="Map Marker" />
-								<div>{favoriteItem.houseAddress}</div>
-							</HouseAddressBox>
-							<FavoriteContainer>
-								<HeartIcons />
-							</FavoriteContainer>
-						</MyFavoriteContainer>
-					</div>
-				))
-			)}
-		</MyFavoriteWrapper>
+		isSuccess && (
+			<MyFavoriteWrapper>
+				{data.data.length === 0 ? (
+					<GrayFont>찜한 숙소가 없습니다.😢</GrayFont>
+				) : (
+					data.data.map((favorites, i) => (
+						<div key={i}>
+							<MyFavoriteContainer>
+								<HouseNameBox>
+									<span
+										onClick={() => {
+											navigate(`/user/house/${favorites.accomNumber}`);
+										}}
+									>
+										{favorites.accomName}
+									</span>
+								</HouseNameBox>
+								<HouseRateBox>
+									<Rating rate={favorites.avgRating} readonly />
+								</HouseRateBox>
+								<HouseAddressBox>
+									<img src={MapMarker} alt="Map Marker" />
+									<div>{favorites.accomAddress}</div>
+								</HouseAddressBox>
+								<FavoriteContainer>
+									<HeartIcons />
+								</FavoriteContainer>
+							</MyFavoriteContainer>
+						</div>
+					))
+				)}
+			</MyFavoriteWrapper>
+		)
 	);
 };
 
@@ -205,10 +170,11 @@ const FavoriteContainer = styled.div`
 	justify-self: right;
 	align-self: start;
 	padding: 1vw 1vw 0 0;
+	width: 4vw;
 
 	img {
 		@media (max-width: 430px) {
-			width: 4vw;
+			width: 1rem;
 		}
 	}
 
