@@ -6,7 +6,7 @@ import { roomKey, roomServiceCategory } from '../../../../assets/constant';
 import { CheckBox } from '../../register/element';
 import { ImageUploader, RoomImgSlider } from '../../../common';
 import { useFocusRef } from '../../../../hooks';
-import { base64ToFile } from '../../../../utils';
+import { base64ToFile, doRefFocus } from '../../../../utils';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { editTargetRoom, returnRoomFormData } from '../../../../helper';
 
@@ -41,13 +41,7 @@ const RoomCompEdit: React.FC<RoomComp> = ({ room, setIsEditMode }) => {
 
 	const onAddRoomImg = (data: string) => {
 		setRoomImgs([...roomImgs, data]);
-		if (sliderFocusRef.current) {
-			sliderFocusRef.current.scrollIntoView({
-				behavior: 'smooth',
-				block: 'center',
-				inline: 'center',
-			});
-		}
+		doRefFocus(sliderFocusRef);
 	};
 
 	const onAddRoomImgFile = (data: string) => {
