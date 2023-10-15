@@ -4,6 +4,10 @@ import { loadPaymentWidget, PaymentWidgetInstance } from '@tosspayments/payment-
 import { Provision } from './Provision';
 import { color, ReservationCommonBox, UserReservationTitle } from '../../assets/styles';
 import styled from 'styled-components';
+import { SelectedReservationType } from '../../types';
+import api from '../../api/api';
+import { userUrl } from '../../assets/constant';
+import { useLocation, useParams } from 'react-router-dom';
 
 // 시크릿키는 .env에서 관리하는 걸 추천?
 
@@ -11,25 +15,8 @@ import styled from 'styled-components';
 const clientKey = 'test_ck_D5GePWvyJnrK0W0k6q8gLzN97Eoq';
 const customerKey = 'YbX2HuSlsC9uVJW6NMRMj';
 
-interface Coupon {
-	couponId: string;
-	couponName: string;
-	// expirationDate: string; // 예약하기 페이지에선 없어도 될 듯
-	discountPrice: number;
-}
-
-interface GiveReservation {
-	roomId: number;
-	selectedReservationDate?: string;
-	visitorName: string;
-	visitorPhone: string;
-	usingCoupon: Coupon; // 프론트에서 선택한 쿠폰 한개
-	usingPoint: number;
-	paymentPrice: number;
-}
-
 interface PaymentWidgetProps {
-	selectedReservation: GiveReservation;
+	selectedReservation: SelectedReservationType;
 }
 export const PaymentWidget: React.FC<PaymentWidgetProps> = ({ selectedReservation }) => {
 	// const { roomId } = useParams();
@@ -65,24 +52,63 @@ export const PaymentWidget: React.FC<PaymentWidgetProps> = ({ selectedReservatio
 	// 	paymentMethodsWidget.updateAmount(payment, paymentMethodsWidget.UPDATE_REASON.COUPON);
 	// }, [payment]);
 
+	const userNickName = sessionStorage.getItem('nickname');
+	const userPhone = sessionStorage.getItem('phone');
+	const location = useLocation();
+	const houseId = location.state.houseId;
+	const houseName = location.state.houseName;
+	const room = location.state.room;
+
+	const { roomId } = useParams();
+
 	const paymentWidgetButtonFunc = () => {
 		const paymentWidget = paymentWidgetRef.current;
-		// console.log('PaymentWidget selectedReservation > ', selectedReservation);
+
 		try {
-			// console.log('PaymentWidget seletedReservation > ', selectedReservation);
-			paymentWidget?.requestPayment({
-				//원래 맨앞에 await이 있었음 근데 async는 없어서 에러 뜨길래 일단 지움
-				orderId: 'abcdefgh',
-				orderName: '토스 티셔츠 외 2건',
-				customerName: '김토스',
-				customerEmail: 'customer123@gmail.com',
-				successUrl: `${window.location.origin}/user/reservation/${selectedReservation.roomId}`,
-				failUrl: `${window.location.origin}/user/house`,
-				//   successUrl: `${window.location.origin}/success`,
-				//   failUrl: `${window.location.origin}/fail`,
-			});
+			api
+				.post(userUrl.reservationEnroll, {
+					startDate: selectedReservation.startDate,
+					endDate: selectedReservation.endDate,
+					nickname: userNickName,
+					phoneNumber: userPhone,
+					guestName: selectedReservation.visitorName,
+					guestPhone: selectedReservation.visitorPhone,
+					accomNumber: houseId,
+					accomName: houseName,
+					roomNumber: roomId,
+					roomCategory: room.roomCategory,
+					roomPrice: room.roomPrice,
+					couponNumber: selectedReservation.usingCoupon.couponNumber,
+					couponName: selectedReservation.usingCoupon.couponName,
+					discount: selectedReservation.usingCoupon.discount,
+					usePoint: selectedReservation.usingPoint,
+					totalPrice: room.roomPrice * selectedReservation.night,
+					paymentAmount: selectedReservation.paymentPrice,
+				})
+				.then(({ data }) => {
+					console.log('data', data);
+					try {
+						// console.log('PaymentWidget seletedReservation > ', selectedReservation);
+						paymentWidget?.requestPayment({
+							//원래 맨앞에 await이 있었음 근데 async는 없어서 에러 뜨길래 일단 지움
+							orderId: data,
+							orderName: `${houseName} ${room.roomCategory} ${selectedReservation.night}박 예약`,
+							customerName: userNickName ? userNickName : 'houssg 고객님',
+							// customerEmail: 'customer123@gmail.com',
+							successUrl: `${window.location.origin}/user/reservation/${selectedReservation.roomId}`,
+							failUrl: `${window.location.origin}/user/house`,
+							//   successUrl: `${window.location.origin}/success`,
+							//   failUrl: `${window.location.origin}/fail`,
+						});
+					} catch (err) {
+						// console.log(err);
+					}
+				});
 		} catch (err) {
-			// console.log(err);
+			console.log(err);
+			if (err === '예약 불가능') {
+				alert('죄송합니다. 이미 예약이 완료된 방입니다.');
+			}
 		}
 	};
 
