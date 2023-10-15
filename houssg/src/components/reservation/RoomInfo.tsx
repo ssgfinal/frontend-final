@@ -1,11 +1,11 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useLocation } from 'react-router-dom';
 import { ReservationCommonBox, UserReservationTitle, UserReservationLeft } from '../../assets/styles';
 import { BookableRoomCnt, SelectedReservationType } from '../../types';
 import Calendar from './Calendar';
 
 interface RoomInfoProps {
-	initBookableRoomList: BookableRoomCnt;
+	initBookableRoomList: BookableRoomCnt[];
 	selectedReservation: SelectedReservationType;
 	setSelectedReservation: React.Dispatch<React.SetStateAction<SelectedReservationType>>;
 }
@@ -14,14 +14,6 @@ const RoomInfo: React.FC<RoomInfoProps> = ({ initBookableRoomList, selectedReser
 	const location = useLocation();
 	const room = location.state.room;
 	const houseName = location.state.houseName;
-	console.log('날짜별 예약 가능한 방 수 > ', initBookableRoomList);
-
-	useEffect(() => {
-		setSelectedReservation({
-			...selectedReservation,
-			night: 2,
-		});
-	}, []);
 
 	return (
 		<ReservationCommonBox>
@@ -31,7 +23,11 @@ const RoomInfo: React.FC<RoomInfoProps> = ({ initBookableRoomList, selectedReser
 			<UserReservationLeft>
 				{' '}
 				예약 가능 날짜 및 시간 (feat. 달력)
-				<Calendar type="user" />
+				<Calendar
+					initBookableRoomList={initBookableRoomList}
+					selectedReservation={selectedReservation}
+					setSelectedReservation={setSelectedReservation}
+				/>
 			</UserReservationLeft>
 			<UserReservationLeft>
 				<div>1박당 {Number(room.roomPrice).toLocaleString()}원</div>
