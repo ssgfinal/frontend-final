@@ -6,29 +6,43 @@ import { color } from '../../assets/styles';
 
 import { houseCategory } from '../../assets/constant';
 import HouseList from '../../components/userhouselist/HouseList';
+import { useState } from 'react';
 
 const UserHouseList = () => {
-	const handleChange = (value: { value: string; label: React.ReactNode }) => {
-		console.log(value); // { value: "lucy", key: "lucy", label: "Lucy (101)" }
-	};
-
 	const { Search } = Input;
-
-	const onSearch = (value: string) => console.log(value);
-
-	const { RangePicker } = DatePicker;
 
 	// <Select>에 필요한 배열
 	const order = [
 		{
-			value: '평점 높은순',
-			label: '평점 높은순',
-		},
-		{
 			value: '최근 등록순',
 			label: '최근 등록순',
 		},
+		{
+			value: '평점 높은순',
+			label: '평점 높은순',
+		},
 	];
+
+	const [isCategory, setIsCategory] = useState<string>('');
+	const [isSearch, setIsSearch] = useState<string>('');
+	const [isSelect, setIsSelect] = useState<string>('');
+
+	// 검색 카테고리
+	const onCategorySearch = (value: { value: string; label: React.ReactNode }) => {
+		setIsCategory(value.value);
+	};
+
+	// 검색어
+	const onSearch = (value: string) => {
+		setIsSearch(value);
+	};
+
+	// 선택 카테고리
+	const onCategorySelect = (value: { value: string; label: React.ReactNode }) => {
+		setIsSelect(value.value);
+	};
+
+	const { RangePicker } = DatePicker;
 
 	return (
 		<>
@@ -37,7 +51,7 @@ const UserHouseList = () => {
 					<Select
 						labelInValue
 						defaultValue={{ value: '카테고리', label: '카테고리' }}
-						onChange={handleChange}
+						onChange={onCategorySearch}
 						options={houseCategory}
 						style={{ width: '100%' }}
 					/>
@@ -57,12 +71,12 @@ const UserHouseList = () => {
 					labelInValue
 					defaultValue={{ value: order[0].value, label: order[0].value }}
 					style={{ width: '8rem' }}
-					onChange={handleChange}
+					onChange={onCategorySelect}
 					options={order}
 				/>
 			</SearchResultBar>
 			<SearchResultContents>
-				<HouseList />
+				<HouseList isSearch={isSearch} isSelect={isSelect} isCategory={isCategory} />
 			</SearchResultContents>
 		</>
 	);
