@@ -8,11 +8,7 @@ import { useAppDispatch } from '../../hooks';
 
 import { color } from '../../assets/styles';
 import { accomodation } from '../../assets/icons';
-import { ReservationsType } from '../../types';
-
-interface UserReservationListProps {
-	reservations: ReservationsType;
-}
+import { MyReservation } from '../../types';
 
 const detail = [
 	{
@@ -82,7 +78,7 @@ const formatPeriod = (reservationStartDate: string, reservationEndDate: string) 
 	return duration > 1 ? `(${duration - 1}박)` : '';
 };
 
-const ReservationList: React.FC<UserReservationListProps> = ({ reservations }) => {
+const ReservationList: React.FC<{ reservations: MyReservation }> = ({ reservations }) => {
 	// TODO: 서버랑 연결 후 수정
 	// const [details, setDetails] = useState([]);
 	const [details, setDetails] = useState(detail);
@@ -123,8 +119,8 @@ const ReservationList: React.FC<UserReservationListProps> = ({ reservations }) =
 
 	// 예약상태 배경색 변경
 	const statusStyle = {
-		color: reservations.reservationStatus === 0 ? color.color1 : reservations.reservationStatus === 1 ? color.backColor : color.backColor,
-		backgroundColor: reservations.reservationStatus === 0 ? color.color5 : reservations.reservationStatus === 1 ? color.color1 : color.darkGrayColor,
+		color: reservations.status === 0 ? color.color1 : reservations.status === 1 ? color.backColor : color.backColor,
+		backgroundColor: reservations.status === 0 ? color.color5 : reservations.status === 1 ? color.color1 : color.darkGrayColor,
 	};
 
 	const dispatch = useAppDispatch();
@@ -138,7 +134,7 @@ const ReservationList: React.FC<UserReservationListProps> = ({ reservations }) =
 		<ReservationWrapper>
 			<ReservationContainer>
 				<ReservationBox>
-					{reservations.reservationStatus === 0 ? (
+					{reservations.status === 0 ? (
 						<ReservationButton
 							hidden={false}
 							onClick={() => {
@@ -147,12 +143,11 @@ const ReservationList: React.FC<UserReservationListProps> = ({ reservations }) =
 						>
 							취소하기
 						</ReservationButton>
-					) : reservations.reservationStatus === 1 ? (
-						reservations.reviewNumber ? (
+					) : reservations.status === 1 ? (
+						reservations.reviewStatus ? (
+							// TODO: 삭제없으니 고쳐야할듯
 							<ReviewWriteButton>후기삭제</ReviewWriteButton>
 						) : (
-							// TODO: 한 번 등록되면 버튼막거나 후기 삭제??
-
 							<ReviewWriteButton
 								hidden={false}
 								onClick={() => {
@@ -175,14 +170,14 @@ const ReservationList: React.FC<UserReservationListProps> = ({ reservations }) =
 						<OutdoorViewBox src={accomodation} alt="Accomodation"></OutdoorViewBox>
 					</ImageBox>
 					<DetailBox>
-						<ReservationStatusBox style={statusStyle}>{getStatusString(reservations.reservationStatus)}</ReservationStatusBox>
+						<ReservationStatusBox style={statusStyle}>{getStatusString(reservations.status)}</ReservationStatusBox>
 						<div>
 							{reservations.accomName}&nbsp;({reservations.roomCategory})
 						</div>
-						<div>{formatDate(reservations.reservationStartDate)}~</div>
+						<div>{formatDate(reservations.startDate)}~</div>
 						<div>
-							{formatDate(reservations.reservationEndDate)}
-							{formatPeriod(reservations.reservationStartDate, reservations.reservationEndDate)}
+							{formatDate(reservations.endDate)}
+							{formatPeriod(reservations.startDate, reservations.endDate)}
 						</div>
 						<RoomPriceBox>{reservations.roomPrice.toLocaleString()}원</RoomPriceBox>
 					</DetailBox>
