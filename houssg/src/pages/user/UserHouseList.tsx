@@ -1,16 +1,11 @@
-import { useState, useEffect } from 'react';
-
 import { Select } from 'antd';
 import { Input, Space, DatePicker } from 'antd';
 
 import styled from 'styled-components';
 import { color } from '../../assets/styles';
-// import { accomodation } from '../../assets/icons';
 
-import BriefHouse from '../../components/house/BriefHouse';
-import { houseCategory, userUrl } from '../../assets/constant';
-import { HouseBaseInfo } from '../../types';
-import api from '../../api/api';
+import { houseCategory } from '../../assets/constant';
+import HouseList from '../../components/userhouselist/HouseList';
 
 const UserHouseList = () => {
 	const handleChange = (value: { value: string; label: React.ReactNode }) => {
@@ -34,13 +29,7 @@ const UserHouseList = () => {
 			label: '최근 등록순',
 		},
 	];
-	const [houseList, setHouseList] = useState<HouseBaseInfo[]>([]);
-	//TODO: 로딩은 나중에...
-	useEffect(() => {
-		api.get(userUrl.houseList).then(({ data }) => {
-			setHouseList(data);
-		});
-	}, []);
+
 	return (
 		<>
 			<SearchWrapper>
@@ -62,7 +51,6 @@ const UserHouseList = () => {
 					<Search placeholder=" 키워드로 찾아보세요." onSearch={onSearch} enterButton />
 				</SearchInput>
 			</SearchWrapper>
-
 			<SearchResultBar>
 				<span style={{ margin: 'auto 0' }}> 50개의 검색 결과</span>
 				<Select
@@ -74,9 +62,7 @@ const UserHouseList = () => {
 				/>
 			</SearchResultBar>
 			<SearchResultContents>
-				{houseList.map((h, idx) => (
-					<BriefHouse house={h} key={idx} />
-				))}
+				<HouseList />
 			</SearchResultContents>
 		</>
 	);

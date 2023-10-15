@@ -20,6 +20,9 @@ import { getTargetRoomData, addTargetRoom, returnRoomFormData, editTargetRoom } 
 // 마이페이지 관련
 import { getMyCouponList, setMyCouponList, getMyReviewList, getMyFavoriteList } from './mypageFunction';
 
+// 숙소 목록 관련
+import { getUserHouseList, getScoreHouse, getSearchHouse } from './userHouseListFunction';
+
 export { authLoginFunc, authSignUpFunc, kakaoLoginFunc, kakaoSignUp, nickCheckFunc, idCheckFunc, onPhoneUsableCheck, phoneAuthCheck, onFindId };
 
 export { getMyHouseListData, onRegiFunnelData, getHouseReview, addReviewComment, patchReviewComment };
@@ -27,3 +30,5 @@ export { getMyHouseListData, onRegiFunnelData, getHouseReview, addReviewComment,
 export { getTargetRoomData, addTargetRoom, editTargetRoom, returnRoomFormData };
 
 export { getMyCouponList, setMyCouponList, getMyReviewList, getMyFavoriteList };
+
+export { getUserHouseList, getScoreHouse, getSearchHouse };

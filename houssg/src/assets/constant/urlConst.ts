@@ -12,14 +12,16 @@ const userUrl = {
 	phoneCheck: 'sms/change-phone', // 번호 중복확인
 	phoneAuthCheck: 'sms/check', // 인증번호 검사
 	updateMyPw: 'pw/update',
-	myCoupon: 'coupon/mypage', // 유저 쿠폰함
-	enrollCoupon: 'coupon/enroll-usercoupon', // 유저가 쿠폰 등록
+	myCoupon: 'coupon/mypage',
+	enrollCoupon: 'coupon/enroll-usercoupon',
 	withdrawal: 'user/withdrawal',
-	myReview: 'mypage/review', // 마이페이지 리뷰 목록
-	myFavorite: 'mypage/favorite', // 마이페이지 찜 목록
+	myReview: 'mypage/review',
+	myFavorite: 'mypage/favorite',
 
 	// userhouselist
 	houseList: 'accom/all',
+	scoreHouse: 'accom/score',
+	searchHouse: 'search',
 
 	// reservation
 	addReview: 'review/add', // 유저가 등록하는 리뷰

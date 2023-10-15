@@ -14,4 +14,10 @@ const userKey = {
 	myFavorite: 'myFavorite',
 };
 
-export { ownerKey, roomKey, userKey };
+const houseKey = {
+	userHouseList: 'userHouseList',
+	scoreHouse: 'scoreHouse',
+	searchHouse: 'searchHouse',
+};
+
+export { ownerKey, roomKey, userKey, houseKey };
