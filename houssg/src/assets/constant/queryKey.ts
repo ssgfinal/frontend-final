@@ -12,6 +12,7 @@ const userKey = {
 	enrollCoupon: 'enrollCoupon',
 	myReview: 'myReview',
 	myFavorite: 'myFavorite',
+	myReservation: 'myReservation',
 };
 
 const houseKey = {
