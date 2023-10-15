@@ -11,9 +11,10 @@ import { roomServiceCategory } from '../../assets/constant';
 
 interface RoomDetailProps {
 	room: RoomDataType;
+	houseId: string;
 	houseName: string;
 }
-export const RoomDetail: React.FC<RoomDetailProps> = ({ room, houseName }) => {
+export const RoomDetail: React.FC<RoomDetailProps> = ({ room, houseId, houseName }) => {
 	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
 
@@ -36,7 +37,7 @@ export const RoomDetail: React.FC<RoomDetailProps> = ({ room, houseName }) => {
 			const modalSize = window.innerWidth >= 1000 ? 500 : 400;
 			dispatch(openModal({ modalComponent: 'auth', modalSize: modalSize }));
 		} else {
-			navigate(`/user/reservation/${room.roomNumber}`, { state: { room: room, houseName: houseName } });
+			navigate(`/user/reservation/${room.roomNumber}`, { state: { room: room, houseId: houseId, houseName: houseName } });
 		}
 	};
 

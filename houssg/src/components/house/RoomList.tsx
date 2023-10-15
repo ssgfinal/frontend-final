@@ -28,7 +28,11 @@ export const RoomList: React.FC<RoomListProps> = ({ houseName }) => {
 		return <div>로딩중...</div>;
 	}
 
-	return <Wrapper>{isSuccess && data.data.map((room) => <RoomDetail key={room.roomNumber} room={room} houseName={houseName} />)}</Wrapper>;
+	return (
+		<Wrapper>
+			{isSuccess && data.data.map((room) => <RoomDetail key={room.roomNumber} room={room} houseId={houseId} houseName={houseName} />)}
+		</Wrapper>
+	);
 };
 
 const Wrapper = styled.div`

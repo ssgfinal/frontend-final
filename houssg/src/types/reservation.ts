@@ -35,6 +35,8 @@ interface BookableRoomCnt {
 interface SelectedReservationType {
 	roomId: number;
 	selectedReservationDate?: string;
+	startDate: string;
+	endDate: string;
 	night: number;
 	visitorName: string;
 	visitorPhone: string;
