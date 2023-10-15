@@ -1,5 +1,6 @@
 const ownerKey = {
 	myHouseList: 'myHouseList',
+	houseReview: 'houseReview',
 };
 
 const roomKey = {

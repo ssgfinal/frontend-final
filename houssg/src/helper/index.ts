@@ -12,7 +12,7 @@ import {
 } from './authFunction';
 
 // 사업자 관련
-import { getMyHouseListData, onRegiFunnelData } from './ownerFunction';
+import { getMyHouseListData, onRegiFunnelData, getHouseReview, addReviewComment, patchReviewComment } from './ownerFunction';
 
 // 객실 관련
 import { getTargetRoomData, addTargetRoom, returnRoomFormData, editTargetRoom } from './roomFunction';
@@ -22,7 +22,7 @@ import { getCouponList, setCouponList } from './mypageFunction';
 
 export { authLoginFunc, authSignUpFunc, kakaoLoginFunc, kakaoSignUp, nickCheckFunc, idCheckFunc, onPhoneUsableCheck, phoneAuthCheck, onFindId };
 
-export { getMyHouseListData, onRegiFunnelData };
+export { getMyHouseListData, onRegiFunnelData, getHouseReview, addReviewComment, patchReviewComment };
 
 export { getTargetRoomData, addTargetRoom, editTargetRoom, returnRoomFormData };
 

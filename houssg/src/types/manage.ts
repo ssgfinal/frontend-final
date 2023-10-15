@@ -38,4 +38,22 @@ interface EditMutationType {
 	newImgFile: File | null;
 }
 
-export type { ManageNavProps, MyHouseData, MyHouseDataHandleComp, EditMutationType };
+interface OwnerHouseReviewType {
+	accomName: string;
+	accomNumber: number;
+	img: string;
+	managerId: string;
+	nickname: string;
+	reportStatus: number;
+	reservationNumber: number;
+	reviewComment: string;
+	reviewCommentTime: string;
+	reviewContent: string;
+	reviewCreationTime: string;
+	reviewNumber: number;
+	reviewRating: number;
+	roomCategory: string;
+	roomNumber: number;
+}
+
+export type { ManageNavProps, MyHouseData, MyHouseDataHandleComp, EditMutationType, OwnerHouseReviewType };
