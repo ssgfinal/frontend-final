@@ -69,6 +69,9 @@ const ManageHouseEdit: React.FC<MyHouseDataHandleComp> = ({ house, setIsEditMode
 			alert('수정완료');
 			setIsEditMode(false);
 		},
+		onError: () => {
+			alert('수정실패');
+		},
 	});
 
 	const onEditHouseData = () => {

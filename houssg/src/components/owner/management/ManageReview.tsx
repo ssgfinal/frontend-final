@@ -28,7 +28,11 @@ const ManageReview: React.FC<{ accomNumber: number }> = ({ accomNumber }) => {
 
 	return (
 		<Wrapper>
-			{!data?.data.length ? <div>리뷰가 없습니다</div> : data?.data.map((review) => <RoomReviewComp review={review} key={review.reviewNumber} />)}
+			{!data?.data.length ? (
+				<div>리뷰가 없습니다</div>
+			) : (
+				data?.data.map((review) => <RoomReviewComp accomNumber={accomNumber} review={review} key={review.reviewNumber} />)
+			)}
 		</Wrapper>
 	);
 };

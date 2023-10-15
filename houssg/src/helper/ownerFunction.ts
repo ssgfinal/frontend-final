@@ -60,4 +60,21 @@ const onEditManageHouseApi = (
 };
 
 const getHouseReview = (accomNumber: number) => api.get(ownerUrl.houseReview + '?accomNumber=' + accomNumber);
-export { getMyHouseListData, onRegiFunnelData, onEditManageHouseApi, getHouseReview };
+
+const addReviewComment = (reviewNumber: number, reviewComment: string) =>
+	api.patch(ownerUrl.addComment, null, {
+		params: {
+			reviewNumber,
+			reviewComment,
+		},
+	});
+
+const patchReviewComment = (reviewNumber: number, reviewComment: string) =>
+	api.patch(ownerUrl.patchComment, null, {
+		params: {
+			reviewNumber,
+			reviewComment,
+		},
+	});
+
+export { getMyHouseListData, onRegiFunnelData, onEditManageHouseApi, getHouseReview, addReviewComment, patchReviewComment };

@@ -1,15 +1,36 @@
 import { useState, useRef } from 'react';
 import styled from 'styled-components';
 import { color } from '../../../../assets/styles';
-import { useAppDispatch } from '../../../../hooks';
-import { closeModal } from '../../../../store/redux/modalSlice';
+import { useAppDispatch, useAppSelector } from '../../../../hooks';
+import { closeModal, modalText } from '../../../../store/redux/modalSlice';
+import { ownerKey } from '../../../../assets/constant';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { addReviewComment } from '../../../../helper';
 
 const HouseComment = () => {
 	const commentContent = useRef<HTMLTextAreaElement | null>(null);
 	const [activeReview, setActiveReview] = useState('');
 	const [overReview, setOverReview] = useState(false);
+	const modalData = useAppSelector(modalText);
+	const houseAndReview = modalData.split('/&&');
+	const houseId = parseInt(houseAndReview[0]);
+	const reviewId = parseInt(houseAndReview[1]);
 
 	const dispatch = useAppDispatch();
+
+	const queryClient = useQueryClient();
+
+	const { mutate } = useMutation({
+		mutationFn: (comment: string) => addReviewComment(reviewId, comment),
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: [ownerKey.houseReview, houseId] });
+			dispatch(closeModal());
+			alert('작성완료');
+		},
+		onError: () => {
+			alert('작성실패');
+		},
+	});
 
 	const onCharacters = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
 		const activeReviewValue = e.target.value;
@@ -24,9 +45,12 @@ const HouseComment = () => {
 
 	const onComment = () => {
 		const commentValue = commentContent.current?.value;
-		//TODO: 콘솔 지우기 지금은 errorㅠㅠ
-		console.log(commentValue);
-		dispatch(closeModal());
+		if (!commentValue) {
+			alert('내용이 비었습니다.');
+			return;
+		} else {
+			mutate(commentValue);
+		}
 	};
 
 	return (

@@ -7,7 +7,7 @@ import { color } from '../../../../assets/styles';
 import hourClock from '../../../../utils/hourClock';
 import { OwnerHouseReviewType } from '../../../../types';
 
-const RoomReviewComp: React.FC<{ review: OwnerHouseReviewType }> = ({ review }) => {
+const RoomReviewComp: React.FC<{ accomNumber: number; review: OwnerHouseReviewType }> = ({ accomNumber, review }) => {
 	const dispatch = useAppDispatch();
 	const modalOpen = (component: string, message: string | null) => {
 		const modalSize = window.innerWidth >= 1000 ? 500 : 400;
@@ -16,6 +16,10 @@ const RoomReviewComp: React.FC<{ review: OwnerHouseReviewType }> = ({ review }) 
 
 	const onOpenReportModal = () => {
 		modalOpen('declaration', review.reviewNumber + '');
+	};
+
+	const onOpenReplyModal = () => {
+		modalOpen('houseComment', `${accomNumber}/&&${review.reviewNumber}`);
 	};
 
 	return (
@@ -38,7 +42,7 @@ const RoomReviewComp: React.FC<{ review: OwnerHouseReviewType }> = ({ review }) 
 							{review.img ? <ImageField>{review.reviewContent}</ImageField> : <NonImageField>{review.reviewContent}</NonImageField>}
 						</ContentBox>
 					</ContentsBox>
-					{review.reviewComment ? (
+					{!review.reviewComment ? (
 						<CommentContainer>
 							<NickName>💌 나의 답변</NickName>
 							<CommentDate>{hourClock(review.reviewCommentTime)}</CommentDate>
@@ -46,13 +50,7 @@ const RoomReviewComp: React.FC<{ review: OwnerHouseReviewType }> = ({ review }) 
 						</CommentContainer>
 					) : (
 						<CommentButtonContainer>
-							<CommentSubmitButton
-								onClick={() => {
-									modalOpen('houseComment', null);
-								}}
-							>
-								답글 작성하기&nbsp;&nbsp;&gt;
-							</CommentSubmitButton>
+							<CommentSubmitButton onClick={onOpenReplyModal}>답글 작성하기&nbsp;&nbsp;&gt;</CommentSubmitButton>
 						</CommentButtonContainer>
 					)}
 				</ReviewContainer>
@@ -223,19 +221,11 @@ const NickName = styled.div`
 	font-weight: bold;
 `;
 const CommentDate = styled.div`
-	grid-column-start: 2;
-	grid-column-end: 3;
-	grid-row-start: 1;
-	grid-row-end: 2;
 	font-size: 0.7rem;
 	color: ${color.darkGrayColor};
 	text-align: right;
 `;
 const CommentText = styled.div`
-	grid-column-start: 1;
-	grid-column-end: 3;
-	grid-row-start: 2;
-	grid-row-end: 3;
 	text-align: left;
 	line-height: 0.8rem;
 	padding: 0.5rem 0 0 0;
