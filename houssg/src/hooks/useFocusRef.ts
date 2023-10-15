@@ -1,7 +1,11 @@
 import { useEffect } from 'react';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const useFocusRef = (ref: React.MutableRefObject<HTMLInputElement | null>, array: any[], focus?: boolean) => {
+export const useFocusRef = (
+	ref: React.MutableRefObject<HTMLDivElement | null> | React.MutableRefObject<HTMLInputElement | null>,
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	array: any[],
+	focus?: boolean,
+) => {
 	useEffect(() => {
 		if (ref.current) {
 			focus && ref.current.focus();

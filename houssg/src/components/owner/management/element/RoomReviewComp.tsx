@@ -1,4 +1,5 @@
 import { styled } from 'styled-components';
+import { useRef, useState } from 'react';
 import Rating from '../../../common/Rating';
 import { declarationIcon } from '../../../../assets/icons';
 import { useAppDispatch } from '../../../../hooks';
@@ -6,8 +7,15 @@ import { openModal } from '../../../../store/redux/modalSlice';
 import { color } from '../../../../assets/styles';
 import hourClock from '../../../../utils/hourClock';
 import { OwnerHouseReviewType } from '../../../../types';
+import { ownerKey } from '../../../../assets/constant';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { patchReviewComment } from '../../../../helper';
 
 const RoomReviewComp: React.FC<{ accomNumber: number; review: OwnerHouseReviewType }> = ({ accomNumber, review }) => {
+	const queryClient = useQueryClient();
+	const [isEditMode, setIsEditMode] = useState(false);
+	const newReplyText = useRef<HTMLTextAreaElement | null>(null);
+
 	const dispatch = useAppDispatch();
 	const modalOpen = (component: string, message: string | null) => {
 		const modalSize = window.innerWidth >= 1000 ? 500 : 400;
@@ -22,6 +30,31 @@ const RoomReviewComp: React.FC<{ accomNumber: number; review: OwnerHouseReviewTy
 		modalOpen('houseComment', `${accomNumber}/&&${review.reviewNumber}`);
 	};
 
+	const { mutate } = useMutation({
+		mutationFn: (text: string) => patchReviewComment(review.reviewNumber, text),
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: [ownerKey.houseReview, accomNumber] });
+			alert('수정완료');
+			setIsEditMode(false);
+		},
+		onError: () => {
+			alert('수정실패');
+		},
+	});
+
+	const onEditComment = () => {
+		const newReplayValue = newReplyText.current?.value;
+		if (newReplayValue === review.reviewComment) {
+			setIsEditMode(false);
+			return;
+		}
+
+		if (!newReplayValue) {
+			return;
+		} else {
+			mutate(newReplayValue);
+		}
+	};
 	return (
 		<>
 			<ReviewWrapper>
@@ -29,7 +62,11 @@ const RoomReviewComp: React.FC<{ accomNumber: number; review: OwnerHouseReviewTy
 					<ReviewDate>{hourClock(review.reviewCreationTime)}</ReviewDate>
 					<ReviewWriter>{review.nickname}</ReviewWriter>
 					<DeclarationContainer>
-						<DeclarationBox src={declarationIcon} onClick={onOpenReportModal} alt="신고하기"></DeclarationBox>
+						{review.reportStatus ? (
+							<div>신고중</div>
+						) : (
+							<DeclarationBox src={declarationIcon} onClick={onOpenReportModal} alt="신고하기"></DeclarationBox>
+						)}
 						&nbsp;<span>신고하기</span>
 					</DeclarationContainer>
 					<ReviewRoomType>{review.roomCategory}</ReviewRoomType>
@@ -42,11 +79,32 @@ const RoomReviewComp: React.FC<{ accomNumber: number; review: OwnerHouseReviewTy
 							{review.img ? <ImageField>{review.reviewContent}</ImageField> : <NonImageField>{review.reviewContent}</NonImageField>}
 						</ContentBox>
 					</ContentsBox>
-					{!review.reviewComment ? (
+					{review.reviewComment ? (
 						<CommentContainer>
 							<NickName>💌 나의 답변</NickName>
-							<CommentDate>{hourClock(review.reviewCommentTime)}</CommentDate>
-							<CommentText>{review.reviewComment}</CommentText>
+							{isEditMode ? (
+								<>
+									<CommentDate>
+										<span onClick={onEditComment}>수정완료</span>
+										<span onClick={() => setIsEditMode(false)}>수정취소</span>
+									</CommentDate>
+									<CommentTextarea
+										placeholder={`답글을 작성해주세요.\n( 최대 250자 )`}
+										rows={4}
+										maxLength={250}
+										ref={newReplyText}
+										defaultValue={review.reviewComment}
+									/>
+								</>
+							) : (
+								<>
+									<CommentDate>
+										<span onClick={() => setIsEditMode(true)}>수정하기</span>
+										{hourClock(review.reviewCommentTime)}
+									</CommentDate>
+									<CommentText>{review.reviewComment}</CommentText>
+								</>
+							)}
 						</CommentContainer>
 					) : (
 						<CommentButtonContainer>
@@ -224,11 +282,39 @@ const CommentDate = styled.div`
 	font-size: 0.7rem;
 	color: ${color.darkGrayColor};
 	text-align: right;
+
+	span {
+		font-size: 0.7rem;
+		color: ${color.red};
+		font-weight: 600;
+		cursor: pointer;
+		margin-right: 0.5rem;
+		@media screen and (max-width: 500px) {
+			margin-right: 0.4rem;
+			font-weight: 400;
+		}
+	}
 `;
 const CommentText = styled.div`
 	text-align: left;
-	line-height: 0.8rem;
+	line-height: 1rem;
+	font-size: 0.9rem;
 	padding: 0.5rem 0 0 0;
+	grid-column: span 2;
+`;
+
+const CommentTextarea = styled.textarea`
+	text-align: left;
+	line-height: 0.8rem;
+	grid-column: span 2;
+	padding: 0.5rem;
+	/* border-color: ${color.color1}; */
+	border-radius: 0.5rem;
+	outline: none;
+	resize: none;
+	&::-webkit-scrollbar {
+		display: none;
+	}
 `;
 
 const ContentsBox = styled.div`

@@ -35,4 +35,21 @@ const pxToRem = (pxUnitNum: number) => {
 	return returnNum;
 };
 
-export { webpImageIncoder, pxToRem, base64ToFile };
+const doRefFocus = (
+	ref: React.MutableRefObject<HTMLDivElement | null> | React.MutableRefObject<HTMLInputElement | null>,
+	options?: { behavior: ScrollBehavior; block: ScrollLogicalPosition; inline: ScrollLogicalPosition },
+) => {
+	if (ref.current) {
+		if (options) {
+			ref.current.scrollIntoView(options);
+		} else {
+			ref.current.scrollIntoView({
+				behavior: 'smooth',
+				block: 'center',
+				inline: 'center',
+			});
+		}
+	}
+};
+
+export { webpImageIncoder, pxToRem, base64ToFile, doRefFocus };
