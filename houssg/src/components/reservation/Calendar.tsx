@@ -1,53 +1,176 @@
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin, { DateClickArg } from '@fullcalendar/interaction';
-
-// import { eventList } from '../../assets/constant/reservationDummy';
-import { UserTypeObject } from '../../types';
+import { BookableRoomCnt, SelectedReservationType } from '../../types';
 import styled from 'styled-components';
-import useCalendarStyle from '../../hooks/useCalendarStyle';
 import { color } from '../../assets/styles';
-import { useToast } from '../../hooks';
-import { ToastContainer } from 'react-toastify';
+import { useEffect, useState } from 'react';
 
-const Calendar: React.FC<UserTypeObject> = ({ type }) => {
-	useCalendarStyle(type);
-	const eventList = [
-		{
-			date: '2023-10-16',
-			availablerooms: 2,
-		},
-		{
-			date: '2023-10-19',
-			availablerooms: 2,
-		},
-		{
-			date: '2023-10-23',
-			availablerooms: 0,
-		},
-	];
+interface CalendarProps {
+	initBookableRoomList: BookableRoomCnt[];
+	selectedReservation: SelectedReservationType;
+	setSelectedReservation: React.Dispatch<React.SetStateAction<SelectedReservationType>>;
+}
+const Calendar: React.FC<CalendarProps> = ({ initBookableRoomList, selectedReservation, setSelectedReservation }) => {
+	interface Schedule {
+		title: string;
+		date: string;
+		allDay: boolean;
+	}
+	const [event, setEvent] = useState<Schedule[]>();
 
-	const events = eventList;
+	const [startObj, setStartObj] = useState<DateClickArg>();
+	const [endObj, setEndObj] = useState<DateClickArg>();
 
-	const showToast = useToast;
+	const today = dateFormat(new Date());
 
+	const beforeToday: Schedule[] = [];
+	const [noRoom, setNoRoom] = useState<Schedule[]>();
+
+	function dateFormat(date: Date) {
+		const dateFormat2 =
+			date.getFullYear() +
+			'-' +
+			(date.getMonth() + 1 < 9 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) +
+			'-' +
+			(date.getDate() < 9 ? '0' + date.getDate() : date.getDate());
+		return dateFormat2;
+	}
+
+	const makeTwo = (date: number) => {
+		if (date < 10) {
+			return '0' + date;
+		}
+		return date;
+	};
+
+	useEffect(() => {
+		for (let i = 1; i < Number(today.slice(8, 10)); i++) {
+			beforeToday.push({
+				title: '이전 날짜',
+				date: today.slice(0, 8) + makeTwo(i),
+				allDay: true,
+			});
+		}
+
+		const noRoomTmp: Schedule[] = [];
+		initBookableRoomList &&
+			initBookableRoomList.forEach((roomPerDay: BookableRoomCnt) => {
+				if (roomPerDay.availableRooms == 0) {
+					noRoomTmp.push({
+						title: '매진',
+						date: roomPerDay.date,
+						allDay: true,
+					});
+				}
+			});
+		setNoRoom(noRoomTmp);
+		setEvent([...noRoomTmp, ...beforeToday]);
+	}, [initBookableRoomList]);
+
+	const periodCheck = (endDate: string) => {
+		let isPossible = true;
+		for (let i = Number(selectedReservation.startDate.slice(8, 10)); i < Number(endDate.slice(8, 10)); i++) {
+			noRoom &&
+				noRoom.forEach((room: Schedule) => {
+					if (room.date === endDate.slice(0, 8) + i) {
+						isPossible = false;
+					}
+				});
+		}
+		return isPossible ? 'possible' : 'impossible';
+	};
 	// 날짜를 클릭시
 	const handleDateClick = (args: DateClickArg) => {
-		const found = eventList.find((e) => e.date === args.dateStr);
-		console.log('선택한 날짜에 해당하는 객체 > ', found);
-		if (found && found.availablerooms > 0) {
-			console.log('예약 가능');
-		} else {
+		const ff = event?.find((e) => e.date === args.dateStr);
+		if (ff) {
 			console.log('예약 불가');
-			// alert('예약이 이미 다 찬 날짜입니다.');
-			showToast('빈방이 없습니다.', 'warning');
-			// CommonToast('빈방이 없습니다.', 'error');
-			// CommonToast('빈방이 없습니다.', 'ro?');
+			alert('예약이 불가합니다.');
+		} else {
+			console.log('예약 가능');
+
+			if (selectedReservation.startDate === '') {
+				setSelectedReservation({
+					...selectedReservation,
+					startDate: args.dateStr,
+				});
+				setStartObj(args);
+				args.dayEl.style.backgroundColor = color.color4;
+				args.dayEl.innerHTML = `<div class='start'>시작일</div>`;
+			} else {
+				if (selectedReservation.endDate === '') {
+					if (args.dateStr <= selectedReservation.startDate) {
+						alert('종료일은 시작일보다 더 이후여야합니다.');
+					} else {
+						if (periodCheck(args.dateStr) === 'possible') {
+							setEndObj(args);
+							setSelectedReservation({
+								...selectedReservation,
+								endDate: args.dateStr,
+							});
+							args.dayEl.style.backgroundColor = color.color4;
+							args.dayEl.innerHTML = `<div class='start'>종료일</div>`;
+						} else {
+							alert('선택하신 기간 중 예약 불가한 날짜가 포함되어잇습니다.');
+						}
+					}
+				} else {
+					if (startObj) {
+						startObj.dayEl.style.backgroundColor = 'white';
+						startObj.dayEl.innerText = '';
+					}
+					if (endObj) {
+						endObj.dayEl.style.backgroundColor = 'white';
+						endObj.dayEl.innerText = '';
+					}
+					setEndObj(undefined);
+
+					setStartObj(args);
+
+					setSelectedReservation({
+						...selectedReservation,
+						startDate: args.dateStr,
+						endDate: '',
+					});
+
+					args.dayEl.style.backgroundColor = color.color4;
+					args.dayEl.innerHTML = `<div class='start'>시작일</div>`;
+				}
+			}
 		}
 	};
 
+	function calculateNights(startDate: string, endDate: string) {
+		const start = new Date(startDate);
+		const end = new Date(endDate);
+		const timeDifference = end.getTime() - start.getTime();
+		const nights = Math.ceil(timeDifference / (1000 * 3600 * 24));
+		return nights;
+	}
+
+	useEffect(() => {
+		const nights = calculateNights(selectedReservation.startDate, selectedReservation.endDate);
+		setSelectedReservation({
+			...selectedReservation,
+			night: Number(nights),
+		});
+	}, [selectedReservation.endDate]);
+
 	return (
-		<ToastContainer>
+		<>
+			<Period>
+				<CustomDate>시작일 : {selectedReservation.startDate}</CustomDate>
+				<CustomDate>종료일 : {selectedReservation.endDate}</CustomDate>
+				<CustomDate>
+					{!selectedReservation.night ? (
+						<>[ 0박 0일 ]</>
+					) : (
+						<>
+							[ {selectedReservation.night}박 {selectedReservation.night + 1}일 ]
+						</>
+					)}
+				</CustomDate>
+			</Period>
 			<CalendarContainer>
 				<FullCalendar
 					headerToolbar={{
@@ -60,29 +183,62 @@ const Calendar: React.FC<UserTypeObject> = ({ type }) => {
 					plugins={[dayGridPlugin, interactionPlugin]}
 					initialView="dayGridMonth"
 					dateClick={handleDateClick}
-					events={events}
+					events={event}
 					aspectRatio={2}
-					dayMaxEvents={3}
-					eventBackgroundColor={color.color3}
+					dayMaxEvents={1}
 					eventBorderColor="transparent"
-					// contentHeight={800}
+					eventContent={(arg) => {
+						const title = arg.event.title;
+
+						// 여기에서 이벤트 컨텐츠를 커스터마이즈할 수 있습니다.
+						const customContent = document.createElement('div');
+						customContent.textContent = title;
+
+						if (title === '매진') {
+							customContent.classList.add('calendar-unable');
+						} else if (title == '이전 날짜') {
+							customContent.classList.add('calendar-unable');
+						}
+
+						return { domNodes: [customContent] };
+					}}
 				/>
 			</CalendarContainer>
-		</ToastContainer>
+		</>
 	);
 };
 
 export default Calendar;
 
+const Period = styled.div`
+	padding: 2rem;
+	display: flex;
+	justify-content: space-between;
+`;
+
+const CustomDate = styled.div`
+	width: 40%;
+`;
+
 const CalendarContainer = styled.div`
 	padding: 0 0.5rem;
 	.fc-daygrid-day-frame {
 		cursor: pointer;
-		height: 5.5rem;
+	}
+
+	.fc-h-event {
+		background-color: ${color.unSelectColor};
+		border: ${color.unSelectColor};
 	}
 
 	.calendar-unable {
-		background-color: lavenderblush;
+		background-color: ${color.unSelectColor};
+		border: none !important;
 		cursor: not-allowed;
+		text-align: center;
+	}
+
+	.start {
+		background-color: ${color.color1};
 	}
 `;
