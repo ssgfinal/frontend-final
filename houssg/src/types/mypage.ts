@@ -15,22 +15,31 @@ interface EnrollCouponList {
 	isUsed: number;
 }
 
-interface MyReviews {
+interface MyReviewList {
 	reviewNumber: number;
-	content: string;
-	rating: number;
-	reviewDate: string;
-	commentContent: string | null;
-	commentDate: string | null;
+	reviewContent: string;
+	reviewRating: number;
+	reviewCreationTime: string;
+	reviewComment: string | null;
+	reviewCommentTime: string | null;
 	managerId: string;
 	reportStatus: number;
 	reservationNumber: number;
 	roomNumber: number;
 	accomNumber: number;
-	reviewImage: string | null;
-	roomType: string;
-	houseId: number;
+	img: string | null;
+	roomCategory: string;
 	accomName: string;
+	nickname: string;
 }
 
-export type { MyCouponList, EnrollCouponList, MyReviews };
+interface MyFavoriteList {
+	accomNumber: number;
+	accomName: string;
+	accomAddress: string;
+	id: string;
+	avgRating: number;
+	isFavorite: boolean; // true?
+}
+
+export type { MyCouponList, EnrollCouponList, MyReviewList, MyFavoriteList };

@@ -1,14 +1,16 @@
-import styled from 'styled-components';
 import { useQuery } from '@tanstack/react-query';
-import { color } from '../../assets/styles';
+import styled from 'styled-components';
+
 import { MyCouponList } from '../../types';
 import { userKey } from '../../assets/constant/queryKey';
-import { getCouponList } from '../../helper';
+import { getMyCouponList } from '../../helper';
+
+import { color } from '../../assets/styles';
 
 const MyCoupons = () => {
-	const { isLoading, data, isSuccess, isError, error } = useQuery<{ data: MyCouponList[] }>([userKey.myCoupon], () => getCouponList(), {
-		cacheTime: 5 * 60 * 1000, // 5분
-		staleTime: 2 * 60 * 1000, // 2분
+	const { isLoading, data, isSuccess, isError, error } = useQuery<{ data: MyCouponList[] }>([userKey.myCoupon], () => getMyCouponList(), {
+		cacheTime: 5 * 60 * 1000,
+		staleTime: 2 * 60 * 1000,
 		retry: 2,
 	});
 
