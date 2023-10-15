@@ -9,13 +9,14 @@ import { AuthLoginFunc, AuthSignUpFunc } from './rtk';
 import { MyCouponList, EnrollCouponList, MyReviewList, MyFavoriteList } from './mypage';
 import { HouseBaseInfo, HouseProps, HouseListProps, ServiceList, ReviewType, ReviewProps } from './houseDetailPage';
 import { RoomDataType, RoomComp, RoomData, AddRoomProps } from './room';
+import { OwnerReservedRoom, OwnerAvailableRoom, CommonCalendarProps } from './ownerReservation';
 // auth Regi manage
 export type { AuthProps, AuthInputType, AuthModeType, AuthPropsWithState, IdFindingType, SmsParameter };
 
 //common
 export type { StyledActiveProps, SetStateToggle, UserType, UserTypeObject, RoomSlideProps, TimerProps, ProcessType };
 //reservation
-export type { ReservationDetailType, ReservationsType, MyReservation };
+export type { ReservationDetailType, ReservationsType, MyReservation, OwnerReservedRoom, OwnerAvailableRoom, CommonCalendarProps };
 //manage
 export type { ManageNavProps, MyHouseData, MyHouseDataHandleComp, EditMutationType, OwnerHouseReviewType };
 //regi

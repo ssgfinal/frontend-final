@@ -77,4 +77,6 @@ const patchReviewComment = (reviewNumber: number, reviewComment: string) =>
 		},
 	});
 
-export { getMyHouseListData, onRegiFunnelData, onEditManageHouseApi, getHouseReview, addReviewComment, patchReviewComment };
+const checkMyHouseReservation = (yearMonth: string) => api.get(ownerUrl.checkReservation, { params: { yearMonth } });
+
+export { getMyHouseListData, onRegiFunnelData, onEditManageHouseApi, getHouseReview, addReviewComment, patchReviewComment, checkMyHouseReservation };
