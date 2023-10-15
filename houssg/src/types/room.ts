@@ -25,7 +25,7 @@ interface AddRoomProps {
 	houseId?: string;
 	checkedList: number[];
 	roomNumber?: string;
-	resistImgs?: string[];
+	resistImage?: string[];
 }
 
 export type { RoomDataType, RoomData, RoomComp, AddRoomProps };

@@ -5,7 +5,7 @@ export interface ModalState {
 	isModalOpen: boolean;
 	modalComponent: string;
 	modalSize: string | number;
-	modalText?: string;
+	modalText: string;
 	modalProps?: {
 		[key: string]: string | number | boolean;
 	};
