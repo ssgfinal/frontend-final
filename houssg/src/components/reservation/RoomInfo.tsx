@@ -1,27 +1,36 @@
+import React, { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { ReservationCommonBox, UserReservationTitle, UserReservationLeft } from '../../assets/styles';
+import { SelectedReservationType } from '../../types';
 
-export const RoomInfo = () => {
+interface RoomInfoProps {
+	selectedReservation: SelectedReservationType;
+	setSelectedReservation: React.Dispatch<React.SetStateAction<SelectedReservationType>>;
+}
+
+const RoomInfo: React.FC<RoomInfoProps> = ({ selectedReservation, setSelectedReservation }) => {
 	const location = useLocation();
-	const houseName = location.state.houseName;
 	const room = location.state.room;
-	// console.log('RoomInfo houseName > ', houseName, 'room > ', room);
-	// const houseName = '센텀 제일 가는 호텔';
-	// const room = {
-	// 	id: 1,
-	// 	type: '스탠다드',
-	// 	price: 32000,
-	// };
+	const houseName = location.state.houseName;
+
+	useEffect(() => {
+		setSelectedReservation({
+			...selectedReservation,
+			night: 2,
+		});
+	}, []);
 
 	return (
 		<ReservationCommonBox>
 			<UserReservationTitle>객실 정보</UserReservationTitle>
 			<UserReservationLeft>{houseName}</UserReservationLeft>
-			<UserReservationLeft>{room.type}</UserReservationLeft>
+			<UserReservationLeft>{room.roomCategory}</UserReservationLeft>
 			<UserReservationLeft> 예약 가능 날짜 및 시간 (feat. 달력)</UserReservationLeft>
 			<UserReservationLeft>
-				<div>1박당 {room.price.toLocaleString()}원</div>
+				<div>1박당 {Number(room.roomPrice).toLocaleString()}원</div>
 			</UserReservationLeft>
 		</ReservationCommonBox>
 	);
 };
+
+export default RoomInfo;
