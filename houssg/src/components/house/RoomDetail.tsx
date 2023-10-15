@@ -6,12 +6,15 @@ import { color, HoverText, IconContainer, NoIcon } from '../../assets/styles';
 import { useAppDispatch } from '../../hooks';
 import { openModal } from '../../store/redux/modalSlice';
 import { isLoginFunc } from '../../utils';
-import { RoomData, ServiceList } from '../../types';
+import { RoomDataType, ServiceList } from '../../types';
 import { roomServiceCategory } from '../../assets/constant';
 
-export const RoomDetail: React.FC<RoomData> = ({ room }) => {
+interface RoomDetailProps {
+	room: RoomDataType;
+	houseName: string;
+}
+export const RoomDetail: React.FC<RoomDetailProps> = ({ room, houseName }) => {
 	const navigate = useNavigate();
-
 	const dispatch = useAppDispatch();
 
 	const [roomServieceList, setRoomServiceList] = useState<ServiceList[]>([]);
@@ -28,13 +31,12 @@ export const RoomDetail: React.FC<RoomData> = ({ room }) => {
 	}, [room]);
 
 	const handleLink = () => {
-		console.log('RoomDetail 선택된 roomId > ', room.roomNumber);
 		const isLogin = isLoginFunc();
 		if (!isLogin) {
 			const modalSize = window.innerWidth >= 1000 ? 500 : 400;
 			dispatch(openModal({ modalComponent: 'auth', modalSize: modalSize }));
 		} else {
-			navigate(`/user/reservation/${room.roomNumber}`);
+			navigate(`/user/reservation/${room.roomNumber}`, { state: { room: room, houseName: houseName } });
 		}
 	};
 
