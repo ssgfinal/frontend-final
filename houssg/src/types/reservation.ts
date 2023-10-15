@@ -11,6 +11,31 @@ interface ReservationDetailType {
 	payment: number; // 결제금액
 }
 
+interface MyReservation {
+	reservationNumber: number;
+	reservationTime: string;
+	id: string;
+	startDate: string;
+	endDate: string;
+	status: number;
+	nickname: string;
+	phoneNumber: string;
+	guestName: string;
+	guestPhone: string;
+	accomNumber: string;
+	accomName: string;
+	roomNumber: string;
+	roomCategory: string;
+	roomPrice: number;
+	couponNumber: string;
+	couponName: string;
+	discount: number;
+	usePoint: number;
+	totalPrice: number;
+	paymentAmount: number;
+	reviewStatus: number;
+}
+
 interface ReservationsType extends ReservationDetailType {
 	userId: string;
 	outdoorView: string; // 숙소이미지
@@ -23,4 +48,4 @@ interface ReservationsType extends ReservationDetailType {
 	reviewNumber: number; // 리뷰번호
 }
 
-export type { ReservationDetailType, ReservationsType };
+export type { ReservationDetailType, ReservationsType, MyReservation };

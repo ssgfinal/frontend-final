@@ -23,7 +23,7 @@ const userUrl = {
 
 	// reservation
 	addReview: 'review/add', // 유저가 등록하는 리뷰
-
+	myReservation: 'reservation/history',
 	// UserHouseDetail
 	houseDetail: 'accom/detail',
 	like: 'favorite',
