@@ -1,18 +1,18 @@
-import { styled } from 'styled-components';
 import { useState, useRef } from 'react';
-import { TabMenu } from '../common/TabMenu';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { styled } from 'styled-components';
+
 import MyCoupons from './MyCoupons';
 import MyInformation from './MyInformation';
 import MyReview from './MyReview';
 import MyFavorite from './MyFavorite';
+
+import { TabMenu } from '../common/TabMenu';
+import { setMyCouponList } from '../../helper';
+import { userKey } from '../../assets/constant/queryKey';
+
 import { color } from '../../assets/styles';
 import { CouponIcon, MyPointIcon, ProfileCircle } from '../../assets/icons';
-
-// 쿠폰등록
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-
-import { userKey } from '../../assets/constant/queryKey';
-import { setMyCouponList } from '../../helper';
 
 const MyPage = () => {
 	const userNickName = sessionStorage.getItem('nickname');
@@ -63,7 +63,7 @@ const MyPage = () => {
 				<MyPageMainBox>
 					<MyNickName>
 						<IconImg src={ProfileCircle} />
-						<span>&nbsp;{userNickName}님</span>
+						{userNickName !== null ? <span>&nbsp;{userNickName}님</span> : <span>&nbsp;_님</span>}
 					</MyNickName>
 					<MyPoint>
 						<IconImg src={MyPointIcon} />

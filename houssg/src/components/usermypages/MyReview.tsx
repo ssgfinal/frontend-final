@@ -1,20 +1,22 @@
-import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
+import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
+
 import { userKey } from '../../assets/constant/queryKey';
-import Rating from '../common/Rating';
-import { color } from '../../assets/styles';
-import hourClock from '../../utils/hourClock';
-import { getMyReviewList } from '../../helper';
 import { MyReviewList } from '../../types';
+import { getMyReviewList } from '../../helper';
+import Rating from '../common/Rating';
+import hourClock from '../../utils/hourClock';
+
+import { color } from '../../assets/styles';
 
 const MyReview = () => {
 	const navigate = useNavigate();
 
 	// 나의 후기 목록
 	const { isLoading, data, isSuccess, isError, error } = useQuery<{ data: MyReviewList[] }>([userKey.myReview], () => getMyReviewList(), {
-		cacheTime: 5 * 60 * 1000, // 5분
-		staleTime: 2 * 60 * 1000, // 2분
+		cacheTime: 5 * 60 * 1000,
+		staleTime: 2 * 60 * 1000,
 		retry: 2,
 	});
 

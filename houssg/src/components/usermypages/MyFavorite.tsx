@@ -1,13 +1,15 @@
+import { useQuery } from '@tanstack/react-query';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+
+import { userKey } from '../../assets/constant/queryKey';
+import { MyFavoriteList } from '../../types';
+import { getMyFavoriteList } from '../../helper';
 import Rating from '../common/Rating';
+
 import { color } from '../../assets/styles';
 import { MapMarker } from '../../assets/icons';
 import HeartIcons from '../common/HeartIcons';
-import { useQuery } from '@tanstack/react-query';
-import { MyFavoriteList } from '../../types';
-import { getMyFavoriteList } from '../../helper';
-import { userKey } from '../../assets/constant/queryKey';
 
 const MyFavorite = () => {
 	const navigate = useNavigate();
@@ -23,8 +25,6 @@ const MyFavorite = () => {
 	if (isLoading) {
 		return <div>로딩중...</div>;
 	}
-
-	console.log('뭐뭐 들어오지?' + data);
 
 	return (
 		isSuccess && (
