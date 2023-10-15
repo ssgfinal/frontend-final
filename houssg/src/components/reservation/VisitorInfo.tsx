@@ -3,51 +3,16 @@ import { useState } from 'react';
 import styled from 'styled-components';
 
 import { color, ReservationCommonBox, UserReservationTitle, UserReservationLeft } from '../../assets/styles';
-
-interface Coupon {
-	couponId: string;
-	couponName: string;
-	// expirationDate: string;
-	discountPrice: number;
-}
-
-// 백에 보낼 값
-interface GiveReservation {
-	roomId: number;
-	selectedReservationDate?: string;
-	visitorName: string;
-	visitorPhone: string;
-	usingCoupon: Coupon; // 프론트에서 선택한 쿠폰 한개
-	usingPoint: number;
-	paymentPrice: number;
-}
+import { SelectedReservationType } from '../../types';
 
 interface VisitorInfoProps {
-	selectedReservation: GiveReservation;
-	setSelectedReservation: React.Dispatch<React.SetStateAction<GiveReservation>>;
+	selectedReservation: SelectedReservationType;
+	setSelectedReservation: React.Dispatch<React.SetStateAction<SelectedReservationType>>;
 }
 
 export const VisitorInfo: React.FC<VisitorInfoProps> = ({ selectedReservation, setSelectedReservation }) => {
-	// const reservation = {
-	// 	id: 1,
-	// 	night: 2,
-	// 	price: 64000,
-	// 	userNickName: '김도로뇽',
-	// 	userPhone: '01012345678',
-	// };
-
 	const userNickName = sessionStorage.getItem('nickname');
 	const userPhone = sessionStorage.getItem('phone');
-
-	// interface visitor {
-	// 	name: string;
-	// 	phone: string;
-	// }
-
-	// const [visitor, setVisitor] = useState<visitor>({
-	// 	name: '',
-	// 	phone: '',
-	// });
 
 	// 이용자 정보와 예약자 정보의 일치 여부
 	const [isChecked, setIsChecked] = useState(false);
@@ -55,11 +20,6 @@ export const VisitorInfo: React.FC<VisitorInfoProps> = ({ selectedReservation, s
 	// 이용자와 예약자 일치 체크 박스 핸들러 함수
 	const handleCheckboxChange = () => {
 		if (!isChecked === true) {
-			// setVisitor({
-			// 	...visitor,
-			// 	name: `${userNickName}`,
-			// 	phone: `${userPhone}`,
-			// });
 			userNickName &&
 				userPhone &&
 				setSelectedReservation({
@@ -68,17 +28,12 @@ export const VisitorInfo: React.FC<VisitorInfoProps> = ({ selectedReservation, s
 					visitorPhone: userPhone,
 				});
 		} else {
-			// setVisitor({
-			// 	...visitor,
-			// 	name: '',
-			// 	phone: '',
-			// });
 			userNickName &&
 				userPhone &&
 				setSelectedReservation({
 					...selectedReservation,
-					visitorName: userNickName,
-					visitorPhone: userPhone,
+					visitorName: '',
+					visitorPhone: '',
 				});
 		}
 
@@ -87,10 +42,6 @@ export const VisitorInfo: React.FC<VisitorInfoProps> = ({ selectedReservation, s
 
 	// 이용자 입력 핸들러
 	const handleVisitor = (e: React.ChangeEvent<HTMLInputElement>) => {
-		// setVisitor({
-		// 	...visitor,
-		// 	[e.target.name]: e.target.value,
-		// });
 		setSelectedReservation({
 			...selectedReservation,
 			[e.target.name]: e.target.value,
