@@ -21,7 +21,7 @@ const UserHouseDetail = () => {
 	const { houseId } = useParams();
 	const [house, setHouse] = useState<HouseBaseInfo>();
 
-	const [clickTab, setClickTab] = useState<string>('description');
+	const [clickTab, setClickTab] = useState<string>('roominfo');
 
 	useEffect(() => {
 		try {
@@ -46,7 +46,7 @@ const UserHouseDetail = () => {
 							{clickTab === 'description' ? (
 								<HouseDescription houseDetail={house.accomDetails} />
 							) : clickTab === 'roominfo' ? (
-								<RoomList />
+								<RoomList houseName={house.accomName} />
 							) : (
 								<HouseReview />
 							)}
