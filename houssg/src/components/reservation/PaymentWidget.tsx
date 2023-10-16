@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { loadPaymentWidget, PaymentWidgetInstance } from '@tosspayments/payment-widget-sdk';
 // import { useParams } from 'react-router-dom';
 import { Provision } from './Provision';
@@ -6,8 +6,8 @@ import { color, ReservationCommonBox, UserReservationTitle } from '../../assets/
 import styled from 'styled-components';
 import { SelectedReservationType } from '../../types';
 import api from '../../api/api';
-import { userUrl } from '../../assets/constant';
-import { useLocation, useParams } from 'react-router-dom';
+import { userRoute, userUrl } from '../../assets/constant';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
 // 시크릿키는 .env에서 관리하는 걸 추천?
 
@@ -19,11 +19,12 @@ interface PaymentWidgetProps {
 	selectedReservation: SelectedReservationType;
 }
 export const PaymentWidget: React.FC<PaymentWidgetProps> = ({ selectedReservation }) => {
-	// const { roomId } = useParams();
+	const navigate = useNavigate();
 
 	const paymentWidgetRef = useRef<PaymentWidgetInstance | null>(null);
 	const paymentMethodsWidgetRef = useRef<ReturnType<PaymentWidgetInstance['renderPaymentMethods']> | null>(null);
 
+	const [isAgreed, setIsAgreed] = useState(false);
 	useEffect(() => {
 		(async () => {
 			const paymentWidget = await loadPaymentWidget(clientKey, customerKey);
@@ -39,19 +40,6 @@ export const PaymentWidget: React.FC<PaymentWidgetProps> = ({ selectedReservatio
 		})();
 	}, [selectedReservation]);
 
-	// 가격이 바뀌면 updateAmount를 호출하는 코드
-	// 현재는 할인을 다른 컴포넌트서 실행
-	// 추후 라이브러리 할인 쓰는 것도 고려
-	// useEffect(() => {
-	// 	const paymentMethodsWidget = paymentMethodsWidgetRef.current;
-
-	// 	if (paymentMethodsWidget == null) {
-	// 		return;
-	// 	}
-
-	// 	paymentMethodsWidget.updateAmount(payment, paymentMethodsWidget.UPDATE_REASON.COUPON);
-	// }, [payment]);
-
 	const userNickName = sessionStorage.getItem('nickname');
 	const userPhone = sessionStorage.getItem('phone');
 	const location = useLocation();
@@ -64,7 +52,29 @@ export const PaymentWidget: React.FC<PaymentWidgetProps> = ({ selectedReservatio
 	const paymentWidgetButtonFunc = () => {
 		const paymentWidget = paymentWidgetRef.current;
 
+		console.log('reservation night', selectedReservation.night);
+
+		if (selectedReservation.night == 0) {
+			console.log('reservation night', selectedReservation.night);
+			alert('예약 기간을 정확히 입력해주세요.');
+			return;
+		}
+
+		if (selectedReservation.visitorName === '') {
+			alert('이용자명을 입력해주세요.');
+			return;
+		}
+		if (selectedReservation.visitorPhone === '') {
+			alert('이용자 전화번호를 입력해주세요.');
+			return;
+		}
+
+		if (isAgreed === false) {
+			alert('개인 정보 이용 동의가 필요합니다.');
+			return;
+		}
 		try {
+			console.log('예약 백에 날라감');
 			api
 				.post(userUrl.reservationEnroll, {
 					startDate: selectedReservation.startDate,
@@ -89,19 +99,35 @@ export const PaymentWidget: React.FC<PaymentWidgetProps> = ({ selectedReservatio
 					console.log('data', data);
 					try {
 						// console.log('PaymentWidget seletedReservation > ', selectedReservation);
-						paymentWidget?.requestPayment({
-							//원래 맨앞에 await이 있었음 근데 async는 없어서 에러 뜨길래 일단 지움
-							orderId: data,
-							orderName: `${houseName} ${room.roomCategory} ${selectedReservation.night}박 예약`,
-							customerName: userNickName ? userNickName : 'houssg 고객님',
-							// customerEmail: 'customer123@gmail.com',
-							successUrl: `${window.location.origin}/user/reservation/${selectedReservation.roomId}`,
-							failUrl: `${window.location.origin}/user/house`,
-							//   successUrl: `${window.location.origin}/success`,
-							//   failUrl: `${window.location.origin}/fail`,
-						});
+						paymentWidget &&
+							paymentWidget
+								.requestPayment({
+									//원래 맨앞에 await이 있었음 근데 async는 없어서 에러 뜨길래 일단 지움
+									orderId: data,
+									orderName: `${houseName} ${room.roomCategory} ${selectedReservation.night}박 예약`,
+									customerName: userNickName ? userNickName : 'houssg 고객님',
+									// customerEmail: 'customer123@gmail.com',
+								})
+								.then(function (data) {
+									console.log('결제 승인 시 토스페이먼츠 리스펀스 > ', data);
+									// 결제 승인 API를 호출
+									navigate(userRoute.reservationList);
+								})
+								.catch(function (error) {
+									// 에러 처리 : 에러 목록을 확인
+									if (error.code === 'USER_CANCEL') {
+										// 결제 고객이 결제창을 닫았을 때 에러 처리
+										alert('창이 닫혀서 결제가 완료되지 못 했습니다.s');
+									} else if (error.code === 'INVALID_CARD_COMPANY') {
+										// 유효하지 않은 카드 코드에 대한 에러 처리
+										alert('카드 정보가 유효하지 않습니다');
+									} else if (error.code === 'REJECT_CARD_PAYMENT') {
+										// 유효하지 않은 카드 코드에 대한 에러 처리
+										alert('한도초과 혹은 잔액부족으로 결제에 실패했습니다.');
+									}
+								});
 					} catch (err) {
-						// console.log(err);
+						console.log(err);
 					}
 				});
 		} catch (err) {
@@ -117,21 +143,8 @@ export const PaymentWidget: React.FC<PaymentWidgetProps> = ({ selectedReservatio
 			<ReservationCommonBox>
 				<PaymentTitle> 결제 수단 </PaymentTitle>
 				<div id="payment-widget" />
-				{/* 할인 수단 - 보류 */}
-				{/*         
-        <div>
-          <input
-            type="checkbox"
-            onChange={(event) => {
-                // 여기가 updateAmount부분인듯?
-              setPrice(event.target.checked ? price - 5_000 : price + 5_000) // 체크하면 5000원을 깍고 해제하면 다시 5만원으로 설정?
-            }}
-          />
-          <label>5,000원 할인 쿠폰 적용</label>
-        </div>
-        */}
 			</ReservationCommonBox>
-			<Provision />
+			<Provision isAgreed={isAgreed} setIsAgreed={setIsAgreed} />
 			<PaymentFinalBtn onClick={paymentWidgetButtonFunc}>결제하기</PaymentFinalBtn>
 		</>
 	);
