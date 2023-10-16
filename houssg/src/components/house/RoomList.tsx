@@ -30,7 +30,7 @@ export const RoomList: React.FC<RoomListProps> = ({ houseName }) => {
 
 	return (
 		<Wrapper>
-			{isSuccess && data.data.map((room) => <RoomDetail key={room.roomNumber} room={room} houseId={houseId} houseName={houseName} />)}
+			{isSuccess && houseId && data.data.map((room) => <RoomDetail key={room.roomNumber} room={room} houseId={houseId} houseName={houseName} />)}
 		</Wrapper>
 	);
 };
