@@ -40,6 +40,9 @@ const authSignUpFunc: AuthSignUpFunc = (userId, userNick, userPw, userPwCheck, u
 };
 
 const idCheckFunc = (id: string, setIsLoading: React.Dispatch<React.SetStateAction<boolean>>) => {
+	if (!regSignUp.regId.reg.test(id)) {
+		return;
+	}
 	setIsLoading(true);
 	api
 		.post(authUrl.idCheck + `?id=${id}`)
@@ -47,6 +50,7 @@ const idCheckFunc = (id: string, setIsLoading: React.Dispatch<React.SetStateActi
 			data === 'YES' ? alert('유효한 아이디입니다') : alert('중복된 아이디입니다.');
 		})
 		.catch(({ error }) => {
+			alert('유효하지 않습니다.');
 			console.log(error);
 		})
 		.finally(() => {
@@ -55,6 +59,9 @@ const idCheckFunc = (id: string, setIsLoading: React.Dispatch<React.SetStateActi
 };
 
 const nickCheckFunc = (nickName: string, setIsLoading: React.Dispatch<React.SetStateAction<boolean>>) => {
+	if (!regSignUp.regNick.reg.test(nickName)) {
+		return;
+	}
 	setIsLoading(true);
 	api
 		.post(authUrl.nickCheck + `?nickname=${nickName}&auth=0`)
