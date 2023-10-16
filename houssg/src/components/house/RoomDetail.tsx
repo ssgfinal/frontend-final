@@ -6,11 +6,16 @@ import { color, HoverText, IconContainer, NoIcon } from '../../assets/styles';
 import { useAppDispatch } from '../../hooks';
 import { openModal } from '../../store/redux/modalSlice';
 import { isLoginFunc } from '../../utils';
-import { RoomData, ServiceList } from '../../types';
+import { RoomDataType, ServiceList } from '../../types';
 import { roomServiceCategory } from '../../assets/constant';
 import { RoomImgSlider } from '../common';
 
-const RoomDetail: React.FC<RoomData> = ({ room }) => {
+interface RoomDetailProps {
+	room: RoomDataType;
+	houseId: string;
+	houseName: string;
+}
+export const RoomDetail: React.FC<RoomDetailProps> = ({ room, houseId, houseName }) => {
 	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
 
@@ -33,7 +38,7 @@ const RoomDetail: React.FC<RoomData> = ({ room }) => {
 			const modalSize = window.innerWidth >= 1000 ? 500 : 400;
 			dispatch(openModal({ modalComponent: 'auth', modalSize: modalSize }));
 		} else {
-			navigate(`/user/reservation/${room.roomNumber}`);
+			navigate(`/user/reservation/${room.roomNumber}`, { state: { room: room, houseId: houseId, houseName: houseName } });
 		}
 	};
 
