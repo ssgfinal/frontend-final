@@ -31,7 +31,6 @@ const ManageHouseEdit: React.FC<MyHouseDataHandleComp> = ({ house, setIsEditMode
 				break;
 			case windowWidth >= 427 && windowWidth < 747:
 				widthNumber = pxToRem(windowWidth) * 0.6;
-				console.log(widthNumber);
 				break;
 			default:
 				widthNumber = 28;

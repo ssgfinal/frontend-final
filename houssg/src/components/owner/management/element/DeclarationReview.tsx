@@ -3,18 +3,34 @@ import { useRef } from 'react';
 import { color } from '../../../../assets/styles';
 import { useAppDispatch, useAppSelector } from '../../../../hooks';
 import { closeModal, modalText } from '../../../../store/redux/modalSlice';
+import { ownerKey } from '../../../../assets/constant';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { reportReview } from '../../../../helper';
 
 const DeclarationReview = () => {
-	const declarationOption = useRef<HTMLSelectElement | null>(null);
+	const queryClient = useQueryClient();
 	const dispatch = useAppDispatch();
-	const reportReviewId = useAppSelector(modalText);
+	const declarationOption = useRef<HTMLSelectElement | null>(null);
+	const modalData = useAppSelector(modalText);
+	const houseAndReview = modalData.split('/&&');
+	const houseId = parseInt(houseAndReview[0]);
+	const reviewId = parseInt(houseAndReview[1]);
+
+	const { mutate } = useMutation({
+		mutationFn: (declarationReason: string) => reportReview(reviewId, declarationReason),
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: [ownerKey.houseReview, houseId] });
+			alert('신고 완료');
+			dispatch(closeModal());
+		},
+		onError: () => {
+			alert('실패 하였습니다.');
+		},
+	});
 
 	const onDeclaration = () => {
 		const declarationReason = declarationOption.current?.value;
-		//TODO: 신고하기~콘솔 지우기
-		console.log(reportReviewId);
-		console.log(declarationReason);
-		dispatch(closeModal());
+		declarationReason && mutate(declarationReason);
 	};
 
 	return (

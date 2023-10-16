@@ -21,6 +21,7 @@ import {
 	checkMyHouseReservation,
 	getHouseReservation,
 	getReservableRoomList,
+	reportReview,
 } from './ownerFunction';
 
 // 객실 관련
@@ -41,6 +42,7 @@ export {
 	checkMyHouseReservation,
 	getHouseReservation,
 	getReservableRoomList,
+	reportReview,
 };
 
 export { getTargetRoomData, addTargetRoom, editTargetRoom, returnRoomFormData };
