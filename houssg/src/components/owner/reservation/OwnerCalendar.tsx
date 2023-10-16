@@ -1,18 +1,21 @@
 import FullCalendar from '@fullcalendar/react';
+
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin, { DateClickArg } from '@fullcalendar/interaction';
 import styled from 'styled-components';
 import useCalendarStyle from '../../../hooks/useCalendarStyle';
 import { CommonCalendarProps, OwnerReservedRoom } from '../../../types';
-import { eventList } from '../../../assets/constant/reservationDummy';
 import { color } from '../../../assets/styles';
 import { useQuery } from '@tanstack/react-query';
 import { ownerKey } from '../../../assets/constant';
 import { getHouseReservation, getReservableRoomList } from '../../../helper';
+import { useRef } from 'react';
 
 const OwnerCalendar: React.FC<CommonCalendarProps> = ({ initailData, houseId }) => {
 	useCalendarStyle('owner');
-
+	const calendarRef = useRef<FullCalendar | null>(null);
+	const calenderApi = calendarRef.current?.getApi().view.title;
+	console.log(calenderApi);
 	const { isLoading, data, isSuccess, isError, error } = useQuery<{ data: OwnerReservedRoom[] }>(
 		[ownerKey.getReservationData, houseId, '2023-11'],
 		() => getHouseReservation(houseId, '2023-11'),
@@ -36,10 +39,9 @@ const OwnerCalendar: React.FC<CommonCalendarProps> = ({ initailData, houseId }) 
 	);
 
 	isError && console.log(error, 'error');
-
 	isSuccess && console.log(data, '예약목록');
+
 	reservationableRoomList.isSuccess && console.log(reservationableRoomList.data, '예약가능목록');
-	const events = eventList;
 	if (isLoading) {
 		return <div>로딩중...</div>;
 	}
@@ -62,7 +64,7 @@ const OwnerCalendar: React.FC<CommonCalendarProps> = ({ initailData, houseId }) 
 				plugins={[dayGridPlugin, interactionPlugin]}
 				initialView="dayGridMonth"
 				dateClick={handleDateClick}
-				events={events}
+				ref={calendarRef}
 				aspectRatio={2}
 				dayMaxEvents={3}
 				eventBackgroundColor={color.color3}

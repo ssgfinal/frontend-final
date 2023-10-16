@@ -45,6 +45,7 @@ interface OwnerHouseReviewType {
 	managerId: string;
 	nickname: string;
 	reportStatus: number;
+	reportMessage: string | null;
 	reservationNumber: number;
 	reviewComment: string;
 	reviewCommentTime: string;
