@@ -65,6 +65,10 @@ const ownerUrl = {
 	addComment: 'review/comment/add',
 	reportReview: 'review/report',
 	patchComment: 'review/comment',
+	//예약
+	checkReservation: 'reservation/owner/check',
+	getReservation: 'reservation/owner/check-other',
+	getRoomAvailability: 'reservation/owner/available-room',
 };
 
 const roomUrl = {

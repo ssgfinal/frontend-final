@@ -1,6 +1,9 @@
 const ownerKey = {
 	myHouseList: 'myHouseList',
 	houseReview: 'houseReview',
+	checkReservationList: 'checkReservationList',
+	getReservationData: 'getReservationData',
+	reserveAvailability: 'reserveAvailability',
 };
 
 const roomKey = {
