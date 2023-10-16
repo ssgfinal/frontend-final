@@ -54,7 +54,7 @@ export const PaymentWidget: React.FC<PaymentWidgetProps> = ({ selectedReservatio
 
 		console.log('reservation night', selectedReservation.night);
 
-		if (selectedReservation.night == 0) {
+		if (!selectedReservation.night) {
 			console.log('reservation night', selectedReservation.night);
 			alert('예약 기간을 정확히 입력해주세요.');
 			return;

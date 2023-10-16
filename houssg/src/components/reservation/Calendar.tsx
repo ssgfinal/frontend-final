@@ -5,6 +5,7 @@ import { BookableRoomCnt, SelectedReservationType } from '../../types';
 import styled from 'styled-components';
 import { color } from '../../assets/styles';
 import { useEffect, useState } from 'react';
+import { resetAuthStatus } from '../../store/redux/authSlice';
 
 interface CalendarProps {
 	initBookableRoomList: BookableRoomCnt[];
@@ -80,12 +81,33 @@ const Calendar: React.FC<CalendarProps> = ({ initBookableRoomList, selectedReser
 		}
 		return isPossible ? 'possible' : 'impossible';
 	};
+
+	const startOrEnd = () => {
+		// 시작일이 초기값이거나 이미 종료일이 차있으면 새로 클릭된 날짜는 시작일
+		if (selectedReservation.startDate === '' || selectedReservation.endDate !== '') {
+			return 'start';
+		}
+		return 'end';
+	};
+
+	const changeCss = (type: string, args: DateClickArg, text?: string) => {
+		if (type === 'select') {
+			args.dayEl.style.backgroundColor = color.color4;
+			args.dayEl.innerHTML = `<div class='start'>${text}</div>`;
+		} else if (type === 'unselect' && startObj) {
+			args.dayEl.style.backgroundColor = 'white';
+			args.dayEl.innerText = '';
+		}
+	};
+
 	// 날짜를 클릭시
 	const handleDateClick = (args: DateClickArg) => {
-		const ff = event?.find((e) => e.date === args.dateStr);
-		if (ff) {
-			console.log('예약 불가');
-			alert('예약이 불가합니다.');
+		const found = event?.find((e) => e.date === args.dateStr);
+		if (found) {
+			if (selectedReservation.startDate === '') {
+				console.log('예약 불가');
+				alert('예약이 불가합니다.');
+			}
 		} else {
 			console.log('예약 가능');
 
@@ -95,8 +117,7 @@ const Calendar: React.FC<CalendarProps> = ({ initBookableRoomList, selectedReser
 					startDate: args.dateStr,
 				});
 				setStartObj(args);
-				args.dayEl.style.backgroundColor = color.color4;
-				args.dayEl.innerHTML = `<div class='start'>시작일</div>`;
+				changeCss('select', args, '시작일');
 			} else {
 				if (selectedReservation.endDate === '') {
 					if (args.dateStr <= selectedReservation.startDate) {
@@ -108,20 +129,17 @@ const Calendar: React.FC<CalendarProps> = ({ initBookableRoomList, selectedReser
 								...selectedReservation,
 								endDate: args.dateStr,
 							});
-							args.dayEl.style.backgroundColor = color.color4;
-							args.dayEl.innerHTML = `<div class='start'>종료일</div>`;
+							changeCss('select', args, '종료일');
 						} else {
 							alert('선택하신 기간 중 예약 불가한 날짜가 포함되어잇습니다.');
 						}
 					}
 				} else {
 					if (startObj) {
-						startObj.dayEl.style.backgroundColor = 'white';
-						startObj.dayEl.innerText = '';
+						changeCss('unselect', startObj);
 					}
 					if (endObj) {
-						endObj.dayEl.style.backgroundColor = 'white';
-						endObj.dayEl.innerText = '';
+						changeCss('unselect', endObj);
 					}
 					setEndObj(undefined);
 
@@ -133,8 +151,7 @@ const Calendar: React.FC<CalendarProps> = ({ initBookableRoomList, selectedReser
 						endDate: '',
 					});
 
-					args.dayEl.style.backgroundColor = color.color4;
-					args.dayEl.innerHTML = `<div class='start'>시작일</div>`;
+					changeCss('select', args, '시작일');
 				}
 			}
 		}
@@ -234,7 +251,7 @@ const CalendarContainer = styled.div`
 	.calendar-unable {
 		background-color: ${color.unSelectColor};
 		border: none !important;
-		cursor: not-allowed;
+		/* cursor: not-allowed; */
 		text-align: center;
 	}
 
