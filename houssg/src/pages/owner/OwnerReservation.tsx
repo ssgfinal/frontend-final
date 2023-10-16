@@ -1,15 +1,17 @@
 import styled from 'styled-components';
+import { useState } from 'react';
 import { OwnerCalendar, ReservationDropDown } from '../../components/owner/reservation';
 import { useQuery } from '@tanstack/react-query';
 import { ownerKey } from '../../assets/constant';
 import { checkMyHouseReservation } from '../../helper';
+import { CheckMyHouseReservationType } from '../../types';
 
 const OwnerReservation = () => {
 	const today = new Date();
 	const currentYear = today.getFullYear();
 	const currentMonth = today.getMonth() + 1;
-
-	const { isLoading, data, isSuccess, isError, error } = useQuery(
+	const [houseIndex, setHouseIndex] = useState(0);
+	const { isLoading, data, isSuccess, isError, error } = useQuery<{ data: CheckMyHouseReservationType }>(
 		[ownerKey.checkReservationList],
 		() => checkMyHouseReservation(currentYear + '-' + currentMonth),
 		{
@@ -30,8 +32,8 @@ const OwnerReservation = () => {
 		<OwnerReservationWrapper>
 			{isSuccess && (
 				<>
-					<ReservationDropDown />
-					<OwnerCalendar houseId={23192} />
+					<ReservationDropDown accomList={data.data.accommodationList} houseIndex={houseIndex} setHouseIndex={setHouseIndex} />
+					<OwnerCalendar initailData={data.data.reservations} houseId={data.data.accommodationList[houseIndex].accomNumber} />
 				</>
 			)}
 		</OwnerReservationWrapper>

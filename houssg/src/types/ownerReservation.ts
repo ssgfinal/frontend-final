@@ -20,11 +20,12 @@ interface OwnerAvailableRoom {
 
 interface CheckMyHouseReservationType {
 	accommodationList: { accomNumber: number; accomName: string }[];
-	reservations: [];
+	reservations: OwnerReservedRoom[];
 }
 
 interface CommonCalendarProps {
 	houseId: number;
+	initailData: OwnerReservedRoom[];
 }
 
 export type { OwnerReservedRoom, OwnerAvailableRoom, CommonCalendarProps, CheckMyHouseReservationType };
