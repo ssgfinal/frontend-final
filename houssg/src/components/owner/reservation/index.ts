@@ -1,2 +1,3 @@
 import ReservationDropDown from './ReservationDropDown';
-export { ReservationDropDown };
+import OwnerCalendar from './OwnerCalendar';
+export { ReservationDropDown, OwnerCalendar };

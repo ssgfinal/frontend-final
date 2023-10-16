@@ -18,6 +18,13 @@ interface OwnerAvailableRoom {
 	];
 }
 
-interface CommonCalendarProps {}
+interface CheckMyHouseReservationType {
+	accommodationList: { accomNumber: number; accomName: string }[];
+	reservations: [];
+}
 
-export type { OwnerReservedRoom, OwnerAvailableRoom, CommonCalendarProps };
+interface CommonCalendarProps {
+	houseId: number;
+}
+
+export type { OwnerReservedRoom, OwnerAvailableRoom, CommonCalendarProps, CheckMyHouseReservationType };

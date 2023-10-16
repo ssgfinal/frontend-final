@@ -9,7 +9,7 @@ import { AuthLoginFunc, AuthSignUpFunc } from './rtk';
 import { MyCouponList, EnrollCouponList, MyReviewList, MyFavoriteList } from './mypage';
 import { HouseBaseInfo, HouseProps, HouseListProps, ServiceList, ReviewType, ReviewProps } from './houseDetailPage';
 import { RoomDataType, RoomComp, RoomData, AddRoomProps } from './room';
-import { OwnerReservedRoom, OwnerAvailableRoom, CommonCalendarProps } from './ownerReservation';
+import { OwnerReservedRoom, OwnerAvailableRoom, CommonCalendarProps, CheckMyHouseReservationType } from './ownerReservation';
 import { CouponType } from './ coupon';
 
 // auth Regi manage
@@ -19,16 +19,11 @@ export type { AuthProps, AuthInputType, AuthModeType, AuthPropsWithState, IdFind
 export type { StyledActiveProps, SetStateToggle, UserType, UserTypeObject, RoomSlideProps, TimerProps, ProcessType };
 
 //reservation
-export type {
-	ReservationDetailType,
-	ReservationsType,
-	MyReservation,
-	OwnerReservedRoom,
-	OwnerAvailableRoom,
-	CommonCalendarProps,
-	BookableRoomCnt,
-	SelectedReservationType,
-};
+export type { ReservationDetailType, ReservationsType, MyReservation, BookableRoomCnt, SelectedReservationType };
+
+//ownerReservation
+
+export type { OwnerReservedRoom, OwnerAvailableRoom, CommonCalendarProps, CheckMyHouseReservationType };
 
 //manage
 export type { ManageNavProps, MyHouseData, MyHouseDataHandleComp, EditMutationType, OwnerHouseReviewType };
@@ -36,7 +31,7 @@ export type { ManageNavProps, MyHouseData, MyHouseDataHandleComp, EditMutationTy
 export type { RegiStepProps, StepMoverType, FunnelPropsType };
 //redux-toolkit
 export type { AuthLoginFunc, AuthSignUpFunc };
-//mypage 충돌 해결
+//mypage
 export type { MyCouponList, EnrollCouponList, MyReviewList, MyFavoriteList };
 // house
 export type { HouseBaseInfo, HouseProps, HouseListProps, ServiceList, ReviewType, ReviewProps };

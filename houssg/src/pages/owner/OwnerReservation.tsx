@@ -1,9 +1,8 @@
 import styled from 'styled-components';
-import { ReservationDropDown } from '../../components/owner/reservation';
+import { OwnerCalendar, ReservationDropDown } from '../../components/owner/reservation';
 import { useQuery } from '@tanstack/react-query';
 import { ownerKey } from '../../assets/constant';
 import { checkMyHouseReservation } from '../../helper';
-import OwnerCalendar from '../../components/owner/reservation/OwnerCalendar';
 
 const OwnerReservation = () => {
 	const today = new Date();
@@ -29,8 +28,12 @@ const OwnerReservation = () => {
 
 	return (
 		<OwnerReservationWrapper>
-			<ReservationDropDown />
-			<OwnerCalendar />
+			{isSuccess && (
+				<>
+					<ReservationDropDown />
+					<OwnerCalendar houseId={23192} />
+				</>
+			)}
 		</OwnerReservationWrapper>
 	);
 };

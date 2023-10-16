@@ -78,5 +78,8 @@ const patchReviewComment = (reviewNumber: number, reviewComment: string) =>
 	});
 
 const checkMyHouseReservation = (yearMonth: string) => api.get(ownerUrl.checkReservation, { params: { yearMonth } });
+const getHouseReservation = (accomNumber: number, yearMonth: string) => api.get(ownerUrl.getReservation, { params: { accomNumber, yearMonth } });
 
-export { getMyHouseListData, onRegiFunnelData, onEditManageHouseApi, getHouseReview, addReviewComment, patchReviewComment, checkMyHouseReservation };
+export { getMyHouseListData, onRegiFunnelData, onEditManageHouseApi, getHouseReview, addReviewComment, patchReviewComment };
+//예약
+export { checkMyHouseReservation, getHouseReservation };

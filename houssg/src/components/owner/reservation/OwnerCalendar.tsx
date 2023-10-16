@@ -8,13 +8,17 @@ import { eventList } from '../../../assets/constant/reservationDummy';
 import { color } from '../../../assets/styles';
 import { useQuery } from '@tanstack/react-query';
 import { ownerKey } from '../../../assets/constant';
+import { getHouseReservation } from '../../../helper';
 
-const OwnerCalendar: React.FC<CommonCalendarProps> = () => {
+const OwnerCalendar: React.FC<CommonCalendarProps> = ({ houseId }) => {
 	useCalendarStyle('owner');
+	const today = new Date();
+	const currentYear = today.getFullYear();
+	const currentMonth = today.getMonth() + 1;
 
 	const { isLoading, data, isSuccess, isError, error } = useQuery<{ data: OwnerReservedRoom[] }>(
 		[ownerKey.getReservationData, '2023-11'],
-		() => getTargetRoomData(Number(houseId)),
+		() => getHouseReservation(houseId, currentYear + '-' + currentMonth),
 		{
 			cacheTime: 5 * 60 * 1000,
 			staleTime: 2 * 60 * 1000,

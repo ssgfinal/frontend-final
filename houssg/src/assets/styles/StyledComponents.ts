@@ -172,6 +172,7 @@ const InfoText = styled.div`
 	line-height: 1.3rem;
 	padding-bottom: 2rem;
 	white-space: pre-wrap;
+	word-break: break-all;
 
 	@media (max-width: 300px) {
 		font-size: 0.5rem;

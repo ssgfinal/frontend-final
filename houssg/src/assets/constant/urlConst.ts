@@ -67,7 +67,7 @@ const ownerUrl = {
 	patchComment: 'review/comment',
 	//예약
 	checkReservation: 'reservation/owner/check',
-	getReservationData: 'reservation/owner/check-other',
+	getReservation: 'reservation/owner/check-other',
 	getRoomAvailability: 'reservation/available-room',
 };
 
