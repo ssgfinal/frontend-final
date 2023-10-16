@@ -36,4 +36,5 @@ interface TimerProps {
 	setTimeStatus: React.Dispatch<React.SetStateAction<ProcessType>>;
 	timeStatus: ProcessType;
 }
+
 export type { StyledActiveProps, SetStateToggle, UserType, UserTypeObject, UploaderSize, RoomSlideProps, TimerProps, ProcessType };
