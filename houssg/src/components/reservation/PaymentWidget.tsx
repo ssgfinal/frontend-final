@@ -1,9 +1,13 @@
 import { useEffect, useRef } from 'react';
 import { loadPaymentWidget, PaymentWidgetInstance } from '@tosspayments/payment-widget-sdk';
-import { useParams } from 'react-router-dom';
+// import { useParams } from 'react-router-dom';
 import { Provision } from './Provision';
 import { color, ReservationCommonBox, UserReservationTitle } from '../../assets/styles';
 import styled from 'styled-components';
+import { SelectedReservationType } from '../../types';
+import api from '../../api/api';
+import { userUrl } from '../../assets/constant';
+import { useLocation, useParams } from 'react-router-dom';
 
 // 시크릿키는 .env에서 관리하는 걸 추천?
 
@@ -12,10 +16,10 @@ const clientKey = 'test_ck_D5GePWvyJnrK0W0k6q8gLzN97Eoq';
 const customerKey = 'YbX2HuSlsC9uVJW6NMRMj';
 
 interface PaymentWidgetProps {
-	payment: number;
+	selectedReservation: SelectedReservationType;
 }
-export const PaymentWidget: React.FC<PaymentWidgetProps> = ({ payment }) => {
-	const { roomId } = useParams();
+export const PaymentWidget: React.FC<PaymentWidgetProps> = ({ selectedReservation }) => {
+	// const { roomId } = useParams();
 
 	const paymentWidgetRef = useRef<PaymentWidgetInstance | null>(null);
 	const paymentMethodsWidgetRef = useRef<ReturnType<PaymentWidgetInstance['renderPaymentMethods']> | null>(null);
@@ -25,7 +29,7 @@ export const PaymentWidget: React.FC<PaymentWidgetProps> = ({ payment }) => {
 			const paymentWidget = await loadPaymentWidget(clientKey, customerKey);
 			// loadPaymentWidget : PaymentWidget 인스턴스를 반환하는 메서드
 			// PaymentWidget : 해당 인스턴스를 사용해서 결제위젯을 렌더링 함, 결제위젯 인스턴스는 결제를 요청하는 requestPayment()라는 함수도 반환
-			const paymentMethodsWidget = paymentWidget.renderPaymentMethods('#payment-widget', payment);
+			const paymentMethodsWidget = paymentWidget.renderPaymentMethods('#payment-widget', selectedReservation.paymentPrice);
 			// renderPaymentMethods로 결제위젯을 렌더링
 			// paymentWidget.renderPaymentMethods()에서 updateAmount()를 반환함
 
@@ -33,7 +37,7 @@ export const PaymentWidget: React.FC<PaymentWidgetProps> = ({ payment }) => {
 			// useRef를 사용해서 인스턴스 저장
 			paymentMethodsWidgetRef.current = paymentMethodsWidget;
 		})();
-	}, [payment]);
+	}, [selectedReservation]);
 
 	// 가격이 바뀌면 updateAmount를 호출하는 코드
 	// 현재는 할인을 다른 컴포넌트서 실행
@@ -48,23 +52,63 @@ export const PaymentWidget: React.FC<PaymentWidgetProps> = ({ payment }) => {
 	// 	paymentMethodsWidget.updateAmount(payment, paymentMethodsWidget.UPDATE_REASON.COUPON);
 	// }, [payment]);
 
+	const userNickName = sessionStorage.getItem('nickname');
+	const userPhone = sessionStorage.getItem('phone');
+	const location = useLocation();
+	const houseId = location.state.houseId;
+	const houseName = location.state.houseName;
+	const room = location.state.room;
+
+	const { roomId } = useParams();
+
 	const paymentWidgetButtonFunc = () => {
 		const paymentWidget = paymentWidgetRef.current;
 
 		try {
-			paymentWidget?.requestPayment({
-				//원래 맨앞에 await이 있었음 근데 async는 없어서 에러 뜨길래 일단 지움
-				orderId: 'abcdefgh',
-				orderName: '토스 티셔츠 외 2건',
-				customerName: '김토스',
-				customerEmail: 'customer123@gmail.com',
-				successUrl: `${window.location.origin}/user/reservation/${roomId}`,
-				failUrl: `${window.location.origin}/user/house`,
-				//   successUrl: `${window.location.origin}/success`,
-				//   failUrl: `${window.location.origin}/fail`,
-			});
+			api
+				.post(userUrl.reservationEnroll, {
+					startDate: selectedReservation.startDate,
+					endDate: selectedReservation.endDate,
+					nickname: userNickName,
+					phoneNumber: userPhone,
+					guestName: selectedReservation.visitorName,
+					guestPhone: selectedReservation.visitorPhone,
+					accomNumber: houseId,
+					accomName: houseName,
+					roomNumber: roomId,
+					roomCategory: room.roomCategory,
+					roomPrice: room.roomPrice,
+					couponNumber: selectedReservation.usingCoupon.couponNumber,
+					couponName: selectedReservation.usingCoupon.couponName,
+					discount: selectedReservation.usingCoupon.discount,
+					usePoint: selectedReservation.usingPoint,
+					totalPrice: room.roomPrice * selectedReservation.night,
+					paymentAmount: selectedReservation.paymentPrice,
+				})
+				.then(({ data }) => {
+					console.log('data', data);
+					try {
+						// console.log('PaymentWidget seletedReservation > ', selectedReservation);
+						paymentWidget?.requestPayment({
+							//원래 맨앞에 await이 있었음 근데 async는 없어서 에러 뜨길래 일단 지움
+							orderId: data,
+							orderName: `${houseName} ${room.roomCategory} ${selectedReservation.night}박 예약`,
+							customerName: userNickName ? userNickName : 'houssg 고객님',
+							// customerEmail: 'customer123@gmail.com',
+							successUrl: `${window.location.origin}/user/reservation/${selectedReservation.roomId}`,
+							failUrl: `${window.location.origin}/user/house`,
+							//   successUrl: `${window.location.origin}/success`,
+							//   failUrl: `${window.location.origin}/fail`,
+						});
+					} catch (err) {
+						// console.log(err);
+					}
+				});
 		} catch (err) {
 			console.log(err);
+			if (err === '예약 불가능') {
+				alert('죄송합니다. 이미 예약이 완료된 방입니다.');
+			}
 		}
 	};
 

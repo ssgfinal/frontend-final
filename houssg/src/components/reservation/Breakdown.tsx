@@ -3,96 +3,70 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
 import { color, ReservationCommonBox, UserReservationTitle, UserReservationLeft } from '../../assets/styles';
+import { useLocation } from 'react-router-dom';
+import { CouponType, SelectedReservationType } from '../../types';
 
 interface BreakdownProps {
-	payment: number;
-	setPayment: React.Dispatch<React.SetStateAction<number>>;
+	initCouponList: CouponType[];
+	selectedReservation: SelectedReservationType;
+	setSelectedReservation: React.Dispatch<React.SetStateAction<SelectedReservationType>>;
 }
-export const Breakdown: React.FC<BreakdownProps> = ({ payment, setPayment }) => {
-	const coupons = [
-		{
-			couponId: 1,
-			couponName: '9월달 행사',
-			expirationDate: '2023-09-10',
-			discountPrice: 3000,
-		},
-		{
-			couponId: 2,
-			couponName: '대체공휴일 맞이',
-			expirationDate: '2023-10-20',
-			discountPrice: 1200,
-		},
-	];
+export const Breakdown: React.FC<BreakdownProps> = ({ initCouponList, selectedReservation, setSelectedReservation }) => {
+	const location = useLocation();
+	const room = location.state.room;
 
-	const totalPoint = 35;
+	const totalPoint = Number(sessionStorage.getItem('point'));
 
-	const reservation = {
-		id: 1,
-		night: 2,
-		price: 64000,
-		userNickName: '김도로뇽',
-		userPhone: '01012345678',
-	};
-	const room = {
-		id: 1,
-		type: '스탠다드',
-		price: 32000,
-	};
-
-	// 적용할 포인트
-	const [point, setPoint] = useState(0);
-
-	// 결제 금액
-	// const [payment, setPayment] = useState(reservation.night * room.price);
 	useEffect(() => {
-		setPayment(reservation.night * room.price);
-	}, [reservation.night, room.price, setPayment]);
-
-	console.log('Breakdown 총액 > ', payment);
-
-	const [selectedCoupon, setSelectedCoupon] = useState({
-		couponId: 0,
-		couponName: '',
-		expirationDate: '',
-		discountPrice: 0,
-	});
+		setSelectedReservation({
+			...selectedReservation,
+			paymentPrice: selectedReservation.night * room.roomPrice,
+		});
+	}, []);
 
 	const [pointStatus, setPointStatus] = useState('num');
+
 	const handleCoupon = (e: React.ChangeEvent<HTMLSelectElement>) => {
-		setSelectedCoupon(coupons[Number(e.target.value)]);
+		setSelectedReservation({
+			...selectedReservation,
+			usingCoupon: initCouponList[Number(e.target.value)],
+		});
 	};
 
 	const handlePoint = (e: React.ChangeEvent<HTMLInputElement>) => {
 		if (isNaN(Number(e.target.value))) {
-			console.log('숫자 아님');
 			setPointStatus('text');
-			setPoint(0);
+			setSelectedReservation({
+				...selectedReservation,
+				usingPoint: 0,
+			});
 		} else {
 			if (Number(e.target.value) > totalPoint) {
 				setPointStatus('higher');
-				setPoint(totalPoint);
+				useTotalPoint;
 			} else {
 				setPointStatus('num');
-				setPoint(Number(e.target.value));
+				setSelectedReservation({
+					...selectedReservation,
+					usingPoint: Number(e.target.value),
+				});
 			}
 		}
 	};
 
 	const useTotalPoint = () => {
-		setPoint(totalPoint);
+		setSelectedReservation({
+			...selectedReservation,
+			usingPoint: totalPoint,
+		});
 	};
 
-	// 쿠폰 만료 여부 검사하는 함수
-	function isFutureDate(checkDate: string): boolean {
-		const targetDate = new Date(checkDate);
-		const currentDate = new Date();
-		return targetDate > currentDate;
-	}
-
-	// 선택된 쿠폰, 포인트가 달라질 때마다 결재 금액 변경
 	useEffect(() => {
-		setPayment(reservation.night * room.price - selectedCoupon.discountPrice - point);
-	}, [selectedCoupon, point, reservation.night, room.price]);
+		setSelectedReservation({
+			...selectedReservation,
+			paymentPrice: selectedReservation.night * room.roomPrice - selectedReservation.usingCoupon.discount - selectedReservation.usingPoint,
+		});
+	}, [selectedReservation.night, room.roomPrice, selectedReservation.usingCoupon, selectedReservation.usingPoint]);
 
 	return (
 		<>
@@ -101,30 +75,27 @@ export const Breakdown: React.FC<BreakdownProps> = ({ payment, setPayment }) => 
 				<UserReservationLeft>쿠폰</UserReservationLeft>
 				<UserReservationLeft>
 					<Select onChange={(e) => handleCoupon(e)}>
-						<option value={''}>사용 안 함</option>
-						{coupons.map((coupon, idx) => {
-							if (isFutureDate(coupon.expirationDate) === false) {
-								return (
-									<ExpiredCoupon key={idx} value={idx} disabled>
-										{coupon.couponName}
-										(만료된 쿠폰)
-									</ExpiredCoupon>
-								);
-							} else {
-								return (
-									<option key={idx} value={idx}>
-										{coupon.couponName}
-									</option>
-								);
-							}
-						})}
+						{initCouponList && initCouponList.length === 0 ? (
+							<option value={''}>사용 가능한 쿠폰 없음</option>
+						) : (
+							<>
+								<option value={''}>사용 안 함</option>
+								{initCouponList &&
+									initCouponList.map((coupon, idx) => {
+										return (
+											<option key={idx} value={idx}>
+												{coupon.couponName}
+											</option>
+										);
+									})}
+							</>
+						)}
 					</Select>
 				</UserReservationLeft>
 				<UserReservationLeft>포인트</UserReservationLeft>
 				<Gray>보유 포인트 {totalPoint}</Gray>
 				<UserReservationLeft>
-					{/* <PointInput name="point" value={point} onChange={(e) => setPoint(Number(e.target.value))} /> &nbsp; */}
-					<PointInput name="point" value={point} onChange={(e) => handlePoint(e)} /> &nbsp;
+					<PointInput name="point" value={selectedReservation.usingPoint} onChange={(e) => handlePoint(e)} /> &nbsp;
 					<Button onClick={useTotalPoint}> 전액 사용 </Button>
 					{pointStatus == 'text' ? (
 						<Warning>숫자만 입력가능합니다.</Warning>
@@ -141,23 +112,23 @@ export const Breakdown: React.FC<BreakdownProps> = ({ payment, setPayment }) => 
 					<div>상품 금액</div>
 					<Between>
 						<div> &nbsp; </div>
-						<div>{(reservation.night * room.price).toLocaleString()}</div>
+						<div>{(room.roomPrice * selectedReservation.night).toLocaleString()}</div>
 					</Between>
 					<div>할인 금액 </div>
 					<Between>
 						<div>&minus; </div>
-						<div>{selectedCoupon.discountPrice.toLocaleString()}</div>
+						<div>{selectedReservation.usingCoupon.discount.toLocaleString()}</div>
 					</Between>
 					<div>포인트 </div>
 					<Between>
 						<div>&minus; </div>
-						<div>{point}</div>
+						<div>{selectedReservation.usingPoint}</div>
 					</Between>
 					<Hr />
 					<div>총 결제 금액</div>
 					<Between>
 						<div> &nbsp;</div>
-						<div>{payment.toLocaleString()}</div>
+						<div>{selectedReservation.paymentPrice.toLocaleString()}</div>
 					</Between>
 				</AboutPayment>
 			</ReservationCommonBox>
@@ -167,13 +138,8 @@ export const Breakdown: React.FC<BreakdownProps> = ({ payment, setPayment }) => 
 
 const Select = styled.select`
 	&:hover {
-		cursor: pointer; /* 또는 'cursor: grab;' 또는 'cursor: pointer;' 등 원하는 커서 스타일로 변경하세요. */
+		cursor: pointer;
 	}
-`;
-
-const ExpiredCoupon = styled.option`
-	background-color: ${color.unSelectColor};
-	color: white;
 `;
 
 const Gray = styled(UserReservationLeft)`
@@ -209,7 +175,7 @@ const Button = styled.button`
 	color: white;
 
 	&:hover {
-		cursor: pointer; /* 또는 'cursor: grab;' 또는 'cursor: pointer;' 등 원하는 커서 스타일로 변경하세요. */
+		cursor: pointer;
 	}
 `;
 

@@ -1,3 +1,5 @@
+import { CouponType } from '.';
+
 interface ReservationDetailType {
 	reservationNumber: number; // 예약번호
 	paymentDate: string; // 결제일
@@ -48,4 +50,23 @@ interface ReservationsType extends ReservationDetailType {
 	reviewNumber: number; // 리뷰번호
 }
 
-export type { ReservationDetailType, ReservationsType, MyReservation };
+// 날짜별 예약 가능한 방 개수
+interface BookableRoomCnt {
+	date: string;
+	availableRooms: number;
+}
+
+// 유저가 선택한 정보 == 백에 보낼 데이터
+interface SelectedReservationType {
+	roomId: number;
+	selectedReservationDate?: string;
+	startDate: string;
+	endDate: string;
+	night: number;
+	visitorName: string;
+	visitorPhone: string;
+	usingCoupon: CouponType; // 프론트에서 선택한 쿠폰 한개
+	usingPoint: number;
+	paymentPrice: number;
+}
+export type { ReservationDetailType, ReservationsType, MyReservation, BookableRoomCnt, SelectedReservationType };

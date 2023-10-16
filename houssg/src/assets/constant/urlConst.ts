@@ -21,7 +21,8 @@ const userUrl = {
 	// userhouselist
 	houseList: 'search',
 
-	// reservation
+	// reservation 예약내역페이지
+	review: 'reveiw',
 	addReview: 'review/add', // 유저가 등록하는 리뷰
 	myReservation: 'reservation/history',
 	// UserHouseDetail
@@ -29,6 +30,10 @@ const userUrl = {
 	like: 'favorite',
 	addLike: 'favorite/add',
 	reviewList: 'review/all/accom',
+
+	// UserReservation.tsx 예약하기 페이지
+	reservation: 'reservation/basic-info', // 에약하기 페이지에서 띄울 데이터 요청하는 url
+	reservationEnroll: 'reservation/enroll', // 예약하기
 };
 
 const authUrl = {
