@@ -7,7 +7,10 @@ import { useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { getTargetRoomData } from '../../helper';
 
-export const RoomList = () => {
+interface RoomListProps {
+	houseName: string;
+}
+export const RoomList: React.FC<RoomListProps> = ({ houseName }) => {
 	const { houseId } = useParams();
 
 	const { isLoading, data, isSuccess, isError, error } = useQuery<{ data: RoomDataType[] }>(
@@ -26,7 +29,11 @@ export const RoomList = () => {
 	}
 	console.log(data);
 
-	return <Wrapper>{isSuccess && data.data.map((room) => <RoomDetail key={room.roomNumber} room={room} />)}</Wrapper>;
+	return (
+		<Wrapper>
+			{isSuccess && houseId && data.data.map((room) => <RoomDetail key={room.roomNumber} room={room} houseId={houseId} houseName={houseName} />)}
+		</Wrapper>
+	);
 };
 
 const Wrapper = styled.div`
