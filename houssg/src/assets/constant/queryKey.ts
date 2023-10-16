@@ -13,12 +13,7 @@ const userKey = {
 	myReview: 'myReview',
 	myFavorite: 'myFavorite',
 	myReservation: 'myReservation',
-};
-
-const houseKey = {
 	userHouseList: 'userHouseList',
-	scoreHouse: 'scoreHouse',
-	searchHouse: 'searchHouse',
 };
 
-export { ownerKey, roomKey, userKey, houseKey };
+export { ownerKey, roomKey, userKey };

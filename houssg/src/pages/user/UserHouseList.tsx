@@ -23,23 +23,23 @@ const UserHouseList = () => {
 		},
 	];
 
-	const [isCategory, setIsCategory] = useState<string>('');
-	const [isSearch, setIsSearch] = useState<string>('');
-	const [isSelect, setIsSelect] = useState<string>('');
+	const [type, setType] = useState<string>(houseCategory[0].value);
+	const [search, setSearch] = useState<string>('');
+	const [select, setSelect] = useState<string>(order[0].value);
 
 	// 검색 카테고리
 	const onCategorySearch = (value: { value: string; label: React.ReactNode }) => {
-		setIsCategory(value.value);
+		setType(value.value);
 	};
 
 	// 검색어
 	const onSearch = (value: string) => {
-		setIsSearch(value);
+		setSearch(value);
 	};
 
 	// 선택 카테고리
 	const onCategorySelect = (value: { value: string; label: React.ReactNode }) => {
-		setIsSelect(value.value);
+		setSelect(value.value);
 	};
 
 	const { RangePicker } = DatePicker;
@@ -50,7 +50,7 @@ const UserHouseList = () => {
 				<Category>
 					<Select
 						labelInValue
-						defaultValue={{ value: '카테고리', label: '카테고리' }}
+						defaultValue={{ value: houseCategory[0].value, label: houseCategory[0].value }}
 						onChange={onCategorySearch}
 						options={houseCategory}
 						style={{ width: '100%' }}
@@ -66,7 +66,6 @@ const UserHouseList = () => {
 				</SearchInput>
 			</SearchWrapper>
 			<SearchResultBar>
-				<span style={{ margin: 'auto 0' }}> 50개의 검색 결과</span>
 				<Select
 					labelInValue
 					defaultValue={{ value: order[0].value, label: order[0].value }}
@@ -76,7 +75,7 @@ const UserHouseList = () => {
 				/>
 			</SearchResultBar>
 			<SearchResultContents>
-				<HouseList isSearch={isSearch} isSelect={isSelect} isCategory={isCategory} />
+				<HouseList search={search} select={select} type={type} />
 			</SearchResultContents>
 		</>
 	);

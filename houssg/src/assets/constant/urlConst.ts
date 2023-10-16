@@ -19,9 +19,7 @@ const userUrl = {
 	myFavorite: 'mypage/favorite',
 
 	// userhouselist
-	houseList: 'accom/all',
-	scoreHouse: 'accom/score',
-	searchHouse: 'search',
+	houseList: 'search',
 
 	// reservation
 	addReview: 'review/add', // 유저가 등록하는 리뷰
