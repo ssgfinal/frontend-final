@@ -66,7 +66,6 @@ const authSlice = createSlice({
 		},
 		resetAuthStatus: (state) => {
 			state.status = 'idle';
-			console.log('호출됐나');
 		},
 	},
 	extraReducers: (builder) => {
