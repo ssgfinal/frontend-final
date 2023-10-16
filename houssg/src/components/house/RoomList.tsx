@@ -27,7 +27,6 @@ export const RoomList: React.FC<RoomListProps> = ({ houseName }) => {
 	if (isLoading) {
 		return <div>로딩중...</div>;
 	}
-	console.log(data);
 
 	return (
 		<Wrapper>

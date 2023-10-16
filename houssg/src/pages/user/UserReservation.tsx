@@ -23,7 +23,7 @@ export const UserReservation = () => {
 		selectedReservationDate: '',
 		startDate: '',
 		endDate: '',
-		night: 1,
+		night: 0,
 		visitorName: '',
 		visitorPhone: '',
 		usingCoupon: {
