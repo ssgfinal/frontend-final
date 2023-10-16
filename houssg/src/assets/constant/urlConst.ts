@@ -68,7 +68,7 @@ const ownerUrl = {
 	//예약
 	checkReservation: 'reservation/owner/check',
 	getReservation: 'reservation/owner/check-other',
-	getRoomAvailability: 'reservation/available-room',
+	getRoomAvailability: 'reservation/owner/available-room',
 };
 
 const roomUrl = {

@@ -20,6 +20,7 @@ import {
 	patchReviewComment,
 	checkMyHouseReservation,
 	getHouseReservation,
+	getReservableRoomList,
 } from './ownerFunction';
 
 // 객실 관련
@@ -31,7 +32,16 @@ import { getMyCouponList, setMyCouponList, getMyReviewList, getMyFavoriteList } 
 export { authLoginFunc, authSignUpFunc, kakaoLoginFunc, kakaoSignUp, nickCheckFunc, idCheckFunc, onPhoneUsableCheck, phoneAuthCheck, onFindId };
 
 // 사업자
-export { getMyHouseListData, onRegiFunnelData, getHouseReview, addReviewComment, patchReviewComment, checkMyHouseReservation, getHouseReservation };
+export {
+	getMyHouseListData,
+	onRegiFunnelData,
+	getHouseReview,
+	addReviewComment,
+	patchReviewComment,
+	checkMyHouseReservation,
+	getHouseReservation,
+	getReservableRoomList,
+};
 
 export { getTargetRoomData, addTargetRoom, editTargetRoom, returnRoomFormData };
 

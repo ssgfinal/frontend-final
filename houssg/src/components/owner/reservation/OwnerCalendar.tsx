@@ -8,14 +8,25 @@ import { eventList } from '../../../assets/constant/reservationDummy';
 import { color } from '../../../assets/styles';
 import { useQuery } from '@tanstack/react-query';
 import { ownerKey } from '../../../assets/constant';
-import { getHouseReservation } from '../../../helper';
+import { getHouseReservation, getReservableRoomList } from '../../../helper';
 
 const OwnerCalendar: React.FC<CommonCalendarProps> = ({ initailData, houseId }) => {
 	useCalendarStyle('owner');
 
 	const { isLoading, data, isSuccess, isError, error } = useQuery<{ data: OwnerReservedRoom[] }>(
-		[ownerKey.getReservationData, '2023-11'],
+		[ownerKey.getReservationData, houseId, '2023-11'],
 		() => getHouseReservation(houseId, '2023-11'),
+		{
+			cacheTime: 5 * 60 * 1000,
+			staleTime: 2 * 60 * 1000,
+			keepPreviousData: true,
+			placeholderData: { data: initailData },
+		},
+	);
+
+	const reservationableRoomList = useQuery<{ data: OwnerReservedRoom[] }>(
+		[ownerKey.reserveAvailability, houseId, '2023-11'],
+		() => getReservableRoomList(houseId, '2023-11'),
 		{
 			cacheTime: 5 * 60 * 1000,
 			staleTime: 2 * 60 * 1000,
@@ -26,11 +37,8 @@ const OwnerCalendar: React.FC<CommonCalendarProps> = ({ initailData, houseId }) 
 
 	isError && console.log(error, 'error');
 
-	if (isLoading) {
-		return <div>로딩중...</div>;
-	}
-	isSuccess && console.log(data);
-
+	isSuccess && console.log(data, '예약목록');
+	reservationableRoomList.isSuccess && console.log(reservationableRoomList.data, '예약가능목록');
 	const events = eventList;
 	if (isLoading) {
 		return <div>로딩중...</div>;
