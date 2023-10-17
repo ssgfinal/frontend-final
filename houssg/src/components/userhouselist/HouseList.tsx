@@ -15,52 +15,56 @@ interface HouseListProps {
 }
 
 const HouseList: React.FC<HouseListProps> = ({ search, select, type }) => {
-	const pageSize = 5;
+	const pageSize = 12;
+	const [page, setPage] = useState<number>(1);
+	// const [lastPage, setLastPage] = useState(false);
+	const maxPage = 200 / 20;
 
-	const [page, setPage] = useState(1);
-
+	console.log('1번째 실행' + page);
 	const [fetching, setFetching] = useState(false);
 
 	const { isLoading, isError, error, data, hasNextPage, fetchNextPage } = useInfiniteQuery<{ data: SearchHouse[] }>(
 		[userKey.userHouseList, search, type, select, pageSize, page],
 		({ pageParam = 1 }) => getUserHouseList(search, type, select, pageSize, page, pageParam),
 		{
-			getNextPageParam: (_lastPage, pages) => {
-				const maxPage = 200 / 20;
-				const page = pages.length + 1;
-				if (page <= maxPage) {
-					console.log('아직 작습니다.');
-					return setPage(page);
-				} else {
-					console.log('마지막 페이지입니다.');
-					alert('마지막 페이지입니다.');
-					return undefined;
-				}
+			getNextPageParam: (_, pages) => {
+				const lastPage = pages.length + 1;
+				console.log('3번째 실행' + page);
+				return lastPage < maxPage ? lastPage + 1 : undefined;
+				// if (lastPage <= maxPage) {
+				// 	return lastPage < maxPage ? lastPage + 1 : undefined;
+				// } else {
+				// 	console.log('마지막 페이지입니다.' + page);
+				// 	return undefined;
+				// }
+
+				// if (lastPage > maxPage) {
+				// 	// console.log('마지막 페이지입니다.' + page);
+				// 	// alert('마지막 페이지입니다.');
+				// 	return undefined;
+				// }
+
 				// {
 				// 	nextPage <= maxPage ? nextPage : undefined;
 				// }
-				// nextPage <= maxPage ? nextPage : undefined;
 			},
 		},
 	);
 
-	console.log('페이지는?' + page);
-
-	console.log('useInfiniteQuery data>>>' + JSON.stringify(data));
-	console.log('페이지 파람>>>>>' + JSON.stringify(data?.pageParams));
+	// data && setPage(page + 1);
+	console.log('2번째 실행' + page);
 
 	useEffect(() => {
 		const onScroll = async () => {
-			const scrollY = window.scrollY || window.pageYOffset; // 스크롤 위치
-			const innerHeight = window.innerHeight; // 창의 높이
-			const scrollMaxY = document.documentElement.scrollHeight - innerHeight; // 최대 스크롤 가능한 위치
+			const scrollY = window.scrollY;
+			const innerHeight = window.innerHeight;
+			const scrollMaxY = document.documentElement.scrollHeight - innerHeight;
 
 			if (!fetching && scrollY >= scrollMaxY) {
 				setFetching(true);
 				if (data && hasNextPage) {
 					const nextPagePromises = data.pages.map(() => fetchNextPage());
 					await Promise.all(nextPagePromises);
-					console.log('스크롤!!!!!>>>>>');
 				}
 				setFetching(false);
 			}
@@ -68,15 +72,21 @@ const HouseList: React.FC<HouseListProps> = ({ search, select, type }) => {
 
 		document.addEventListener('scroll', onScroll);
 
+		if (page <= maxPage && data !== undefined && data.pages[0].data.length > 1) {
+			setPage(page + 1);
+		}
+		// if (page <= maxPage && data === undefined) {
+		// 	setLastPage(true);
+		// }
 		return () => {
 			document.removeEventListener('scroll', onScroll);
 		};
-	}, [data, fetchNextPage, hasNextPage, fetching]);
+	}, [data, fetchNextPage, hasNextPage, fetching, page, maxPage]);
 
-	// console.log('페이지 확인' + page);
-	console.log('데이터 확인' + JSON.stringify(data) + '    그럼 fetching은??' + fetching);
-
-	// const listQuery = useQuery({ queryKey: [userKey.userHouseList], queryFn: getUserHouseList });
+	// if (lastPage) {
+	// 	<>마지막 페이지입니다.</>;
+	// 	return setLastPage(false);
+	// }
 
 	isError && console.log(error);
 
@@ -84,25 +94,21 @@ const HouseList: React.FC<HouseListProps> = ({ search, select, type }) => {
 		return <div>로딩중...</div>;
 	}
 
+	//TODO: 사진이 들어왔다가 사라짐???
 	return (
-		<>
-			{data?.pages !== undefined ? (
-				<>
-					{data?.pages.map((group, idx) => (
-						<ListWrapper key={idx}>
-							{group.data.map((house) => (
-								<SearchResultContents key={house.accomNumber}>
-									<BriefHouse house={house} key={house.accomNumber} />
-								</SearchResultContents>
-							))}
-						</ListWrapper>
-					))}
-				</>
-			) : (
-				<>검색결과가 없습니다.</>
-			)}
-			<div></div>
-		</>
+		<div>
+			<ListWrapper>
+				{data?.pages.map((group, idx) => (
+					<div key={idx}>
+						{group.data.map((house) => (
+							<SearchResultContents key={house.accomNumber}>
+								<BriefHouse house={house} key={house.accomNumber} />
+							</SearchResultContents>
+						))}
+					</div>
+				))}
+			</ListWrapper>
+		</div>
 	);
 };
 
