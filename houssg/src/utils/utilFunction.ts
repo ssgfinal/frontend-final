@@ -52,4 +52,14 @@ const doRefFocus = (
 	}
 };
 
-export { webpImageIncoder, pxToRem, base64ToFile, doRefFocus };
+const changeYearMonth = (currentYear: number, currentMonth: number, prevOrNext: 'prev' | 'next') => {
+	let returnDate = { year: currentYear, month: currentMonth };
+	if (prevOrNext === 'next') {
+		currentMonth === 12 ? (returnDate = { year: currentYear + 1, month: 1 }) : (returnDate = { year: currentYear, month: currentMonth + 1 });
+	} else {
+		currentMonth === 1 ? (returnDate = { year: currentYear - 1, month: 12 }) : (returnDate = { year: currentYear, month: currentMonth - 1 });
+	}
+	return returnDate;
+};
+
+export { webpImageIncoder, pxToRem, base64ToFile, doRefFocus, changeYearMonth };

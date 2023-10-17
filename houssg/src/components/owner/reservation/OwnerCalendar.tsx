@@ -4,44 +4,47 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin, { DateClickArg } from '@fullcalendar/interaction';
 import styled from 'styled-components';
 import useCalendarStyle from '../../../hooks/useCalendarStyle';
+import { useState } from 'react';
 import { CommonCalendarProps, OwnerReservedRoom } from '../../../types';
 import { color } from '../../../assets/styles';
 import { useQuery } from '@tanstack/react-query';
 import { ownerKey } from '../../../assets/constant';
 import { getHouseReservation, getReservableRoomList } from '../../../helper';
 import { useRef } from 'react';
+import { changeYearMonth } from '../../../utils';
 
-const OwnerCalendar: React.FC<CommonCalendarProps> = ({ initailData, houseId }) => {
+const OwnerCalendar: React.FC<CommonCalendarProps> = ({ currentDate, initailData, houseId }) => {
 	useCalendarStyle('owner');
 	const calendarRef = useRef<FullCalendar | null>(null);
-	const calenderApi = calendarRef.current?.getApi().view.title;
-	console.log(calenderApi);
+	// const calenderApi = calendarRef.current?.getApi().view.title; // 혹시 몰라 놔둠
+	const [calendarDate, setCalendarDate] = useState(currentDate);
+
+	console.log(calendarDate);
 	const { isLoading, data, isSuccess, isError, error } = useQuery<{ data: OwnerReservedRoom[] }>(
-		[ownerKey.getReservationData, houseId, '2023-11'],
-		() => getHouseReservation(houseId, '2023-11'),
+		[ownerKey.getReservationData, houseId, calendarDate.year + '-' + calendarDate.month],
+		() => getHouseReservation(houseId, calendarDate.year + '-' + calendarDate.month),
 		{
 			cacheTime: 5 * 60 * 1000,
-			staleTime: 2 * 60 * 1000,
+			staleTime: 5 * 60 * 1000,
 			keepPreviousData: true,
 			placeholderData: { data: initailData },
 		},
 	);
 
 	const reservationableRoomList = useQuery<{ data: OwnerReservedRoom[] }>(
-		[ownerKey.reserveAvailability, houseId, '2023-11'],
-		() => getReservableRoomList(houseId, '2023-11'),
+		[ownerKey.reserveAvailability, houseId, calendarDate.year + '-' + calendarDate.month],
+		() => getReservableRoomList(houseId, calendarDate.year + '-' + calendarDate.month),
 		{
 			cacheTime: 5 * 60 * 1000,
-			staleTime: 2 * 60 * 1000,
+			staleTime: 5 * 60 * 1000,
 			keepPreviousData: true,
-			placeholderData: { data: initailData },
 		},
 	);
 
 	isError && console.log(error, 'error');
 	isSuccess && console.log(data, '예약목록');
-
 	reservationableRoomList.isSuccess && console.log(reservationableRoomList.data, '예약가능목록');
+
 	if (isLoading) {
 		return <div>로딩중...</div>;
 	}
@@ -59,6 +62,29 @@ const OwnerCalendar: React.FC<CommonCalendarProps> = ({ initailData, houseId }) 
 					center: 'title',
 					end: 'today',
 				}}
+				customButtons={{
+					prev: {
+						text: 'prev',
+						click: () => {
+							calendarRef.current?.getApi().prev();
+							setCalendarDate(changeYearMonth(calendarDate.year, calendarDate.month, 'prev'));
+						},
+					},
+					next: {
+						text: 'next',
+						click: () => {
+							calendarRef.current?.getApi().next();
+							setCalendarDate(changeYearMonth(calendarDate.year, calendarDate.month, 'next'));
+						},
+					},
+					today: {
+						text: 'today',
+						click: () => {
+							calendarRef.current?.getApi().today();
+							setCalendarDate(currentDate);
+						},
+					},
+				}}
 				locale={'ko'} // 한국어
 				businessHours={true} // 주말을 다른 색으로
 				plugins={[dayGridPlugin, interactionPlugin]}
@@ -71,7 +97,6 @@ const OwnerCalendar: React.FC<CommonCalendarProps> = ({ initailData, houseId }) 
 				eventBorderColor="transparent"
 				// contentHeight={800}
 			/>
-			<div>테스트용</div>
 		</CalendarContainer>
 	);
 };

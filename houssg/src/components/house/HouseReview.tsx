@@ -7,7 +7,6 @@ import { useEffect, useState } from 'react';
 import api from '../../api/api';
 import { userUrl } from '../../assets/constant';
 import { ReviewType } from '../../types';
-import { color } from '../../assets/styles';
 
 export const HouseReview = () => {
 	const { houseId } = useParams();
