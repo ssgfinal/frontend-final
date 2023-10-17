@@ -69,6 +69,9 @@ const ownerUrl = {
 	checkReservation: 'reservation/owner/check',
 	getReservation: 'reservation/owner/check-other',
 	getRoomAvailability: 'reservation/owner/available-room',
+	//삭제요청
+	houseDeleteRequest: 'accom/del/request',
+	roomDelete: 'room',
 };
 
 const roomUrl = {
