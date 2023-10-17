@@ -53,6 +53,7 @@ interface ReviewProps {
 }
 
 interface SearchHouse extends HouseBaseInfo {
+	// totalCount: number;
 	pageSize: number;
 	page: number[];
 	pageParam: number;

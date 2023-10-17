@@ -8,9 +8,6 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-// import { useEffect, useState } from 'react';
-// import { useIntersectionObserver } from '../../helper/observerFunction';
-
 interface HouseListProps {
 	search: string;
 	select: string;
@@ -19,55 +16,46 @@ interface HouseListProps {
 
 const HouseList: React.FC<HouseListProps> = ({ search, select, type }) => {
 	const pageSize = 5;
-	const page = 1;
+
+	const [page, setPage] = useState(1);
 
 	const [fetching, setFetching] = useState(false);
-
-	// const { data, hasNextPage, fetchNextPage, isFetchingNextPage } = useInfiniteQuery<{ data: SearchHouse[] }>(
-	// 	[userKey.userHouseList, search, type, select, pageSize, page, 1],
-	// 	({ pageParam = 1 }) => getUserHouseList(search, type, select, pageSize, page, { pageParam }),
-	// 	{
-	// 		getNextPageParam: (lastPage) => {
-	// 			const nextPage = lastPage.data[0].page.length + 1;
-	// 			return nextPage <= pageSize ? nextPage : undefined;
-	// 		},
-	// 	},
-	// );
 
 	const { isLoading, isError, error, data, hasNextPage, fetchNextPage } = useInfiniteQuery<{ data: SearchHouse[] }>(
 		[userKey.userHouseList, search, type, select, pageSize, page],
 		({ pageParam = 1 }) => getUserHouseList(search, type, select, pageSize, page, pageParam),
 		{
 			getNextPageParam: (_lastPage, pages) => {
-				const nextPage = pages.length + 1;
-				return nextPage <= pageSize ? nextPage : undefined;
-				// if (pages.length < 2) {
-				// 	console.log('getNextPageParam함수 내 pages 길이는?' + pages.length);
-				// 	return pages.length + 1 && page + 1;
-				// } else {
-				// 	return undefined;
+				const maxPage = 200 / 20;
+				const page = pages.length + 1;
+				if (page <= maxPage) {
+					console.log('아직 작습니다.');
+					return setPage(page);
+				} else {
+					console.log('마지막 페이지입니다.');
+					alert('마지막 페이지입니다.');
+					return undefined;
+				}
+				// {
+				// 	nextPage <= maxPage ? nextPage : undefined;
 				// }
-				// const nextPage = lastPage.data.length + 1;
-
-				// return nextPage <= pageSize ? nextPage : undefined;
-
-				// if (lastPage !== undefined) {
-				// 	const nextPage = lastPage.data.length + 1;
-				// 	console.log('lastPage>>' + JSON.stringify(lastPage));
-				// 	return nextPage <= pageSize ? nextPage : undefined;
-				// }
+				// nextPage <= maxPage ? nextPage : undefined;
 			},
 		},
 	);
+
+	console.log('페이지는?' + page);
 
 	console.log('useInfiniteQuery data>>>' + JSON.stringify(data));
 	console.log('페이지 파람>>>>>' + JSON.stringify(data?.pageParams));
 
 	useEffect(() => {
-		const onScroll = async (e) => {
-			const { scrollHeight, scrollTop, clientHeight } = e.target.scrollingElement;
+		const onScroll = async () => {
+			const scrollY = window.scrollY || window.pageYOffset; // 스크롤 위치
+			const innerHeight = window.innerHeight; // 창의 높이
+			const scrollMaxY = document.documentElement.scrollHeight - innerHeight; // 최대 스크롤 가능한 위치
 
-			if (!fetching && scrollHeight - scrollTop <= clientHeight) {
+			if (!fetching && scrollY >= scrollMaxY) {
 				setFetching(true);
 				if (data && hasNextPage) {
 					const nextPagePromises = data.pages.map(() => fetchNextPage());

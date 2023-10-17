@@ -1,5 +1,6 @@
 import { Select } from 'antd';
-import { Input, Space, DatePicker } from 'antd';
+import { Input } from 'antd';
+// import { Input, Space, DatePicker } from 'antd';
 
 import styled from 'styled-components';
 import { color } from '../../assets/styles';
@@ -42,6 +43,7 @@ const UserHouseList = () => {
 		setSelect(value.value);
 	};
 
+	// TODO: 기간 검색
 	// const { RangePicker } = DatePicker;
 
 	return (
@@ -83,47 +85,20 @@ const UserHouseList = () => {
 
 export default UserHouseList;
 
-// 직접 작성한 태그의 스타일만 스타일드 컴포넌트로 적용 가능
-// 라이브러리에서 들고온 태그의 스타일은 스타일드 컴포넌트로 해서 안 먹힐 수 있음-> 라이브러리에서 들고온 태그의 스타일은인라인으로 해야함
-
 const SearchWrapper = styled.div`
 	display: flex;
-	margin: 2rem auto;
+	margin: 3rem 0;
 	grid-gap: 1rem;
-	padding: 1rem;
 	justify-content: center;
-
-	/* @media (min-width: 1400px) {
-		width: 50%;
-		grid-template-columns: repeat(3, 1fr);
-		grid-template-areas: 'a b c';
-	}
-
-	@media (min-width: 700px) and (max-width: 1400px) {
-		width: 45%;
-		grid-template-columns: repeat(2, 1fr);
-		grid-template-areas: 'a b' 'c c';
-	} */
-
-	@media (max-width: 700px) {
-		/* width: 50%; */
-		/* grid-template-columns: repeat(1, 1fr);
-		grid-template-areas: 'a ' 'b'; */
-	}
 `;
 
 const Category = styled.div`
-	width: 10%;
-	grid-area: a;
+	width: 18%;
 `;
 
-// const Date = styled.div`
-// 	grid-area: b;
-// `;
-
 const SearchInput = styled.div`
-	width: 30%;
-	grid-area: c;
+	width: 45%;
+
 	button {
 		background-color: ${color.color1};
 	}
@@ -131,7 +106,7 @@ const SearchInput = styled.div`
 
 const SearchResultBar = styled.div`
 	display: flex;
-	justify-content: space-between;
+	justify-content: flex-end;
 	padding: 1vw 5vw;
 	color: ${color.color1};
 	border: 1px solid ${color.color3};
