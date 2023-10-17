@@ -52,4 +52,10 @@ interface ReviewProps {
 	review: ReviewType;
 }
 
-export type { HouseBaseInfo, HouseProps, HouseListProps, ServiceList, ReviewType, ReviewProps };
+interface SearchHouse extends HouseBaseInfo {
+	pageSize: number;
+	page: number[];
+	pageParam: number;
+}
+
+export type { HouseBaseInfo, HouseProps, HouseListProps, ServiceList, ReviewType, ReviewProps, SearchHouse };

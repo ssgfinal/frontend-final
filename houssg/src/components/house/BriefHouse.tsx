@@ -10,44 +10,49 @@ const BriefHouse: React.FC<HouseProps> = ({ house }) => {
 	const navigate = useNavigate();
 
 	return (
-		<BriefHouseWrapper>
-			{/* TODO: 현재) 이미지만 클릭시 숙소 상세 페이지로 이동
+		<ScreenBox>
+			<BriefHouseWrapper>
+				{/* TODO: 현재) 이미지만 클릭시 숙소 상세 페이지로 이동
 		          안건) 글자도 클릭시 숙소 상세 페이지로 이동해야하는 거 아닌가?*/}
-			<HoverContainer
-				// < Link to = >는 자동으로 pointer 해줌
-				onClick={() => {
-					navigate(userRoute.houseDetail + house.accomNumber);
-				}}
-			>
-				<HouseImg src={house.img} />
-				{/* TODO: 글자 클릭 시 이미지 효과 낼 수 있나? */}
-				<HoverBox></HoverBox>
-			</HoverContainer>
+				<HoverContainer
+					// < Link to = >는 자동으로 pointer 해줌
+					onClick={() => {
+						navigate(userRoute.houseDetail + house.accomNumber);
+					}}
+				>
+					<HouseImg src={house.img} />
+					{/* TODO: 글자 클릭 시 이미지 효과 낼 수 있나? */}
+					<HoverBox></HoverBox>
+				</HoverContainer>
 
-			<HouseDetailContainer>
-				<div>
-					<span>
-						{house.accomName}
-						<br />
-						{house.accomAddress}&nbsp;
-					</span>
-				</div>
-				<RateBox>
-					<Rating rate={house.avgRating} readonly />
-				</RateBox>
-				<PriceBox>
-					<div>{house.minPrice.toLocaleString()}원</div>
-				</PriceBox>
-			</HouseDetailContainer>
-		</BriefHouseWrapper>
+				<HouseDetailContainer>
+					<div>
+						<span>
+							{house.accomName}
+							<br />
+							{house.accomAddress}&nbsp;
+						</span>
+					</div>
+					<RateBox>
+						<Rating rate={house.avgRating} readonly />
+					</RateBox>
+					<PriceBox>
+						<div>{house.minPrice.toLocaleString()}원</div>
+					</PriceBox>
+				</HouseDetailContainer>
+			</BriefHouseWrapper>
+		</ScreenBox>
 	);
 };
 
 export default BriefHouse;
 
+const ScreenBox = styled.div``;
+
 const BriefHouseWrapper = styled.div`
 	display: flex;
 	flex-direction: column;
+
 	margin: 1rem;
 	padding: 0.5rem;
 	text-align: left;
