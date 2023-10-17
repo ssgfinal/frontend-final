@@ -70,7 +70,7 @@ export const UserReservation = () => {
 
 const Wrapper = styled.div`
 	@media (min-width: 850px) {
-		padding: 2rem 15rem;
+		padding: 7rem 15rem;
 	}
 	@media (min-width: 550px) and (max-width: 850px) {
 		padding: 2rem 7rem;
