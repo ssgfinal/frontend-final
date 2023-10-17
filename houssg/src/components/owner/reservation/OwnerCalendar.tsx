@@ -13,16 +13,18 @@ import { getHouseReservation, getReservableRoomList } from '../../../helper';
 import { useRef } from 'react';
 import { changeYearMonth } from '../../../utils';
 
-const OwnerCalendar: React.FC<CommonCalendarProps> = ({ currentDate, initailData, houseId }) => {
+const OwnerCalendar: React.FC<CommonCalendarProps> = ({ currentDate, initailData, houseId, isReservationList }) => {
 	useCalendarStyle('owner');
 	const calendarRef = useRef<FullCalendar | null>(null);
 	// const calenderApi = calendarRef.current?.getApi().view.title; // 혹시 몰라 놔둠
 	const [calendarDate, setCalendarDate] = useState(currentDate);
 
-	console.log(calendarDate);
 	const { isLoading, data, isSuccess, isError, error } = useQuery<{ data: OwnerReservedRoom[] }>(
-		[ownerKey.getReservationData, houseId, calendarDate.year + '-' + calendarDate.month],
-		() => getHouseReservation(houseId, calendarDate.year + '-' + calendarDate.month),
+		[isReservationList ? ownerKey.getReservationData : ownerKey.reserveAvailability, houseId, calendarDate.year + '-' + calendarDate.month],
+		() =>
+			isReservationList
+				? getHouseReservation(houseId, calendarDate.year + '-' + calendarDate.month)
+				: getReservableRoomList(houseId, calendarDate.year + '-' + calendarDate.month),
 		{
 			cacheTime: 5 * 60 * 1000,
 			staleTime: 5 * 60 * 1000,
@@ -31,19 +33,8 @@ const OwnerCalendar: React.FC<CommonCalendarProps> = ({ currentDate, initailData
 		},
 	);
 
-	const reservationableRoomList = useQuery<{ data: OwnerReservedRoom[] }>(
-		[ownerKey.reserveAvailability, houseId, calendarDate.year + '-' + calendarDate.month],
-		() => getReservableRoomList(houseId, calendarDate.year + '-' + calendarDate.month),
-		{
-			cacheTime: 5 * 60 * 1000,
-			staleTime: 5 * 60 * 1000,
-			keepPreviousData: true,
-		},
-	);
-
 	isError && console.log(error, 'error');
 	isSuccess && console.log(data, '예약목록');
-	reservationableRoomList.isSuccess && console.log(reservationableRoomList.data, '예약가능목록');
 
 	if (isLoading) {
 		return <div>로딩중...</div>;
@@ -95,7 +86,7 @@ const OwnerCalendar: React.FC<CommonCalendarProps> = ({ currentDate, initailData
 				dayMaxEvents={3}
 				eventBackgroundColor={color.color3}
 				eventBorderColor="transparent"
-				// contentHeight={800}
+				contentHeight={800}
 			/>
 		</CalendarContainer>
 	);

@@ -27,6 +27,7 @@ interface CommonCalendarProps {
 	currentDate: { year: number; month: number };
 	houseId: number;
 	initailData: OwnerReservedRoom[];
+	isReservationList: boolean;
 }
 
 export type { OwnerReservedRoom, OwnerAvailableRoom, CommonCalendarProps, CheckMyHouseReservationType };
