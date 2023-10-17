@@ -5,7 +5,7 @@ const hourClock = (checkHour: string) => {
 	const hour = checkHour.slice(11, 13);
 	const minuete = checkHour.slice(14, 16);
 
-	const checkTimes = year + '.' + month + '.' + day + '.' + '\n' + hour + ':' + minuete + '';
+	const checkTimes = year + '.' + month + '.' + day + '  ' + hour + ':' + minuete + '';
 
 	return checkTimes;
 };

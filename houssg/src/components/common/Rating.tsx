@@ -8,7 +8,8 @@ interface Props {
 	setRate?: React.Dispatch<React.SetStateAction<number>>;
 }
 
-const Rating: React.FC<Props> = ({ readonly, rate = 0, setRate }) => {
+// rate =0 으로 값을 주니 readonly일 때 props로 넘겨받은 평점으로 안 뜸
+const Rating: React.FC<Props> = ({ readonly, rate, setRate }) => {
 	const roundRate = (rate: number) => {
 		return Math.round(rate * 2) / 2;
 	};
