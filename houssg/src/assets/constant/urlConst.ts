@@ -28,7 +28,6 @@ const userUrl = {
 	// UserHouseDetail
 	houseDetail: 'accom/detail',
 	like: 'favorite',
-	addLike: 'favorite/add',
 	reviewList: 'review/all/accom',
 
 	// UserReservation.tsx 예약하기 페이지
