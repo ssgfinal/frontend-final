@@ -33,7 +33,7 @@ const ManageRoomWrap: React.FC<{ accomNumber: number }> = ({ accomNumber }) => {
 					goRoomAddComp();
 				}}
 			>
-				<div>객실 추가하기</div>
+				객실 추가하기
 			</RoomAddBtn>
 			{isSuccess && data.data.length ? (
 				data.data.map((room) => <RoomCompToggler room={room} key={room.roomNumber} />)
