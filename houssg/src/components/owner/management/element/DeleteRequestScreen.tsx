@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useAppDispatch, useAppSelector } from '../../../../hooks';
-import { flexCenter } from '../../../../assets/styles';
+import { SmallIndicatorText, color, flexCenter } from '../../../../assets/styles';
 import { closeModal, modalText } from '../../../../store/redux/modalSlice';
 import { ownerKey, roomKey } from '../../../../assets/constant';
 import { deleteRoom, requestHouseDelete } from '../../../../helper';
@@ -39,9 +39,18 @@ const DeleteRequestScreen = () => {
 
 	return (
 		<DeleteModalWrapper>
-			<div>{category === 'house' ? '숙소 삭제 요청' : '객실 삭제 요청'}</div>
-			<div>{category === 'house' ? '숙소' : '객실'}을 진짜 삭제하겠습니까?</div>
-			<button onClick={onDeleteHandler}>삭제</button>
+			{!houseOrRoom ? (
+				<></>
+			) : (
+				<>
+					<DeleText onClick={onDeleteHandler}>{category === 'house' ? '숙소를' : '객실을'} 진짜 삭제하겠습니까?</DeleText>
+					<IndicatorContainer>
+						<SmallIndicatorText>
+							{category === 'house' ? '요청시 관리자가 검토 후 삭제됩니다.' : '삭제 후에도 기존 예약 내용은 유지됩니다.'}
+						</SmallIndicatorText>
+					</IndicatorContainer>
+				</>
+			)}
 		</DeleteModalWrapper>
 	);
 };
@@ -49,9 +58,27 @@ const DeleteRequestScreen = () => {
 export default DeleteRequestScreen;
 
 const DeleteModalWrapper = styled.div`
-	margin: 1rem;
-	background-color: red;
+	margin-top: 0.5rem;
 	width: 100%;
 	${flexCenter}
+	height: 7rem;
 	flex-direction: column;
+`;
+
+const DeleText = styled.div`
+	font-size: 1rem;
+	font-weight: 600;
+	transition: color 0.3s;
+	color: ${color.basicColor};
+	cursor: pointer;
+	&:hover {
+		color: ${color.red};
+	}
+`;
+
+const IndicatorContainer = styled.div`
+	width: 15rem;
+	display: flex;
+	justify-content: center;
+	flex-wrap: wrap;
 `;

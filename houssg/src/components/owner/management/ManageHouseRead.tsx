@@ -21,8 +21,7 @@ const ManageHouseRead: React.FC<MyHouseDataHandleComp> = ({ house, setIsEditMode
 	};
 
 	const modalOpen = () => {
-		const modalSize = window.innerWidth >= 1000 ? 500 : 400;
-		dispatch(openModal({ modalComponent: 'DeleRequest', modalSize: modalSize, modalText: 'house && ' + house.accomNumber }));
+		dispatch(openModal({ modalComponent: 'DeleRequest', modalSize: 300, modalText: 'house && ' + house.accomNumber }));
 	};
 
 	return (

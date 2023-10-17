@@ -90,7 +90,7 @@ const getReservableRoomList = (accomNumber: number, yearMonth: string) =>
 	api.get(ownerUrl.getRoomAvailability, { params: { accomNumber, yearMonth } });
 
 const requestHouseDelete = (accomNumber: number) => api.patch(ownerUrl.houseDeleteRequest, null, { params: { accomNumber } });
-const deleteRoom = (roomNumber: number) => api.delete(ownerUrl.roomDelete, { params: roomNumber });
+const deleteRoom = (roomNumber: number) => api.delete(ownerUrl.roomDelete, { params: { roomNumber } });
 
 export {
 	getMyHouseListData,

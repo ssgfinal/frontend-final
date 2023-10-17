@@ -16,8 +16,7 @@ const RoomCompRead: React.FC<RoomComp> = ({ room, setIsEditMode }) => {
 
 	const dispatch = useAppDispatch();
 	const modalOpen = () => {
-		const modalSize = window.innerWidth >= 1000 ? 500 : 400;
-		dispatch(openModal({ modalComponent: 'DeleRequest', modalSize: modalSize, modalText: 'room && ' + room.accomNumber + ' && ' + room.roomNumber }));
+		dispatch(openModal({ modalComponent: 'DeleRequest', modalSize: 300, modalText: 'room && ' + room.accomNumber + ' && ' + room.roomNumber }));
 	};
 
 	return (
