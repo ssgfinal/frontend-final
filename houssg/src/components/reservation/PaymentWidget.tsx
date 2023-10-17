@@ -97,55 +97,52 @@ export const PaymentWidget: React.FC<PaymentWidgetProps> = ({ selectedReservatio
 				.then(({ data }) => {
 					console.log('예약정보 보내고 백으로부터 받은 data', data);
 					const reservationNumFromBack = data;
-					try {
-						// console.log('PaymentWidget seletedReservation > ', selectedReservation);
-						paymentWidget &&
-							paymentWidget
-								.requestPayment({
-									//원래 맨앞에 await이 있었음 근데 async는 없어서 에러 뜨길래 일단 지움
-									orderId: reservationNumFromBack,
-									orderName: `${houseName} ${room.roomCategory} ${selectedReservation.night}박 예약`,
-									customerName: userNickName ? userNickName : 'houssg 고객님',
-									// customerEmail: 'customer123@gmail.com',
-								})
-								.then(function (data) {
-									console.log('결제 승인 시 토스페이먼츠 리스펀스 > ', data);
-									try {
-										api.post(userUrl.isPaymentSuccess, { reservationNumber: reservationNumFromBack, sign: 'success' });
-										console.log('백에 결제 완료 api 날림');
-									} catch {
-										console.log('결제 성공을 백에 알려주는 API 통신 에러');
-									}
-									navigate(userRoute.reservationList);
-								})
-								.catch(function (error) {
-									// 에러 처리 : 에러 목록을 확인
-									console.log('토스페이먼츠 api 에러');
 
-									if (error.code === 'USER_CANCEL') {
-										// 결제 고객이 결제창을 닫았을 때 에러 처리
-										alert('창이 닫혀서 결제가 완료되지 못 했습니다.s');
-									} else if (error.code === 'INVALID_CARD_COMPANY') {
-										// 유효하지 않은 카드 코드에 대한 에러 처리
-										alert('카드 정보가 유효하지 않습니다');
-									} else if (error.code === 'REJECT_CARD_PAYMENT') {
-										// 유효하지 않은 카드 코드에 대한 에러 처리
-										alert('한도초과 혹은 잔액부족으로 결제에 실패했습니다.');
-									}
+					// console.log('PaymentWidget seletedReservation > ', selectedReservation);
+					paymentWidget &&
+						paymentWidget
+							.requestPayment({
+								//원래 맨앞에 await이 있었음 근데 async는 없어서 에러 뜨길래 일단 지움
+								orderId: reservationNumFromBack,
+								orderName: `${houseName} ${room.roomCategory} ${selectedReservation.night}박 예약`,
+								customerName: userNickName ? userNickName : 'houssg 고객님',
+								// customerEmail: 'customer123@gmail.com',
+							})
+							.then(function (data) {
+								console.log('결제 승인 시 토스페이먼츠 리스펀스 > ', data);
+								try {
+									api.post(userUrl.isPaymentSuccess, { reservationNumber: reservationNumFromBack, sign: 'success' });
+									console.log('백에 결제 완료 api 날림');
+								} catch {
+									console.log('결제 성공을 백에 알려주는 API 통신 에러');
+								}
+								navigate(userRoute.reservationList);
+							})
+							.catch(function (err) {
+								// 에러 처리 : 에러 목록을 확인
+								console.log('토스페이먼츠 결제 api 에러', err);
 
-									try {
-										api.post(userUrl.isPaymentSuccess, { reservationNumber: reservationNumFromBack, sign: 'fail' });
-										console.log('백에 결제 실패 api 날림');
-									} catch {
-										console.log('결제 실패를 백에 알려주는 API 통신 에러');
-									}
-								});
-					} catch (err) {
-						console.log(err);
-					}
+								if (err.code === 'USER_CANCEL') {
+									// 결제 고객이 결제창을 닫았을 때 에러 처리
+									alert('창이 닫혀서 결제가 완료되지 못 했습니다.s');
+								} else if (err.code === 'INVALID_CARD_COMPANY') {
+									// 유효하지 않은 카드 코드에 대한 에러 처리
+									alert('카드 정보가 유효하지 않습니다');
+								} else if (err.code === 'REJECT_CARD_PAYMENT') {
+									// 유효하지 않은 카드 코드에 대한 에러 처리
+									alert('한도초과 혹은 잔액부족으로 결제에 실패했습니다.');
+								}
+
+								try {
+									api.post(userUrl.isPaymentSuccess, { reservationNumber: reservationNumFromBack, sign: 'fail' });
+									console.log('백에 결제 실패 api 날림');
+								} catch {
+									console.log('결제 실패를 백에 알려주는 API 통신 에러');
+								}
+							});
 				});
 		} catch (err) {
-			console.log(err);
+			console.log('예약하기 API 통신 에러?', err);
 			if (err === '예약 불가능') {
 				alert('죄송합니다. 이미 예약이 완료된 방입니다.');
 			}

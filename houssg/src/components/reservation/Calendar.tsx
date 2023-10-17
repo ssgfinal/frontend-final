@@ -1,10 +1,11 @@
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin, { DateClickArg } from '@fullcalendar/interaction';
-import { BookableRoomCnt, SelectedReservationType } from '../../types';
+import { BookableRoomCnt, Schedule, SelectedReservationType } from '../../types';
 import styled from 'styled-components';
 import { color } from '../../assets/styles';
 import { useEffect, useState } from 'react';
+import { calculateNights, dateFormat, makeTwo, periodCheck } from '../../utils';
 
 interface CalendarProps {
 	initBookableRoomList: BookableRoomCnt[];
@@ -12,37 +13,14 @@ interface CalendarProps {
 	setSelectedReservation: React.Dispatch<React.SetStateAction<SelectedReservationType>>;
 }
 const Calendar: React.FC<CalendarProps> = ({ initBookableRoomList, selectedReservation, setSelectedReservation }) => {
-	interface Schedule {
-		title: string;
-		date: string;
-		allDay: boolean;
-	}
 	const [event, setEvent] = useState<Schedule[]>();
 
 	const [startObj, setStartObj] = useState<DateClickArg>();
 	const [endObj, setEndObj] = useState<DateClickArg>();
 
 	const today = dateFormat(new Date());
-
 	const beforeToday: Schedule[] = [];
 	const [noRoom, setNoRoom] = useState<Schedule[]>();
-
-	function dateFormat(date: Date) {
-		const dateFormat2 =
-			date.getFullYear() +
-			'-' +
-			(date.getMonth() + 1 < 9 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) +
-			'-' +
-			(date.getDate() < 9 ? '0' + date.getDate() : date.getDate());
-		return dateFormat2;
-	}
-
-	const makeTwo = (date: number) => {
-		if (date < 10) {
-			return '0' + date;
-		}
-		return date;
-	};
 
 	useEffect(() => {
 		for (let i = 1; i < Number(today.slice(8, 10)); i++) {
@@ -68,19 +46,6 @@ const Calendar: React.FC<CalendarProps> = ({ initBookableRoomList, selectedReser
 		setEvent([...noRoomTmp, ...beforeToday]);
 	}, [initBookableRoomList]);
 
-	const periodCheck = (endDate: string) => {
-		let isPossible = true;
-		for (let i = Number(selectedReservation.startDate.slice(8, 10)); i < Number(endDate.slice(8, 10)); i++) {
-			noRoom &&
-				noRoom.forEach((room: Schedule) => {
-					if (room.date === endDate.slice(0, 8) + i) {
-						isPossible = false;
-					}
-				});
-		}
-		return isPossible ? 'possible' : 'impossible';
-	};
-
 	const changeCss = (type: string, args: DateClickArg, text?: string) => {
 		if (type === 'select') {
 			args.dayEl.style.backgroundColor = color.color4;
@@ -90,6 +55,7 @@ const Calendar: React.FC<CalendarProps> = ({ initBookableRoomList, selectedReser
 			args.dayEl.innerText = '';
 		}
 	};
+
 	// 날짜를 클릭시
 	const handleDateClick = (args: DateClickArg) => {
 		if (Boolean(selectedReservation.startDate) === Boolean(selectedReservation.endDate)) {
@@ -127,7 +93,7 @@ const Calendar: React.FC<CalendarProps> = ({ initBookableRoomList, selectedReser
 			if (args.dateStr <= selectedReservation.startDate) {
 				alert('종료일은 시작일보다 더 이후여야합니다.');
 			} else {
-				if (periodCheck(args.dateStr) === 'possible') {
+				if (noRoom && periodCheck(noRoom, selectedReservation.startDate, args.dateStr) === 'possible') {
 					setEndObj(args);
 					setSelectedReservation({
 						...selectedReservation,
@@ -140,14 +106,6 @@ const Calendar: React.FC<CalendarProps> = ({ initBookableRoomList, selectedReser
 			}
 		}
 	};
-
-	function calculateNights(startDate: string, endDate: string) {
-		const start = new Date(startDate);
-		const end = new Date(endDate);
-		const timeDifference = end.getTime() - start.getTime();
-		const nights = Math.ceil(timeDifference / (1000 * 3600 * 24));
-		return nights;
-	}
 
 	useEffect(() => {
 		const nights = calculateNights(selectedReservation.startDate, selectedReservation.endDate);
