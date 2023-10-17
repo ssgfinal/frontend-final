@@ -58,7 +58,6 @@ const SwiperWrapper = styled.div`
 		font-size: 1rem;
 		background-color: ${color.backColor};
 		padding: 1rem;
-		/* Center slide text vertically */
 		display: flex;
 		justify-content: center;
 		align-items: center;
@@ -70,6 +69,7 @@ const SlideImg = styled.img`
 	width: 95%;
 	height: 95%;
 	margin-bottom: 1rem;
+	border-radius: 1rem;
 `;
 
 const DeleteImg = styled.img`
