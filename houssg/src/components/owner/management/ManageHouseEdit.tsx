@@ -103,9 +103,9 @@ const ManageHouseEdit: React.FC<MyHouseDataHandleComp> = ({ house, setIsEditMode
 				[{house.accomCategory}] {house.accomName}
 			</ManageReadTitle>
 			<ImageUploader width={uploaderSize.width} height={uploaderSize.height} setImage={setNewImg} setImgFile={onAddNewFileData}>
-				수정하기
+				<HouseImg src={newImg} />
+				<ImgEditText>사진 수정하기</ImgEditText>
 			</ImageUploader>
-			<HouseImg src={newImg} />
 			<ManageHouseWrapper>
 				<ManageHouseContainer>
 					<ManageHouseEditTitle>전화번호</ManageHouseEditTitle>
@@ -151,7 +151,7 @@ const ManageWrapper = styled.div`
 const HouseImg = styled.img`
 	justify-self: center;
 	max-width: 28rem;
-	margin-bottom: 0.5rem;
+	margin-block: 0.5rem;
 	object-fit: contain;
 	border-radius: 0.5rem;
 	width: 60vw;
@@ -310,4 +310,9 @@ const ManageHouseText = styled.textarea`
 	@media (max-width: 300px) {
 		font-size: 0.8rem;
 	}
+`;
+
+const ImgEditText = styled.div`
+	font-weight: 700;
+	color: ${color.darkGrayColor};
 `;
