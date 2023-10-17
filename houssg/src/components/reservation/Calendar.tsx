@@ -5,7 +5,6 @@ import { BookableRoomCnt, SelectedReservationType } from '../../types';
 import styled from 'styled-components';
 import { color } from '../../assets/styles';
 import { useEffect, useState } from 'react';
-import { resetAuthStatus } from '../../store/redux/authSlice';
 
 interface CalendarProps {
 	initBookableRoomList: BookableRoomCnt[];
@@ -82,14 +81,6 @@ const Calendar: React.FC<CalendarProps> = ({ initBookableRoomList, selectedReser
 		return isPossible ? 'possible' : 'impossible';
 	};
 
-	const startOrEnd = () => {
-		// 시작일이 초기값이거나 이미 종료일이 차있으면 새로 클릭된 날짜는 시작일
-		if (selectedReservation.startDate === '' || selectedReservation.endDate !== '') {
-			return 'start';
-		}
-		return 'end';
-	};
-
 	const changeCss = (type: string, args: DateClickArg, text?: string) => {
 		if (type === 'select') {
 			args.dayEl.style.backgroundColor = color.color4;
@@ -99,41 +90,22 @@ const Calendar: React.FC<CalendarProps> = ({ initBookableRoomList, selectedReser
 			args.dayEl.innerText = '';
 		}
 	};
-
 	// 날짜를 클릭시
 	const handleDateClick = (args: DateClickArg) => {
-		const found = event?.find((e) => e.date === args.dateStr);
-		if (found) {
-			if (selectedReservation.startDate === '') {
+		if (Boolean(selectedReservation.startDate) === Boolean(selectedReservation.endDate)) {
+			console.log('시작일 선택', args.dateStr);
+			const found = event?.find((e) => e.date === args.dateStr);
+			if (found) {
 				console.log('예약 불가');
 				alert('예약이 불가합니다.');
-			}
-		} else {
-			console.log('예약 가능');
-
-			if (selectedReservation.startDate === '') {
-				setSelectedReservation({
-					...selectedReservation,
-					startDate: args.dateStr,
-				});
-				setStartObj(args);
-				changeCss('select', args, '시작일');
 			} else {
-				if (selectedReservation.endDate === '') {
-					if (args.dateStr <= selectedReservation.startDate) {
-						alert('종료일은 시작일보다 더 이후여야합니다.');
-					} else {
-						if (periodCheck(args.dateStr) === 'possible') {
-							setEndObj(args);
-							setSelectedReservation({
-								...selectedReservation,
-								endDate: args.dateStr,
-							});
-							changeCss('select', args, '종료일');
-						} else {
-							alert('선택하신 기간 중 예약 불가한 날짜가 포함되어잇습니다.');
-						}
-					}
+				if (selectedReservation.startDate === '') {
+					setSelectedReservation({
+						...selectedReservation,
+						startDate: args.dateStr,
+					});
+					setStartObj(args);
+					changeCss('select', args, '시작일');
 				} else {
 					if (startObj) {
 						changeCss('unselect', startObj);
@@ -141,17 +113,29 @@ const Calendar: React.FC<CalendarProps> = ({ initBookableRoomList, selectedReser
 					if (endObj) {
 						changeCss('unselect', endObj);
 					}
-					setEndObj(undefined);
-
-					setStartObj(args);
-
 					setSelectedReservation({
 						...selectedReservation,
 						startDate: args.dateStr,
 						endDate: '',
 					});
-
+					setStartObj(args);
 					changeCss('select', args, '시작일');
+				}
+			}
+		} else {
+			console.log('종료일 선택', args.dateStr);
+			if (args.dateStr <= selectedReservation.startDate) {
+				alert('종료일은 시작일보다 더 이후여야합니다.');
+			} else {
+				if (periodCheck(args.dateStr) === 'possible') {
+					setEndObj(args);
+					setSelectedReservation({
+						...selectedReservation,
+						endDate: args.dateStr,
+					});
+					changeCss('select', args, '종료일');
+				} else {
+					alert('선택하신 기간 중 예약 불가한 날짜가 포함되어잇습니다.');
 				}
 			}
 		}
@@ -176,14 +160,16 @@ const Calendar: React.FC<CalendarProps> = ({ initBookableRoomList, selectedReser
 	return (
 		<>
 			<Period>
-				<CustomDate>시작일 : {selectedReservation.startDate}</CustomDate>
-				<CustomDate>종료일 : {selectedReservation.endDate}</CustomDate>
+				<CustomDate>시작일 </CustomDate>
+				<CustomDate> {selectedReservation.startDate}</CustomDate>
+				<CustomDate>종료일 </CustomDate>
+				<CustomDate> {selectedReservation.endDate}</CustomDate>
 				<CustomDate>
 					{!selectedReservation.night ? (
-						<>[ 0박 0일 ]</>
+						<> 0박 0일 </>
 					) : (
 						<>
-							[ {selectedReservation.night}박 {selectedReservation.night + 1}일 ]
+							{selectedReservation.night}박 {selectedReservation.night + 1}일
 						</>
 					)}
 				</CustomDate>
@@ -228,13 +214,16 @@ const Calendar: React.FC<CalendarProps> = ({ initBookableRoomList, selectedReser
 export default Calendar;
 
 const Period = styled.div`
-	padding: 2rem;
+	padding: 1rem 0;
 	display: flex;
 	justify-content: space-between;
+	border-radius: 1rem;
 `;
 
 const CustomDate = styled.div`
-	width: 40%;
+	width: 20%;
+	padding: 0.5rem;
+	border: solid 1px ${color.unSelectColor};
 `;
 
 const CalendarContainer = styled.div`
