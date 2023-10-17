@@ -1,11 +1,11 @@
 import { styled } from 'styled-components';
 import { HeartIcon, FullHeartIcon } from '../../assets/icons/index';
 import { useEffect, useState } from 'react';
-import { isLoginFunc } from '../../utils';
-import { useAppDispatch } from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import { openModal } from '../../store/redux/modalSlice';
 import api from '../../api/api';
 import { userUrl } from '../../assets/constant';
+import { isLoginState } from '../../store/redux/authSlice';
 
 interface HeartIconsProps {
 	houseId: number;
@@ -14,7 +14,7 @@ const HeartIcons: React.FC<HeartIconsProps> = ({ houseId }) => {
 	const [isLike, setIsLike] = useState<boolean>(false);
 
 	const dispatch = useAppDispatch();
-	const isLogin = isLoginFunc();
+	const isLogin = useAppSelector(isLoginState);
 
 	useEffect(() => {
 		if (isLogin) {
@@ -47,7 +47,9 @@ const HeartIcons: React.FC<HeartIconsProps> = ({ houseId }) => {
 				// 찜 o -> 찜 X 로 된 경우
 				// 아직 변경된 isLike가 반영이 안 되서 true인 상태
 				try {
-					api.delete(userUrl.like, { params: { accomNumber: houseId } }).then(({ data }) => {});
+					api.delete(userUrl.like, { params: { accomNumber: houseId } }).then(({ data }) => {
+						console.log('찜 해제 api 통신 성공 > ', data);
+					});
 				} catch (err) {
 					console.log('찜 해제 api 에러 > ', err);
 				}
@@ -55,8 +57,9 @@ const HeartIcons: React.FC<HeartIconsProps> = ({ houseId }) => {
 				// 찜 X -> 찜 o 로 된 경우
 				// 아직 변경된 isLike가 반영이 안 되서 false인 상태
 				try {
-					// TODO: 추후 백 api url 바꿀 예정 -> 프론트도 바꾸기
-					api.post(userUrl.like + '/add', null, { params: { accomNumber: houseId } }).then(({ data }) => {});
+					api.post(userUrl.like, null, { params: { accomNumber: houseId } }).then(({ data }) => {
+						console.log('찜 하기 api 통신 성공 > ', data);
+					});
 				} catch (err) {
 					console.log('찜 하기 api 에러 > ', err);
 				}
