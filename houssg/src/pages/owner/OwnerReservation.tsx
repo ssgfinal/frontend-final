@@ -8,12 +8,13 @@ import { CheckMyHouseReservationType } from '../../types';
 
 const OwnerReservation = () => {
 	const today = new Date();
-	const currentYear = today.getFullYear();
-	const currentMonth = today.getMonth() + 1;
+	console.log(today);
+	console.log(!!today);
+	const currentDate = today.getFullYear() + '-' + (today.getMonth() + 1);
 	const [houseIndex, setHouseIndex] = useState(0);
 	const { isLoading, data, isSuccess, isError, error } = useQuery<{ data: CheckMyHouseReservationType }>(
 		[ownerKey.checkReservationList],
-		() => checkMyHouseReservation(currentYear + '-' + currentMonth),
+		() => checkMyHouseReservation(currentDate),
 		{
 			cacheTime: Infinity,
 			staleTime: Infinity,
@@ -33,7 +34,11 @@ const OwnerReservation = () => {
 			{isSuccess && (
 				<>
 					<ReservationDropDown accomList={data.data.accommodationList} houseIndex={houseIndex} setHouseIndex={setHouseIndex} />
-					<OwnerCalendar initailData={data.data.reservations} houseId={data.data.accommodationList[houseIndex].accomNumber} />
+					<OwnerCalendar
+						currentDate={currentDate}
+						initailData={data.data.reservations}
+						houseId={data.data.accommodationList[houseIndex].accomNumber}
+					/>
 				</>
 			)}
 		</OwnerReservationWrapper>

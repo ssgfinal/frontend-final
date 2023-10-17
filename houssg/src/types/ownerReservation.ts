@@ -24,6 +24,7 @@ interface CheckMyHouseReservationType {
 }
 
 interface CommonCalendarProps {
+	currentDate: string;
 	houseId: number;
 	initailData: OwnerReservedRoom[];
 }
