@@ -1,10 +1,11 @@
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin, { DateClickArg } from '@fullcalendar/interaction';
-import { BookableRoomCnt, SelectedReservationType } from '../../types';
+import { BookableRoomCnt, Schedule, SelectedReservationType } from '../../types';
 import styled from 'styled-components';
 import { color } from '../../assets/styles';
 import { useEffect, useState } from 'react';
+import { calculateNights, dateFormat, makeTwo, periodCheck } from '../../utils';
 
 interface CalendarProps {
 	initBookableRoomList: BookableRoomCnt[];
@@ -12,37 +13,14 @@ interface CalendarProps {
 	setSelectedReservation: React.Dispatch<React.SetStateAction<SelectedReservationType>>;
 }
 const Calendar: React.FC<CalendarProps> = ({ initBookableRoomList, selectedReservation, setSelectedReservation }) => {
-	interface Schedule {
-		title: string;
-		date: string;
-		allDay: boolean;
-	}
 	const [event, setEvent] = useState<Schedule[]>();
 
 	const [startObj, setStartObj] = useState<DateClickArg>();
 	const [endObj, setEndObj] = useState<DateClickArg>();
 
 	const today = dateFormat(new Date());
-
 	const beforeToday: Schedule[] = [];
 	const [noRoom, setNoRoom] = useState<Schedule[]>();
-
-	function dateFormat(date: Date) {
-		const dateFormat2 =
-			date.getFullYear() +
-			'-' +
-			(date.getMonth() + 1 < 9 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) +
-			'-' +
-			(date.getDate() < 9 ? '0' + date.getDate() : date.getDate());
-		return dateFormat2;
-	}
-
-	const makeTwo = (date: number) => {
-		if (date < 10) {
-			return '0' + date;
-		}
-		return date;
-	};
 
 	useEffect(() => {
 		for (let i = 1; i < Number(today.slice(8, 10)); i++) {
@@ -68,85 +46,66 @@ const Calendar: React.FC<CalendarProps> = ({ initBookableRoomList, selectedReser
 		setEvent([...noRoomTmp, ...beforeToday]);
 	}, [initBookableRoomList]);
 
-	const periodCheck = (endDate: string) => {
-		let isPossible = true;
-		for (let i = Number(selectedReservation.startDate.slice(8, 10)); i < Number(endDate.slice(8, 10)); i++) {
-			noRoom &&
-				noRoom.forEach((room: Schedule) => {
-					if (room.date === endDate.slice(0, 8) + i) {
-						isPossible = false;
-					}
-				});
+	const changeCss = (type: string, args: DateClickArg, text?: string) => {
+		if (type === 'select') {
+			args.dayEl.style.backgroundColor = color.color4;
+			args.dayEl.innerHTML = `<div class='start'>${text}</div>`;
+		} else if (type === 'unselect' && startObj) {
+			args.dayEl.style.backgroundColor = 'white';
+			args.dayEl.innerText = '';
 		}
-		return isPossible ? 'possible' : 'impossible';
 	};
+
 	// 날짜를 클릭시
 	const handleDateClick = (args: DateClickArg) => {
-		const ff = event?.find((e) => e.date === args.dateStr);
-		if (ff) {
-			console.log('예약 불가');
-			alert('예약이 불가합니다.');
-		} else {
-			console.log('예약 가능');
-
-			if (selectedReservation.startDate === '') {
-				setSelectedReservation({
-					...selectedReservation,
-					startDate: args.dateStr,
-				});
-				setStartObj(args);
-				args.dayEl.style.backgroundColor = color.color4;
-				args.dayEl.innerHTML = `<div class='start'>시작일</div>`;
+		if (Boolean(selectedReservation.startDate) === Boolean(selectedReservation.endDate)) {
+			console.log('시작일 선택', args.dateStr);
+			const found = event?.find((e) => e.date === args.dateStr);
+			if (found) {
+				console.log('예약 불가');
+				alert('예약이 불가합니다.');
 			} else {
-				if (selectedReservation.endDate === '') {
-					if (args.dateStr <= selectedReservation.startDate) {
-						alert('종료일은 시작일보다 더 이후여야합니다.');
-					} else {
-						if (periodCheck(args.dateStr) === 'possible') {
-							setEndObj(args);
-							setSelectedReservation({
-								...selectedReservation,
-								endDate: args.dateStr,
-							});
-							args.dayEl.style.backgroundColor = color.color4;
-							args.dayEl.innerHTML = `<div class='start'>종료일</div>`;
-						} else {
-							alert('선택하신 기간 중 예약 불가한 날짜가 포함되어잇습니다.');
-						}
-					}
+				if (selectedReservation.startDate === '') {
+					setSelectedReservation({
+						...selectedReservation,
+						startDate: args.dateStr,
+					});
+					setStartObj(args);
+					changeCss('select', args, '시작일');
 				} else {
 					if (startObj) {
-						startObj.dayEl.style.backgroundColor = 'white';
-						startObj.dayEl.innerText = '';
+						changeCss('unselect', startObj);
 					}
 					if (endObj) {
-						endObj.dayEl.style.backgroundColor = 'white';
-						endObj.dayEl.innerText = '';
+						changeCss('unselect', endObj);
 					}
-					setEndObj(undefined);
-
-					setStartObj(args);
-
 					setSelectedReservation({
 						...selectedReservation,
 						startDate: args.dateStr,
 						endDate: '',
 					});
-
-					args.dayEl.style.backgroundColor = color.color4;
-					args.dayEl.innerHTML = `<div class='start'>시작일</div>`;
+					setStartObj(args);
+					changeCss('select', args, '시작일');
+				}
+			}
+		} else {
+			console.log('종료일 선택', args.dateStr);
+			if (args.dateStr <= selectedReservation.startDate) {
+				alert('종료일은 시작일보다 더 이후여야합니다.');
+			} else {
+				if (noRoom && periodCheck(noRoom, selectedReservation.startDate, args.dateStr) === 'possible') {
+					setEndObj(args);
+					setSelectedReservation({
+						...selectedReservation,
+						endDate: args.dateStr,
+					});
+					changeCss('select', args, '종료일');
+				} else {
+					alert('선택하신 기간 중 예약 불가한 날짜가 포함되어잇습니다.');
 				}
 			}
 		}
 	};
-
-	function calculateNights(startDate: string, endDate: string) {
-		const start = new Date(startDate);
-		const end = new Date(endDate);
-		const timeDifference = end.getTime() - start.getTime();
-		const nights = Math.ceil(timeDifference / (1000 * 3600 * 24));
-		return nights;
-	}
 
 	useEffect(() => {
 		const nights = calculateNights(selectedReservation.startDate, selectedReservation.endDate);
@@ -159,14 +118,16 @@ const Calendar: React.FC<CalendarProps> = ({ initBookableRoomList, selectedReser
 	return (
 		<>
 			<Period>
-				<CustomDate>시작일 : {selectedReservation.startDate}</CustomDate>
-				<CustomDate>종료일 : {selectedReservation.endDate}</CustomDate>
+				<CustomDate>시작일 </CustomDate>
+				<CustomDate> {selectedReservation.startDate}</CustomDate>
+				<CustomDate>종료일 </CustomDate>
+				<CustomDate> {selectedReservation.endDate}</CustomDate>
 				<CustomDate>
 					{!selectedReservation.night ? (
-						<>[ 0박 0일 ]</>
+						<> 0박 0일 </>
 					) : (
 						<>
-							[ {selectedReservation.night}박 {selectedReservation.night + 1}일 ]
+							{selectedReservation.night}박 {selectedReservation.night + 1}일
 						</>
 					)}
 				</CustomDate>
@@ -211,13 +172,16 @@ const Calendar: React.FC<CalendarProps> = ({ initBookableRoomList, selectedReser
 export default Calendar;
 
 const Period = styled.div`
-	padding: 2rem;
+	padding: 1rem 0;
 	display: flex;
 	justify-content: space-between;
+	border-radius: 1rem;
 `;
 
 const CustomDate = styled.div`
-	width: 40%;
+	width: 20%;
+	padding: 0.5rem;
+	border: solid 1px ${color.unSelectColor};
 `;
 
 const CalendarContainer = styled.div`
@@ -234,7 +198,7 @@ const CalendarContainer = styled.div`
 	.calendar-unable {
 		background-color: ${color.unSelectColor};
 		border: none !important;
-		cursor: not-allowed;
+		/* cursor: not-allowed; */
 		text-align: center;
 	}
 

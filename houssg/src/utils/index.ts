@@ -8,10 +8,15 @@ import { isLoginFunc } from './isLogin';
 import { windowWarningState, removeWindowWarningState } from './windowEvent';
 //keyboard
 import { handleEnterPress } from './keyBoard';
-//utils
+
+// date관련
+import { dateFormat, makeTwo, periodCheck, calculateNights } from './date';
+
 export { webpImageIncoder, isLoginFunc, pxToRem, base64ToFile, doRefFocus };
 
 // window
 export { windowWarningState, removeWindowWarningState };
 
 export { handleEnterPress };
+
+export { dateFormat, makeTwo, periodCheck, calculateNights };

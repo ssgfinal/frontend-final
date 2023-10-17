@@ -63,7 +63,7 @@ const RoomReviewComp: React.FC<{ accomNumber: number; review: OwnerHouseReviewTy
 					<ReviewDate>{hourClock(review.reviewCreationTime)}</ReviewDate>
 					<ReviewWriter>{review.nickname}</ReviewWriter>
 					<DeclarationContainer>
-						{!review.reportStatus ? (
+						{review.reportStatus ? (
 							<ReportStatustext>신고중...</ReportStatustext>
 						) : (
 							<>

@@ -6,7 +6,11 @@ import styled from 'styled-components';
 
 import { color, ReservationCommonBox, UserReservationTitle, UserReservationLeft } from '../../assets/styles';
 
-export const Provision = () => {
+interface ProvisionProps {
+	isAgreed: boolean;
+	setIsAgreed: React.Dispatch<React.SetStateAction<boolean>>;
+}
+export const Provision: React.FC<ProvisionProps> = ({ isAgreed, setIsAgreed }) => {
 	const dispatch = useAppDispatch();
 
 	const modalOpen = () => {
@@ -15,8 +19,6 @@ export const Provision = () => {
 	};
 
 	const refundPolicy = '취소 수수료 \n예약일 1달 전 : 100% 환불\n예약일 1달~ 1주 전 : 50% 환불\n예약일 1주 미만 : 환불 불가';
-
-	const [isAgreed, setIsAgreed] = useState(false);
 
 	const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
