@@ -31,7 +31,6 @@ const ManageHouseEdit: React.FC<MyHouseDataHandleComp> = ({ house, setIsEditMode
 				break;
 			case windowWidth >= 427 && windowWidth < 747:
 				widthNumber = pxToRem(windowWidth) * 0.6;
-				console.log(widthNumber);
 				break;
 			default:
 				widthNumber = 28;
@@ -121,7 +120,6 @@ const ManageHouseEdit: React.FC<MyHouseDataHandleComp> = ({ house, setIsEditMode
 							<CheckBox key={service.value} element={service} index={i} isChecked={!!checkedList[i]} setCheckedList={onChangeCheckedList} />
 						))}
 					</CheckBoxContainer>
-					{/* TODO: 상세설명 글자수 제한은 있는지? */}
 					<ManageHouseEditTitle>상세설명</ManageHouseEditTitle>
 					<ManageHouseText rows={8} ref={newDetail} defaultValue={house.accomDetails} maxLength={300} />
 				</ManageHouseContainer>

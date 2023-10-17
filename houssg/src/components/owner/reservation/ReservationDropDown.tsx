@@ -1,22 +1,26 @@
-import { useState } from 'react';
 import { DownOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Dropdown, Space } from 'antd';
 import styled from 'styled-components';
 import { color } from '../../../assets/styles';
 
-const ReservationDropDown = () => {
-	const list = ['A호텔', 'KDT 호텔', '더 뉴 SSG 호텔'];
-	const [selectedHouse, setSelectedHouse] = useState(list[0]);
-	const items: MenuProps['items'] = list.map((element, index) => {
+const ReservationDropDown: React.FC<{
+	accomList: {
+		accomNumber: number;
+		accomName: string;
+	}[];
+	houseIndex: number;
+	setHouseIndex: React.Dispatch<React.SetStateAction<number>>;
+}> = ({ accomList, houseIndex, setHouseIndex }) => {
+	const items: MenuProps['items'] = accomList.map((house, index) => {
 		return {
 			label: (
 				<div
 					onClick={() => {
-						setSelectedHouse(element);
+						setHouseIndex(index);
 					}}
 				>
-					{element}
+					{house.accomName}
 				</div>
 			),
 			key: index,
@@ -28,7 +32,7 @@ const ReservationDropDown = () => {
 			<Dropdown menu={{ items }} trigger={['click']}>
 				<a onClick={(e) => e.preventDefault()}>
 					<Space>
-						{selectedHouse}
+						{accomList[houseIndex].accomName}
 						<DownOutlined />
 					</Space>
 				</a>

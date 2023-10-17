@@ -2,7 +2,6 @@ import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin, { DateClickArg } from '@fullcalendar/interaction';
 
-import { eventList } from '../../assets/constant/reservationDummy';
 import { UserTypeObject } from '../../types';
 import styled from 'styled-components';
 import useCalendarStyle from '../../hooks/useCalendarStyle';
@@ -10,8 +9,6 @@ import { color } from '../../assets/styles';
 
 const CommonCalendar: React.FC<UserTypeObject> = ({ type }) => {
 	useCalendarStyle(type);
-
-	const events = eventList;
 
 	// 날짜를 클릭시
 	const handleDateClick = (args: DateClickArg) => {
@@ -32,7 +29,6 @@ const CommonCalendar: React.FC<UserTypeObject> = ({ type }) => {
 				plugins={[dayGridPlugin, interactionPlugin]}
 				initialView="dayGridMonth"
 				dateClick={handleDateClick}
-				events={events}
 				aspectRatio={2}
 				dayMaxEvents={3}
 				eventBackgroundColor={color.color3}

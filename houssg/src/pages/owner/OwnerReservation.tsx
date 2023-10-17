@@ -1,12 +1,41 @@
 import styled from 'styled-components';
-import { CommonCalendar } from '../../components/common';
-import { ReservationDropDown } from '../../components/owner/reservation';
+import { useState } from 'react';
+import { OwnerCalendar, ReservationDropDown } from '../../components/owner/reservation';
+import { useQuery } from '@tanstack/react-query';
+import { ownerKey } from '../../assets/constant';
+import { checkMyHouseReservation } from '../../helper';
+import { CheckMyHouseReservationType } from '../../types';
 
 const OwnerReservation = () => {
+	const today = new Date();
+	const currentYear = today.getFullYear();
+	const currentMonth = today.getMonth() + 1;
+	const [houseIndex, setHouseIndex] = useState(0);
+	const { isLoading, data, isSuccess, isError, error } = useQuery<{ data: CheckMyHouseReservationType }>(
+		[ownerKey.checkReservationList],
+		() => checkMyHouseReservation(currentYear + '-' + currentMonth),
+		{
+			cacheTime: Infinity,
+			staleTime: Infinity,
+		},
+	);
+
+	isError && console.log(error, 'error');
+
+	if (isLoading) {
+		return <div>로딩중...</div>;
+	}
+
+	isSuccess && console.log(data);
+
 	return (
 		<OwnerReservationWrapper>
-			<ReservationDropDown />
-			<CommonCalendar type="owner" />
+			{isSuccess && (
+				<>
+					<ReservationDropDown accomList={data.data.accommodationList} houseIndex={houseIndex} setHouseIndex={setHouseIndex} />
+					<OwnerCalendar initailData={data.data.reservations} houseId={data.data.accommodationList[houseIndex].accomNumber} />
+				</>
+			)}
 		</OwnerReservationWrapper>
 	);
 };
