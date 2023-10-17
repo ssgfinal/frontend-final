@@ -11,18 +11,18 @@ import { useQuery } from '@tanstack/react-query';
 import { ownerKey } from '../../../assets/constant';
 import { getHouseReservation, getReservableRoomList } from '../../../helper';
 import { useRef } from 'react';
-import { convertKoreanDateToISO } from '../../../utils';
+import { changeYearMonth } from '../../../utils';
 
 const OwnerCalendar: React.FC<CommonCalendarProps> = ({ currentDate, initailData, houseId }) => {
 	useCalendarStyle('owner');
 	const calendarRef = useRef<FullCalendar | null>(null);
-	const calenderApi = calendarRef.current?.getApi().view.title;
-	const translatedDate = calenderApi ? convertKoreanDateToISO(calenderApi) : '실패';
+	// const calenderApi = calendarRef.current?.getApi().view.title; // 혹시 몰라 놔둠
 	const [calendarDate, setCalendarDate] = useState(currentDate);
 
+	console.log(calendarDate);
 	const { isLoading, data, isSuccess, isError, error } = useQuery<{ data: OwnerReservedRoom[] }>(
-		[ownerKey.getReservationData, houseId, calendarDate],
-		() => getHouseReservation(houseId, calendarDate),
+		[ownerKey.getReservationData, houseId, calendarDate.year + '-' + calendarDate.month],
+		() => getHouseReservation(houseId, calendarDate.year + '-' + calendarDate.month),
 		{
 			cacheTime: 5 * 60 * 1000,
 			staleTime: 5 * 60 * 1000,
@@ -32,8 +32,8 @@ const OwnerCalendar: React.FC<CommonCalendarProps> = ({ currentDate, initailData
 	);
 
 	const reservationableRoomList = useQuery<{ data: OwnerReservedRoom[] }>(
-		[ownerKey.reserveAvailability, houseId, calendarDate],
-		() => getReservableRoomList(houseId, calendarDate),
+		[ownerKey.reserveAvailability, houseId, calendarDate.year + '-' + calendarDate.month],
+		() => getReservableRoomList(houseId, calendarDate.year + '-' + calendarDate.month),
 		{
 			cacheTime: 5 * 60 * 1000,
 			staleTime: 5 * 60 * 1000,
@@ -43,8 +43,8 @@ const OwnerCalendar: React.FC<CommonCalendarProps> = ({ currentDate, initailData
 
 	isError && console.log(error, 'error');
 	isSuccess && console.log(data, '예약목록');
-
 	reservationableRoomList.isSuccess && console.log(reservationableRoomList.data, '예약가능목록');
+
 	if (isLoading) {
 		return <div>로딩중...</div>;
 	}
@@ -67,25 +67,21 @@ const OwnerCalendar: React.FC<CommonCalendarProps> = ({ currentDate, initailData
 						text: 'prev',
 						click: () => {
 							calendarRef.current?.getApi().prev();
-							console.log(translatedDate);
-							setCalendarDate(translatedDate);
+							setCalendarDate(changeYearMonth(calendarDate.year, calendarDate.month, 'prev'));
 						},
 					},
 					next: {
 						text: 'next',
 						click: () => {
 							calendarRef.current?.getApi().next();
-							console.log(translatedDate);
-							setCalendarDate(translatedDate);
+							setCalendarDate(changeYearMonth(calendarDate.year, calendarDate.month, 'next'));
 						},
 					},
 					today: {
 						text: 'today',
 						click: () => {
 							calendarRef.current?.getApi().today();
-							console.log(translatedDate);
-
-							setCalendarDate(translatedDate);
+							setCalendarDate(currentDate);
 						},
 					},
 				}}

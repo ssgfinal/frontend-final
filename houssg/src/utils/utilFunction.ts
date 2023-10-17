@@ -52,30 +52,14 @@ const doRefFocus = (
 	}
 };
 
-const convertKoreanDateToISO = (dateString: string) => {
-	const months: { [key: string]: string } = {
-		'1월': '01',
-		'2월': '02',
-		'3월': '03',
-		'4월': '04',
-		'5월': '05',
-		'6월': '06',
-		'7월': '07',
-		'8월': '08',
-		'9월': '09',
-		'10월': '10',
-		'11월': '11',
-		'12월': '12',
-	};
-
-	const match = dateString.match(/(\d{4})년 (\d{1,2})월/);
-	if (match) {
-		const year = match[1];
-		const month = months[match[2] + '월'];
-		return `${year}-${month}`;
+const changeYearMonth = (currentYear: number, currentMonth: number, prevOrNext: 'prev' | 'next') => {
+	let returnDate = { year: currentYear, month: currentMonth };
+	if (prevOrNext === 'next') {
+		currentMonth === 12 ? (returnDate = { year: currentYear + 1, month: 1 }) : (returnDate = { year: currentYear, month: currentMonth + 1 });
 	} else {
-		return '실패';
+		currentMonth === 1 ? (returnDate = { year: currentYear - 1, month: 12 }) : (returnDate = { year: currentYear, month: currentMonth - 1 });
 	}
+	return returnDate;
 };
 
-export { webpImageIncoder, pxToRem, base64ToFile, doRefFocus, convertKoreanDateToISO };
+export { webpImageIncoder, pxToRem, base64ToFile, doRefFocus, changeYearMonth };
