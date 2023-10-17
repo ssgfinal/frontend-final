@@ -1,7 +1,7 @@
 // 유틸 함수 저장폴더
 
 //utils
-import { webpImageIncoder, pxToRem, base64ToFile, doRefFocus } from './utilFunction';
+import { webpImageIncoder, pxToRem, base64ToFile, doRefFocus, changeYearMonth } from './utilFunction';
 import { isLoginFunc } from './isLogin';
 
 //window
@@ -12,7 +12,7 @@ import { handleEnterPress } from './keyBoard';
 // date관련
 import { dateFormat, makeTwo, periodCheck, calculateNights } from './date';
 
-export { webpImageIncoder, isLoginFunc, pxToRem, base64ToFile, doRefFocus };
+export { webpImageIncoder, isLoginFunc, pxToRem, base64ToFile, doRefFocus, changeYearMonth };
 
 // window
 export { windowWarningState, removeWindowWarningState };

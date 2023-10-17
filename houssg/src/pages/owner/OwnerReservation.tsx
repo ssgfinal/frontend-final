@@ -33,7 +33,11 @@ const OwnerReservation = () => {
 			{isSuccess && (
 				<>
 					<ReservationDropDown accomList={data.data.accommodationList} houseIndex={houseIndex} setHouseIndex={setHouseIndex} />
-					<OwnerCalendar initailData={data.data.reservations} houseId={data.data.accommodationList[houseIndex].accomNumber} />
+					<OwnerCalendar
+						currentDate={{ year: currentYear, month: currentMonth }}
+						initailData={data.data.reservations}
+						houseId={data.data.accommodationList[houseIndex].accomNumber}
+					/>
 				</>
 			)}
 		</OwnerReservationWrapper>

@@ -85,6 +85,7 @@ const reportReview = (reviewNumber: number, reportMessage: string) =>
 		},
 	});
 const checkMyHouseReservation = (yearMonth: string) => api.get(ownerUrl.checkReservation, { params: { yearMonth } });
+
 const getHouseReservation = (accomNumber: number, yearMonth: string) => api.get(ownerUrl.getReservation, { params: { accomNumber, yearMonth } });
 const getReservableRoomList = (accomNumber: number, yearMonth: string) =>
 	api.get(ownerUrl.getRoomAvailability, { params: { accomNumber, yearMonth } });
