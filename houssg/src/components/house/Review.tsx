@@ -26,9 +26,9 @@ export const Review: React.FC<ReviewProps> = ({ review }) => {
 };
 
 const Wrapper = styled.div`
-	border: solid 0.05rem ${color.color1};
+	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
 	border-radius: 1rem;
-	margin: 1rem 0;
+	margin-bottom: 2rem;
 	padding: 2rem;
 `;
 

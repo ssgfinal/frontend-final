@@ -14,10 +14,10 @@ const Wrapper = styled.div`
 	padding: 2rem;
 	white-space: pre-wrap;
 	text-align: left;
-	border: solid ${color.color2};
 	border-radius: 1rem;
 	min-height: 15rem;
 	line-height: 1.5rem;
+	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
 `;
 
 export default HouseDescription;
