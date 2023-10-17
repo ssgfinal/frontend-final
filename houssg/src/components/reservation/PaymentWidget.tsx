@@ -95,10 +95,7 @@ export const PaymentWidget: React.FC<PaymentWidgetProps> = ({ selectedReservatio
 					paymentAmount: selectedReservation.paymentPrice,
 				})
 				.then(({ data }) => {
-					console.log('예약정보 보내고 백으로부터 받은 data', data);
 					const reservationNumFromBack = data;
-
-					// console.log('PaymentWidget seletedReservation > ', selectedReservation);
 					paymentWidget &&
 						paymentWidget
 							.requestPayment({
@@ -124,7 +121,7 @@ export const PaymentWidget: React.FC<PaymentWidgetProps> = ({ selectedReservatio
 
 								if (err.code === 'USER_CANCEL') {
 									// 결제 고객이 결제창을 닫았을 때 에러 처리
-									alert('창이 닫혀서 결제가 완료되지 못 했습니다.s');
+									alert('창이 닫혀서 결제가 완료되지 못 했습니다.');
 								} else if (err.code === 'INVALID_CARD_COMPANY') {
 									// 유효하지 않은 카드 코드에 대한 에러 처리
 									alert('카드 정보가 유효하지 않습니다');
@@ -142,7 +139,7 @@ export const PaymentWidget: React.FC<PaymentWidgetProps> = ({ selectedReservatio
 							});
 				});
 		} catch (err) {
-			console.log('예약하기 API 통신 에러?', err);
+			console.log('예약하기 API 통신 에러', err);
 			if (err === '예약 불가능') {
 				alert('죄송합니다. 이미 예약이 완료된 방입니다.');
 			}
