@@ -28,12 +28,12 @@ const userUrl = {
 	// UserHouseDetail
 	houseDetail: 'accom/detail',
 	like: 'favorite',
-	addLike: 'favorite/add',
 	reviewList: 'review/all/accom',
 
 	// UserReservation.tsx 예약하기 페이지
 	reservation: 'reservation/basic-info', // 에약하기 페이지에서 띄울 데이터 요청하는 url
 	reservationEnroll: 'reservation/enroll', // 예약하기
+	isPaymentSuccess: 'reservation/check-complete', // 결제 성공 여부
 };
 
 const authUrl = {

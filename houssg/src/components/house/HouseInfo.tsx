@@ -36,7 +36,7 @@ export const HouseInfo: React.FC<HouseProps> = ({ house }) => {
 			<AccomImg>
 				<Img src={house.img} />
 				<OverHeartIcon>
-					<HeartIcons />
+					<HeartIcons houseId={house.accomNumber} />
 				</OverHeartIcon>
 			</AccomImg>
 			<Info>

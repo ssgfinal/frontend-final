@@ -1,44 +1,72 @@
 import { styled } from 'styled-components';
 import { HeartIcon, FullHeartIcon } from '../../assets/icons/index';
 import { useEffect, useState } from 'react';
-import { isLoginFunc } from '../../utils';
-import { useAppDispatch } from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import { openModal } from '../../store/redux/modalSlice';
 import api from '../../api/api';
 import { userUrl } from '../../assets/constant';
+import { isLoginState } from '../../store/redux/authSlice';
 
-const HeartIcons = () => {
+interface HeartIconsProps {
+	houseId: number;
+}
+const HeartIcons: React.FC<HeartIconsProps> = ({ houseId }) => {
 	const [isLike, setIsLike] = useState<boolean>(false);
 
 	const dispatch = useAppDispatch();
+	const isLogin = useAppSelector(isLoginState);
+
+	useEffect(() => {
+		if (isLogin) {
+			try {
+				api.get(userUrl.like, { params: { accomNumber: houseId } }).then(({ data }) => {
+					setIsLike(data);
+				});
+			} catch (err) {
+				console.log('라이크 첫 렌더링 시 로그인 상태면 실행되는 get 리스펀스 > ', err);
+			}
+		}
+	}, []);
+
+	useEffect(() => {
+		if (isLogin) {
+			api.get(userUrl.like, { params: { accomNumber: houseId } }).then(({ data }) => {
+				setIsLike(data);
+			});
+		} else {
+			setIsLike(false);
+		}
+	}, [isLogin]);
 
 	const HeartClick = () => {
-		const isLogin = isLoginFunc();
 		if (!isLogin) {
 			const modalSize = window.innerWidth >= 1000 ? 500 : 400;
 			dispatch(openModal({ modalComponent: 'auth', modalSize: modalSize }));
 		} else {
+			if (isLike) {
+				// 찜 o -> 찜 X 로 된 경우
+				// 아직 변경된 isLike가 반영이 안 되서 true인 상태
+				try {
+					api.delete(userUrl.like, { params: { accomNumber: houseId } }).then(({ data }) => {
+						console.log('찜 해제 api 통신 성공 > ', data);
+					});
+				} catch (err) {
+					console.log('찜 해제 api 에러 > ', err);
+				}
+			} else {
+				// 찜 X -> 찜 o 로 된 경우
+				// 아직 변경된 isLike가 반영이 안 되서 false인 상태
+				try {
+					api.post(userUrl.like, null, { params: { accomNumber: houseId } }).then(({ data }) => {
+						console.log('찜 하기 api 통신 성공 > ', data);
+					});
+				} catch (err) {
+					console.log('찜 하기 api 에러 > ', err);
+				}
+			}
 			setIsLike(!isLike);
 		}
 	};
-
-	useEffect(() => {
-		let initLike: boolean;
-		// TODO: 백 api 만들어지면 연결하기
-		// api.get(userUrl.like).then(({ data }) => {
-		// 	initLike = data.isLike;
-		// 	setIsLike(initLike);
-		// }); // initLike 이렇게 let으로 해보고 잘 안 먹히면 initLike를 state로 관리하기
-		return () => {
-			if (initLike !== isLike) {
-				if (isLike) {
-					api.post(userUrl.addLike);
-				} else {
-					// api.delete(userUrl.like);
-				}
-			}
-		};
-	}, []);
 
 	return <HeartImg onClick={HeartClick} src={isLike ? FullHeartIcon : HeartIcon} />;
 };
