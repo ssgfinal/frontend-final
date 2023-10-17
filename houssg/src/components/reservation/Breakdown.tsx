@@ -112,7 +112,7 @@ export const Breakdown: React.FC<BreakdownProps> = ({ initCouponList, selectedRe
 					<div>상품 금액</div>
 					<Between>
 						<div> &nbsp; </div>
-						<div>{(room.roomPrice * selectedReservation.night).toLocaleString()}</div>
+						<div>{!selectedReservation.night ? <>0</> : <>{(room.roomPrice * selectedReservation.night).toLocaleString()}</>}</div>
 					</Between>
 					<div>할인 금액 </div>
 					<Between>
@@ -128,7 +128,7 @@ export const Breakdown: React.FC<BreakdownProps> = ({ initCouponList, selectedRe
 					<div>총 결제 금액</div>
 					<Between>
 						<div> &nbsp;</div>
-						<div>{selectedReservation.paymentPrice.toLocaleString()}</div>
+						<div>{!selectedReservation.paymentPrice ? <>0</> : <>{selectedReservation.paymentPrice.toLocaleString()}</>}</div>
 					</Between>
 				</AboutPayment>
 			</ReservationCommonBox>

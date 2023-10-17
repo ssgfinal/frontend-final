@@ -21,16 +21,16 @@ const RoomInfo: React.FC<RoomInfoProps> = ({ initBookableRoomList, selectedReser
 			<UserReservationLeft>{houseName}</UserReservationLeft>
 			<UserReservationLeft>{room.roomCategory}</UserReservationLeft>
 			<UserReservationLeft>
+				<div>1박당 {Number(room.roomPrice).toLocaleString()}원</div>
+			</UserReservationLeft>
+			<UserReservationLeft>
 				{' '}
-				예약 가능 날짜 및 시간 (feat. 달력)
+				예약 날짜
 				<Calendar
 					initBookableRoomList={initBookableRoomList}
 					selectedReservation={selectedReservation}
 					setSelectedReservation={setSelectedReservation}
 				/>
-			</UserReservationLeft>
-			<UserReservationLeft>
-				<div>1박당 {Number(room.roomPrice).toLocaleString()}원</div>
 			</UserReservationLeft>
 		</ReservationCommonBox>
 	);
