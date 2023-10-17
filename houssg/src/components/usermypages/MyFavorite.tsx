@@ -9,6 +9,7 @@ import Rating from '../common/Rating';
 
 import { color } from '../../assets/styles';
 import { MapMarker } from '../../assets/icons';
+import HeartIcons from '../common/HeartIcons';
 
 const MyFavorite = () => {
 	const navigate = useNavigate();
@@ -51,8 +52,7 @@ const MyFavorite = () => {
 									<div>{favorites.accomAddress}</div>
 								</HouseAddressBox>
 								<FavoriteContainer>
-									{/* 하우스 아이디 주세요 */}
-									{/* <HeartIcons /> */}
+									<HeartIcons houseId={favorites.accomNumber} />
 								</FavoriteContainer>
 							</MyFavoriteContainer>
 						</div>
