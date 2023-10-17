@@ -1,5 +1,4 @@
 import { styled } from 'styled-components';
-import { color } from '../../assets/styles';
 import React from 'react';
 
 interface HouseDescriptionProps {

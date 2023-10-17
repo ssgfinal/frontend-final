@@ -52,7 +52,7 @@ const MyFavorite = () => {
 									<div>{favorites.accomAddress}</div>
 								</HouseAddressBox>
 								<FavoriteContainer>
-									<HeartIcons />
+									<HeartIcons houseId={favorites.accomNumber} />
 								</FavoriteContainer>
 							</MyFavoriteContainer>
 						</div>
