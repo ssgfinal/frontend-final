@@ -5,11 +5,19 @@ import { moreIcon } from '../../../../assets/icons';
 import { color } from '../../../../assets/styles';
 import { roomServiceCategory } from '../../../../assets/constant';
 import { RoomImgSlider } from '../../../common';
+import { useAppDispatch } from '../../../../hooks';
+import { openModal } from '../../../../store/redux/modalSlice';
 
 const RoomCompRead: React.FC<RoomComp> = ({ room, setIsEditMode }) => {
 	const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 	const toggleDropdown = () => {
 		setIsDropdownOpen(!isDropdownOpen);
+	};
+
+	const dispatch = useAppDispatch();
+	const modalOpen = () => {
+		const modalSize = window.innerWidth >= 1000 ? 500 : 400;
+		dispatch(openModal({ modalComponent: 'DeleRequest', modalSize: modalSize, modalText: 'room && ' + room.accomNumber + ' && ' + room.roomNumber }));
 	};
 
 	return (
@@ -26,7 +34,7 @@ const RoomCompRead: React.FC<RoomComp> = ({ room, setIsEditMode }) => {
 						>
 							수정하기
 						</NavClickComp>
-						<NavClickComp>삭제하기</NavClickComp>
+						<NavClickComp onClick={modalOpen}>삭제하기</NavClickComp>
 					</ButtonAligner>
 				)}
 			</DropdownBox>

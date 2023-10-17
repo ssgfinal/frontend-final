@@ -6,14 +6,23 @@ import { ManageNav, ManageTabComp } from '.';
 import { MyHouseDataHandleComp } from '../../../types';
 import { MapMarker, moreIcon } from '../../../assets/icons';
 import { houseServiceCategory } from '../../../assets/constant';
+import { openModal } from '../../../store/redux/modalSlice';
+import { useAppDispatch } from '../../../hooks';
 
 const ManageHouseRead: React.FC<MyHouseDataHandleComp> = ({ house, setIsEditMode }) => {
+	const dispatch = useAppDispatch();
+
 	const [isRoomSelected, setIsRoomSelected] = useState(0); // 처음 0 room 1 , review 2
 	const [isOpenTabComp, setIsOpenTabComp] = useState(false);
 	const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
 	const toggleDropdown = () => {
 		setIsDropdownOpen(!isDropdownOpen);
+	};
+
+	const modalOpen = () => {
+		const modalSize = window.innerWidth >= 1000 ? 500 : 400;
+		dispatch(openModal({ modalComponent: 'DeleRequest', modalSize: modalSize, modalText: 'house && ' + house.accomNumber }));
 	};
 
 	return (
@@ -34,7 +43,7 @@ const ManageHouseRead: React.FC<MyHouseDataHandleComp> = ({ house, setIsEditMode
 							>
 								수정하기
 							</NavClickComp>
-							<NavClickComp>삭제하기</NavClickComp>
+							<NavClickComp onClick={modalOpen}>삭제하기</NavClickComp>
 						</ButtonAligner>
 					)}
 				</DropdownBox>
