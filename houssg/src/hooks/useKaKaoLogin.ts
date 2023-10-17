@@ -7,7 +7,7 @@ export const useKakaoLogin = () => {
 
 	useEffect(() => {
 		// 만약 정보가 없으면 카카오 회원가입
-		console.log(code);
+		// console.log(code);
 		// 그냥 사용
 	}, [code]);
 

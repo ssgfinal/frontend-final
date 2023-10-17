@@ -27,11 +27,10 @@ export const RoomList: React.FC<RoomListProps> = ({ houseName }) => {
 	if (isLoading) {
 		return <div>로딩중...</div>;
 	}
-	console.log(data);
 
 	return (
 		<Wrapper>
-			{isSuccess && data.data.map((room) => <RoomDetail key={room.roomNumber} room={room} houseId={houseId} houseName={houseName} />)}
+			{isSuccess && houseId && data.data.map((room) => <RoomDetail key={room.roomNumber} room={room} houseId={houseId} houseName={houseName} />)}
 		</Wrapper>
 	);
 };

@@ -27,7 +27,7 @@ const __postLogin = createAsyncThunk('POST_LOGIN', async (payload: { id: string;
 		}
 		return thunkAPI.fulfillWithValue(data);
 	} catch (error) {
-		if (isAxiosError(error) && error.request.status === 404) {
+		if (isAxiosError(error) && error.request.status === 400) {
 			alert('아이디와 패스워드를 확인해주세요');
 		}
 		return thunkAPI.rejectWithValue('에러');
@@ -66,7 +66,6 @@ const authSlice = createSlice({
 		},
 		resetAuthStatus: (state) => {
 			state.status = 'idle';
-			console.log('호출됐나');
 		},
 	},
 	extraReducers: (builder) => {

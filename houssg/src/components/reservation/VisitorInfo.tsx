@@ -46,6 +46,9 @@ export const VisitorInfo: React.FC<VisitorInfoProps> = ({ selectedReservation, s
 			...selectedReservation,
 			[e.target.name]: e.target.value,
 		});
+		if (isChecked == true) {
+			setIsChecked(false);
+		}
 	};
 
 	return (

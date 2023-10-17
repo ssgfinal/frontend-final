@@ -40,14 +40,18 @@ const authSignUpFunc: AuthSignUpFunc = (userId, userNick, userPw, userPwCheck, u
 };
 
 const idCheckFunc = (id: string, setIsLoading: React.Dispatch<React.SetStateAction<boolean>>) => {
+	if (!regSignUp.regId.reg.test(id)) {
+		return;
+	}
 	setIsLoading(true);
 	api
 		.post(authUrl.idCheck + `?id=${id}`)
 		.then(({ data }) => {
 			data === 'YES' ? alert('유효한 아이디입니다') : alert('중복된 아이디입니다.');
 		})
-		.catch(({ response }) => {
-			console.log(response);
+		.catch(({ error }) => {
+			alert('유효하지 않습니다.');
+			console.log(error);
 		})
 		.finally(() => {
 			setIsLoading(false);
@@ -55,6 +59,9 @@ const idCheckFunc = (id: string, setIsLoading: React.Dispatch<React.SetStateActi
 };
 
 const nickCheckFunc = (nickName: string, setIsLoading: React.Dispatch<React.SetStateAction<boolean>>) => {
+	if (!regSignUp.regNick.reg.test(nickName)) {
+		return;
+	}
 	setIsLoading(true);
 	api
 		.post(authUrl.nickCheck + `?nickname=${nickName}&auth=0`)
@@ -69,20 +76,21 @@ const nickCheckFunc = (nickName: string, setIsLoading: React.Dispatch<React.SetS
 		});
 };
 
-const onPhoneUsableCheck: SmsParameter = (phone, setIsLoading, setSmsId, setTimeStatus, setTime) => {
+const onPhoneUsableCheck: SmsParameter = (phone, setIsLoading, setTimeStatus, setTime) => {
+	if (!regSignUp.regPhone.reg.test(phone)) {
+		return;
+	}
 	setIsLoading(true);
-	console.log(phone);
 	api
 		.post(authUrl.phoneCheck, { recipientPhoneNumber: phone })
 		.then(({ data }) => {
 			if (data.statusCode === '202') {
-				setSmsId(data.sessionId);
 				setTimeStatus('start');
 				setTime(180);
 			}
 		})
 		.catch(({ response }) => {
-			console.log(response);
+			response.status === 400 ? alert('이미 가입된 번호입니다.') : alert('잘못된 요청입니다.');
 		})
 		.finally(() => {
 			setIsLoading(false);
@@ -91,19 +99,23 @@ const onPhoneUsableCheck: SmsParameter = (phone, setIsLoading, setSmsId, setTime
 
 const phoneAuthCheck = (
 	number: string,
-	smsId: string,
+	phoneNumber: string,
 	setIsLoading: React.Dispatch<React.SetStateAction<boolean>>,
 	setConfirmed: React.Dispatch<React.SetStateAction<boolean>>,
+	setPermittedUserId?: () => void,
 ) => {
-	console.log(smsId);
 	setIsLoading(true);
 	api
-		.post(authUrl.phoneAuthCheck + `?verificationCode=${number}&sessionId=${smsId}`)
+		.post(authUrl.phoneAuthCheck + `?verificationCode=${number}&phoneNumber=${phoneNumber}`)
 		.then((data) => {
 			console.log(data);
-			data.status === 200 && setConfirmed(true);
+			if (data.status === 200) {
+				setConfirmed(true);
+				setPermittedUserId && setPermittedUserId();
+			}
 		})
 		.catch((err) => {
+			alert('일치하지 않습니다.');
 			console.log(err, '에러 메시지');
 		})
 		.finally(() => {
@@ -127,7 +139,9 @@ const onFindId = (
 			}
 		})
 		.catch(({ response }) => {
-			console.log(response);
+			if (response.status >= 400 && response.status < 500) {
+				alert('가입되지 않은 번호입니다.');
+			}
 		})
 		.finally(() => {
 			setIsLoading(false);
@@ -136,20 +150,22 @@ const onFindId = (
 
 const onFindIdCheck = (
 	verificationCode: string,
-	phone_number: string,
+	phoneNumber: string,
 	setIsLoading: React.Dispatch<React.SetStateAction<boolean>>,
 	setState: React.Dispatch<React.SetStateAction<boolean>>,
 	setFoundId: React.Dispatch<React.SetStateAction<string>>,
 ) => {
 	setIsLoading(true);
 	api
-		.post(authUrl.findIdCheck, null, { params: { verificationCode, phone_number } })
+		.post(authUrl.findIdCheck, null, { params: { verificationCode, phoneNumber } })
 		.then((resp) => {
-			console.log(resp);
 			setState(true);
 			setFoundId(resp.data.id);
 		})
 		.catch((err) => {
+			if (err.response.status >= 400 && err.response.status < 500) {
+				alert('일치하지 않습니다.');
+			}
 			console.log(err);
 		})
 		.finally(() => {
@@ -157,25 +173,48 @@ const onFindIdCheck = (
 		});
 };
 
-const onFindPw = ({ id, phone_number }: { id: string; phone_number: string }) => {
+const onFindPw = (
+	id: string,
+	phone_number: string,
+	setIsLoading: React.Dispatch<React.SetStateAction<boolean>>,
+	setTimeStatus: React.Dispatch<React.SetStateAction<ProcessType>>,
+	setTime: React.Dispatch<React.SetStateAction<number>>,
+) => {
+	setIsLoading(true);
+
 	api
 		.post(authUrl.findPw, null, { params: { id, phone_number } })
-		.then((resp) => {
-			console.log(resp);
+		.then(() => {
+			setTimeStatus('start');
+			setTime(180);
 		})
 		.catch((err) => {
+			err.response.status === 400 ? alert('일치하지 않습니다.') : alert('잘못된 요청입니다.');
+
 			console.log(err);
+		})
+		.finally(() => {
+			setIsLoading(false);
 		});
 };
 
-const onUpdateNewPw = ({ id, newPassword }: { id: string; newPassword: string }) => {
+const onUpdateNewPw = (
+	id: string,
+	newPassword: string,
+	setAuthStep: React.Dispatch<React.SetStateAction<string>>,
+	setIsLoading: React.Dispatch<React.SetStateAction<boolean>>,
+) => {
+	setIsLoading(true);
 	api
 		.post(authUrl.updatePw, null, { params: { id, newPassword } })
-		.then((resp) => {
-			console.log(resp);
+		.then(() => {
+			setAuthStep('login');
 		})
 		.catch((err) => {
 			console.log(err);
+		})
+		.finally(() => {
+			setIsLoading(false);
 		});
 };
 

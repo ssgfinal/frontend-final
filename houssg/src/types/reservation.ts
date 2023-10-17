@@ -56,6 +56,13 @@ interface BookableRoomCnt {
 	availableRooms: number;
 }
 
+// 달력 이벤트
+interface Schedule {
+	title: string;
+	date: string;
+	allDay: boolean;
+}
+
 // 유저가 선택한 정보 == 백에 보낼 데이터
 interface SelectedReservationType {
 	roomId: number;
@@ -69,4 +76,4 @@ interface SelectedReservationType {
 	usingPoint: number;
 	paymentPrice: number;
 }
-export type { ReservationDetailType, ReservationsType, MyReservation, BookableRoomCnt, SelectedReservationType };
+export type { ReservationDetailType, ReservationsType, MyReservation, BookableRoomCnt, Schedule, SelectedReservationType };

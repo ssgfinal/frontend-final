@@ -12,7 +12,19 @@ import {
 } from './authFunction';
 
 // 사업자 관련
-import { getMyHouseListData, onRegiFunnelData, getHouseReview, addReviewComment, patchReviewComment } from './ownerFunction';
+import {
+	getMyHouseListData,
+	onRegiFunnelData,
+	getHouseReview,
+	addReviewComment,
+	patchReviewComment,
+	checkMyHouseReservation,
+	getHouseReservation,
+	getReservableRoomList,
+	reportReview,
+	requestHouseDelete,
+	deleteRoom,
+} from './ownerFunction';
 
 // 객실 관련
 import { getTargetRoomData, addTargetRoom, returnRoomFormData, editTargetRoom } from './roomFunction';
@@ -25,7 +37,20 @@ import { getUserHouseList } from './userHouseListFunction';
 
 export { authLoginFunc, authSignUpFunc, kakaoLoginFunc, kakaoSignUp, nickCheckFunc, idCheckFunc, onPhoneUsableCheck, phoneAuthCheck, onFindId };
 
-export { getMyHouseListData, onRegiFunnelData, getHouseReview, addReviewComment, patchReviewComment };
+// 사업자
+export {
+	getMyHouseListData,
+	onRegiFunnelData,
+	getHouseReview,
+	addReviewComment,
+	patchReviewComment,
+	checkMyHouseReservation,
+	getHouseReservation,
+	getReservableRoomList,
+	reportReview,
+	requestHouseDelete,
+	deleteRoom,
+};
 
 export { getTargetRoomData, addTargetRoom, editTargetRoom, returnRoomFormData };
 

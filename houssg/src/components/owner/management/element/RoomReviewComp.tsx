@@ -23,7 +23,7 @@ const RoomReviewComp: React.FC<{ accomNumber: number; review: OwnerHouseReviewTy
 	};
 
 	const onOpenReportModal = () => {
-		modalOpen('declaration', review.reviewNumber + '');
+		modalOpen('declaration', `${accomNumber}/&&${review.reviewNumber}`);
 	};
 
 	const onOpenReplyModal = () => {
@@ -55,6 +55,7 @@ const RoomReviewComp: React.FC<{ accomNumber: number; review: OwnerHouseReviewTy
 			mutate(newReplayValue);
 		}
 	};
+
 	return (
 		<>
 			<ReviewWrapper>
@@ -63,11 +64,13 @@ const RoomReviewComp: React.FC<{ accomNumber: number; review: OwnerHouseReviewTy
 					<ReviewWriter>{review.nickname}</ReviewWriter>
 					<DeclarationContainer>
 						{review.reportStatus ? (
-							<div>신고중</div>
+							<ReportStatustext>신고중...</ReportStatustext>
 						) : (
-							<DeclarationBox src={declarationIcon} onClick={onOpenReportModal} alt="신고하기"></DeclarationBox>
+							<>
+								<DeclarationBox src={declarationIcon} onClick={onOpenReportModal} alt="신고하기"></DeclarationBox>
+								&nbsp;<span>신고하기</span>
+							</>
 						)}
-						&nbsp;<span>신고하기</span>
 					</DeclarationContainer>
 					<ReviewRoomType>{review.roomCategory}</ReviewRoomType>
 					<RatingBox>
@@ -463,4 +466,11 @@ const CommentSubmitButton = styled.button`
 	@media (max-width: 320px) {
 		font-size: 0.5rem;
 	}
+`;
+
+const ReportStatustext = styled.div`
+	color: ${color.red};
+	font-size: 0.7rem;
+	font-weight: 600;
+	margin-right: 0.2rem;
 `;

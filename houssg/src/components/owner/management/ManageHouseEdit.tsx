@@ -31,7 +31,6 @@ const ManageHouseEdit: React.FC<MyHouseDataHandleComp> = ({ house, setIsEditMode
 				break;
 			case windowWidth >= 427 && windowWidth < 747:
 				widthNumber = pxToRem(windowWidth) * 0.6;
-				console.log(widthNumber);
 				break;
 			default:
 				widthNumber = 28;
@@ -104,9 +103,9 @@ const ManageHouseEdit: React.FC<MyHouseDataHandleComp> = ({ house, setIsEditMode
 				[{house.accomCategory}] {house.accomName}
 			</ManageReadTitle>
 			<ImageUploader width={uploaderSize.width} height={uploaderSize.height} setImage={setNewImg} setImgFile={onAddNewFileData}>
-				수정하기
+				<HouseImg src={newImg} />
+				<ImgEditText>사진 수정하기</ImgEditText>
 			</ImageUploader>
-			<HouseImg src={newImg} />
 			<ManageHouseWrapper>
 				<ManageHouseContainer>
 					<ManageHouseEditTitle>전화번호</ManageHouseEditTitle>
@@ -121,7 +120,6 @@ const ManageHouseEdit: React.FC<MyHouseDataHandleComp> = ({ house, setIsEditMode
 							<CheckBox key={service.value} element={service} index={i} isChecked={!!checkedList[i]} setCheckedList={onChangeCheckedList} />
 						))}
 					</CheckBoxContainer>
-					{/* TODO: 상세설명 글자수 제한은 있는지? */}
 					<ManageHouseEditTitle>상세설명</ManageHouseEditTitle>
 					<ManageHouseText rows={8} ref={newDetail} defaultValue={house.accomDetails} maxLength={300} />
 				</ManageHouseContainer>
@@ -153,7 +151,7 @@ const ManageWrapper = styled.div`
 const HouseImg = styled.img`
 	justify-self: center;
 	max-width: 28rem;
-	margin-bottom: 0.5rem;
+	margin-block: 0.5rem;
 	object-fit: contain;
 	border-radius: 0.5rem;
 	width: 60vw;
@@ -312,4 +310,9 @@ const ManageHouseText = styled.textarea`
 	@media (max-width: 300px) {
 		font-size: 0.8rem;
 	}
+`;
+
+const ImgEditText = styled.div`
+	font-weight: 700;
+	color: ${color.darkGrayColor};
 `;

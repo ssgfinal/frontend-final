@@ -50,7 +50,7 @@ const OwnerRoomRegister = () => {
 	const { mutate } = useMutation({
 		mutationFn: (formData: FormData) => addTargetRoom(formData),
 		onSuccess: () => {
-			queryClient.invalidateQueries({ queryKey: [roomKey.targetRoom, houseId] });
+			queryClient.invalidateQueries({ queryKey: [roomKey.targetRoom, Number(houseId)] });
 			alert('성공');
 			navigate(ownerRoute.management);
 		},
@@ -65,6 +65,7 @@ const OwnerRoomRegister = () => {
 		if (formData === 'false') {
 			return;
 		}
+
 		mutate(formData);
 	};
 

@@ -7,7 +7,6 @@ import { useEffect, useState } from 'react';
 import api from '../../api/api';
 import { userUrl } from '../../assets/constant';
 import { ReviewType } from '../../types';
-import { color } from '../../assets/styles';
 
 export const HouseReview = () => {
 	const { houseId } = useParams();
@@ -35,14 +34,13 @@ export const HouseReview = () => {
 };
 
 const Wrapper = styled.div`
-	padding: 2rem 0;
+	padding: 1rem 0;
 `;
 
 const ZeroReview = styled.div`
-	border: solid 0.05rem ${color.color1};
+	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
 	border-radius: 1rem;
 	margin: 1rem 0;
-	padding: 2rem;
 `;
 const ReviewList = styled.div`
 	white-space: pre-wrap;

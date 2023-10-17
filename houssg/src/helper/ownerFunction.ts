@@ -77,4 +77,32 @@ const patchReviewComment = (reviewNumber: number, reviewComment: string) =>
 		},
 	});
 
-export { getMyHouseListData, onRegiFunnelData, onEditManageHouseApi, getHouseReview, addReviewComment, patchReviewComment };
+const reportReview = (reviewNumber: number, reportMessage: string) =>
+	api.patch(ownerUrl.reportReview, null, {
+		params: {
+			reviewNumber,
+			reportMessage,
+		},
+	});
+const checkMyHouseReservation = (yearMonth: string) => api.get(ownerUrl.checkReservation, { params: { yearMonth } });
+
+const getHouseReservation = (accomNumber: number, yearMonth: string) => api.get(ownerUrl.getReservation, { params: { accomNumber, yearMonth } });
+const getReservableRoomList = (accomNumber: number, yearMonth: string) =>
+	api.get(ownerUrl.getRoomAvailability, { params: { accomNumber, yearMonth } });
+
+const requestHouseDelete = (accomNumber: number) => api.patch(ownerUrl.houseDeleteRequest, null, { params: { accomNumber } });
+const deleteRoom = (roomNumber: number) => api.delete(ownerUrl.roomDelete, { params: { roomNumber } });
+
+export {
+	getMyHouseListData,
+	onRegiFunnelData,
+	onEditManageHouseApi,
+	getHouseReview,
+	addReviewComment,
+	patchReviewComment,
+	reportReview,
+	requestHouseDelete,
+	deleteRoom,
+};
+//예약
+export { checkMyHouseReservation, getHouseReservation, getReservableRoomList };
