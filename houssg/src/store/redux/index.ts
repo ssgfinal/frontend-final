@@ -2,11 +2,13 @@
 import { configureStore } from '@reduxjs/toolkit';
 import modalReducer from './modalSlice';
 import authReducer from './authSlice';
+import calendarReducer from './calendarSlice';
 
 export const store = configureStore({
 	reducer: {
 		modal: modalReducer,
 		auth: authReducer,
+		calendar: calendarReducer,
 	},
 });
 

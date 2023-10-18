@@ -14,6 +14,7 @@ import { useRef } from 'react';
 import { changeYearMonth } from '../../../utils';
 import { useAppDispatch } from '../../../hooks';
 import { openModal } from '../../../store/redux/modalSlice';
+import { EventClickArg } from '@fullcalendar/core/index.js';
 
 const OwnerCalendar: React.FC<CommonCalendarProps> = ({ currentDate, initailData, houseId, isReservationList }) => {
 	const dispatch = useAppDispatch();
@@ -26,14 +27,21 @@ const OwnerCalendar: React.FC<CommonCalendarProps> = ({ currentDate, initailData
 	today.setHours(9, 0, 0, 0);
 	const calendarFullDate = new Date(calendarDate.year + '-' + calendarDate.month);
 
-	const modalOpen = (component: string, type: 'event' | 'date') => {
-		dispatch(openModal({ modalComponent: component, modalSize: 400, modalText: type }));
+	const modalOpen = (type: 'event' | 'date') => {
+		dispatch(openModal({ modalComponent: 'ownerReservation', modalSize: 400, modalText: type }));
 	};
-	console.log(modalOpen);
 	// 날짜를 클릭시
 	const handleDateClick = (args: DateClickArg) => {
+		modalOpen('date');
+
 		console.log(args.dateStr); // 날짜정보
 		console.log(args.dayEl.innerText); // 이벤트가 있으면 innerText가 /n이 들어가 있음
+	};
+
+	const handleEventClick = (arg: EventClickArg) => {
+		console.log(arg.event._def.title);
+		console.log(arg.event._instance?.range);
+		modalOpen('event');
 	};
 	//데이터 받기
 	const { isLoading, data, isSuccess, isError, error } = useQuery<{ data: OwnerReservedRoom[] }>(
@@ -111,9 +119,7 @@ const OwnerCalendar: React.FC<CommonCalendarProps> = ({ currentDate, initailData
 				plugins={[dayGridPlugin, interactionPlugin]}
 				initialView="dayGridMonth"
 				dateClick={handleDateClick}
-				eventClick={(arg) => {
-					console.log(arg);
-				}}
+				eventClick={handleEventClick}
 				ref={calendarRef}
 				aspectRatio={2}
 				dayMaxEvents={3}
