@@ -12,18 +12,30 @@ import { ownerKey } from '../../../assets/constant';
 import { getHouseReservation, getReservableRoomList } from '../../../helper';
 import { useRef } from 'react';
 import { changeYearMonth } from '../../../utils';
+import { useAppDispatch } from '../../../hooks';
+import { openModal } from '../../../store/redux/modalSlice';
 
 const OwnerCalendar: React.FC<CommonCalendarProps> = ({ currentDate, initailData, houseId, isReservationList }) => {
+	const dispatch = useAppDispatch();
 	const calendarRef = useRef<FullCalendar | null>(null);
 	// const calenderApi = calendarRef.current?.getApi().view.title; // 혹시 몰라 놔둠
 	const [calendarDate, setCalendarDate] = useState(currentDate);
-	const [calendarEvents, setCalendarEvents] = useState<{ title: string; constraint?: string; start?: string; end?: string; date?: string }[]>([]);
+	const calendarEvent: { title: string; constraint?: string; start?: string; end?: string; date?: string }[] = [];
+
+	const today = new Date();
+	today.setHours(9, 0, 0, 0);
+	const calendarFullDate = new Date(calendarDate.year + '-' + calendarDate.month);
+
+	const modalOpen = (component: string, type: 'event' | 'date') => {
+		dispatch(openModal({ modalComponent: component, modalSize: 400, modalText: type }));
+	};
+	console.log(modalOpen);
 	// 날짜를 클릭시
 	const handleDateClick = (args: DateClickArg) => {
 		console.log(args.dateStr); // 날짜정보
 		console.log(args.dayEl.innerText); // 이벤트가 있으면 innerText가 /n이 들어가 있음
 	};
-
+	//데이터 받기
 	const { isLoading, data, isSuccess, isError, error } = useQuery<{ data: OwnerReservedRoom[] }>(
 		[isReservationList ? ownerKey.getReservationData : ownerKey.reserveAvailability, houseId, calendarDate.year + '-' + calendarDate.month],
 		() =>
@@ -37,40 +49,34 @@ const OwnerCalendar: React.FC<CommonCalendarProps> = ({ currentDate, initailData
 			placeholderData: { data: initailData },
 		},
 	);
+	if (isReservationList) {
+		data?.data.map((event) => {
+			// const endDate = new Date(event.endDate);
+			const endDate = new Date(event.endDate);
+			today < endDate &&
+				calendarEvent.push({ title: event.roomCategory, start: event.startDate, end: event.endDate, constraint: event.guestName + '님' });
+		});
+	} else {
+		data?.data.map((event) => {
+			event.availabilityInfo?.map((availabiity) => {
+				const targetDate = new Date(availabiity.date);
+				!(today > targetDate) &&
+					availabiity.availableRooms &&
+					calendarEvent.push({ title: event.roomCategory + ` ${availabiity.availableRooms}개`, date: availabiity.date });
+			});
+		});
+	}
 
-	const calendarEvent = data?.data.map((event) => {
-		if (isReservationList) {
-			return { title: event.roomCategory, start: event.startDate, end: event.endDate, constraint: event.guestName + '님' };
-		}
-	});
-
-	// const calendarEvent = data?.data.map((event) => {
-	// 	if (isReservationList) {
-	// 		return { title: event.roomCategory, start: event.startDate, end: event.endDate, constraint: event.guestName + '님' };
-	// 	} else {
-	// 		const returnEvent = event.availabilityInfo.map((availabiity) => {
-	// 			return { title: event.roomCategory + `${availabiity.availableRooms}`, date: availabiity.date };
-	// 		});
-	// 		return { ...returnEvent };
-	// 	}
-	// });
-
-	// console.log(calendarEvent, '되나?');
-	useCalendarStyle('owner', data?.data);
+	useCalendarStyle(isReservationList, houseId, calendarFullDate > today ? null : today);
 
 	isSuccess && console.log(data.data, isReservationList ? '예약목록' : '예약가능일');
-
 	if (isError) {
 		console.log(error);
 		alert('에러 발생');
 	}
 
-	if (isLoading) {
-		return <div>로딩중...</div>;
-	}
-
 	return (
-		<CalendarContainer>
+		<CalendarContainer $isLoading={isLoading}>
 			<FullCalendar
 				headerToolbar={{
 					left: 'prev next', // 좌측버튼
@@ -105,6 +111,9 @@ const OwnerCalendar: React.FC<CommonCalendarProps> = ({ currentDate, initailData
 				plugins={[dayGridPlugin, interactionPlugin]}
 				initialView="dayGridMonth"
 				dateClick={handleDateClick}
+				eventClick={(arg) => {
+					console.log(arg);
+				}}
 				ref={calendarRef}
 				aspectRatio={2}
 				dayMaxEvents={3}
@@ -119,7 +128,7 @@ const OwnerCalendar: React.FC<CommonCalendarProps> = ({ currentDate, initailData
 
 export default OwnerCalendar;
 
-const CalendarContainer = styled.div`
+const CalendarContainer = styled.div<{ $isLoading: boolean }>`
 	padding: 0 0.5rem;
 	.fc-daygrid-day-frame {
 		cursor: pointer;
@@ -130,4 +139,6 @@ const CalendarContainer = styled.div`
 		background-color: lavenderblush;
 		cursor: not-allowed;
 	}
+
+	cursor: ${(props) => props.$isLoading && 'wait'};
 `;
