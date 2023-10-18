@@ -45,8 +45,8 @@ const CommonModal = () => {
 			{modalComp === 'declaration' && <DeclarationReview />}
 			{modalComp === 'houseComment' && <HouseComment />}
 			{modalComp === 'userReview' && <ReviewWrite />}
-			{modalComp === 'DeleRequest' && <DeleteRequestScreen />}
-			{modalComp === 'OwnerReservation' && <OwnerReservationModal />}
+			{modalComp === 'deleRequest' && <DeleteRequestScreen />}
+			{modalComp === 'ownerReservation' && <OwnerReservationModal />}
 			{(modalComp === 'instruction' || modalComp === 'couponRegistration') && <CommonInstruction />}
 		</Modal>
 	);
