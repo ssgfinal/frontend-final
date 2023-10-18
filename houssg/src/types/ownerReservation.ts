@@ -5,6 +5,12 @@ interface OwnerReservedRoom {
 	endDate: string;
 	guestName: string;
 	guestPhone: string;
+	availabilityInfo: [
+		{
+			date: string;
+			availableRooms: number;
+		},
+	];
 }
 
 interface OwnerAvailableRoom {

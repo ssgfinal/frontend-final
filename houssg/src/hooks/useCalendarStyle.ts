@@ -1,17 +1,18 @@
 import { useEffect } from 'react';
-import { UserType } from '../types';
+import { OwnerReservedRoom, UserType } from '../types';
 
-const useCalendarStyle = (type: UserType) => {
+const useCalendarStyle = (type: UserType, data: OwnerReservedRoom[] | undefined) => {
 	useEffect(() => {
 		if (type === 'owner') {
-			const parentDiv = document.getElementsByClassName('fc-daygrid-day-frame');
-			for (let i = 0; i < parentDiv.length; i++) {
-				if (parentDiv[i].children[1].children.length > 1) {
-					parentDiv[i].classList.add('calendar-unable');
-				}
-			}
+			// const parentDiv = document.getElementsByClassName('fc-daygrid-day-frame');
+			// for (let i = 0; i < parentDiv.length; i++) {
+			// 	// console.log(parentDiv[i].children[1].children);
+			// 	if (parentDiv[i].children[1].children.length <= 1) {
+			// 		parentDiv[i].classList.add('calendar-unable');
+			// 	}
+			// }
 		}
-	}, [type]);
+	}, [type, data]);
 };
 
 export default useCalendarStyle;
