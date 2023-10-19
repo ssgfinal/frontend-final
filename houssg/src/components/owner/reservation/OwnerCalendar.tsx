@@ -12,17 +12,50 @@ import { ownerKey } from '../../../assets/constant';
 import { getHouseReservation, getReservableRoomList } from '../../../helper';
 import { useRef } from 'react';
 import { changeYearMonth } from '../../../utils';
+import { useAppDispatch } from '../../../hooks';
+import { openModal } from '../../../store/redux/modalSlice';
+import { EventClickArg } from '@fullcalendar/core/index.js';
+import { setCalendarModalInfo } from '../../../store/redux/calendarSlice';
 
-const OwnerCalendar: React.FC<CommonCalendarProps> = ({ currentDate, initailData, houseId }) => {
-	useCalendarStyle('owner');
+const OwnerCalendar: React.FC<CommonCalendarProps> = ({ currentDate, initailData, houseId, isReservationList }) => {
+	const dispatch = useAppDispatch();
 	const calendarRef = useRef<FullCalendar | null>(null);
 	// const calenderApi = calendarRef.current?.getApi().view.title; // 혹시 몰라 놔둠
 	const [calendarDate, setCalendarDate] = useState(currentDate);
+	const calendarEvent: { title: string; constraint?: string; start?: string; end?: string; date?: string; id: string }[] = [];
 
-	console.log(calendarDate);
+	const today = new Date();
+	today.setHours(9, 0, 0, 0);
+	const calendarFullDate = new Date(calendarDate.year + '-' + calendarDate.month);
+
+	const modalOpen = (type: 'reserve#event' | 'available#event' | string) => {
+		dispatch(openModal({ modalComponent: 'ownerReservation', modalSize: 400, modalText: type }));
+	};
+
+	const handleDateClick = (args: DateClickArg) => {
+		dispatch(setCalendarModalInfo({ calendarInfo: '넘오가나' }));
+
+		modalOpen(isReservationList ? 'reserve#date#' + args.dateStr : 'available#date#' + args.dateStr);
+
+		console.log(args.dateStr); // 날짜정보
+		console.log(args.dayEl.innerText); // 이벤트가 있으면 innerText가 /n이 들어가 있음
+	};
+
+	const handleEventClick = (arg: EventClickArg) => {
+		dispatch(setCalendarModalInfo({ calendarInfo: '넘오가나 이벤트' }));
+
+		console.log(arg.event._def.title);
+		console.log(arg.event._instance?.range);
+		console.log(arg.event.id);
+		modalOpen(isReservationList ? 'reserve#event' : 'available#event');
+	};
+
 	const { isLoading, data, isSuccess, isError, error } = useQuery<{ data: OwnerReservedRoom[] }>(
-		[ownerKey.getReservationData, houseId, calendarDate.year + '-' + calendarDate.month],
-		() => getHouseReservation(houseId, calendarDate.year + '-' + calendarDate.month),
+		[isReservationList ? ownerKey.getReservationData : ownerKey.reserveAvailability, houseId, calendarDate.year + '-' + calendarDate.month],
+		() =>
+			isReservationList
+				? getHouseReservation(houseId, calendarDate.year + '-' + calendarDate.month)
+				: getReservableRoomList(houseId, calendarDate.year + '-' + calendarDate.month),
 		{
 			cacheTime: 5 * 60 * 1000,
 			staleTime: 5 * 60 * 1000,
@@ -31,34 +64,48 @@ const OwnerCalendar: React.FC<CommonCalendarProps> = ({ currentDate, initailData
 		},
 	);
 
-	const reservationableRoomList = useQuery<{ data: OwnerReservedRoom[] }>(
-		[ownerKey.reserveAvailability, houseId, calendarDate.year + '-' + calendarDate.month],
-		() => getReservableRoomList(houseId, calendarDate.year + '-' + calendarDate.month),
-		{
-			cacheTime: 5 * 60 * 1000,
-			staleTime: 5 * 60 * 1000,
-			keepPreviousData: true,
-		},
-	);
-
-	isError && console.log(error, 'error');
-	isSuccess && console.log(data, '예약목록');
-	reservationableRoomList.isSuccess && console.log(reservationableRoomList.data, '예약가능목록');
-
-	if (isLoading) {
-		return <div>로딩중...</div>;
+	if (isReservationList) {
+		data?.data.map((event) => {
+			// const endDate = new Date(event.endDate);
+			const endDate = new Date(event.endDate);
+			today < endDate &&
+				calendarEvent.push({
+					title: event.roomCategory,
+					start: event.startDate,
+					end: event.endDate,
+					constraint: event.guestName + '님',
+					id: event.reservationNumber + '',
+				});
+		});
+	} else {
+		data?.data.map((event) => {
+			event.availabilityInfo?.map((availabiity, index) => {
+				const targetDate = new Date(availabiity.date);
+				!(today > targetDate) &&
+					availabiity.availableRooms &&
+					calendarEvent.push({
+						title: event.roomCategory + ` ${availabiity.availableRooms}개`,
+						date: availabiity.date,
+						id: event.roomNumber + '-' + index,
+					});
+			});
+		});
 	}
-	// 날짜를 클릭시
-	const handleDateClick = (args: DateClickArg) => {
-		console.log(args.dateStr); // 날짜정보
-		console.log(args.dayEl.innerText); // 이벤트가 있으면 innerText가 /n이 들어가 있음
-	};
+
+	useCalendarStyle(isReservationList, houseId, calendarFullDate > today ? null : today);
+
+	isSuccess && console.log(data.data, isReservationList ? '예약목록' : '예약가능일');
+
+	if (isError) {
+		console.log(error);
+		alert('에러 발생');
+	}
 
 	return (
-		<CalendarContainer>
+		<CalendarContainer $isLoading={isLoading}>
 			<FullCalendar
 				headerToolbar={{
-					left: 'prev next', // 좌측버튼
+					left: 'prev next',
 					center: 'title',
 					end: 'today',
 				}}
@@ -90,12 +137,14 @@ const OwnerCalendar: React.FC<CommonCalendarProps> = ({ currentDate, initailData
 				plugins={[dayGridPlugin, interactionPlugin]}
 				initialView="dayGridMonth"
 				dateClick={handleDateClick}
+				eventClick={handleEventClick}
 				ref={calendarRef}
 				aspectRatio={2}
 				dayMaxEvents={3}
+				events={calendarEvent}
 				eventBackgroundColor={color.color3}
 				eventBorderColor="transparent"
-				// contentHeight={800}
+				contentHeight={800}
 			/>
 		</CalendarContainer>
 	);
@@ -103,7 +152,7 @@ const OwnerCalendar: React.FC<CommonCalendarProps> = ({ currentDate, initailData
 
 export default OwnerCalendar;
 
-const CalendarContainer = styled.div`
+const CalendarContainer = styled.div<{ $isLoading: boolean }>`
 	padding: 0 0.5rem;
 	.fc-daygrid-day-frame {
 		cursor: pointer;
@@ -114,4 +163,10 @@ const CalendarContainer = styled.div`
 		background-color: lavenderblush;
 		cursor: not-allowed;
 	}
+
+	.fc-event-title-container {
+		cursor: pointer;
+	}
+
+	cursor: ${(props) => props.$isLoading && 'wait'};
 `;

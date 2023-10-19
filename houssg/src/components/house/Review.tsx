@@ -3,24 +3,38 @@ import Rating from '../common/Rating';
 import { styled } from 'styled-components';
 import { color } from '../../assets/styles';
 import { ReviewProps } from '../../types';
+import hourClock from '../../utils/hourClock';
 
 export const Review: React.FC<ReviewProps> = ({ review }) => {
 	return (
 		<Wrapper key={review.reviewNumber}>
-			<WriteDate>{review.reviewCreationTime}</WriteDate>
+			<WriteDate>{hourClock(review.reviewCreationTime)}</WriteDate>
 			<OneLine>
-				<Title>작성자</Title>
-				<Content>{review.nickname}</Content>
-				<Title>객실</Title>
-				<Content>{review.roomCategory}</Content>
+				<Set>
+					<Title>작성자</Title>
+					<Content>{review.nickname}</Content>
+				</Set>
+				<Set>
+					<Title>객실</Title>
+					<Content>{review.roomCategory}</Content>
+				</Set>
+				{/* <Content>{hourClock(review.reviewCreationTime)}</Content> */}
 			</OneLine>
 			<RateBox>
-				<Rating readonly rate={review.reveiwRating} />
+				<Rating readonly rate={review.reviewRating} />
 			</RateBox>
 			<ReviewContent>
 				{review.img ? <Img src={review.img} /> : <></>}
 				<ReviewText>{review.reviewContent}</ReviewText>
 			</ReviewContent>
+			{/* TODO: 댓글 입력,수정에서 빈문자열일 땐 등록안 되게 막는게 맞을 듯, 지금은 임시방편으로 && 걸어놓음 */}
+			{review.reviewComment && review.reviewComment.length !== 0 && (
+				<CommentContainer>
+					<HouseReviewNickName>💌 숙소 답변</HouseReviewNickName>
+					<HouseReviewDate>{review.reviewCommentTime && hourClock(review.reviewCommentTime)}</HouseReviewDate>
+					<HouseReviewContent>{review.reviewComment}</HouseReviewContent>
+				</CommentContainer>
+			)}
 		</Wrapper>
 	);
 };
@@ -33,26 +47,38 @@ const Wrapper = styled.div`
 `;
 
 const WriteDate = styled.div`
-	text-align: left;
+	text-align: right;
 	margin: 0.5rem;
 	margin-top: 0;
+	font-size: 0.8rem;
 `;
 
 const OneLine = styled.div`
 	@media (min-width: 650px) {
-		display: flex;
+		display: grid;
+		grid-template-columns: 50% 50%;
 	}
 	@media (max-width: 650px) {
 		display: grid;
-		grid-template-columns: 1fr 2fr;
-		font-size: 0.7rem;
+		grid-template-columns: 100%;
+		font-size: 0.8rem;
 	}
 
-	margin-bottom: 0.5rem;
+	margin-bottom: 1rem;
 `;
 
 const RateBox = styled.div`
 	width: 25%;
+	margin-bottom: 2rem;
+`;
+const Set = styled.div`
+	display: grid;
+	grid-template-columns: 35% 65%;
+	grid-gap: 1rem;
+	@media (max-width: 720px) {
+		display: grid;
+		grid-template-columns: 40% 60%;
+	}
 `;
 
 const Title = styled.div`
@@ -65,6 +91,7 @@ const Title = styled.div`
 
 const Content = styled.div`
 	align-self: center;
+	text-align: left;
 	padding: 0.5rem;
 `;
 
@@ -91,4 +118,43 @@ const ReviewText = styled.div`
 	}
 
 	text-align: left;
+`;
+
+const CommentContainer = styled.div`
+	margin: 2rem 0;
+	padding: 1rem;
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	grid-template-rows: 1fr 2fr;
+	background-color: ${color.lightGrayColor};
+	color: ${color.basicColor};
+	border-radius: 0.5rem;
+
+	@media (max-width: 900px) {
+		font-size: 1rem;
+	}
+
+	@media (max-width: 430px) {
+		font-size: 0.8rem;
+	}
+
+	@media (max-width: 320px) {
+		font-size: 0.5rem;
+	}
+`;
+
+const HouseReviewNickName = styled.div`
+	text-align: left;
+	padding: 1vw 0;
+	font-weight: bold;
+`;
+
+const HouseReviewDate = styled.div`
+	text-align: right;
+	padding: 1vw 0;
+`;
+
+const HouseReviewContent = styled.div`
+	text-align: left;
+	padding: 1vw 0;
 `;

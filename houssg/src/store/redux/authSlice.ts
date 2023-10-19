@@ -87,8 +87,7 @@ const authSlice = createSlice({
 				state.status = 'success';
 			})
 			.addCase(__postSignUp.rejected, (state) => {
-				// state.status = 'failed';
-				state.status = 'success';
+				state.status = 'failed';
 			});
 	},
 });

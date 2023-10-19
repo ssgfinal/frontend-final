@@ -41,6 +41,7 @@ const ZeroReview = styled.div`
 	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
 	border-radius: 1rem;
 	margin: 1rem 0;
+	padding: 2rem 0;
 `;
 const ReviewList = styled.div`
 	white-space: pre-wrap;

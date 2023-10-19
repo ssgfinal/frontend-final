@@ -5,6 +5,13 @@ interface OwnerReservedRoom {
 	endDate: string;
 	guestName: string;
 	guestPhone: string;
+	reservationNumber: number;
+	availabilityInfo: [
+		{
+			date: string;
+			availableRooms: number;
+		},
+	];
 }
 
 interface OwnerAvailableRoom {
@@ -27,6 +34,7 @@ interface CommonCalendarProps {
 	currentDate: { year: number; month: number };
 	houseId: number;
 	initailData: OwnerReservedRoom[];
+	isReservationList: boolean;
 }
 
 export type { OwnerReservedRoom, OwnerAvailableRoom, CommonCalendarProps, CheckMyHouseReservationType };
