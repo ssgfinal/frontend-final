@@ -9,7 +9,7 @@ import { AuthLoginFunc, AuthSignUpFunc } from './rtk';
 import { MyCouponList, EnrollCouponList, MyReviewList, MyFavoriteList } from './mypage';
 import { HouseBaseInfo, HouseProps, HouseListProps, ServiceList, ReviewType, ReviewProps } from './houseDetailPage';
 import { RoomDataType, RoomComp, RoomData, AddRoomProps } from './room';
-import { OwnerReservedRoom, OwnerAvailableRoom, CommonCalendarProps, CheckMyHouseReservationType } from './ownerReservation';
+import { OwnerReservedRoom, OwnerAvailableRoom, CommonCalendarProps, CheckMyHouseReservationType, ReservationDropDown } from './ownerReservation';
 import { CouponType } from './ coupon';
 
 // auth Regi manage
@@ -23,7 +23,7 @@ export type { ReservationDetailType, ReservationsType, MyReservation, BookableRo
 
 //ownerReservation
 
-export type { OwnerReservedRoom, OwnerAvailableRoom, CommonCalendarProps, CheckMyHouseReservationType };
+export type { OwnerReservedRoom, OwnerAvailableRoom, CommonCalendarProps, CheckMyHouseReservationType, ReservationDropDown };
 
 //manage
 export type { ManageNavProps, MyHouseData, MyHouseDataHandleComp, EditMutationType, OwnerHouseReviewType };

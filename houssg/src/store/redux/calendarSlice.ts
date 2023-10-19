@@ -4,25 +4,36 @@ import { RootState } from '.';
 export interface CalendarState {
 	status: 'idle' | 'loading' | 'failed' | 'success';
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	calendarInfo: any;
+	calendarOwnerInfo: any;
+	ownerHouseId: number;
+	ownerHouseName: string;
 }
 
 const initialState: CalendarState = {
 	status: 'idle',
-	calendarInfo: '',
+	calendarOwnerInfo: '',
+	ownerHouseId: 0,
+	ownerHouseName: '',
 };
 
 const calendarSlice = createSlice({
 	name: 'calendar',
 	initialState,
 	reducers: {
-		setCalendarModalInfo: (state, action) => {
-			state.calendarInfo = action.payload.calendarInfo;
+		setCalendarOwnerInfoInfo: (state, action) => {
+			state.calendarOwnerInfo = action.payload.calendarInfo;
+		},
+		setOwnerHouse: (state, action) => {
+			state.ownerHouseId = action.payload.houseId;
+			state.ownerHouseName = action.payload.houseName;
 		},
 	},
 });
 
-export const { setCalendarModalInfo } = calendarSlice.actions;
-export const calendarData = (state: RootState) => state.calendar.calendarInfo;
+const calendarOwnerData = (state: RootState) => state.calendar.calendarOwnerInfo;
+const ownerHouseId = (state: RootState) => state.calendar.ownerHouseId;
+const ownerHouseName = (state: RootState) => state.calendar.ownerHouseName;
+export const { setCalendarOwnerInfoInfo, setOwnerHouse } = calendarSlice.actions;
 
+export { calendarOwnerData, ownerHouseId, ownerHouseName };
 export default calendarSlice.reducer;

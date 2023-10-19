@@ -12,13 +12,14 @@ import { ownerKey } from '../../../assets/constant';
 import { getHouseReservation, getReservableRoomList } from '../../../helper';
 import { useRef } from 'react';
 import { changeYearMonth } from '../../../utils';
-import { useAppDispatch } from '../../../hooks';
+import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { openModal } from '../../../store/redux/modalSlice';
 import { EventClickArg } from '@fullcalendar/core/index.js';
-import { setCalendarModalInfo } from '../../../store/redux/calendarSlice';
+import { ownerHouseId, setCalendarOwnerInfoInfo } from '../../../store/redux/calendarSlice';
 
-const OwnerCalendar: React.FC<CommonCalendarProps> = ({ currentDate, initailData, houseId, isReservationList }) => {
+const OwnerCalendar: React.FC<CommonCalendarProps> = ({ currentDate, initailData, isReservationList }) => {
 	const dispatch = useAppDispatch();
+	const houseId = useAppSelector(ownerHouseId);
 	const calendarRef = useRef<FullCalendar | null>(null);
 	// const calenderApi = calendarRef.current?.getApi().view.title; // 혹시 몰라 놔둠
 	const [calendarDate, setCalendarDate] = useState(currentDate);
@@ -33,7 +34,7 @@ const OwnerCalendar: React.FC<CommonCalendarProps> = ({ currentDate, initailData
 	};
 
 	const handleDateClick = (args: DateClickArg) => {
-		dispatch(setCalendarModalInfo({ calendarInfo: '넘오가나' }));
+		dispatch(setCalendarOwnerInfoInfo({ calendarInfo: '넘오가나' }));
 
 		modalOpen(isReservationList ? 'reserve#date#' + args.dateStr : 'available#date#' + args.dateStr);
 
@@ -42,7 +43,7 @@ const OwnerCalendar: React.FC<CommonCalendarProps> = ({ currentDate, initailData
 	};
 
 	const handleEventClick = (arg: EventClickArg) => {
-		dispatch(setCalendarModalInfo({ calendarInfo: '넘오가나 이벤트' }));
+		dispatch(setCalendarOwnerInfoInfo({ calendarInfo: '넘오가나 이벤트' }));
 
 		console.log(arg.event._def.title);
 		console.log(arg.event._instance?.range);

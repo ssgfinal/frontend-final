@@ -1,7 +1,8 @@
 import styled from 'styled-components';
 import { useAppSelector } from '../../../hooks';
 import { modalText } from '../../../store/redux/modalSlice';
-import { calendarData } from '../../../store/redux/calendarSlice';
+// import { calendarOwnerData } from '../../../store/redux/calendarSlice';
+import { DateCalModalComp, EventCalModalComp } from '.';
 
 const OwnerReservationModal = () => {
 	const calendarTypeInfo = useAppSelector(modalText);
@@ -9,7 +10,7 @@ const OwnerReservationModal = () => {
 	const purposeType = typeArray[0];
 	const clickType = typeArray[1];
 	const dateInfo = typeArray[2];
-	const calendarInfo = useAppSelector(calendarData);
+	// const calendarInfo = useAppSelector(calendarOwnerData);
 
 	const title =
 		purposeType === 'reserve'
@@ -23,14 +24,29 @@ const OwnerReservationModal = () => {
 			: '닫는중...';
 
 	return (
-		<div>
+		<Container>
 			<OwnerReserveTitle>{title}</OwnerReserveTitle>
-			<div>{calendarInfo}</div>
-		</div>
+			<div>
+				{clickType === 'event' ? (
+					<EventCalModalComp purposeType={purposeType} />
+				) : clickType === 'date' ? (
+					<DateCalModalComp purposeType={purposeType} />
+				) : (
+					<div></div>
+				)}
+			</div>
+		</Container>
 	);
 };
 
 export default OwnerReservationModal;
+
+const Container = styled.div`
+	display: flex;
+	flex-direction: column;
+	/* justify-content: center; */
+	align-items: center;
+`;
 
 const OwnerReserveTitle = styled.div`
 	font-size: 1.2rem;

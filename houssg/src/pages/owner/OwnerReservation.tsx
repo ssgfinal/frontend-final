@@ -43,7 +43,6 @@ const OwnerReservation = () => {
 					<OwnerCalendar
 						currentDate={{ year: currentYear, month: currentMonth }}
 						initailData={data.data.reservations}
-						houseId={data.data.accommodationList[houseIndex].accomNumber}
 						isReservationList={isReservationList}
 					/>
 				</>

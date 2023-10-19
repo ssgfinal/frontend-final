@@ -32,9 +32,17 @@ interface CheckMyHouseReservationType {
 
 interface CommonCalendarProps {
 	currentDate: { year: number; month: number };
-	houseId: number;
 	initailData: OwnerReservedRoom[];
 	isReservationList: boolean;
 }
 
-export type { OwnerReservedRoom, OwnerAvailableRoom, CommonCalendarProps, CheckMyHouseReservationType };
+interface ReservationDropDown {
+	accomList: {
+		accomNumber: number;
+		accomName: string;
+	}[];
+	houseIndex: number;
+	setHouseIndex: React.Dispatch<React.SetStateAction<number>>;
+}
+
+export type { OwnerReservedRoom, OwnerAvailableRoom, CommonCalendarProps, CheckMyHouseReservationType, ReservationDropDown };
