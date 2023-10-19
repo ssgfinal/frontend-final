@@ -1,13 +1,13 @@
 // type 지정을 위함 type 혹은 interface는 이 폴더에서 관리합니다
 
 import { AuthProps, AuthInputType, AuthModeType, AuthPropsWithState, IdFindingType, SmsParameter, NewPwProps, FindPwPermitProps } from './auth';
-import { ReservationDetailType, ReservationsType, MyReservation, BookableRoomCnt, Schedule, SelectedReservationType } from './reservation';
+import { ReservationDetailType, ReservationsType, BookableRoomCnt, Schedule, SelectedReservationType } from './reservation';
 import { ManageNavProps, MyHouseData, MyHouseDataHandleComp, EditMutationType, OwnerHouseReviewType } from './manage';
 import { StyledActiveProps, SetStateToggle, UserType, UserTypeObject, RoomSlideProps, TimerProps, ProcessType } from './common';
 import { RegiStepProps, StepMoverType, FunnelPropsType } from './regi';
 import { AuthLoginFunc, AuthSignUpFunc } from './rtk';
 import { MyCouponList, EnrollCouponList, MyReviewList, MyFavoriteList } from './mypage';
-import { HouseBaseInfo, HouseProps, HouseListProps, ServiceList, ReviewType, ReviewProps } from './houseDetailPage';
+import { HouseBaseInfo, HouseProps, HouseListProps, ServiceList, ReviewType, ReviewProps, SearchHouse } from './houseDetailPage';
 import { RoomDataType, RoomComp, RoomData, AddRoomProps } from './room';
 import { OwnerReservedRoom, OwnerAvailableRoom, CommonCalendarProps, CheckMyHouseReservationType, ReservationDropDown } from './ownerReservation';
 import { CouponType } from './ coupon';
@@ -19,7 +19,7 @@ export type { AuthProps, AuthInputType, AuthModeType, AuthPropsWithState, IdFind
 export type { StyledActiveProps, SetStateToggle, UserType, UserTypeObject, RoomSlideProps, TimerProps, ProcessType };
 
 //reservation
-export type { ReservationDetailType, ReservationsType, MyReservation, BookableRoomCnt, Schedule, SelectedReservationType };
+export type { ReservationDetailType, ReservationsType, BookableRoomCnt, Schedule, SelectedReservationType };
 
 //ownerReservation
 
@@ -34,7 +34,7 @@ export type { AuthLoginFunc, AuthSignUpFunc };
 //mypage
 export type { MyCouponList, EnrollCouponList, MyReviewList, MyFavoriteList };
 // house
-export type { HouseBaseInfo, HouseProps, HouseListProps, ServiceList, ReviewType, ReviewProps };
+export type { HouseBaseInfo, HouseProps, HouseListProps, ServiceList, ReviewType, ReviewProps, SearchHouse };
 
 // room
 export type { RoomDataType, RoomComp, RoomData, AddRoomProps };
