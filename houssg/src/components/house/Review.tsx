@@ -10,10 +10,15 @@ export const Review: React.FC<ReviewProps> = ({ review }) => {
 		<Wrapper key={review.reviewNumber}>
 			<WriteDate>{hourClock(review.reviewCreationTime)}</WriteDate>
 			<OneLine>
-				<Title>작성자</Title>
-				<Content>{review.nickname}</Content>
-				<Title>객실</Title>
-				<Content>{review.roomCategory}</Content>
+				<Set>
+					<Title>작성자</Title>
+					<Content>{review.nickname}</Content>
+				</Set>
+				<Set>
+					<Title>객실</Title>
+					<Content>{review.roomCategory}</Content>
+				</Set>
+				{/* <Content>{hourClock(review.reviewCreationTime)}</Content> */}
 			</OneLine>
 			<RateBox>
 				<Rating readonly rate={review.reviewRating} />
@@ -42,26 +47,38 @@ const Wrapper = styled.div`
 `;
 
 const WriteDate = styled.div`
-	text-align: left;
+	text-align: right;
 	margin: 0.5rem;
 	margin-top: 0;
+	font-size: 0.8rem;
 `;
 
 const OneLine = styled.div`
 	@media (min-width: 650px) {
-		display: flex;
+		display: grid;
+		grid-template-columns: 50% 50%;
 	}
 	@media (max-width: 650px) {
 		display: grid;
-		grid-template-columns: 1fr 2fr;
-		font-size: 0.7rem;
+		grid-template-columns: 100%;
+		font-size: 0.8rem;
 	}
 
-	margin-bottom: 0.5rem;
+	margin-bottom: 1rem;
 `;
 
 const RateBox = styled.div`
 	width: 25%;
+	margin-bottom: 2rem;
+`;
+const Set = styled.div`
+	display: grid;
+	grid-template-columns: 35% 65%;
+	grid-gap: 1rem;
+	@media (max-width: 720px) {
+		display: grid;
+		grid-template-columns: 40% 60%;
+	}
 `;
 
 const Title = styled.div`
@@ -74,6 +91,7 @@ const Title = styled.div`
 
 const Content = styled.div`
 	align-self: center;
+	text-align: left;
 	padding: 0.5rem;
 `;
 
@@ -103,7 +121,7 @@ const ReviewText = styled.div`
 `;
 
 const CommentContainer = styled.div`
-	margin: 1rem 0;
+	margin: 2rem 0;
 	padding: 1rem;
 	display: grid;
 	grid-template-columns: 1fr 1fr;
