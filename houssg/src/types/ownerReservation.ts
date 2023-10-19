@@ -5,6 +5,7 @@ interface OwnerReservedRoom {
 	endDate: string;
 	guestName: string;
 	guestPhone: string;
+	reservationNumber: number;
 	availabilityInfo: [
 		{
 			date: string;
