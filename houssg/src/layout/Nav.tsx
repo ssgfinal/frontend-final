@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom'; // useLocation 추가
 import { color } from '../assets/styles/theme';
 import { useIsUser, usePathname } from '../hooks';
 import { StyledActiveProps } from '../types';
-import { devideOnce } from '../assets/styles';
 import { ownerRoute, userRoute } from '../assets/constant';
 
 const Nav = () => {
@@ -45,6 +44,13 @@ const NavContainer = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: space-evenly;
+	@media only screen and (max-width: 800px) {
+		height: 4rem;
+	}
+
+	@media only screen and (max-width: 400px) {
+		height: 3.8rem;
+	}
 `;
 
 const NavText = styled.div<StyledActiveProps>`
@@ -52,7 +58,11 @@ const NavText = styled.div<StyledActiveProps>`
 	font-weight: ${({ $active }) => ($active ? 800 : 500)};
 	color: ${color.backColor};
 	cursor: pointer;
-	@media only screen and (max-width: ${devideOnce.first}-35) {
+	@media only screen and (max-width: 800px) {
 		font-size: ${({ $active }) => ($active ? '1.1rem' : '0.8rem')};
+	}
+
+	@media only screen and (max-width: 400px) {
+		font-size: ${({ $active }) => ($active ? '0.9rem' : '0.65rem')};
 	}
 `;

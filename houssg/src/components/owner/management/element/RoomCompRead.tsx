@@ -16,7 +16,7 @@ const RoomCompRead: React.FC<RoomComp> = ({ room, setIsEditMode }) => {
 
 	const dispatch = useAppDispatch();
 	const modalOpen = () => {
-		dispatch(openModal({ modalComponent: 'DeleRequest', modalSize: 300, modalText: 'room && ' + room.accomNumber + ' && ' + room.roomNumber }));
+		dispatch(openModal({ modalComponent: 'deleRequest', modalSize: 300, modalText: 'room && ' + room.accomNumber + ' && ' + room.roomNumber }));
 	};
 
 	return (

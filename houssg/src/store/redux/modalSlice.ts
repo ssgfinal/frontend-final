@@ -9,7 +9,6 @@ export interface ModalState {
 	modalProps?: {
 		[key: string]: string | number | boolean;
 	};
-	//TODO: 추후 타입지정
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	modalFunc?: any;
 }

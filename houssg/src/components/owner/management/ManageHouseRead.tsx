@@ -21,7 +21,7 @@ const ManageHouseRead: React.FC<MyHouseDataHandleComp> = ({ house, setIsEditMode
 	};
 
 	const modalOpen = () => {
-		dispatch(openModal({ modalComponent: 'DeleRequest', modalSize: 300, modalText: 'house && ' + house.accomNumber }));
+		dispatch(openModal({ modalComponent: 'deleRequest', modalSize: 300, modalText: 'house && ' + house.accomNumber }));
 	};
 
 	return (
