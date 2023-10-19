@@ -28,8 +28,6 @@ const OwnerReservation = () => {
 		return <div>로딩중...</div>;
 	}
 
-	isSuccess && console.log(data);
-
 	return (
 		<OwnerReservationWrapper>
 			{isSuccess && (
