@@ -19,23 +19,32 @@ const ReservationCollapseDetail: React.FC<CollapseDetail> = ({ detail }) => {
 			{/* TODO: 기능구현할 때, 수정 */}
 
 			<CollapseDetailContainer>
-				<p>• 이용자명 : {detail.guestName} 님</p>
-				<p>• 전화번호 : {detail.guestPhone}</p>
+				<BottomMargin>• 이용자명 : {detail.guestName} 님</BottomMargin>
+				<BottomMargin>• 전화번호 : {detail.guestPhone}</BottomMargin>
 			</CollapseDetailContainer>
 			<PaymentContainer>
-				<PaymentDateBox>{formatDate(detail.paymentDate)}</PaymentDateBox>
+				<PaymentDateBox>{formatDate(detail.reservationTime)}</PaymentDateBox>
 				{/* TODO: 쿠폰 미사용시 안 보이게 삼항 */}
-				{detail.couponName ? (
-					<p>
-						사용쿠폰 : {detail.couponName}({detail.couponNumber})
-					</p>
+				{detail.couponNumber ? (
+					<>
+						<BottomMargin>
+							사용 쿠폰 : {detail.couponName}({detail.couponNumber})
+						</BottomMargin>
+						<BottomMargin>쿠폰 할인 : {detail.discount.toLocaleString()}원</BottomMargin>
+					</>
 				) : (
-					<p>사용쿠폰 : 사용안함</p>
+					<>
+						<BottomMargin>사용 쿠폰 : 사용 안함</BottomMargin>
+						<BottomMargin>쿠폰 할인 : 0원</BottomMargin>
+					</>
 				)}
-				{detail.couponDiscount ? <p>쿠폰할인 : {detail.couponDiscount.toLocaleString()}원</p> : <p>쿠폰할인 : 0원</p>}
-				{detail.pointDiscount ? <p>포인트사용 : {detail.pointDiscount.toLocaleString()}p</p> : <p>포인트사용 : 0p</p>}
+				{detail.usePoint ? (
+					<BottomMargin>포인트사용 : {detail.usePoint.toLocaleString()}p</BottomMargin>
+				) : (
+					<BottomMargin>포인트 사용 : 0p</BottomMargin>
+				)}
 
-				<p>결제금액 : {detail.payment.toLocaleString()}원</p>
+				<BottomMargin>결제 금액 : {detail.paymentAmount.toLocaleString()}원</BottomMargin>
 			</PaymentContainer>
 		</CollapseDetailWrapper>
 	);
@@ -47,13 +56,17 @@ const CollapseDetailWrapper = styled.div`
 	width: 100%;
 `;
 
+const BottomMargin = styled.p`
+	padding-bottom: 0.6rem;
+`;
 const PaymentDateBox = styled.div`
 	grid-column-start: 1;
 	grid-column-end: 2;
 	grid-row-start: 1;
 	grid-row-end: 2;
-	border-bottom: 1px solid ${color.darkGrayColor};
+	/* border-bottom: 1px solid ${color.darkGrayColor}; */
 	font-weight: bold;
+	padding-bottom: 0.6rem;
 `;
 
 const PaymentContainer = styled.div`
