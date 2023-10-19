@@ -41,7 +41,7 @@ interface ReviewType {
 	reviewCreationTime: string;
 	nickname: string;
 	roomCategory: string;
-	reveiwRating: number;
+	reviewRating: number;
 	img?: string;
 	reviewContent: string;
 	reviewCommentTime?: string;
