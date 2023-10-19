@@ -53,10 +53,9 @@ interface ReviewProps {
 }
 
 interface SearchHouse extends HouseBaseInfo {
-	// totalCount: number;
-	pageSize: number;
+	totalCount: number;
 	page: number[];
-	pageParam: number;
+	pageParam: number[];
 }
 
 export type { HouseBaseInfo, HouseProps, HouseListProps, ServiceList, ReviewType, ReviewProps, SearchHouse };
