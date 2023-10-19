@@ -5,16 +5,16 @@ import { useQuery } from '@tanstack/react-query';
 import { userKey } from '../../assets/constant/queryKey';
 import { api } from '../../api';
 import { userUrl } from '../../assets/constant';
-import { MyReservation } from '../../types';
+import { ReservationsType } from '../../types';
 
 const UserReservationList = () => {
 	const getMyReservation = () => api.get(userUrl.myReservation);
-	const { isLoading, data, isSuccess, isError, error } = useQuery<{ data: MyReservation[] }>([userKey.myReservation], getMyReservation, {
+	const { isLoading, data, isSuccess, isError, error } = useQuery<{ data: ReservationsType[] }>([userKey.myReservation], getMyReservation, {
 		cacheTime: 5 * 60 * 1000,
 		staleTime: 2 * 60 * 1000,
 	});
 
-	isSuccess && console.log(data);
+	isSuccess && console.log('예약내역', data);
 
 	if (isError) {
 		console.log(error);
@@ -26,34 +26,35 @@ const UserReservationList = () => {
 	}
 
 	return (
-		<UserReservationWrapper>
+		<div>
 			<UserReservationContainer>
 				{isSuccess &&
 					(data.data.length === 0 ? (
-						<div>없음</div>
+						<div>예약 내역이 없습니다.</div>
 					) : (
-						data.data.map((reservation) => (
-							<div key={reservation.reservationNumber}>
-								<ReservationList reservations={reservation} />
-							</div>
-						))
+						data.data.map(
+							(reservation) =>
+								// 예약 중인 예약내역은 애초에 화면에 안 띄울거니까 status가 0인 애들은 안 보내야 맞는 거 아닌가?
+								reservation.status !== 0 && (
+									<div key={reservation.reservationNumber}>
+										<ReservationList reservations={reservation} />
+									</div>
+								),
+						)
 					))}
 			</UserReservationContainer>
-		</UserReservationWrapper>
+		</div>
 	);
 };
 
 export default UserReservationList;
 
-const UserReservationWrapper = styled.div``;
-
 const UserReservationContainer = styled.div`
-	width: 80%;
+	width: 90%;
 	grid-area: a;
 	display: grid;
 	justify-content: center;
-	margin: 1rem auto;
-	grid-gap: 1rem;
+	margin: 3rem auto;
 
 	@media (min-width: 1400px) {
 		grid-template-columns: repeat(3, 1fr);
