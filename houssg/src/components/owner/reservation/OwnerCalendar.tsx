@@ -43,12 +43,14 @@ const OwnerCalendar: React.FC<CommonCalendarProps> = ({ currentDate, initailData
 	};
 
 	const handleEventClick = (arg: EventClickArg) => {
-		dispatch(setCalendarOwnerInfoInfo({ calendarInfo: '넘오가나 이벤트' }));
-
-		console.log(arg.event._def.title);
-		console.log(arg.event._instance?.range);
+		// 이벤트인 경우
+		console.log(calendarEvent);
 		console.log(arg.event.id);
-		modalOpen(isReservationList ? 'reserve#event' : 'available#event');
+		// dispatch(setCalendarOwnerInfoInfo({ calendarInfo: '넘오가나 이벤트' }));
+
+		// console.log(arg.event._def.title);
+		// console.log(arg.event._instance?.range);
+		// modalOpen(isReservationList ? 'reserve#event' : 'available#event');
 	};
 
 	const { isLoading, data, isSuccess, isError, error } = useQuery<{ data: OwnerReservedRoom[] }>(
@@ -95,7 +97,7 @@ const OwnerCalendar: React.FC<CommonCalendarProps> = ({ currentDate, initailData
 
 	useCalendarStyle(isReservationList, houseId, calendarFullDate > today ? null : today);
 
-	isSuccess && console.log(data.data, isReservationList ? '예약목록' : '예약가능일');
+	// isSuccess && console.log(data.data, isReservationList ? '예약목록' : '예약가능일');
 
 	if (isError) {
 		console.log(error);

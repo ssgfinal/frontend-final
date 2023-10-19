@@ -33,6 +33,7 @@ const calendarSlice = createSlice({
 const calendarOwnerData = (state: RootState) => state.calendar.calendarOwnerInfo;
 const ownerHouseId = (state: RootState) => state.calendar.ownerHouseId;
 const ownerHouseName = (state: RootState) => state.calendar.ownerHouseName;
+
 export const { setCalendarOwnerInfoInfo, setOwnerHouse } = calendarSlice.actions;
 
 export { calendarOwnerData, ownerHouseId, ownerHouseName };
