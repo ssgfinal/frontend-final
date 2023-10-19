@@ -24,7 +24,6 @@ const RoomInfo: React.FC<RoomInfoProps> = ({ initBookableRoomList, selectedReser
 				<div>1박당 {Number(room.roomPrice).toLocaleString()}원</div>
 			</UserReservationLeft>
 			<UserReservationLeft>
-				{' '}
 				예약 날짜
 				<Calendar
 					initBookableRoomList={initBookableRoomList}

@@ -108,7 +108,7 @@ export const PaymentWidget: React.FC<PaymentWidgetProps> = ({ selectedReservatio
 							.then(function (data) {
 								console.log('결제 승인 시 토스페이먼츠 리스펀스 > ', data);
 								try {
-									api.post(userUrl.isPaymentSuccess, { reservationNumber: reservationNumFromBack, sign: 'success' });
+									api.patch(userUrl.isPaymentSuccess, { reservationNumber: reservationNumFromBack, sign: 'success' });
 									console.log('백에 결제 완료 api 날림');
 								} catch {
 									console.log('결제 성공을 백에 알려주는 API 통신 에러');
