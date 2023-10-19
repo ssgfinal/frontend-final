@@ -79,8 +79,9 @@ const ReservationList: React.FC<{ reservations: ReservationsType }> = ({ reserva
 						>
 							취소하기
 						</ReservationButton>
-					) : reservations.status === 2 ? (
-						reservations.reviewStatus ? (
+					) : (
+						reservations.status === 2 &&
+						(reservations.reviewStatus ? (
 							<ReviewWriteButton
 								hidden={false}
 								onClick={() => {
@@ -91,9 +92,7 @@ const ReservationList: React.FC<{ reservations: ReservationsType }> = ({ reserva
 							</ReviewWriteButton>
 						) : (
 							<ReviewWriteButton>후기 보기</ReviewWriteButton>
-						)
-					) : (
-						<div></div>
+						))
 					)}
 				</ReservationBox>
 				<ReservationNumberBox>예약번호 {reservations.reservationNumber}</ReservationNumberBox>
