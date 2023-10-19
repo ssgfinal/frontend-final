@@ -1,82 +1,83 @@
-import { useState, useEffect } from 'react';
-
 import { Select } from 'antd';
-import { Input, Space, DatePicker } from 'antd';
+import { Input } from 'antd';
+// import { Input, Space, DatePicker } from 'antd';
 
 import styled from 'styled-components';
 import { color } from '../../assets/styles';
-// import { accomodation } from '../../assets/icons';
 
-import BriefHouse from '../../components/house/BriefHouse';
-import { houseCategory, userUrl } from '../../assets/constant';
-import { HouseBaseInfo } from '../../types';
-import api from '../../api/api';
+import { houseCategory } from '../../assets/constant';
+import HouseList from '../../components/userhouselist/HouseList';
+import { useState } from 'react';
 
 const UserHouseList = () => {
-	const handleChange = (value: { value: string; label: React.ReactNode }) => {
-		console.log(value); // { value: "lucy", key: "lucy", label: "Lucy (101)" }
-	};
-
 	const { Search } = Input;
-
-	const onSearch = (value: string) => console.log(value);
-
-	const { RangePicker } = DatePicker;
 
 	// <Select>에 필요한 배열
 	const order = [
 		{
-			value: '평점 높은순',
-			label: '평점 높은순',
-		},
-		{
 			value: '최근 등록순',
 			label: '최근 등록순',
 		},
+		{
+			value: '평점 높은순',
+			label: '평점 높은순',
+		},
 	];
-	const [houseList, setHouseList] = useState<HouseBaseInfo[]>([]);
-	//TODO: 로딩은 나중에...
-	useEffect(() => {
-		api.get(userUrl.houseList).then(({ data }) => {
-			setHouseList(data);
-		});
-	}, []);
+
+	const [type, setType] = useState<string>(houseCategory[0].value);
+	const [search, setSearch] = useState<string>('');
+	const [select, setSelect] = useState<string>(order[0].value);
+
+	// 검색 카테고리
+	const onCategorySearch = (value: { value: string; label: React.ReactNode }) => {
+		setType(value.value);
+	};
+
+	// 검색어
+	const onSearch = (value: string) => {
+		setSearch(value);
+	};
+
+	// 선택 카테고리
+	const onCategorySelect = (value: { value: string; label: React.ReactNode }) => {
+		setSelect(value.value);
+	};
+
+	// TODO: 기간 검색
+	// const { RangePicker } = DatePicker;
+
 	return (
 		<>
 			<SearchWrapper>
 				<Category>
 					<Select
 						labelInValue
-						defaultValue={{ value: '카테고리', label: '카테고리' }}
-						onChange={handleChange}
+						defaultValue={{ value: houseCategory[0].value, label: houseCategory[0].value }}
+						onChange={onCategorySearch}
 						options={houseCategory}
 						style={{ width: '100%' }}
 					/>
 				</Category>
-				<Date>
+				{/* <Date>
 					<Space>
 						<RangePicker id="date" />
 					</Space>
-				</Date>
+				</Date> */}
 				<SearchInput>
 					<Search placeholder=" 키워드로 찾아보세요." onSearch={onSearch} enterButton />
 				</SearchInput>
 			</SearchWrapper>
-
 			<SearchResultBar>
-				<span style={{ margin: 'auto 0' }}> 50개의 검색 결과</span>
 				<Select
 					labelInValue
 					defaultValue={{ value: order[0].value, label: order[0].value }}
 					style={{ width: '8rem' }}
-					onChange={handleChange}
+					onChange={onCategorySelect}
 					options={order}
 				/>
 			</SearchResultBar>
 			<SearchResultContents>
-				{houseList.map((h, idx) => (
-					<BriefHouse house={h} key={idx} />
-				))}
+				<HouseList search={search} select={select} type={type} />
 			</SearchResultContents>
 		</>
 	);
@@ -84,42 +85,20 @@ const UserHouseList = () => {
 
 export default UserHouseList;
 
-// 직접 작성한 태그의 스타일만 스타일드 컴포넌트로 적용 가능
-// 라이브러리에서 들고온 태그의 스타일은 스타일드 컴포넌트로 해서 안 먹힐 수 있음-> 라이브러리에서 들고온 태그의 스타일은인라인으로 해야함
 const SearchWrapper = styled.div`
-	display: grid;
-	margin: 3rem auto;
+	display: flex;
+	margin: 3rem 0;
 	grid-gap: 1rem;
-
-	@media (min-width: 1400px) {
-		width: 50%;
-		grid-template-columns: repeat(3, 1fr);
-		grid-template-areas: 'a b c';
-	}
-
-	@media (min-width: 700px) and (max-width: 1400px) {
-		width: 45%;
-		grid-template-columns: repeat(2, 1fr);
-		grid-template-areas: 'a b' 'c c';
-	}
-
-	@media (max-width: 700px) {
-		width: 50%;
-		grid-template-columns: repeat(1, 1fr);
-		grid-template-areas: 'a ' 'b' ' c';
-	}
+	justify-content: center;
 `;
 
 const Category = styled.div`
-	grid-area: a;
-`;
-
-const Date = styled.div`
-	grid-area: b;
+	width: 18%;
 `;
 
 const SearchInput = styled.div`
-	grid-area: c;
+	width: 45%;
+
 	button {
 		background-color: ${color.color1};
 	}
@@ -127,7 +106,7 @@ const SearchInput = styled.div`
 
 const SearchResultBar = styled.div`
 	display: flex;
-	justify-content: space-between;
+	justify-content: flex-end;
 	padding: 1vw 5vw;
 	color: ${color.color1};
 	border: 1px solid ${color.color3};
@@ -140,22 +119,8 @@ const SearchResultBar = styled.div`
 `;
 
 const SearchResultContents = styled.div`
-	padding: 2rem;
-	display: grid;
-
-	@media (min-width: 1400px) {
-		grid-template-columns: repeat(4, 25%);
-	}
-
-	@media (min-width: 1100px) and (max-width: 1400px) {
-		grid-template-columns: repeat(3, 33%);
-	}
-
-	@media (min-width: 700px) and (max-width: 1100px) {
-		grid-template-columns: repeat(2, 50%);
-	}
-
-	@media (max-width: 700px) {
-		grid-template-columns: 100%;
-	}
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+	justify-content: center;
 `;
