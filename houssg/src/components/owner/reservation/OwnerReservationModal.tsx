@@ -1,13 +1,15 @@
 import styled from 'styled-components';
 import { useAppSelector } from '../../../hooks';
 import { modalText } from '../../../store/redux/modalSlice';
+import { calendarData } from '../../../store/redux/calendarSlice';
 
 const OwnerReservationModal = () => {
-	const modalInfo = useAppSelector(modalText);
-	const typeArray = modalInfo.split('#');
+	const calendarTypeInfo = useAppSelector(modalText);
+	const typeArray = calendarTypeInfo.split('#');
 	const purposeType = typeArray[0];
 	const clickType = typeArray[1];
 	const dateInfo = typeArray[2];
+	const calendarInfo = useAppSelector(calendarData);
 
 	const title =
 		purposeType === 'reserve'
@@ -23,7 +25,7 @@ const OwnerReservationModal = () => {
 	return (
 		<div>
 			<OwnerReserveTitle>{title}</OwnerReserveTitle>
-			<div></div>
+			<div>{calendarInfo}</div>
 		</div>
 	);
 };
