@@ -17,6 +17,7 @@ const userKey = {
 	myFavorite: 'myFavorite',
 	myReservation: 'myReservation',
 	userHouseList: 'userHouseList',
+	myPreview: 'myPreview',
 };
 
 export { ownerKey, roomKey, userKey };

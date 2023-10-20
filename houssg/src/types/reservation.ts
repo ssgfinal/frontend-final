@@ -54,4 +54,29 @@ interface SelectedReservationType {
 	usingPoint: number;
 	paymentPrice: number;
 }
-export type { ReservationDetailType, ReservationsType, BookableRoomCnt, Schedule, SelectedReservationType };
+
+// 유저 리뷰
+interface UserReview {
+	reviewNumber: number;
+	reviewContent: string;
+	reviewRating: number;
+	reviewCreationTime: string;
+	reviewComment: string | null;
+	reviewCommentTime: string | null;
+	managerId: string;
+	reportStatus: number;
+	reservationNumber: number;
+	roomNumber: number;
+	accomNumber: number;
+	img: string | null;
+	roomCategory: string;
+	accomName: string;
+	nickname: string;
+	reportMessage: string;
+}
+
+interface ReservationNumberProp {
+	reservationNumber: number;
+}
+
+export type { ReservationDetailType, ReservationsType, BookableRoomCnt, Schedule, SelectedReservationType, UserReview, ReservationNumberProp };

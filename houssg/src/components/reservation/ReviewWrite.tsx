@@ -1,4 +1,4 @@
-import { useState, useRef, FormEvent } from 'react';
+import { useState, FormEvent } from 'react';
 import styled from 'styled-components';
 import { color, SmallIndicatorText } from '../../assets/styles';
 import Rating from '../common/Rating';
@@ -8,7 +8,7 @@ import { ImageUploader } from '../common';
 import { photo } from '../../assets/icons';
 
 const ReviewWrite = () => {
-	const activeReview = useRef<HTMLTextAreaElement | null>(null);
+	const [activeReview, setActiveReview] = useState<string>('');
 	const [activeRate, setActiveRate] = useState<number>(0);
 	const [overReview, setOverReview] = useState(false);
 	const [appendImg, setAppendImg] = useState(false);
@@ -19,10 +19,11 @@ const ReviewWrite = () => {
 	const dispatch = useAppDispatch();
 
 	// TODO: useRef, 사업자 후기도 고쳐야 할 듯
-	const onCharacters = () => {
-		const activeReviewValue = activeReview.current?.value;
+	const onCharacters = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+		const activeReviewValue = e.target.value;
+		setActiveReview(activeReviewValue);
 
-		if (activeReviewValue!.length < 250) {
+		if (activeReviewValue.length < 250) {
 			setOverReview(false);
 		} else {
 			setOverReview(true);
@@ -33,13 +34,11 @@ const ReviewWrite = () => {
 	const submit = (e: FormEvent) => {
 		e.preventDefault();
 
-		const reviewValue = activeReview.current?.value;
-
 		const formData = new FormData();
 
 		formData.append('rate', activeRate.toString());
-
-		formData.append('review', reviewValue!.toString());
+		console.log(typeof activeReview!.toString());
+		formData.append('review', activeReview!.toString());
 
 		if (appendImg && imgFile) {
 			const baseImg = imgFile?.toString() as string;
@@ -64,7 +63,7 @@ const ReviewWrite = () => {
 				<RateBox>
 					<Rating rate={activeRate} setRate={setActiveRate} />
 				</RateBox>
-				<ReviewTextarea onChange={onCharacters} placeholder={`후기를 작성해주세요\n( 최대 250자 )`} rows={3} ref={activeReview} maxLength={250} />
+				<ReviewTextarea onChange={onCharacters} placeholder={`후기를 작성해주세요\n( 최대 250자 )`} rows={3} value={activeReview} maxLength={250} />
 				{overReview ? <OverTextWarning>※ 최대 글자수 250자를 초과하였습니다.</OverTextWarning> : <></>}
 				<PhotoReviewBox>
 					📷 포토리뷰
@@ -88,7 +87,7 @@ const ReviewWrite = () => {
 						<></>
 					)}
 				</ReviewImageContainer>
-				<Enroll type="submit" value="등록" />
+				{activeRate && activeReview ? <Enroll type="submit" value="등록" /> : <NonEnroll type="submit" disabled value="등록" />}
 			</FormContainer>
 		</ReviewWrapper>
 	);
@@ -230,11 +229,35 @@ const Enroll = styled.input`
 	margin-bottom: 0.5rem;
 	background-color: ${color.color1};
 	color: ${color.backColor};
-	border: solid;
+	border: none;
 	border-radius: 0.5rem;
 	border-color: ${color.color1};
 	font-size: 1rem;
 	cursor: pointer;
+
+	@media (max-width: 900px) {
+		font-size: 0.8rem;
+	}
+
+	@media (max-width: 320px) {
+		font-size: 0.5rem;
+	}
+`;
+
+const NonEnroll = styled.input`
+	grid-column-start: 3;
+	grid-column-end: 4;
+	grid-row-start: 2;
+	grid-row-end: 3;
+	justify-self: flex-end;
+	margin-bottom: 0.5rem;
+	background-color: ${color.lightGrayColor};
+	color: ${color.darkGrayColor};
+	border: none;
+	border-radius: 0.5rem;
+	border-color: ${color.lightGrayColor};
+	font-size: 1rem;
+	cursor: not-allowed;
 
 	@media (max-width: 900px) {
 		font-size: 0.8rem;

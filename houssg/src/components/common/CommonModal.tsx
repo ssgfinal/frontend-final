@@ -13,6 +13,7 @@ import CancelReservation from '../reservation/CancelReservation';
 import ReviewWrite from '../reservation/ReviewWrite';
 import { DeclarationReview, DeleteRequestScreen, HouseComment } from '../owner/management/element';
 import { OwnerReservationModal } from '../owner/reservation';
+import Preview from '../reservation/Preview';
 
 const CommonModal = () => {
 	const modalState = useAppSelector(isModalOpen);
@@ -45,6 +46,7 @@ const CommonModal = () => {
 			{modalComp === 'declaration' && <DeclarationReview />}
 			{modalComp === 'houseComment' && <HouseComment />}
 			{modalComp === 'userReview' && <ReviewWrite />}
+			{modalComp === 'userPreview' && <Preview />}
 			{modalComp === 'deleRequest' && <DeleteRequestScreen />}
 			{modalComp === 'ownerReservation' && <OwnerReservationModal />}
 			{(modalComp === 'instruction' || modalComp === 'couponRegistration') && <CommonInstruction />}
