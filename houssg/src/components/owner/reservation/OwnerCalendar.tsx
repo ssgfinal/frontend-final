@@ -5,25 +5,25 @@ import interactionPlugin, { DateClickArg } from '@fullcalendar/interaction';
 import styled from 'styled-components';
 import useCalendarStyle from '../../../hooks/useCalendarStyle';
 import { useState } from 'react';
-import { CommonCalendarProps, OwnerReservedRoom } from '../../../types';
+import { CalendarEvent, CommonCalendarProps, OwnerReservedRoom } from '../../../types';
 import { color } from '../../../assets/styles';
 import { useQuery } from '@tanstack/react-query';
 import { ownerKey } from '../../../assets/constant';
 import { getHouseReservation, getReservableRoomList } from '../../../helper';
 import { useRef } from 'react';
 import { changeYearMonth } from '../../../utils';
-import { useAppDispatch } from '../../../hooks';
+import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { openModal } from '../../../store/redux/modalSlice';
 import { EventClickArg } from '@fullcalendar/core/index.js';
-import { setCalendarModalInfo } from '../../../store/redux/calendarSlice';
+import { ownerHouseId, setCalendarEventAdd, setCalendarReservatinInfo, setDayCalendarEvents } from '../../../store/redux/calendarSlice';
 
-const OwnerCalendar: React.FC<CommonCalendarProps> = ({ currentDate, initailData, houseId, isReservationList }) => {
+const OwnerCalendar: React.FC<CommonCalendarProps> = ({ currentDate, initailData, isReservationList }) => {
 	const dispatch = useAppDispatch();
+	const houseId = useAppSelector(ownerHouseId);
 	const calendarRef = useRef<FullCalendar | null>(null);
-	// const calenderApi = calendarRef.current?.getApi().view.title; // 혹시 몰라 놔둠
 	const [calendarDate, setCalendarDate] = useState(currentDate);
-	const calendarEvent: { title: string; constraint?: string; start?: string; end?: string; date?: string; id: string }[] = [];
-
+	const calendarEvent: CalendarEvent[] = [];
+	const unReservableDay: { roomId: string; days: string[] }[] = [];
 	const today = new Date();
 	today.setHours(9, 0, 0, 0);
 	const calendarFullDate = new Date(calendarDate.year + '-' + calendarDate.month);
@@ -33,21 +33,63 @@ const OwnerCalendar: React.FC<CommonCalendarProps> = ({ currentDate, initailData
 	};
 
 	const handleDateClick = (args: DateClickArg) => {
-		dispatch(setCalendarModalInfo({ calendarInfo: '넘오가나' }));
-
 		modalOpen(isReservationList ? 'reserve#date#' + args.dateStr : 'available#date#' + args.dateStr);
 
-		console.log(args.dateStr); // 날짜정보
 		console.log(args.dayEl.innerText); // 이벤트가 있으면 innerText가 /n이 들어가 있음
+		if (isReservationList) {
+			console.log(calendarEvent);
+			console.log(args.dateStr);
+			const targetEvent = calendarEvent.filter((event) => {
+				const eventStartDate = event.start; // 이벤트의 시작 날짜
+				const eventEndDate = event.end; // 이벤트의 종료 날짜
+				if (eventStartDate && eventEndDate) {
+					return eventStartDate <= args.dateStr && eventEndDate > args.dateStr;
+				}
+			});
+			console.log(targetEvent);
+			dispatch(setDayCalendarEvents({ dateCalendarEvents: { date: args.dateStr, events: targetEvent } }));
+			modalOpen('reserve#date#' + args.dateStr);
+		}
 	};
 
 	const handleEventClick = (arg: EventClickArg) => {
-		dispatch(setCalendarModalInfo({ calendarInfo: '넘오가나 이벤트' }));
+		// 이벤트인 경우
+		const eventId = arg.event.id; //숙소아이디 or 예약아이디
+		const eventTitleArray = arg.event.title.split(' : '); // 객실이름 : 예약자명 or 객실이름 : 개수
+		const eventRoomName = eventTitleArray[0];
+		if (!isReservationList) {
+			const targetIndex = unReservableDay.findIndex((element) => element.roomId === eventId);
+			console.log(unReservableDay[targetIndex]);
+			console.log(unReservableDay[targetIndex].days, 'test');
+			// const maxDay = unReservableDay[targetIndex].days.find((number) => Number(number) > eventRoomDay);
 
-		console.log(arg.event._def.title);
-		console.log(arg.event._instance?.range);
-		console.log(arg.event.id);
-		modalOpen(isReservationList ? 'reserve#event' : 'available#event');
+			dispatch(setCalendarEventAdd({ eventRoomId: Number(eventId), eventRoomName }));
+			modalOpen('available#event');
+
+			return;
+		}
+
+		// console.log(arg.event._instance?.range);
+
+		if (isReservationList) {
+			const eventRange = arg.event._instance?.range;
+			const start = eventRange?.start.toLocaleDateString().replaceAll('. ', '-').slice(0, -1);
+			const end = eventRange?.end.toLocaleDateString().replaceAll('. ', '-').slice(0, -1);
+			const guestName = eventTitleArray[1];
+			const guestNumber = arg.event.constraint;
+			if (!start && !end) {
+				alert('비정상적인 오류');
+				return;
+			}
+			dispatch(
+				setCalendarReservatinInfo({
+					reservationInfo: { start, end, eventId, eventRoomName, guestName, guestNumber },
+					calendarDate: calendarDate.year + '-' + calendarDate.month,
+				}),
+			);
+
+			modalOpen('reserve#event');
+		}
 	};
 
 	const { isLoading, data, isSuccess, isError, error } = useQuery<{ data: OwnerReservedRoom[] }>(
@@ -70,24 +112,26 @@ const OwnerCalendar: React.FC<CommonCalendarProps> = ({ currentDate, initailData
 			const endDate = new Date(event.endDate);
 			today < endDate &&
 				calendarEvent.push({
-					title: event.roomCategory,
+					title: event.roomCategory + ' : ' + event.guestName,
 					start: event.startDate,
 					end: event.endDate,
-					constraint: event.guestName + '님',
+					constraint: event.guestPhone,
 					id: event.reservationNumber + '',
 				});
 		});
 	} else {
-		data?.data.map((event) => {
-			event.availabilityInfo?.map((availabiity, index) => {
+		data?.data.map((event, i) => {
+			event.availabilityInfo?.map((availabiity) => {
 				const targetDate = new Date(availabiity.date);
-				!(today > targetDate) &&
-					availabiity.availableRooms &&
-					calendarEvent.push({
-						title: event.roomCategory + ` ${availabiity.availableRooms}개`,
-						date: availabiity.date,
-						id: event.roomNumber + '-' + index,
-					});
+				unReservableDay[i] = { roomId: event.roomNumber + '', days: [] };
+				!(today > targetDate) && availabiity.availableRooms
+					? calendarEvent.push({
+							title: event.roomCategory + ` : ${availabiity.availableRooms}개`,
+							date: availabiity.date,
+							id: event.roomNumber + '',
+							// eslint-disable-next-line no-mixed-spaces-and-tabs
+					  })
+					: unReservableDay[i].days.push(availabiity.date);
 			});
 		});
 	}
