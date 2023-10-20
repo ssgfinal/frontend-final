@@ -15,7 +15,13 @@ import { changeYearMonth } from '../../../utils';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { openModal } from '../../../store/redux/modalSlice';
 import { EventClickArg } from '@fullcalendar/core/index.js';
-import { ownerHouseId, setCalendarEventAdd, setCalendarReservatinInfo, setDayCalendarEvents } from '../../../store/redux/calendarSlice';
+import {
+	ownerHouseId,
+	setCalendarAvailableRoom,
+	setCalendarEventAdd,
+	setCalendarReservatinInfo,
+	setDayCalendarEvents,
+} from '../../../store/redux/calendarSlice';
 
 const OwnerCalendar: React.FC<CommonCalendarProps> = ({ currentDate, initailData, isReservationList }) => {
 	const dispatch = useAppDispatch();
@@ -33,12 +39,17 @@ const OwnerCalendar: React.FC<CommonCalendarProps> = ({ currentDate, initailData
 	};
 
 	const handleDateClick = (args: DateClickArg) => {
-		modalOpen(isReservationList ? 'reserve#date#' + args.dateStr : 'available#date#' + args.dateStr);
+		const clickedMonth = Number(args.dateStr.substring(5, 7));
+		if (calendarDate.month !== clickedMonth) {
+			return;
+		}
+		const clickedDate = args.date;
+		clickedDate.setHours(9, 0, 0, 0);
+		if (clickedDate < today) {
+			return;
+		}
 
-		console.log(args.dayEl.innerText); // 이벤트가 있으면 innerText가 /n이 들어가 있음
 		if (isReservationList) {
-			console.log(calendarEvent);
-			console.log(args.dateStr);
 			const targetEvent = calendarEvent.filter((event) => {
 				const eventStartDate = event.start; // 이벤트의 시작 날짜
 				const eventEndDate = event.end; // 이벤트의 종료 날짜
@@ -46,9 +57,22 @@ const OwnerCalendar: React.FC<CommonCalendarProps> = ({ currentDate, initailData
 					return eventStartDate <= args.dateStr && eventEndDate > args.dateStr;
 				}
 			});
-			console.log(targetEvent);
 			dispatch(setDayCalendarEvents({ dateCalendarEvents: { date: args.dateStr, events: targetEvent } }));
 			modalOpen('reserve#date#' + args.dateStr);
+			return;
+		}
+
+		if (!isReservationList) {
+			const targetEventList = calendarEvent.filter((event) => event.date === args.dateStr);
+			const dateAvailableRooms = targetEventList.map(({ id, date, title }) => {
+				const nameAmount = title.split(' : ');
+				const roomName = nameAmount[0];
+				const amount = nameAmount[1];
+				return { roomName, amount, date, roomId: Number(id) };
+			});
+
+			dispatch(setCalendarAvailableRoom({ dateAvailableRooms }));
+			modalOpen('available#date#' + args.dateStr);
 		}
 	};
 
@@ -101,14 +125,12 @@ const OwnerCalendar: React.FC<CommonCalendarProps> = ({ currentDate, initailData
 		{
 			cacheTime: 5 * 60 * 1000,
 			staleTime: 5 * 60 * 1000,
-			keepPreviousData: true,
 			placeholderData: { data: initailData },
 		},
 	);
 
 	if (isReservationList) {
 		data?.data.map((event) => {
-			// const endDate = new Date(event.endDate);
 			const endDate = new Date(event.endDate);
 			today < endDate &&
 				calendarEvent.push({
@@ -157,22 +179,22 @@ const OwnerCalendar: React.FC<CommonCalendarProps> = ({ currentDate, initailData
 					prev: {
 						text: 'prev',
 						click: () => {
-							calendarRef.current?.getApi().prev();
 							setCalendarDate(changeYearMonth(calendarDate.year, calendarDate.month, 'prev'));
+							calendarRef.current?.getApi().prev();
 						},
 					},
 					next: {
 						text: 'next',
 						click: () => {
-							calendarRef.current?.getApi().next();
 							setCalendarDate(changeYearMonth(calendarDate.year, calendarDate.month, 'next'));
+							calendarRef.current?.getApi().next();
 						},
 					},
 					today: {
 						text: 'today',
 						click: () => {
-							calendarRef.current?.getApi().today();
 							setCalendarDate(currentDate);
+							calendarRef.current?.getApi().today();
 						},
 					},
 				}}
@@ -198,6 +220,10 @@ export default OwnerCalendar;
 
 const CalendarContainer = styled.div<{ $isLoading: boolean }>`
 	padding: 0 0.5rem;
+	.fc-day-other > div {
+		cursor: default !important;
+	}
+
 	.fc-daygrid-day-frame {
 		cursor: pointer;
 		height: 5.5rem;

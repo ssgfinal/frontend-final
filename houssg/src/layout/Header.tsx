@@ -47,7 +47,7 @@ const Header = () => {
 		<HeaderContainer>
 			<LogoImg onClick={goHomeHandler} src={logo} />
 			<RightIconContainer>
-				<div style={{ cursor: 'pointer' }} onClick={onChangeUserType}>
+				<div onClick={onChangeUserType}>
 					{isUser ? (
 						<ModeChange>
 							<img src={ceo}></img>
@@ -90,6 +90,10 @@ const RightIconContainer = styled.div`
 	display: flex;
 	flex-direction: row;
 	align-items: flex-end;
+
+	div {
+		cursor: pointer;
+	}
 `;
 
 const ModeChange = styled.div`

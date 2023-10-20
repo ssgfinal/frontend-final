@@ -20,6 +20,7 @@ export interface CalendarState {
 		guestNumber: string;
 	};
 	dateCalendarEvents: { date: string; events: CalendarEvent[] };
+	dateAvailableRooms: { roomName: string; amount: string; date: string; roomId: number }[];
 }
 
 const initialState: CalendarState = {
@@ -40,6 +41,7 @@ const initialState: CalendarState = {
 		guestNumber: '',
 	},
 	dateCalendarEvents: { date: '', events: [] },
+	dateAvailableRooms: [{ roomName: '', amount: '', date: '', roomId: 0 }],
 };
 
 const calendarSlice = createSlice({
@@ -61,6 +63,9 @@ const calendarSlice = createSlice({
 		setDayCalendarEvents: (state, action) => {
 			state.dateCalendarEvents = action.payload.dateCalendarEvents;
 		},
+		setCalendarAvailableRoom: (state, action) => {
+			state.dateAvailableRooms = action.payload.dateAvailableRooms;
+		},
 	},
 });
 
@@ -70,7 +75,9 @@ const ownerHouseName = (state: RootState) => state.calendar.ownerHouseName;
 const calendarDate = (state: RootState) => state.calendar.calendarDate;
 const reservationInfo = (state: RootState) => state.calendar.reservationInfo;
 const dateCalendarEvents = (state: RootState) => state.calendar.dateCalendarEvents;
-export const { setCalendarEventAdd, setCalendarReservatinInfo, setOwnerHouse, setDayCalendarEvents } = calendarSlice.actions;
+const dateAvailableRooms = (state: RootState) => state.calendar.dateAvailableRooms;
+export const { setCalendarEventAdd, setCalendarReservatinInfo, setOwnerHouse, setDayCalendarEvents, setCalendarAvailableRoom } =
+	calendarSlice.actions;
 
-export { ownerHouseId, ownerHouseName, calendarDate, reservationInfo, dateCalendarEvents };
+export { ownerHouseId, ownerHouseName, calendarDate, reservationInfo, dateCalendarEvents, dateAvailableRooms };
 export default calendarSlice.reducer;
