@@ -24,6 +24,7 @@ import {
 	reportReview,
 	requestHouseDelete,
 	deleteRoom,
+	cancelReservation,
 } from './ownerFunction';
 
 // 객실 관련
@@ -53,6 +54,7 @@ export {
 	reportReview,
 	requestHouseDelete,
 	deleteRoom,
+	cancelReservation,
 };
 
 export { getTargetRoomData, addTargetRoom, editTargetRoom, returnRoomFormData };

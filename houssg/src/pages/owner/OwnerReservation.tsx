@@ -28,8 +28,6 @@ const OwnerReservation = () => {
 		return <div>로딩중...</div>;
 	}
 
-	isSuccess && console.log(data);
-
 	return (
 		<OwnerReservationWrapper>
 			{isSuccess && (
@@ -43,7 +41,6 @@ const OwnerReservation = () => {
 					<OwnerCalendar
 						currentDate={{ year: currentYear, month: currentMonth }}
 						initailData={data.data.reservations}
-						houseId={data.data.accommodationList[houseIndex].accomNumber}
 						isReservationList={isReservationList}
 					/>
 				</>

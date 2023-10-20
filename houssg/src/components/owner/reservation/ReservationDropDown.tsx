@@ -3,21 +3,20 @@ import type { MenuProps } from 'antd';
 import { Dropdown, Space } from 'antd';
 import styled from 'styled-components';
 import { color } from '../../../assets/styles';
+import { ReservationDropDown } from '../../../types';
+import { useAppDispatch } from '../../../hooks';
+import { setOwnerHouse } from '../../../store/redux/calendarSlice';
 
-const ReservationDropDown: React.FC<{
-	accomList: {
-		accomNumber: number;
-		accomName: string;
-	}[];
-	houseIndex: number;
-	setHouseIndex: React.Dispatch<React.SetStateAction<number>>;
-}> = ({ accomList, houseIndex, setHouseIndex }) => {
+const ReservationDropDown: React.FC<ReservationDropDown> = ({ accomList, houseIndex, setHouseIndex }) => {
+	const dispatch = useAppDispatch();
+
 	const items: MenuProps['items'] = accomList.map((house, index) => {
 		return {
 			label: (
 				<div
 					onClick={() => {
 						setHouseIndex(index);
+						dispatch(setOwnerHouse({ houseId: accomList[index].accomNumber, houseName: accomList[index].accomName }));
 					}}
 				>
 					{house.accomName}

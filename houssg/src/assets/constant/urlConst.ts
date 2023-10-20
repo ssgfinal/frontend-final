@@ -70,6 +70,9 @@ const ownerUrl = {
 	checkReservation: 'reservation/owner/check',
 	getReservation: 'reservation/owner/check-other',
 	getRoomAvailability: 'reservation/owner/available-room',
+	offlineReservation: 'reservation/owner/offline',
+	cancelReservation: 'reservation/owner-cancel',
+
 	//삭제요청
 	houseDeleteRequest: 'accom/del/request',
 	roomDelete: 'room',
