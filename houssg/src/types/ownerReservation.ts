@@ -45,4 +45,6 @@ interface ReservationDropDown {
 	setHouseIndex: React.Dispatch<React.SetStateAction<number>>;
 }
 
-export type { OwnerReservedRoom, OwnerAvailableRoom, CommonCalendarProps, CheckMyHouseReservationType, ReservationDropDown };
+type CalendarEvent = { title: string; constraint?: string; start?: string; end?: string; date?: string; id: string };
+
+export type { OwnerReservedRoom, OwnerAvailableRoom, CommonCalendarProps, CheckMyHouseReservationType, ReservationDropDown, CalendarEvent };

@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { RootState } from '.';
+import { CalendarEvent } from '../../types';
 
 export interface CalendarState {
 	status: 'idle' | 'loading' | 'failed' | 'success';
@@ -18,6 +19,7 @@ export interface CalendarState {
 		guestName: string;
 		guestNumber: string;
 	};
+	dateCalendarEvents: { date: string; events: CalendarEvent[] };
 }
 
 const initialState: CalendarState = {
@@ -37,6 +39,7 @@ const initialState: CalendarState = {
 		guestName: '',
 		guestNumber: '',
 	},
+	dateCalendarEvents: { date: '', events: [] },
 };
 
 const calendarSlice = createSlice({
@@ -45,7 +48,6 @@ const calendarSlice = createSlice({
 	reducers: {
 		setCalendarEventAdd: (state, action) => {
 			state = action.payload;
-			// TODO:
 		},
 		setCalendarReservatinInfo: (state, action) => {
 			state.reservationInfo = action.payload.reservationInfo;
@@ -55,6 +57,9 @@ const calendarSlice = createSlice({
 			state.ownerHouseId = action.payload.houseId;
 			state.ownerHouseName = action.payload.houseName;
 		},
+		setDayCalendarEvents: (state, action) => {
+			state.dateCalendarEvents = action.payload.dateCalendarEvents;
+		},
 	},
 });
 
@@ -63,7 +68,8 @@ const ownerHouseName = (state: RootState) => state.calendar.ownerHouseName;
 
 const calendarDate = (state: RootState) => state.calendar.calendarDate;
 const reservationInfo = (state: RootState) => state.calendar.reservationInfo;
-export const { setCalendarEventAdd, setCalendarReservatinInfo, setOwnerHouse } = calendarSlice.actions;
+const dateCalendarEvents = (state: RootState) => state.calendar.dateCalendarEvents;
+export const { setCalendarEventAdd, setCalendarReservatinInfo, setOwnerHouse, setDayCalendarEvents } = calendarSlice.actions;
 
-export { ownerHouseId, ownerHouseName, calendarDate, reservationInfo };
+export { ownerHouseId, ownerHouseName, calendarDate, reservationInfo, dateCalendarEvents };
 export default calendarSlice.reducer;

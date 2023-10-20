@@ -25,7 +25,7 @@ const OwnerReservationModal = () => {
 	return (
 		<Container>
 			<OwnerReserveTitle>{title}</OwnerReserveTitle>
-			<div>
+			<>
 				{clickType === 'event' ? (
 					<>
 						{purposeType === 'reserve' && <EventReserveComp />}
@@ -39,7 +39,7 @@ const OwnerReservationModal = () => {
 				) : (
 					<div></div>
 				)}
-			</div>
+			</>
 		</Container>
 	);
 };
@@ -50,6 +50,7 @@ const Container = styled.div`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	width: 100%;
 `;
 
 const OwnerReserveTitle = styled.div`
