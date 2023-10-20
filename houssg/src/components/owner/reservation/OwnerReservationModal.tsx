@@ -3,6 +3,7 @@ import { useAppSelector } from '../../../hooks';
 import { modalText } from '../../../store/redux/modalSlice';
 // import { calendarOwnerData } from '../../../store/redux/calendarSlice';
 import { DateCalModalComp, EventCalModalComp } from '.';
+import { color } from '../../../assets/styles';
 
 const OwnerReservationModal = () => {
 	const calendarTypeInfo = useAppSelector(modalText);
@@ -44,7 +45,6 @@ export default OwnerReservationModal;
 const Container = styled.div`
 	display: flex;
 	flex-direction: column;
-	/* justify-content: center; */
 	align-items: center;
 `;
 
@@ -52,6 +52,7 @@ const OwnerReserveTitle = styled.div`
 	font-size: 1.2rem;
 	font-weight: 600;
 	margin-bottom: 1rem;
+	color: ${color.color1};
 	@media screen and (max-width: 600px) {
 		font-size: 1rem;
 	}

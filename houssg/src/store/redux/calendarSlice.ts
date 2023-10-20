@@ -15,6 +15,8 @@ export interface CalendarState {
 		end: string;
 		eventId: string;
 		eventRoomName: string;
+		guestName: string;
+		guestNumber: string;
 	};
 }
 
@@ -32,6 +34,8 @@ const initialState: CalendarState = {
 		end: '1980-01-02',
 		eventId: '',
 		eventRoomName: '',
+		guestName: '',
+		guestNumber: '',
 	},
 };
 

@@ -1,5 +1,4 @@
 import { FC } from 'react';
-
 import { EventAvailComp, EventReserveComp } from './element';
 
 const EventCalModalComp: FC<{ purposeType: string }> = ({ purposeType }) => {
