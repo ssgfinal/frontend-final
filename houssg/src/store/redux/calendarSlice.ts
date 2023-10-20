@@ -47,7 +47,8 @@ const calendarSlice = createSlice({
 	initialState,
 	reducers: {
 		setCalendarEventAdd: (state, action) => {
-			state = action.payload;
+			console.log(state, action);
+			// state = action.payload;
 		},
 		setCalendarReservatinInfo: (state, action) => {
 			state.reservationInfo = action.payload.reservationInfo;
