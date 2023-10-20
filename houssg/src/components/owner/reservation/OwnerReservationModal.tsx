@@ -1,9 +1,8 @@
 import styled from 'styled-components';
 import { useAppSelector } from '../../../hooks';
 import { modalText } from '../../../store/redux/modalSlice';
-// import { calendarOwnerData } from '../../../store/redux/calendarSlice';
-import { DateCalModalComp, EventCalModalComp } from '.';
 import { color } from '../../../assets/styles';
+import { DateAvailComp, DateReserveComp, EventAvailComp, EventReserveComp } from './element';
 
 const OwnerReservationModal = () => {
 	const calendarTypeInfo = useAppSelector(modalText);
@@ -11,7 +10,6 @@ const OwnerReservationModal = () => {
 	const purposeType = typeArray[0];
 	const clickType = typeArray[1];
 	const dateInfo = typeArray[2];
-	// const calendarInfo = useAppSelector(calendarOwnerData);
 
 	const title =
 		purposeType === 'reserve'
@@ -29,9 +27,15 @@ const OwnerReservationModal = () => {
 			<OwnerReserveTitle>{title}</OwnerReserveTitle>
 			<div>
 				{clickType === 'event' ? (
-					<EventCalModalComp purposeType={purposeType} />
+					<>
+						{purposeType === 'reserve' && <EventReserveComp />}
+						{purposeType === 'available' && <EventAvailComp />}
+					</>
 				) : clickType === 'date' ? (
-					<DateCalModalComp purposeType={purposeType} />
+					<>
+						{purposeType === 'reserve' && <DateReserveComp />}
+						{purposeType === 'available' && <DateAvailComp />}
+					</>
 				) : (
 					<div></div>
 				)}
