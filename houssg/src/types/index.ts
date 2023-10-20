@@ -1,15 +1,7 @@
 // type 지정을 위함 type 혹은 interface는 이 폴더에서 관리합니다
 
 import { AuthProps, AuthInputType, AuthModeType, AuthPropsWithState, IdFindingType, SmsParameter, NewPwProps, FindPwPermitProps } from './auth';
-import {
-	ReservationDetailType,
-	ReservationsType,
-	BookableRoomCnt,
-	Schedule,
-	SelectedReservationType,
-	UserReview,
-	ReservationNumberProp,
-} from './reservation';
+import { ReservationDetailType, ReservationsType, BookableRoomCnt, Schedule, SelectedReservationType, UserReview, reviewDto } from './reservation';
 import { ManageNavProps, MyHouseData, MyHouseDataHandleComp, EditMutationType, OwnerHouseReviewType } from './manage';
 import { StyledActiveProps, SetStateToggle, UserType, UserTypeObject, RoomSlideProps, TimerProps, ProcessType } from './common';
 import { RegiStepProps, StepMoverType, FunnelPropsType } from './regi';
@@ -27,7 +19,7 @@ export type { AuthProps, AuthInputType, AuthModeType, AuthPropsWithState, IdFind
 export type { StyledActiveProps, SetStateToggle, UserType, UserTypeObject, RoomSlideProps, TimerProps, ProcessType };
 
 //reservation
-export type { ReservationDetailType, ReservationsType, BookableRoomCnt, Schedule, SelectedReservationType, UserReview, ReservationNumberProp };
+export type { ReservationDetailType, ReservationsType, BookableRoomCnt, Schedule, SelectedReservationType, UserReview, reviewDto };
 
 //ownerReservation
 

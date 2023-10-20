@@ -75,8 +75,14 @@ interface UserReview {
 	reportMessage: string;
 }
 
-interface ReservationNumberProp {
+// 유저 리뷰 작성
+interface reviewDto {
+	reviewContent: string;
+	reviewRating: number;
 	reservationNumber: number;
+	roomNumber: number;
+	accomNumber: number;
+	file?: File;
 }
 
-export type { ReservationDetailType, ReservationsType, BookableRoomCnt, Schedule, SelectedReservationType, UserReview, ReservationNumberProp };
+export type { ReservationDetailType, ReservationsType, BookableRoomCnt, Schedule, SelectedReservationType, UserReview, reviewDto };

@@ -61,9 +61,9 @@ const ReservationList: React.FC<{ reservations: ReservationsType }> = ({ reserva
 
 	const dispatch = useAppDispatch();
 
-	const modalOpen = (component: string, message: string | null) => {
+	const modalOpen = (component: string, message: string | null, props: number[] | null) => {
 		const modalSize = window.innerWidth >= 1000 ? 500 : 400;
-		dispatch(openModal({ modalComponent: component, modalSize: modalSize, modalText: message }));
+		dispatch(openModal({ modalComponent: component, modalSize: modalSize, modalText: message, modalProps: props }));
 	};
 
 	return (
@@ -74,7 +74,7 @@ const ReservationList: React.FC<{ reservations: ReservationsType }> = ({ reserva
 						<ReservationButton
 							hidden={false}
 							onClick={() => {
-								modalOpen('cancelReservation', null);
+								modalOpen('cancelReservation', null, null);
 							}}
 						>
 							취소하기
@@ -85,7 +85,7 @@ const ReservationList: React.FC<{ reservations: ReservationsType }> = ({ reserva
 							<ReviewWriteButton
 								hidden={false}
 								onClick={() => {
-									modalOpen('userReview', null);
+									modalOpen('userReview', null, [reservations.reservationNumber, reservations.accomNumber, reservations.roomNumber]);
 								}}
 							>
 								후기 등록
@@ -93,7 +93,7 @@ const ReservationList: React.FC<{ reservations: ReservationsType }> = ({ reserva
 						) : (
 							<PreviewButton
 								onClick={() => {
-									modalOpen('userPreview', `${reservations.reservationNumber}`);
+									modalOpen('userPreview', `${reservations.reservationNumber}`, null);
 								}}
 							>
 								후기 보기
@@ -106,7 +106,6 @@ const ReservationList: React.FC<{ reservations: ReservationsType }> = ({ reserva
 
 				<DetailContainer>
 					<ImageBox>
-						{/* TODO: 각 예약번호(reservation_number)에 맞는 상세정보대로 뿌릴 때	수정 */}
 						<OutdoorViewBox src={reservations.img} alt={`${reservations.couponName} + 이미지`}></OutdoorViewBox>
 					</ImageBox>
 					<DetailBox>
