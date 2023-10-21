@@ -50,8 +50,8 @@ const authUrl = {
 	phoneAuthCheck: 'sms/check',
 	findIdCheck: 'sms/check-findid',
 	//TODO:
-	kakaoLogin: 'user/kakao',
-	kakaoAdd: 'user/kakaAdd',
+	kakaoLogin: 'user/kakao/log-in',
+	kakaoAdd: 'user/kakao/sign-up',
 	//
 };
 

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { AuthContainer, AuthTitle, CheckerContainer, UseAbilitiyChecker, color } from '../../assets/styles';
 import { AuthInput, AuthSubmitBtn } from './element';
@@ -6,8 +6,12 @@ import { ProcessType } from '../../types';
 import { regSignUp } from '../../assets/constant';
 import { nickCheckFunc, onPhoneUsableCheck, phoneAuthCheck } from '../../helper';
 import { Timer } from '../common';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { __postKaKaoSignUp, isLoginState, resetAuthStatus } from '../../store/redux/authSlice';
+import { closeModal } from '../../store/redux/modalSlice';
 
 const KaKaoSignUp = () => {
+	const dispatch = useAppDispatch();
 	const [userPhone, setUserPhone] = useState('');
 	const [verificationCode, setVerificationCode] = useState('');
 	const [time, setTime] = useState(0);
@@ -16,7 +20,13 @@ const KaKaoSignUp = () => {
 	const { regNick, regPhone } = regSignUp;
 	const [timeStatus, setTimeStatus] = useState<ProcessType>('start');
 	const [isLoading, setIsLoading] = useState(false);
-
+	const isLogin = useAppSelector(isLoginState);
+	useEffect(() => {
+		isLogin && dispatch(closeModal);
+		return () => {
+			isLogin && dispatch(resetAuthStatus());
+		};
+	}, [dispatch, isLogin]);
 	const onNickCheck = () => {
 		!isLoading && nickCheckFunc(userNick, setIsLoading);
 	};
@@ -34,7 +44,10 @@ const KaKaoSignUp = () => {
 	};
 
 	const onKaKaoSignUp = () => {
-		// authSignUpFunc(userId, userNick, userPw, userPwCheck, userPhone, dispatch, __postSignUp);
+		if (!regNick.reg.test(userNick)) {
+			return;
+		}
+		dispatch(__postKaKaoSignUp({ phonenumber: userPhone, nickname: userNick }));
 	};
 
 	return (

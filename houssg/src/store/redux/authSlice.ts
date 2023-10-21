@@ -6,7 +6,7 @@ import { isAxiosError } from 'axios';
 
 export interface authState {
 	isLogin: boolean;
-	status: 'idle' | 'loading' | 'failed' | 'success';
+	status: 'idle' | 'loading' | 'failed' | 'success' | 'kakao';
 }
 
 const initialState: authState = {
@@ -51,29 +51,46 @@ const __postSignUp = createAsyncThunk('POST_SIGNUP', async (payload, thunkAPI) =
 
 const __postKaKaoLogin = createAsyncThunk('POST_KAKAO_LOGIN', async (payload: { code: string }, thunkAPI) => {
 	try {
-		const { data, status, headers } = await api.post(authUrl.kakaoLogin, payload);
+		const { data, status, headers } = await api.post(authUrl.kakaoLogin, null, { params: payload });
 
-		if (status === 200) {
+		if (status >= 200 && status < 300 && data.nickname) {
 			sessionStorage.setItem('authorization', headers.authorization);
 			sessionStorage.setItem('refreshtoken', headers.refreshtoken);
 			sessionStorage.setItem('nickname', data.nickname);
-			sessionStorage.setItem('phone', data.phone);
+			sessionStorage.setItem('phone', data.phonenumber);
 			sessionStorage.setItem('point', data.point);
+			window.location.href = '/';
+
+			return thunkAPI.fulfillWithValue({ login: true });
+		} else {
+			sessionStorage.setItem('kakao', headers.authorization);
+			sessionStorage.setItem('refreshtoken', headers.refreshtoken);
+
+			return thunkAPI.fulfillWithValue({ login: false });
 		}
-		return thunkAPI.fulfillWithValue(data);
 	} catch (error) {
 		if (isAxiosError(error) && error.request.status === 400) {
 			alert('카카오 로그인을 재 시도해 주세요');
+		} else if (isAxiosError(error) && error.request.status !== 500) {
+			alert('실패');
 		}
+		window.location.href = '/';
+
 		return thunkAPI.rejectWithValue('에러');
 	}
 });
 
-const __postKaKaoSignUp = createAsyncThunk('POST_KAKAO_SIGNUP', async (payload, thunkAPI) => {
+const __postKaKaoSignUp = createAsyncThunk('POST_KAKAO_SIGNUP', async (payload: { phonenumber: string; nickname: string }, thunkAPI) => {
 	try {
-		const data = await api.post(authUrl.kakaoAdd, payload);
-		if (data.status === 200) {
+		const access_token = sessionStorage.getItem('kakao');
+		const { data, status } = await api.post(authUrl.kakaoAdd, null, { params: payload, headers: { Authorization: access_token } });
+		if (status === 200 && access_token) {
 			alert('회원가입 되었습니다.');
+			access_token && sessionStorage.setItem('authorization', access_token);
+			sessionStorage.removeItem('kakao');
+			sessionStorage.setItem('nickname', data.nickname);
+			sessionStorage.setItem('phone', data.phonenumber);
+			sessionStorage.setItem('point', data.point);
 		}
 		return thunkAPI.fulfillWithValue(data.data);
 	} catch (error) {
@@ -129,9 +146,9 @@ const authSlice = createSlice({
 			.addCase(__postKaKaoLogin.pending, (state) => {
 				state.status = 'loading';
 			})
-			.addCase(__postKaKaoLogin.fulfilled, (state) => {
-				state.status = 'success';
-				state.isLogin = true;
+			.addCase(__postKaKaoLogin.fulfilled, (state, action) => {
+				state.status = action.payload.login ? 'success' : 'kakao';
+				state.isLogin = action.payload.login;
 			})
 			.addCase(__postKaKaoLogin.rejected, (state) => {
 				state.status = 'failed';

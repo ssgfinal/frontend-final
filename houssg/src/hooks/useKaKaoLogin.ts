@@ -1,26 +1,32 @@
 import { useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
-import { api } from '../api';
-import { useAppDispatch } from '.';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '.';
 import { openModal } from '../store/redux/modalSlice';
+import { __postKaKaoLogin, authStatus, resetAuthStatus } from '../store/redux/authSlice';
 
 export const useKakaoLogin = () => {
 	const location = useLocation();
 	const code = location.search.split('code=')[1];
 	const dispatch = useAppDispatch();
-
+	const status = useAppSelector(authStatus);
+	const navigate = useNavigate();
 	useEffect(() => {
-		if (code) {
-			dispatch(openModal({ modalComponent: 'kakaoSignUp' }));
-
-			// api
-			// 	.post('')
-			// 	.then(({ data }) => {
-			// 		console.log(data);
-			// 	})
-			// 	.catch((err) => console.log(err));
+		if (code && status === 'idle') {
+			dispatch(__postKaKaoLogin({ code }));
 		}
-	}, [code, dispatch]);
+
+		if (code && status === 'kakao') {
+			dispatch(openModal({ modalComponent: 'kakaoSignUp' }));
+		}
+
+		if (code && status === 'success') {
+			navigate('/');
+		}
+
+		return () => {
+			code && dispatch(resetAuthStatus);
+		};
+	}, [code, dispatch, status, navigate]);
 
 	return null;
 };
