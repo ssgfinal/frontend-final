@@ -42,6 +42,7 @@ export const PaymentWidget: React.FC<PaymentWidgetProps> = ({ selectedReservatio
 
 	const userNickName = sessionStorage.getItem('nickname');
 	const userPhone = sessionStorage.getItem('phone');
+	const originPoint = Number(sessionStorage.getItem('point'));
 	const location = useLocation();
 	const houseId = location.state.houseId;
 	const houseName = location.state.houseName;
@@ -74,6 +75,7 @@ export const PaymentWidget: React.FC<PaymentWidgetProps> = ({ selectedReservatio
 
 		try {
 			console.log('예약 백에 날라감');
+			console.log('백에 날릴 데이터들 ', selectedReservation);
 			api
 				.post(userUrl.reservationEnroll, {
 					startDate: selectedReservation.startDate,
@@ -112,7 +114,14 @@ export const PaymentWidget: React.FC<PaymentWidgetProps> = ({ selectedReservatio
 									console.log('백에 결제 완료 api 날림');
 								} catch {
 									console.log('결제 성공을 백에 알려주는 API 통신 에러');
+									// 결제 성공은 무조건 백에 api 통신에 성고해야하는데 어떻게 처리하지?? 무한루프??로 계속 날려야하나 통신 성공할 때까지?
 								}
+
+								// 포인트 사용시, 세션에 포인트도 업데이트
+								if (selectedReservation.usingPoint > 0) {
+									sessionStorage.setItem('point', originPoint - selectedReservation.usingPoint + '');
+								}
+
 								navigate(userRoute.reservationList);
 							})
 							.catch(function (err) {
@@ -141,7 +150,7 @@ export const PaymentWidget: React.FC<PaymentWidgetProps> = ({ selectedReservatio
 		} catch (err) {
 			console.log('예약하기 API 통신 에러', err);
 			if (err === '예약 불가능') {
-				alert('죄송합니다. 이미 예약이 완료된 방입니다.');
+				alert('죄송합니다. 해당 날짜는 이미 예약이 완료된 방입니다.');
 			}
 		}
 	};
@@ -169,8 +178,6 @@ const PaymentFinalBtn = styled.button`
 	padding: 1rem;
 	font-weight: bold;
 	font-size: 20px;
-	/* background-color: white;
-    color: ${color.color2}; */
 	background-color: ${color.color2};
 	color: white;
 	border: solid ${color.color2};
