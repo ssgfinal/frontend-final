@@ -10,7 +10,15 @@ interface RoomInfoProps {
 	setSelectedReservation: React.Dispatch<React.SetStateAction<SelectedReservationType>>;
 }
 
-const RoomInfo: React.FC<RoomInfoProps> = ({ initBookableRoomList, selectedReservation, setSelectedReservation }) => {
+const arePropsEqual = (prevProps: RoomInfoProps, nextProps: RoomInfoProps) => {
+	return (
+		// prevProps.initBookableRoomList === nextProps.initBookableRoomList &&
+		prevProps.selectedReservation.startDate === nextProps.selectedReservation.startDate &&
+		prevProps.selectedReservation.endDate === nextProps.selectedReservation.endDate
+	);
+};
+
+const RoomInfo: React.FC<RoomInfoProps> = React.memo(({ initBookableRoomList, selectedReservation, setSelectedReservation }) => {
 	const location = useLocation();
 	const room = location.state.room;
 	const houseName = location.state.houseName;
@@ -34,6 +42,6 @@ const RoomInfo: React.FC<RoomInfoProps> = ({ initBookableRoomList, selectedReser
 			</UserReservationLeft>
 		</ReservationCommonBox>
 	);
-};
+}, arePropsEqual);
 
 export default RoomInfo;
