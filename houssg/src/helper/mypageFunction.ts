@@ -13,6 +13,16 @@ const setUpdatePassword = (password: string, newPassword: string) => {
 	return api.post(userUrl.updateMyPw, null, { params: { password: password, newPassword: newPassword } });
 };
 
+// 전화번호 인증
+const smsMyPhoneAuth = (newPhone: string, smsPhone: string) => {
+	return api.post(userUrl.checkNewPhone, null, { params: { phoneNumber: newPhone, verificationCode: smsPhone } });
+};
+
+// 문자발송
+const setNewPhoneNumber = (newPhone: string) => {
+	return api.post(userUrl.updatePhone, null, { params: { phone_number: newPhone } });
+};
+
 // 쿠폰
 const getMyCouponList = () => api.get(userUrl.myCoupon);
 
@@ -26,4 +36,13 @@ const getMyReviewList = () => api.get(userUrl.myReview);
 // 찜
 const getMyFavoriteList = () => api.get(userUrl.myFavorite);
 
-export { setUpdateNickName, setUpdatePassword, getMyCouponList, setMyCouponList, getMyReviewList, getMyFavoriteList };
+export {
+	setUpdateNickName,
+	setUpdatePassword,
+	smsMyPhoneAuth,
+	setNewPhoneNumber,
+	getMyCouponList,
+	setMyCouponList,
+	getMyReviewList,
+	getMyFavoriteList,
+};

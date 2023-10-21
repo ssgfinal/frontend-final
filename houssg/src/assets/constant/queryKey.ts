@@ -19,6 +19,8 @@ const userKey = {
 	userHouseList: 'userHouseList',
 	myNickName: 'myNickName',
 	myPassword: 'myPassword',
+	smsMyPhone: 'smsMyPhone',
+	myPhoneNum: 'myPhoneNum',
 };
 
 export { ownerKey, roomKey, userKey };

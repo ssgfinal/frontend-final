@@ -83,7 +83,6 @@ const EditPassword = () => {
 	const queryClient = useQueryClient();
 
 	const { mutate } = useMutation({
-		mutationKey: [userKey.myPassword],
 		mutationFn: ({ password, newPassword }: UpdatePassword) => setUpdatePassword(password, newPassword),
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: [userKey.myPassword] });

@@ -5,15 +5,18 @@ import { color } from '../../assets/styles';
 import { useRef, useState } from 'react';
 import { Timer } from '../common';
 import { ProcessType } from '../../types';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { setNewPhoneNumber } from '../../helper';
+import { userKey } from '../../assets/constant/queryKey';
 
-// TODO: 서버 > 새 폰번호 , test 콘솔 지우기
-// import api from '../../api/api';
-// import { userUrl } from '../../assets/constant/urlConst';
+interface MyChangePhone {
+	newPhone: string;
+	smsPhone?: string;
+}
 
 const EditPhoneNumber = () => {
 	const dispatch = useAppDispatch();
-	// const userPhone = sessionStorage.getItem('phone');
-	// const phone = parseInt(userPhone!);
+
 	const [message, setMessage] = useState(false);
 	//TODO: 조건 확인하기(아래쪽)
 	const [timeStatus, setTimeStatus] = useState<ProcessType>('start');
@@ -22,28 +25,60 @@ const EditPhoneNumber = () => {
 	const authentication = useRef<HTMLInputElement | null>(null);
 	// const [authorization, setAuthorization] = useState(false);
 
-	const onAuthentication = async () => {
-		// TODO: 문자전송 요청 500 error > 내 번호를 넣으면 400 error?
-		// request_count을 찾을 수 없다???
+	const queryClient = useQueryClient();
 
+	// TODO: 문자전송 요청 > mutate를 또 선언할 수 없다..!!컴퍼넌트 분리가 답인가?
+	// 콘솔에는 400 error, 스웨거에는 401 error?
+	const { mutate } = useMutation({
+		mutationFn: ({ newPhone }: MyChangePhone) => setNewPhoneNumber(newPhone),
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: [userKey.myPhoneNum] });
+		},
+		onError: (error) => {
+			console.log(error);
+		},
+	});
+
+	// 전화번호&인증번호 확인
+	// const { mutate } = useMutation({
+	// 	mutationFn: ({ newPhone, smsPhone }: MyChangePhone) => {
+	// 		if (smsPhone !== undefined) {
+	// 			return smsMyPhoneAuth(newPhone, smsPhone);
+	// 		} else {
+	// 			throw new Error('smsPhone is undefined');
+	// 		}
+	// 	},
+	// 	onSuccess: () => {
+	// 		queryClient.invalidateQueries({ queryKey: [userKey.smsMyPhone] });
+	// 	},
+	// 	onError: (error) => {
+	// 		console.log(error);
+	// 	},
+	// });
+
+	// 문자전송 요청
+	const onAuthentication = () => {
+		const newPhone = phoneNumber.current?.value;
 		if (phoneNumber.current) {
-			const newPhone = phoneNumber.current.value;
-			console.log('test 새로운 번호 = ' + newPhone);
-			// try {
-			// 	const response = await api.post(userUrl.phoneCheck, { recipientPhoneNumber: newPhone });
-			// 	response.status === 200 && setAuthorization(true);
-			// } catch (error) {
-			// 	console.error(error);
-			// }
-			// console.log('test 인증은?' + authorization);
-			// console.log(phoneNumber.current.value);
+			if (newPhone) {
+				mutate({ newPhone });
+			}
 		}
 
 		setMessage(true);
 		setTimeStatus('start');
 	};
 
+	// 전화번호&인증번호 확인
 	const onEditPhoneNumber = () => {
+		const newPhone = phoneNumber.current?.value;
+		const smsPhone = authentication.current?.value;
+		if (phoneNumber.current) {
+			if (newPhone && smsPhone !== undefined) {
+				mutate({ newPhone, smsPhone });
+			}
+		}
+
 		// TODO: 전화번호 변경
 		if (authentication.current) {
 			phoneNumber.current!.value = '';

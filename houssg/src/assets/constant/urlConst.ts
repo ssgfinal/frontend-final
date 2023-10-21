@@ -8,9 +8,8 @@ const userUrl = {
 	// mypage
 	mypage: 'mypage/all',
 	updateNick: 'user/mypage-nickname',
-	updatePhone: 'user/change-phone', // TODO: 폰 번호 수정!!새로운 번호 전달
-	phoneCheck: 'sms/check-change-phone', // 번호 중복확인
-	phoneAuthCheck: 'sms/check', // 인증번호 검사
+	updatePhone: 'user/change-phone',
+	checkNewPhone: 'sms/check-change-phone',
 	updateMyPw: 'user/mypage-pw',
 	myCoupon: 'coupon/mypage',
 	enrollCoupon: 'coupon/enroll-usercoupon',
