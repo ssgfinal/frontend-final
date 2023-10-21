@@ -1,6 +1,7 @@
+import React from 'react';
 import { ReservationCommonBox, UserReservationTitle, UserReservationLeft } from '../../assets/styles';
 
-const BookerInfo = () => {
+const BookerInfo = React.memo(() => {
 	const userNickName = sessionStorage.getItem('nickname');
 	const userPhone = sessionStorage.getItem('phone');
 	console.log('BookerInfo 컴포넌트 실행');
@@ -12,6 +13,6 @@ const BookerInfo = () => {
 			</UserReservationLeft>
 		</ReservationCommonBox>
 	);
-};
+});
 
 export default BookerInfo;
