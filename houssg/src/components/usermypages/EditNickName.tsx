@@ -4,10 +4,10 @@ import { useAppDispatch } from '../../hooks';
 import { closeModal } from '../../store/redux/modalSlice';
 import { color } from '../../assets/styles';
 import { regSignUp } from '../../assets/constant';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-// TODO: 서버 > 새 닉네임
-// import api from '../../api/api';
-// import { userUrl } from '../../assets/constant/urlConst';
+import { userKey } from '../../assets/constant/queryKey';
+import { setUpdateNickName } from '../../helper';
 
 const EditNickName = () => {
 	const dispatch = useAppDispatch();
@@ -15,28 +15,34 @@ const EditNickName = () => {
 	const userNickName = sessionStorage.getItem('nickname');
 	const isNewNickName = useRef<HTMLInputElement | null>(null);
 
-	const editNickName = async () => {
+	const queryClient = useQueryClient();
+
+	const { mutate } = useMutation({
+		mutationFn: (newNickName: string) => setUpdateNickName(newNickName),
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: [userKey.myNickName] });
+			alert('수정성공');
+		},
+		onError: (error) => {
+			console.log(error);
+			alert('수정실패');
+		},
+	});
+
+	const editNickName = () => {
 		const newNickName = isNewNickName.current?.value;
 
-		const testNickName = regSignUp.regNick.reg.test(`${newNickName}`) && newNickName !== userNickName;
-
+		if (newNickName === userNickName) {
+			alert('현재 사용 중인 닉네임입니다.');
+			return;
+		}
 		if (isNewNickName.current) {
-			if (testNickName) {
-				// TODO: 서버로 보내기 추후 수정>> payload : 닉네임, 새로운 닉네임?
-				// try {
-				// 	await api.post(userUrl.updateNick, { userNickName, newNickName });
-				// 	isNewNickName.current!.value = '';
-				dispatch(closeModal());
-				// } catch (error) {
-				// 	alert('실패하였습니다.');
-				// 	console.error(error);
-				// }
-			} else {
-				if (newNickName === userNickName) {
-					alert('현재 사용 중인 닉네임입니다.');
-				} else {
-					alert('올바른 닉네임이 아닙니다.');
+			if (newNickName) {
+				mutate(newNickName);
+				if (isNewNickName.current) {
+					isNewNickName.current.value = '';
 				}
+				dispatch(closeModal());
 			}
 		}
 	};
@@ -74,7 +80,7 @@ const NewNickNameBox = styled.input`
 
 const NickNameInstruction = styled.div`
 	color: ${color.darkGrayColor};
-	font-size: 0.5rem;
+	font-size: 0.8rem;
 `;
 
 const EditButton = styled.button`

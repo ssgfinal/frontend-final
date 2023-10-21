@@ -7,11 +7,11 @@ const userUrl = {
 	// deleteLike: 'favorite',
 	// mypage
 	mypage: 'mypage/all',
-	updateNick: 'nick/update',
-	updatePhone: 'phone/update', // TODO: 폰 번호 수정!!새로운 번호 전달
-	phoneCheck: 'sms/change-phone', // 번호 중복확인
+	updateNick: 'user/mypage-nickname',
+	updatePhone: 'user/change-phone', // TODO: 폰 번호 수정!!새로운 번호 전달
+	phoneCheck: 'sms/check-change-phone', // 번호 중복확인
 	phoneAuthCheck: 'sms/check', // 인증번호 검사
-	updateMyPw: 'pw/update',
+	updateMyPw: 'user/mypage-pw',
 	myCoupon: 'coupon/mypage',
 	enrollCoupon: 'coupon/enroll-usercoupon',
 	withdrawal: 'user/withdrawal',

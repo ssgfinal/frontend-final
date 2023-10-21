@@ -5,10 +5,14 @@ import { closeModal } from '../../store/redux/modalSlice';
 import { color } from '../../assets/styles';
 import { regSignUp } from '../../assets/constant';
 import { unvisible, visible } from '../../assets/icons';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { userKey } from '../../assets/constant/queryKey';
+import { setUpdatePassword } from '../../helper';
 
-// TODO: 서버 > 새 비밀번호
-// import api from '../../api/api';
-// import { userUrl } from '../../assets/constant/urlConst';
+interface UpdatePassword {
+	password: string;
+	newPassword: string;
+}
 
 const EditPassword = () => {
 	const dispatch = useAppDispatch();
@@ -23,7 +27,6 @@ const EditPassword = () => {
 			setIsVisibleArray((prevArray) => {
 				const newArray = [...prevArray];
 				newArray[index] = !newArray[index];
-				// console.log(newArray);
 				return newArray;
 			});
 		};
@@ -77,23 +80,33 @@ const EditPassword = () => {
 		}
 	}, [isValidPassword, newPassword, newPasswordCheck, password]);
 
-	const onEditPass = async () => {
+	const queryClient = useQueryClient();
+
+	const { mutate } = useMutation({
+		mutationKey: [userKey.myPassword],
+		mutationFn: ({ password, newPassword }: UpdatePassword) => setUpdatePassword(password, newPassword),
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: [userKey.myPassword] });
+			alert('수정완료');
+		},
+		onError: (error) => {
+			console.log(error);
+			alert('수정실패');
+		},
+	});
+
+	const onEditPass = () => {
 		if (isValidPassword) {
-			// TODO: 서버에 전달, 추후 수정 >> payload : 닉네임, 새로운 비밀번호?
-			try {
-				// const userNickName = sessionStorage.getItem('nickname');
-				// await api.post(userUrl.updateMyPw, { userNickName, newPassword });
+			mutate({ password, newPassword });
+			if (newPasswordCheck) {
 				setIsVisibleArray([false, false, false]);
 				setPassword('');
 				setNewPassword('');
 				setNewPasswordCheck('');
 				setIsValidPassword(false);
 				setErrorMessage('');
-				dispatch(closeModal());
-			} catch (error) {
-				alert('실패하였습니다.');
-				console.error(error);
 			}
+			dispatch(closeModal());
 		}
 	};
 
