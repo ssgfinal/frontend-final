@@ -1,18 +1,32 @@
+import { useQuery } from '@tanstack/react-query';
 import { useAppSelector } from '../../../../hooks';
-import { ownerHouseId, ownerHouseName } from '../../../../store/redux/calendarSlice';
+import { ownerHouseId, reservableRoomInfo } from '../../../../store/redux/calendarSlice';
+import { ownerKey } from '../../../../assets/constant';
+import { getRoomReservableDays } from '../../../../helper';
 
 const EventAvailComp = () => {
 	const houseId = useAppSelector(ownerHouseId);
-	const houseName = useAppSelector(ownerHouseName);
-	// TODO: 작업중
-	console.log(houseId, houseName);
-	//숙소넘버 숙소 아이디 고객번호 :"오프라인"
+	const { date, roomId, roomName, amount } = useAppSelector(reservableRoomInfo);
+	const { isLoading, data, isSuccess, isError, error } = useQuery([ownerKey.roomReservableDays, houseId], () => getRoomReservableDays(roomId, date), {
+		cacheTime: 2 * 60 * 1000, // 5분
+		staleTime: 3 * 60 * 1000, // 2분
+	});
+	isSuccess && console.log(data.data);
+	isError && console.log(error);
 	return (
 		<div>
-			{/* 객실정보 객실이름, guest이름  	시작 끝일 */}
-			<div>예약 숙소</div>
-			<div>예약 시간</div>
+			<div>
+				{roomName} : {amount}
+			</div>
+			<div>{date}</div>
 			<div>예약자</div>
+			<div>{isLoading}</div>
+			{isSuccess && (
+				<>
+					<div>최대 숙박 기간{data.data.length}</div>
+					<div>최대 숙박일 : {data.data[data.data.length - 1]}</div>
+				</>
+			)}
 		</div>
 	);
 };

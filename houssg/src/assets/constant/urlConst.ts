@@ -71,7 +71,7 @@ const ownerUrl = {
 	getRoomAvailability: 'reservation/owner/available-room',
 	offlineReservation: 'reservation/owner/offline',
 	cancelReservation: 'reservation/owner-cancel',
-
+	roomReservableDay: 'reservation/owner-modal',
 	//삭제요청
 	houseDeleteRequest: 'accom/del/request',
 	roomDelete: 'room',

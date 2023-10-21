@@ -25,6 +25,7 @@ import {
 	requestHouseDelete,
 	deleteRoom,
 	cancelReservation,
+	getRoomReservableDays,
 } from './ownerFunction';
 
 // 객실 관련
@@ -52,6 +53,7 @@ export {
 	requestHouseDelete,
 	deleteRoom,
 	cancelReservation,
+	getRoomReservableDays,
 };
 
 export { getTargetRoomData, addTargetRoom, editTargetRoom, returnRoomFormData };
