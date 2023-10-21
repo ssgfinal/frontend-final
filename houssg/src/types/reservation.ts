@@ -76,7 +76,7 @@ interface UserReview {
 }
 
 // 유저 리뷰 작성
-interface reviewDto {
+interface AddUserReview {
 	reviewContent: string;
 	reviewRating: number;
 	reservationNumber: number;
@@ -85,4 +85,4 @@ interface reviewDto {
 	file?: File;
 }
 
-export type { ReservationDetailType, ReservationsType, BookableRoomCnt, Schedule, SelectedReservationType, UserReview, reviewDto };
+export type { ReservationDetailType, ReservationsType, BookableRoomCnt, Schedule, SelectedReservationType, UserReview, AddUserReview };

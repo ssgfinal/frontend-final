@@ -4,12 +4,13 @@ import { color, SmallIndicatorText } from '../../assets/styles';
 import Rating from '../common/Rating';
 import { closeModal, modalProps } from '../../store/redux/modalSlice';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { ImageUploader } from '../common';
+
 import { photo } from '../../assets/icons';
 import { base64ToFile } from '../../utils';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { setReview, setReviewFormData } from '../../helper';
 import { userKey } from '../../assets/constant/queryKey';
+import { ImageUploader } from '../common';
 
 const ReviewWrite = () => {
 	const [reviewContent, setReviewContent] = useState<string>('');
@@ -29,6 +30,10 @@ const ReviewWrite = () => {
 	const accomNumber = Number(reservation![1]);
 	const roomNumber = Number(reservation![2]);
 
+	const onAddImgFile = (img: string) => {
+		return setImgFile(base64ToFile(img, 'review'));
+	};
+
 	const onCharacters = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
 		const reviewContent = e.target.value;
 		setReviewContent(reviewContent);
@@ -40,22 +45,22 @@ const ReviewWrite = () => {
 		}
 	};
 
-	const onAddImgFile = (img: string) => {
-		setImgFile(base64ToFile(img, 'review'));
-		console.log(typeof file);
-	};
-
 	// 후기 등록
 	const queryClient = useQueryClient();
 
-	const { mutate } = useMutation((reviewDto: FormData) => setReview(reviewDto), {
+	const { mutate } = useMutation({
+		mutationFn: (formData: FormData) => setReview(formData),
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: [userKey.writeReview] });
+			alert('등록성공');
+		},
+		onError: (error) => {
+			console.log(error);
 		},
 	});
 
 	const onAddReview = () => {
-		const reviewDto = setReviewFormData({
+		const formData = setReviewFormData({
 			reviewContent,
 			reviewRating,
 			reservationNumber,
@@ -63,13 +68,11 @@ const ReviewWrite = () => {
 			accomNumber,
 			file,
 		});
-		if (reviewDto === 'false') {
+		if (formData === 'false') {
 			return;
 		} else {
-			mutate(reviewDto);
+			mutate(formData);
 		}
-
-		setImg('');
 		dispatch(closeModal());
 	};
 
@@ -78,6 +81,9 @@ const ReviewWrite = () => {
 		const isCheck = !appendImg;
 		setAppendImg(isCheck);
 	};
+
+	console.log('변환했니?222', typeof img);
+	console.log('파일이 왜 없니???', file);
 
 	return (
 		<ReviewWrapper>
@@ -101,7 +107,7 @@ const ReviewWrite = () => {
 									<SmallIndicatorText>이미지 클릭시 교체</SmallIndicatorText>
 								</>
 							) : (
-								<AddPhoto htmlFor="file">
+								<AddPhoto>
 									+<PhotoBox src={photo} alt="이미지 올리기"></PhotoBox>
 								</AddPhoto>
 							)}
@@ -156,7 +162,7 @@ const RateBox = styled.div`
 	}
 `;
 
-const AddPhoto = styled.label`
+const AddPhoto = styled.div`
 	display: grid;
 	align-self: center;
 	margin: 0.3rem;
