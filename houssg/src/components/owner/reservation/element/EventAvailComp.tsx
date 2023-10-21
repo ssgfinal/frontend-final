@@ -3,6 +3,10 @@ import { useAppSelector } from '../../../../hooks';
 import { ownerHouseId, reservableRoomInfo } from '../../../../store/redux/calendarSlice';
 import { ownerKey } from '../../../../assets/constant';
 import { getRoomReservableDays } from '../../../../helper';
+import styled from 'styled-components';
+import { Dropdown, MenuProps, Space } from 'antd';
+import { DownOutlined } from '@ant-design/icons';
+import { useState } from 'react';
 
 const EventAvailComp = () => {
 	const houseId = useAppSelector(ownerHouseId);
@@ -11,24 +15,59 @@ const EventAvailComp = () => {
 		cacheTime: 2 * 60 * 1000, // 5분
 		staleTime: 3 * 60 * 1000, // 2분
 	});
-	isSuccess && console.log(data.data);
 	isError && console.log(error);
+	console.log(isSuccess && data.data);
+	const [endDate, setEndDate] = useState(data?.data[0]);
+	const items: MenuProps['items'] =
+		isSuccess &&
+		data.data.map((element: string) => ({
+			label: (
+				<div
+					onClick={() => {
+						setEndDate(element);
+					}}
+				>
+					{element}
+				</div>
+			),
+		}));
 	return (
 		<div>
-			<div>
+			<InfoText>
 				{roomName} : {amount}
+			</InfoText>
+			<InfoText>입실일 : {date}</InfoText>
+			<div>
+				<InfoText>성함 : </InfoText>
+				<input />
 			</div>
-			<div>{date}</div>
-			<div>예약자</div>
+			<div>
+				<InfoText>전화번호 : </InfoText>
+				<input />
+			</div>
+
 			<div>{isLoading}</div>
 			{isSuccess && (
-				<>
-					<div>최대 숙박 기간{data.data.length}</div>
-					<div>최대 숙박일 : {data.data[data.data.length - 1]}</div>
-				</>
+				<Dropdown menu={{ items }}>
+					<a
+						onClick={(e) => {
+							e.preventDefault();
+						}}
+					>
+						<Space>
+							{endDate}
+							<DownOutlined />
+						</Space>
+					</a>
+				</Dropdown>
 			)}
 		</div>
 	);
 };
 
 export default EventAvailComp;
+
+const InfoText = styled.div`
+	font-weight: 600;
+	font-size: 0.9rem;
+`;
