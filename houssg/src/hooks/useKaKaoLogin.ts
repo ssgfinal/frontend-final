@@ -1,15 +1,32 @@
 import { useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '.';
+import { openModal } from '../store/redux/modalSlice';
+import { __postKaKaoLogin, authStatus, resetAuthStatus } from '../store/redux/authSlice';
 
 export const useKakaoLogin = () => {
 	const location = useLocation();
-	const code = location.search.split('=')[1];
-
+	const code = location.search.split('code=')[1];
+	const dispatch = useAppDispatch();
+	const status = useAppSelector(authStatus);
+	const navigate = useNavigate();
 	useEffect(() => {
-		// 만약 정보가 없으면 카카오 회원가입
-		// console.log(code);
-		// 그냥 사용
-	}, [code]);
+		if (code && status === 'idle') {
+			dispatch(__postKaKaoLogin({ code }));
+		}
 
-	return null; // 또는 필요에 따라 빈 요소나 컴포넌트를 반환할 수 있습니다.
+		if (code && status === 'kakao') {
+			dispatch(openModal({ modalComponent: 'kakaoSignUp' }));
+		}
+
+		if (code && status === 'success') {
+			navigate('/');
+		}
+
+		return () => {
+			code && dispatch(resetAuthStatus);
+		};
+	}, [code, dispatch, status, navigate]);
+
+	return null;
 };

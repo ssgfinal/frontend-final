@@ -4,7 +4,6 @@ import { ownerHouseId, ownerHouseName } from '../../../../store/redux/calendarSl
 const EventAvailComp = () => {
 	const houseId = useAppSelector(ownerHouseId);
 	const houseName = useAppSelector(ownerHouseName);
-	// TODO: 작업중
 	console.log(houseId, houseName);
 	//숙소넘버 숙소 아이디 고객번호 :"오프라인"
 	return (
