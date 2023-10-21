@@ -19,7 +19,7 @@ const OwnerReservationModal = () => {
 			: purposeType === 'available'
 			? clickType === 'event'
 				? '오프라인 예약추가'
-				: dateInfo + ' 이용가능 객실'
+				: dateInfo + ' 여분 객실'
 			: '닫는중...';
 
 	return (
