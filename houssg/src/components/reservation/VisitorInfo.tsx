@@ -4,14 +4,15 @@ import styled from 'styled-components';
 
 import { color, ReservationCommonBox, UserReservationTitle, UserReservationLeft } from '../../assets/styles';
 import { SelectedReservationType } from '../../types';
-// import { regSignUp } from '../../assets/constant';
 
 interface VisitorInfoProps {
 	selectedReservation: SelectedReservationType;
 	setSelectedReservation: React.Dispatch<React.SetStateAction<SelectedReservationType>>;
 }
 
-export const VisitorInfo: React.FC<VisitorInfoProps> = ({ selectedReservation, setSelectedReservation }) => {
+const VisitorInfo: React.FC<VisitorInfoProps> = ({ selectedReservation, setSelectedReservation }) => {
+	console.log('VisitorInfo 컴포넌트 실행');
+
 	const userNickName = sessionStorage.getItem('nickname');
 	const userPhone = sessionStorage.getItem('phone');
 
@@ -22,6 +23,7 @@ export const VisitorInfo: React.FC<VisitorInfoProps> = ({ selectedReservation, s
 
 	// 이용자와 예약자 일치 체크 박스 핸들러 함수
 	const handleCheckboxChange = () => {
+		setVisitorAlarm('');
 		if (!isChecked === true) {
 			userNickName &&
 				userPhone &&
@@ -31,19 +33,17 @@ export const VisitorInfo: React.FC<VisitorInfoProps> = ({ selectedReservation, s
 					visitorPhone: userPhone,
 				});
 		} else {
-			userNickName &&
-				userPhone &&
-				setSelectedReservation({
-					...selectedReservation,
-					visitorName: '',
-					visitorPhone: '',
-				});
+			setSelectedReservation({
+				...selectedReservation,
+				visitorName: '',
+				visitorPhone: '',
+			});
 		}
 
 		setIsChecked(!isChecked);
 	};
 
-	// 이용자 입력 핸들러
+	// 방문자 정보 입력 핸들러
 	const handleVisitor = (e: React.ChangeEvent<HTMLInputElement>) => {
 		if (isChecked == true) {
 			setIsChecked(false);
@@ -51,16 +51,25 @@ export const VisitorInfo: React.FC<VisitorInfoProps> = ({ selectedReservation, s
 		const { name, value } = e.target;
 
 		if (name === 'visitorName') {
+			// 방문자 이름 입력시, 방문자 번호가 로그인 유저 번호와 같을 때만 방문자 번호 초기화
+			if (selectedReservation.visitorPhone === userPhone) {
+				setSelectedReservation({
+					...selectedReservation,
+					[name]: value,
+					visitorPhone: '', // 방문자 폰번호 초기화
+				});
+				return;
+			}
+
+			// 방문자 이름 입력시, 이미 입력된 번호가 로그인 유저 번호와 다르다면 방문자 번호는 초기화하지 않음
 			setSelectedReservation({
 				...selectedReservation,
 				[name]: value,
-				visitorPhone: '', // 방문자 폰번호 초기화
 			});
 			return;
 		}
 
 		// visitorPhone 입력한 경우
-		// if (isNaN(parseInt(value))) { // 문자를 입력한 경우
 		if (/[^0-9]/.test(value)) {
 			// 문자가 존재한 경우
 			setSelectedReservation({
@@ -73,23 +82,29 @@ export const VisitorInfo: React.FC<VisitorInfoProps> = ({ selectedReservation, s
 		}
 
 		if (!value.match(/^0/)) {
-			console.log('전화번호 시작이 0이 아닙니다.');
 			setVisitorAlarm('전화번호 시작은 0이어야합니다.');
 			return;
 		}
 
-		if (value.length <= 11) {
-			// 숫자를 입력한 경우
+		if (value.length > 11) {
+			setVisitorAlarm('전화번호는 11자리가 최대입니다.');
+			return;
+		}
+
+		setVisitorAlarm('');
+
+		if (selectedReservation.visitorName === userNickName) {
 			setSelectedReservation({
 				...selectedReservation,
 				[name]: value,
 				visitorName: '',
 			});
-			setVisitorAlarm('');
 			return;
 		}
-
-		setVisitorAlarm('전화번호는 11자리가 최대입니다.');
+		setSelectedReservation({
+			...selectedReservation,
+			[name]: value,
+		});
 	};
 
 	return (
@@ -114,14 +129,6 @@ const Input = styled.input`
 	outline: none;
 	margin-bottom: 0.5rem;
 	width: 30%;
-
-	/* 숫자 증감 버튼 숨기기 */
-	/* &[type='number']::-webkit-outer-spin-button,
-	&[type='number']::-webkit-inner-spin-button {
-		-webkit-appearance: none;
-		appearance: none;
-		margin: 0;
-	} */
 `;
 
 const Alarm = styled.div`
@@ -129,3 +136,5 @@ const Alarm = styled.div`
 	font-size: 10px;
 	text-align: left;
 `;
+
+export default VisitorInfo;

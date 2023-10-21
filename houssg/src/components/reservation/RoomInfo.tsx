@@ -15,6 +15,7 @@ const RoomInfo: React.FC<RoomInfoProps> = ({ initBookableRoomList, selectedReser
 	const room = location.state.room;
 	const houseName = location.state.houseName;
 
+	console.log('RoomInfo 컴포넌트 실행');
 	return (
 		<ReservationCommonBox>
 			<UserReservationTitle>객실 정보</UserReservationTitle>

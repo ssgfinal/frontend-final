@@ -1,9 +1,9 @@
 import { ReservationCommonBox, UserReservationTitle, UserReservationLeft } from '../../assets/styles';
 
-export const BookerInfo = () => {
+const BookerInfo = () => {
 	const userNickName = sessionStorage.getItem('nickname');
 	const userPhone = sessionStorage.getItem('phone');
-
+	console.log('BookerInfo 컴포넌트 실행');
 	return (
 		<ReservationCommonBox>
 			<UserReservationTitle>예약자 정보</UserReservationTitle>
@@ -13,3 +13,5 @@ export const BookerInfo = () => {
 		</ReservationCommonBox>
 	);
 };
+
+export default BookerInfo;

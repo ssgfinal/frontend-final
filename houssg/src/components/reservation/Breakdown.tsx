@@ -11,7 +11,9 @@ interface BreakdownProps {
 	selectedReservation: SelectedReservationType;
 	setSelectedReservation: React.Dispatch<React.SetStateAction<SelectedReservationType>>;
 }
-export const Breakdown: React.FC<BreakdownProps> = ({ initCouponList, selectedReservation, setSelectedReservation }) => {
+const Breakdown: React.FC<BreakdownProps> = ({ initCouponList, selectedReservation, setSelectedReservation }) => {
+	console.log('Breakdown 컴포넌트 실행');
+
 	const location = useLocation();
 	const room = location.state.room;
 
@@ -203,3 +205,5 @@ const Hr = styled.hr`
 	grid-column-start: 1;
 	grid-column-end: 3;
 `;
+
+export default Breakdown;

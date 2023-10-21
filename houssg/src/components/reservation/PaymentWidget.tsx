@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
 import { loadPaymentWidget, PaymentWidgetInstance } from '@tosspayments/payment-widget-sdk';
-// import { useParams } from 'react-router-dom';
 import { Provision } from './Provision';
 import { color, ReservationCommonBox, UserReservationTitle } from '../../assets/styles';
 import styled from 'styled-components';
@@ -9,16 +8,14 @@ import api from '../../api/api';
 import { userRoute, userUrl } from '../../assets/constant';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
-// 시크릿키는 .env에서 관리하는 걸 추천?
-
-// 토스페이먼츠에서 제공하는 test용 키
 const clientKey = 'test_ck_D5GePWvyJnrK0W0k6q8gLzN97Eoq';
 const customerKey = 'YbX2HuSlsC9uVJW6NMRMj';
 
 interface PaymentWidgetProps {
 	selectedReservation: SelectedReservationType;
 }
-export const PaymentWidget: React.FC<PaymentWidgetProps> = ({ selectedReservation }) => {
+const PaymentWidget: React.FC<PaymentWidgetProps> = ({ selectedReservation }) => {
+	console.log('PaymentWidget 컴포넌트 실행');
 	const navigate = useNavigate();
 
 	const paymentWidgetRef = useRef<PaymentWidgetInstance | null>(null);
@@ -28,14 +25,9 @@ export const PaymentWidget: React.FC<PaymentWidgetProps> = ({ selectedReservatio
 	useEffect(() => {
 		(async () => {
 			const paymentWidget = await loadPaymentWidget(clientKey, customerKey);
-			// loadPaymentWidget : PaymentWidget 인스턴스를 반환하는 메서드
-			// PaymentWidget : 해당 인스턴스를 사용해서 결제위젯을 렌더링 함, 결제위젯 인스턴스는 결제를 요청하는 requestPayment()라는 함수도 반환
 			const paymentMethodsWidget = paymentWidget.renderPaymentMethods('#payment-widget', selectedReservation.paymentPrice);
-			// renderPaymentMethods로 결제위젯을 렌더링
-			// paymentWidget.renderPaymentMethods()에서 updateAmount()를 반환함
 
 			paymentWidgetRef.current = paymentWidget;
-			// useRef를 사용해서 인스턴스 저장
 			paymentMethodsWidgetRef.current = paymentMethodsWidget;
 		})();
 	}, [selectedReservation]);
@@ -101,11 +93,9 @@ export const PaymentWidget: React.FC<PaymentWidgetProps> = ({ selectedReservatio
 					paymentWidget &&
 						paymentWidget
 							.requestPayment({
-								//원래 맨앞에 await이 있었음 근데 async는 없어서 에러 뜨길래 일단 지움
 								orderId: reservationNumFromBack,
 								orderName: `${houseName} ${room.roomCategory} ${selectedReservation.night}박 예약`,
 								customerName: userNickName ? userNickName : 'houssg 고객님',
-								// customerEmail: 'customer123@gmail.com',
 							})
 							.then(function (data) {
 								console.log('결제 승인 시 토스페이먼츠 리스펀스 > ', data);
@@ -114,7 +104,7 @@ export const PaymentWidget: React.FC<PaymentWidgetProps> = ({ selectedReservatio
 									console.log('백에 결제 완료 api 날림');
 								} catch {
 									console.log('결제 성공을 백에 알려주는 API 통신 에러');
-									// 결제 성공은 무조건 백에 api 통신에 성고해야하는데 어떻게 처리하지?? 무한루프??로 계속 날려야하나 통신 성공할 때까지?
+									alert('죄송합니다. 예약 완료에 문제가 발생했습니다. houssg 고객센터로 문의 부탁드립니다.');
 								}
 
 								// 포인트 사용시, 세션에 포인트도 업데이트
@@ -125,7 +115,6 @@ export const PaymentWidget: React.FC<PaymentWidgetProps> = ({ selectedReservatio
 								navigate(userRoute.reservationList);
 							})
 							.catch(function (err) {
-								// 에러 처리 : 에러 목록을 확인
 								console.log('토스페이먼츠 결제 api 에러', err);
 
 								if (err.code === 'USER_CANCEL') {
@@ -183,3 +172,5 @@ const PaymentFinalBtn = styled.button`
 	border: solid ${color.color2};
 	border-radius: 1rem;
 `;
+
+export default PaymentWidget;

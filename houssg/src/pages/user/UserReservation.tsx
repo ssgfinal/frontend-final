@@ -3,10 +3,10 @@ import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
 import RoomInfo from '../../components/reservation/RoomInfo';
-import { BookerInfo } from '../../components/reservation/BookerInfo';
-import { VisitorInfo } from '../../components/reservation/VisitorInfo';
-import { Breakdown } from '../../components/reservation/Breakdown';
-import { PaymentWidget } from '../../components/reservation/PaymentWidget';
+import BookerInfo from '../../components/reservation/BookerInfo';
+import VisitorInfo from '../../components/reservation/VisitorInfo';
+import Breakdown from '../../components/reservation/Breakdown';
+import PaymentWidget from '../../components/reservation/PaymentWidget';
 import { useEffect, useState } from 'react';
 import { CouponType, BookableRoomCnt, SelectedReservationType } from '../../types';
 import api from '../../api/api';
@@ -29,16 +29,14 @@ export const UserReservation = () => {
 		usingCoupon: {
 			couponNumber: '',
 			couponName: '',
-			// expirationDate: '', // 예약하기 페이지에선 없어도 될 듯
 			discount: 0,
 		},
-		// 프론트에서 선택한 쿠폰 한개
 		usingPoint: 0,
 		paymentPrice: 0,
 	});
-	console.log('roomID', roomId);
 
-	// TODO: 백과 연동 ( 예약하기 페이지 들어왔을 때 뿌려줄 데이터 받아오는 api)
+	console.log('UserReservation 컴포넌트 실행');
+
 	useEffect(() => {
 		api.get(userUrl.reservation, { params: { roomNumber: roomId } }).then(({ data }) => {
 			setInitBookableRoomList(data.bookableRoomList);
@@ -58,10 +56,7 @@ export const UserReservation = () => {
 			{initCouponList && (
 				<>
 					<Breakdown initCouponList={initCouponList} selectedReservation={selectedReservation} setSelectedReservation={setSelectedReservation} />
-					<PaymentWidget
-						// payment={payment}
-						selectedReservation={selectedReservation}
-					/>
+					<PaymentWidget selectedReservation={selectedReservation} />
 				</>
 			)}
 		</Wrapper>
