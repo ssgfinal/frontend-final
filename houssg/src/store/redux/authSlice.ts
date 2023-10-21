@@ -49,6 +49,43 @@ const __postSignUp = createAsyncThunk('POST_SIGNUP', async (payload, thunkAPI) =
 	}
 });
 
+const __postKaKaoLogin = createAsyncThunk('POST_KAKAO_LOGIN', async (payload: { code: string }, thunkAPI) => {
+	try {
+		const { data, status, headers } = await api.post(authUrl.kakaoLogin, payload);
+
+		if (status === 200) {
+			sessionStorage.setItem('authorization', headers.authorization);
+			sessionStorage.setItem('refreshtoken', headers.refreshtoken);
+			sessionStorage.setItem('nickname', data.nickname);
+			sessionStorage.setItem('phone', data.phone);
+			sessionStorage.setItem('point', data.point);
+		}
+		return thunkAPI.fulfillWithValue(data);
+	} catch (error) {
+		if (isAxiosError(error) && error.request.status === 400) {
+			alert('카카오 로그인을 재 시도해 주세요');
+		}
+		return thunkAPI.rejectWithValue('에러');
+	}
+});
+
+const __postKaKaoSignUp = createAsyncThunk('POST_KAKAO_SIGNUP', async (payload, thunkAPI) => {
+	try {
+		const data = await api.post(authUrl.kakaoAdd, payload);
+		if (data.status === 200) {
+			alert('회원가입 되었습니다.');
+		}
+		return thunkAPI.fulfillWithValue(data.data);
+	} catch (error) {
+		if (isAxiosError(error) && error.request.status === 403) {
+			alert('중복확인 부탁드립니다.');
+		} else if (isAxiosError(error) && error.request.status >= 400 && error.request.status < 500) {
+			alert('실패하였습니다.');
+		}
+		return thunkAPI.rejectWithValue('에러');
+	}
+});
+
 const authSlice = createSlice({
 	name: 'auth',
 	initialState,
@@ -88,13 +125,33 @@ const authSlice = createSlice({
 			})
 			.addCase(__postSignUp.rejected, (state) => {
 				state.status = 'failed';
+			})
+			.addCase(__postKaKaoLogin.pending, (state) => {
+				state.status = 'loading';
+			})
+			.addCase(__postKaKaoLogin.fulfilled, (state) => {
+				state.status = 'success';
+				state.isLogin = true;
+			})
+			.addCase(__postKaKaoLogin.rejected, (state) => {
+				state.status = 'failed';
+			})
+			.addCase(__postKaKaoSignUp.pending, (state) => {
+				state.status = 'loading';
+			})
+			.addCase(__postKaKaoSignUp.fulfilled, (state) => {
+				state.status = 'success';
+				state.isLogin = true;
+			})
+			.addCase(__postKaKaoSignUp.rejected, (state) => {
+				state.status = 'failed';
 			});
 	},
 });
 const authStatus = (state: RootState) => state.auth.status;
 const isLoginState = (state: RootState) => state.auth.isLogin;
 
-export { __postLogin, __postSignUp };
+export { __postLogin, __postSignUp, __postKaKaoLogin, __postKaKaoSignUp };
 export { authStatus, isLoginState };
 export const { checkLogin, checkLogout, resetAuthStatus } = authSlice.actions;
 export default authSlice.reducer;
