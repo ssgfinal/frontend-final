@@ -84,12 +84,14 @@ const reportReview = (reviewNumber: number, reportMessage: string) =>
 			reportMessage,
 		},
 	});
-const checkMyHouseReservation = (yearMonth: string) => api.get(ownerUrl.checkReservation, { params: { yearMonth } });
 
+//예약
+const checkMyHouseReservation = (yearMonth: string) => api.get(ownerUrl.checkReservation, { params: { yearMonth } });
 const getHouseReservation = (accomNumber: number, yearMonth: string) => api.get(ownerUrl.getReservation, { params: { accomNumber, yearMonth } });
 const getReservableRoomList = (accomNumber: number, yearMonth: string) =>
 	api.get(ownerUrl.getRoomAvailability, { params: { accomNumber, yearMonth } });
-
+const cancelReservation = (reservationNumber: number) => api.patch(ownerUrl.cancelReservation, null, { params: { reservationNumber } });
+//  삭제
 const requestHouseDelete = (accomNumber: number) => api.patch(ownerUrl.houseDeleteRequest, null, { params: { accomNumber } });
 const deleteRoom = (roomNumber: number) => api.delete(ownerUrl.roomDelete, { params: { roomNumber } });
 
@@ -105,4 +107,4 @@ export {
 	deleteRoom,
 };
 //예약
-export { checkMyHouseReservation, getHouseReservation, getReservableRoomList };
+export { checkMyHouseReservation, getHouseReservation, getReservableRoomList, cancelReservation };
