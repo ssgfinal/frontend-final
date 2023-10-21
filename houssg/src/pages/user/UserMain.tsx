@@ -3,13 +3,13 @@ import { styled } from 'styled-components';
 import BannerSlider from '../../components/usermain/BannerSlider';
 import HomeSlider from '../../components/usermain/HomeSlider';
 import { color } from '../../assets/styles/theme';
-import { useKakaoLogin } from '../../hooks/useKaKaoLogin';
 import { useEffect, useState } from 'react';
 
 //import { accomodation } from '../../assets/icons';
 import api from '../../api/api';
 import { userUrl } from '../../assets/constant';
 import { HouseBaseInfo } from '../../types';
+import { useKakaoLogin } from '../../hooks';
 
 const UserMain = () => {
 	useKakaoLogin();

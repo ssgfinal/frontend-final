@@ -95,8 +95,7 @@ const SignUp: React.FC<AuthProps> = ({ authStep, setAuthStep }) => {
 					<Timer time={time} setTimeStatus={setTimeStatus} timeStatus={timeStatus} />
 				</>
 			)}
-			<AuthSubmitBtn onClick={onSignUp} disabled={false}>
-				{/* <AuthSubmitBtn onClick={onSignUp} disabled={!confirmed}> */}
+			<AuthSubmitBtn onClick={onSignUp} disabled={!confirmed}>
 				회원가입하기
 			</AuthSubmitBtn>
 			<AuthModeBtn authStep={authStep} setAuthStep={setAuthStep}>
