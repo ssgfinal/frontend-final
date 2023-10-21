@@ -13,6 +13,7 @@ import CancelReservation from '../reservation/CancelReservation';
 import ReviewWrite from '../reservation/ReviewWrite';
 import { DeclarationReview, DeleteRequestScreen, HouseComment } from '../owner/management/element';
 import { OwnerReservationModal } from '../owner/reservation';
+import KaKaoSignUp from '../auth/KaKaoSignUp';
 import Preview from '../reservation/Preview';
 
 const CommonModal = () => {
@@ -37,6 +38,7 @@ const CommonModal = () => {
 			width={size}
 		>
 			{modalComp === 'auth' && <AuthWrap />}
+			{modalComp === 'kakaoSignUp' && <KaKaoSignUp />}
 			{modalComp === 'editNickName' && <EditNickName />}
 			{modalComp === 'editPhoneNumber' && <EditPhoneNumber />}
 			{modalComp === 'editPassword' && <EditPassword />}
