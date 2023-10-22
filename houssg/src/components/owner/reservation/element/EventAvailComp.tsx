@@ -1,23 +1,31 @@
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useAppSelector } from '../../../../hooks';
-import { ownerHouseId, reservableRoomInfo } from '../../../../store/redux/calendarSlice';
+import { ownerHouseId, ownerHouseName, reservableRoomInfo } from '../../../../store/redux/calendarSlice';
 import { ownerKey } from '../../../../assets/constant';
-import { getRoomReservableDays } from '../../../../helper';
+import { addOfflineReservation, getRoomReservableDays } from '../../../../helper';
 import styled from 'styled-components';
 import { Dropdown, MenuProps, Space } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
 import React, { useState } from 'react';
+import { color } from '../../../../assets/styles';
 
 const EventAvailComp = () => {
+	const queryClient = useQueryClient();
+
 	const houseId = useAppSelector(ownerHouseId);
-	const { date, roomId, roomName, amount } = useAppSelector(reservableRoomInfo);
+	const accomName = useAppSelector(ownerHouseName);
+	const { date, roomId, roomName } = useAppSelector(reservableRoomInfo);
+	const splittedDate = date.split('-');
+	const calendarDate = splittedDate[0] + '-' + splittedDate[1];
 	const { isLoading, data, isSuccess, isError, error } = useQuery([ownerKey.roomReservableDays, houseId], () => getRoomReservableDays(roomId, date), {
 		cacheTime: 2 * 60 * 1000, // 5분
 		staleTime: 3 * 60 * 1000, // 2분
 	});
 	const [endDate, setEndDate] = useState(data?.data[0]);
+	const [number, setNumber] = useState('');
+	const [name, setName] = useState('');
 	isError && console.log(error);
-	console.log(data);
+
 	const items: MenuProps['items'] =
 		isSuccess &&
 		data.data.map((element: string) => ({
@@ -31,19 +39,55 @@ const EventAvailComp = () => {
 				</div>
 			),
 		}));
+	const onChangeValue = (value: string, type: 'name' | 'number') => {
+		type === 'name' ? setName(value) : setNumber(value);
+	};
+
+	const { mutate } = useMutation({
+		mutationFn: () =>
+			addOfflineReservation({
+				accomNumber: houseId,
+				accomName,
+				roomNumber: roomId,
+				roomCategory: roomName,
+				guestName: name + '++' + number,
+				guestNumber: '오프라인',
+				startDate: date,
+				endDate: endDate,
+			}),
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: [ownerKey.roomReservableDays, houseId] });
+			queryClient.invalidateQueries({ queryKey: [ownerKey.reserveAvailability, houseId, calendarDate] });
+
+			alert('추가완료');
+		},
+		onError: () => {
+			alert('추가실패');
+		},
+	});
+
+	const onAddOfflineReserve = () => {
+		const regText = /[^가-힣a-zA-Z0-9]/;
+		if (regText.test(number) && regText.test(name)) {
+			alert('한글단어와 영어로만 작성부탁드립니다.');
+			return;
+		}
+
+		mutate();
+	};
 	return (
 		<Container>
-			<InfoText>
-				{roomName} : {amount}
-			</InfoText>
-
+			<Aligner>
+				<InfoText>객실명 : </InfoText>
+				<InfoText>{roomName} </InfoText>
+			</Aligner>
 			<Aligner>
 				<InfoText>성함 : </InfoText>
-				<InfoInput />
+				<InfoInput value={name} onChange={(e) => onChangeValue(e.target.value, 'name')} />
 			</Aligner>
 			<Aligner>
 				<InfoText>전화번호 : </InfoText>
-				<InfoInput />
+				<InfoInput value={number} onChange={(e) => onChangeValue(e.target.value, 'number')} />
 			</Aligner>
 			<Aligner>
 				<InfoText>입실일 : </InfoText>
@@ -74,6 +118,9 @@ const EventAvailComp = () => {
 					)
 				)}
 			</Aligner>
+			<ReserveBtn disabled={!number && !name} onClick={onAddOfflineReserve}>
+				예약하기
+			</ReserveBtn>
 		</Container>
 	);
 };
@@ -84,6 +131,7 @@ const Container = styled.div`
 	display: flex;
 	flex-direction: column;
 	gap: 0.5rem;
+	max-width: 300px;
 `;
 const InfoText = styled.div`
 	font-weight: 600;
@@ -91,21 +139,32 @@ const InfoText = styled.div`
 `;
 
 const Aligner = styled.div`
-	display: flex;
+	display: grid;
 	gap: 0.5rem;
+	grid-template-columns: 40% 60%;
 	align-items: center;
 `;
 
 const InfoInput = styled.input`
 	padding: 0.2rem;
+	border-radius: 4px;
+	max-width: 100px;
 `;
 
 const ScrollableContainer = styled.div`
 	height: 100px;
-	overflow-y: auto; /* 세로 스크롤을 표시하려면 */
+	overflow-y: auto;
 
-	/* 스크롤바 스타일 추가 (선택사항) */
 	&::-webkit-scrollbar {
 		width: 12px;
 	}
+`;
+
+const ReserveBtn = styled.button<{ disabled: boolean }>`
+	margin: 0.5rem auto;
+	border: 2px solid ${color.color2};
+	background-color: ${color.color2};
+	border-radius: 4px;
+	color: ${color.backColor};
+	cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')};
 `;

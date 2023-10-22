@@ -92,6 +92,16 @@ const getReservableRoomList = (accomNumber: number, yearMonth: string) =>
 	api.get(ownerUrl.getRoomAvailability, { params: { accomNumber, yearMonth } });
 const cancelReservation = (reservationNumber: number) => api.patch(ownerUrl.cancelReservation, null, { params: { reservationNumber } });
 const getRoomReservableDays = (roomNumber: number, startDate: string) => api.get(ownerUrl.roomReservableDay, { params: { roomNumber, startDate } });
+const addOfflineReservation = (data: {
+	accomNumber: number;
+	accomName: string;
+	roomNumber: number;
+	roomCategory: string;
+	guestName: string;
+	guestNumber: '오프라인';
+	startDate: string;
+	endDate: string;
+}) => api.post(ownerUrl.offlineReservation, data);
 //  삭제
 const requestHouseDelete = (accomNumber: number) => api.patch(ownerUrl.houseDeleteRequest, null, { params: { accomNumber } });
 const deleteRoom = (roomNumber: number) => api.delete(ownerUrl.roomDelete, { params: { roomNumber } });
@@ -108,4 +118,4 @@ export {
 	deleteRoom,
 };
 //예약
-export { checkMyHouseReservation, getHouseReservation, getReservableRoomList, cancelReservation, getRoomReservableDays };
+export { checkMyHouseReservation, getHouseReservation, getReservableRoomList, cancelReservation, getRoomReservableDays, addOfflineReservation };

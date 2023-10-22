@@ -29,6 +29,7 @@ const OwnerCalendar: React.FC<CommonCalendarProps> = ({ currentDate, initailData
 	const calendarRef = useRef<FullCalendar | null>(null);
 	const [calendarDate, setCalendarDate] = useState(currentDate);
 	const calendarEvent: CalendarEvent[] = [];
+	// const [calendarState, setCalendarState] = useState<CalendarEvent[]>([]);
 	const today = new Date();
 	today.setHours(9, 0, 0, 0);
 	const calendarFullDate = new Date(calendarDate.year + '-' + calendarDate.month);
@@ -151,10 +152,14 @@ const OwnerCalendar: React.FC<CommonCalendarProps> = ({ currentDate, initailData
 	useCalendarStyle(isReservationList, houseId, calendarFullDate > today ? null : today);
 
 	isSuccess && console.log(data.data, isReservationList ? '예약목록' : '예약가능일');
-
+	console.log(calendarEvent, '이벤트들');
 	if (isError) {
 		console.log(error);
 		alert('에러 발생');
+	}
+
+	if (isLoading) {
+		return <div>Loading...</div>;
 	}
 
 	return (
