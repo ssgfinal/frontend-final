@@ -8,7 +8,7 @@ import { useCalWindowWidth } from '../../../hooks';
 import { ImageUploader } from '../../common';
 import { base64ToFile, pxToRem } from '../../../utils';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { onEditManageHouseApi } from '../../../helper/ownerFunction';
+import { onEditManageHouseApi } from '../../../helper';
 
 const ManageHouseEdit: React.FC<MyHouseDataHandleComp> = ({ house, setIsEditMode }) => {
 	const newPhoneNumber = useRef<HTMLInputElement | null>(null);

@@ -4,6 +4,7 @@ const ownerKey = {
 	checkReservationList: 'checkReservationList',
 	getReservationData: 'getReservationData',
 	reserveAvailability: 'reserveAvailability',
+	roomReservableDays: 'roomReservableDays',
 };
 
 const roomKey = {
