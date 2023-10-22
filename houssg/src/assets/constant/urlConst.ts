@@ -75,6 +75,8 @@ const ownerUrl = {
 	//삭제요청
 	houseDeleteRequest: 'accom/del/request',
 	roomDelete: 'room',
+	//정산
+	getIncome: 'monthly-sales/check',
 };
 
 const roomUrl = {

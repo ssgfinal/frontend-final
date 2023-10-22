@@ -25,6 +25,7 @@ import {
 	requestHouseDelete,
 	deleteRoom,
 	cancelReservation,
+	getIncomeApi,
 } from './ownerFunction';
 
 // 객실 관련
@@ -52,6 +53,7 @@ export {
 	requestHouseDelete,
 	deleteRoom,
 	cancelReservation,
+	getIncomeApi,
 };
 
 export { getTargetRoomData, addTargetRoom, editTargetRoom, returnRoomFormData };

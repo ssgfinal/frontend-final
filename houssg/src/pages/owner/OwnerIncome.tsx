@@ -2,6 +2,9 @@ import { useEffect, useState } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 import styled from 'styled-components';
 import { color } from '../../assets/styles';
+import { useQuery } from '@tanstack/react-query';
+import { ownerKey } from '../../assets/constant';
+import { getIncomeApi } from '../../helper';
 
 const response = {
 	house: ['고노도로 모텔', '무지개 호텔', 'paradise hotel', 'h1', 'h2'],
@@ -54,15 +57,6 @@ const response = {
 			'고노도로 모텔': 30000,
 			'무지개 호텔': 40000,
 		},
-		// {
-		// 	date: '10',
-		// },
-		// {
-		// 	date: '11',
-		// },
-		// {
-		// 	date: '12',
-		// },
 	],
 };
 
@@ -88,9 +82,6 @@ const OwnerIncome = () => {
 
 	useEffect(() => {
 		const handleResize = () => {
-			console.log('리사이즈시 실행', window.innerWidth);
-			console.log('width ', window.screen.width);
-			// 창 크기가 변경될 때마다 새로운 크기를 설정합니다.
 			// TODO: 모바일 폰 버전?으로 볼 때 무작위로 그래프가 잘림 아래 *0.8이 먹혔다 안 먹혔다 하는 거 같음
 			if (window.screen.width < 850) {
 				setChartSize({ width: window.screen.width * 0.8, height: window.screen.width * 0.6 });
@@ -100,21 +91,11 @@ const OwnerIncome = () => {
 				setChartSize({ width: window.innerWidth * 0.8, height: window.innerWidth * 0.6 });
 			}
 		};
-		// const handleResize = () => {
-		// 	console.log('리사이즈시 실행', window.screen.width);
-		// 	// 창 크기가 변경될 때마다 새로운 크기를 설정합니다.
-		// 	// TODO: 모바일 폰 버전?으로 볼 때 무작위로 그래프가 잘림 아래 *0.8이 먹혔다 안 먹혔다 하는 거 같음
-		// 	if (window.screen.width < 500) {
-		// 		setChartSize({ width: window.screen.width * 0.8, height: window.screen.width * 0.6 });
-		// 	}
-		// };
 
 		// 초기 로딩 시 한 번 크기를 설정하고,
 		handleResize();
-
 		// 창 크기 변경 이벤트 리스너를 추가합니다.
 		window.addEventListener('resize', handleResize);
-
 		// 컴포넌트가 언마운트 될 때 이벤트 리스너를 제거합니다.
 		return () => {
 			window.removeEventListener('resize', handleResize);
@@ -130,6 +111,19 @@ const OwnerIncome = () => {
 		setHouseList(houseObj);
 	};
 
+	const { isLoading, data, isSuccess, isError, error } = useQuery([ownerKey.income], () => getIncomeApi(), {
+		cacheTime: 5 * 60 * 1000,
+		staleTime: 60 * 60 * 1000,
+	});
+
+	isSuccess && console.log(data);
+
+	isError && console.log(error);
+
+	if (isLoading) {
+		return <div>로딩중 ... </div>;
+	}
+
 	return (
 		<Wrapper>
 			<Title>월별 정산 내역</Title>
@@ -141,8 +135,6 @@ const OwnerIncome = () => {
 						data={response.importation}
 						margin={{
 							top: 40,
-							// right: 40,
-							// left: 20,
 							bottom: 5,
 						}}
 					>
