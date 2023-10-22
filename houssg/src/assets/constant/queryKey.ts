@@ -17,10 +17,6 @@ const userKey = {
 	myFavorite: 'myFavorite',
 	myReservation: 'myReservation',
 	userHouseList: 'userHouseList',
-	myNickName: 'myNickName',
-	myPassword: 'myPassword',
-	smsMyPhone: 'smsMyPhone',
-	myPhoneNum: 'myPhoneNum',
 };
 
 export { ownerKey, roomKey, userKey };

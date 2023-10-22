@@ -9,22 +9,33 @@ import Rating from '../common/Rating';
 import hourClock from '../../utils/hourClock';
 
 import { color } from '../../assets/styles';
+import { useState } from 'react';
 
 const MyReview = () => {
 	const navigate = useNavigate();
+	const [page, setPage] = useState<number>(1);
+	const pageSize = 10;
 
 	// 나의 후기 목록
-	const { isLoading, data, isSuccess, isError, error } = useQuery<{ data: MyReviewList[] }>([userKey.myReview], () => getMyReviewList(), {
-		cacheTime: 5 * 60 * 1000,
-		staleTime: 2 * 60 * 1000,
-		retry: 2,
-	});
+	const { isLoading, data, isSuccess, isError, error } = useQuery<{ data: MyReviewList[] }>(
+		[userKey.myReview],
+		({ pageParam = 1 }) => getMyReviewList(page, pageSize, pageParam),
+		{
+			cacheTime: 5 * 60 * 1000,
+			staleTime: 2 * 60 * 1000,
+			retry: 2,
+		},
+	);
 
 	isError && console.log(error, 'error');
 
 	if (isLoading) {
 		return <div>로딩중...</div>;
 	}
+
+	const onNextPage = () => {
+		setPage(page + 1);
+	};
 
 	return (
 		isSuccess && (
@@ -65,6 +76,8 @@ const MyReview = () => {
 								)}
 							</div>
 						))}
+						<button>이전</button>
+						<button onClick={onNextPage}>다음</button>
 					</MyReviewContainer>
 				)}
 			</MyReviewWrapper>

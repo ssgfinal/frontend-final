@@ -5,14 +5,7 @@ import { closeModal } from '../../store/redux/modalSlice';
 import { color } from '../../assets/styles';
 import { regSignUp } from '../../assets/constant';
 import { unvisible, visible } from '../../assets/icons';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { userKey } from '../../assets/constant/queryKey';
 import { setUpdatePassword } from '../../helper';
-
-interface UpdatePassword {
-	password: string;
-	newPassword: string;
-}
 
 const EditPassword = () => {
 	const dispatch = useAppDispatch();
@@ -80,23 +73,9 @@ const EditPassword = () => {
 		}
 	}, [isValidPassword, newPassword, newPasswordCheck, password]);
 
-	const queryClient = useQueryClient();
-
-	const { mutate } = useMutation({
-		mutationFn: ({ password, newPassword }: UpdatePassword) => setUpdatePassword(password, newPassword),
-		onSuccess: () => {
-			queryClient.invalidateQueries({ queryKey: [userKey.myPassword] });
-			alert('수정완료');
-		},
-		onError: (error) => {
-			console.log(error);
-			alert('수정실패');
-		},
-	});
-
 	const onEditPass = () => {
 		if (isValidPassword) {
-			mutate({ password, newPassword });
+			setUpdatePassword(password, newPassword);
 			if (newPasswordCheck) {
 				setIsVisibleArray([false, false, false]);
 				setPassword('');

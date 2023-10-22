@@ -4,9 +4,6 @@ import { useAppDispatch } from '../../hooks';
 import { closeModal } from '../../store/redux/modalSlice';
 import { color } from '../../assets/styles';
 import { regSignUp } from '../../assets/constant';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-
-import { userKey } from '../../assets/constant/queryKey';
 import { setUpdateNickName } from '../../helper';
 
 const EditNickName = () => {
@@ -14,20 +11,6 @@ const EditNickName = () => {
 
 	const userNickName = sessionStorage.getItem('nickname');
 	const isNewNickName = useRef<HTMLInputElement | null>(null);
-
-	const queryClient = useQueryClient();
-
-	const { mutate } = useMutation({
-		mutationFn: (newNickName: string) => setUpdateNickName(newNickName),
-		onSuccess: () => {
-			queryClient.invalidateQueries({ queryKey: [userKey.myNickName] });
-			alert('수정성공');
-		},
-		onError: (error) => {
-			console.log(error);
-			alert('수정실패');
-		},
-	});
 
 	const editNickName = () => {
 		const newNickName = isNewNickName.current?.value;
@@ -38,7 +21,7 @@ const EditNickName = () => {
 		}
 		if (isNewNickName.current) {
 			if (newNickName) {
-				mutate(newNickName);
+				setUpdateNickName(newNickName);
 				if (isNewNickName.current) {
 					isNewNickName.current.value = '';
 				}

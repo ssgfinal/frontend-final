@@ -29,6 +29,7 @@ const MyCoupons = () => {
 							<div key={i}>
 								{coupon.expirationStatus !== 1 ? (
 									<CouponsWrapper>
+										{coupon.expirationStatus}
 										<p>{coupon.couponName}</p>
 										<p>{coupon.discount.toLocaleString()}원</p>
 										<p>유효기간 : ~ {coupon.expirationDate}</p>

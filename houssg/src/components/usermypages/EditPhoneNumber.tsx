@@ -5,66 +5,30 @@ import { color } from '../../assets/styles';
 import { useRef, useState } from 'react';
 import { Timer } from '../common';
 import { ProcessType } from '../../types';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { setNewPhoneNumber } from '../../helper';
-import { userKey } from '../../assets/constant/queryKey';
-
-interface MyChangePhone {
-	newPhone: string;
-	smsPhone?: string;
-}
+import { setNewPhoneNumber, smsMyPhoneAuth } from '../../helper';
 
 const EditPhoneNumber = () => {
 	const dispatch = useAppDispatch();
 
 	const [message, setMessage] = useState(false);
-	//TODO: 조건 확인하기(아래쪽)
+
 	const [timeStatus, setTimeStatus] = useState<ProcessType>('start');
-	//const [status, setStatus] = useState(false);
+
 	const phoneNumber = useRef<HTMLInputElement | null>(null);
 	const authentication = useRef<HTMLInputElement | null>(null);
-	// const [authorization, setAuthorization] = useState(false);
-
-	const queryClient = useQueryClient();
-
-	// TODO: 문자전송 요청 > mutate를 또 선언할 수 없다..!!컴퍼넌트 분리가 답인가?
-	// 콘솔에는 400 error, 스웨거에는 401 error?
-	const { mutate } = useMutation({
-		mutationFn: ({ newPhone }: MyChangePhone) => setNewPhoneNumber(newPhone),
-		onSuccess: () => {
-			queryClient.invalidateQueries({ queryKey: [userKey.myPhoneNum] });
-		},
-		onError: (error) => {
-			console.log(error);
-		},
-	});
-
-	// 전화번호&인증번호 확인
-	// const { mutate } = useMutation({
-	// 	mutationFn: ({ newPhone, smsPhone }: MyChangePhone) => {
-	// 		if (smsPhone !== undefined) {
-	// 			return smsMyPhoneAuth(newPhone, smsPhone);
-	// 		} else {
-	// 			throw new Error('smsPhone is undefined');
-	// 		}
-	// 	},
-	// 	onSuccess: () => {
-	// 		queryClient.invalidateQueries({ queryKey: [userKey.smsMyPhone] });
-	// 	},
-	// 	onError: (error) => {
-	// 		console.log(error);
-	// 	},
-	// });
 
 	// 문자전송 요청
 	const onAuthentication = () => {
 		const newPhone = phoneNumber.current?.value;
+		if (newPhone === '') {
+			alert('전화번호를 입력해 주세요.');
+			return;
+		}
 		if (phoneNumber.current) {
 			if (newPhone) {
-				mutate({ newPhone });
+				setNewPhoneNumber(newPhone);
 			}
 		}
-
 		setMessage(true);
 		setTimeStatus('start');
 	};
@@ -73,13 +37,13 @@ const EditPhoneNumber = () => {
 	const onEditPhoneNumber = () => {
 		const newPhone = phoneNumber.current?.value;
 		const smsPhone = authentication.current?.value;
+
 		if (phoneNumber.current) {
 			if (newPhone && smsPhone !== undefined) {
-				mutate({ newPhone, smsPhone });
+				smsMyPhoneAuth(newPhone, smsPhone);
 			}
 		}
 
-		// TODO: 전화번호 변경
 		if (authentication.current) {
 			phoneNumber.current!.value = '';
 			authentication.current.value = '';
