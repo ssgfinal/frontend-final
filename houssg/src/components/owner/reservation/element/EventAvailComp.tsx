@@ -15,9 +15,9 @@ const EventAvailComp = () => {
 		cacheTime: 2 * 60 * 1000, // 5분
 		staleTime: 3 * 60 * 1000, // 2분
 	});
-	const [endDate, setEndDate] = useState(data?.data);
+	const [endDate, setEndDate] = useState(data?.data[0]);
 	isError && console.log(error);
-	console.log(endDate);
+	console.log(data);
 	const items: MenuProps['items'] =
 		isSuccess &&
 		data.data.map((element: string) => ({
