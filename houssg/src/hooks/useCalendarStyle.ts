@@ -15,15 +15,6 @@ const useCalendarStyle = (isReservationList: boolean, houseId: number, today: Da
 				}
 			}
 		}
-
-		if (!isReservationList) {
-			// console.log(parentDiv);
-			// for (let i = 0; i < parentDiv.length; i++) {
-			// 	if (parentDiv[i].children[1].children.length <= 1) {
-			// 		parentDiv[i].classList.add('calendar-unable');
-			// 	}
-			// }
-		}
 	}, [isReservationList, houseId, today]);
 };
 

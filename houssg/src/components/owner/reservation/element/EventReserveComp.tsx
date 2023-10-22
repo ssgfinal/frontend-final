@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useAppDispatch, useAppSelector } from '../../../../hooks';
-import { calendarDate, ownerHouseId, reservationInfo } from '../../../../store/redux/calendarSlice';
+import { ownerHouseId, reservationInfo } from '../../../../store/redux/calendarSlice';
 import { cancelReservation } from '../../../../helper';
 import { ownerKey } from '../../../../assets/constant';
 import { closeModal } from '../../../../store/redux/modalSlice';
@@ -9,16 +9,15 @@ import { color } from '../../../../assets/styles';
 
 const EventReserveComp = () => {
 	const houseId = useAppSelector(ownerHouseId);
-	const date = useAppSelector(calendarDate);
 
-	const { start, end, eventId, eventRoomName, guestName, guestNumber } = useAppSelector(reservationInfo);
+	const { start, end, eventId, eventRoomName, guestName, guestNumber, calendarDate } = useAppSelector(reservationInfo);
 	const dispatch = useAppDispatch();
 	const queryClient = useQueryClient();
 
 	const { mutate } = useMutation({
 		mutationFn: () => cancelReservation(Number(eventId)),
 		onSuccess: () => {
-			queryClient.invalidateQueries({ queryKey: [ownerKey.getReservationData, houseId, date] });
+			queryClient.invalidateQueries({ queryKey: [ownerKey.getReservationData, houseId, calendarDate] });
 			dispatch(closeModal());
 			alert('취소완료');
 		},
