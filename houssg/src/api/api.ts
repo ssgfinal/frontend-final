@@ -13,7 +13,12 @@ api.interceptors.request.use((config: InternalAxiosRequestConfig<{ headers: stri
 	const access_token = sessionStorage.getItem('authorization');
 
 	if (access_token !== null) {
+		const invalidate = sessionStorage.getItem('invalidate');
 		config.headers['Authorization'] = access_token;
+		if (invalidate !== null) {
+			const refreshtoken = sessionStorage.getItem('refreshtoken');
+			config.headers['Refreshtoken'] = refreshtoken;
+		}
 	}
 	return config;
 });
@@ -23,6 +28,9 @@ api.interceptors.response.use(
 	(error) => {
 		if (error.response && error.response.status) {
 			switch (error.response.status) {
+				case 401:
+					sessionStorage.setItem('invalidate', 'invalidate');
+					break;
 				case 500:
 					alert('서버에 문제가 있습니다.');
 					break;
