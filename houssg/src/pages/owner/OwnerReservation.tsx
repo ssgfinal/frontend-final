@@ -5,6 +5,8 @@ import { useQuery } from '@tanstack/react-query';
 import { ownerKey } from '../../assets/constant';
 import { checkMyHouseReservation } from '../../helper';
 import { CheckMyHouseReservationType } from '../../types';
+import { useAppSelector } from '../../hooks';
+import { ownerHouseId } from '../../store/redux/calendarSlice';
 
 const OwnerReservation = () => {
 	const today = new Date();
@@ -12,6 +14,7 @@ const OwnerReservation = () => {
 	const currentMonth = today.getMonth() + 1;
 	const [houseIndex, setHouseIndex] = useState(0);
 	const [isReservationList, setIsReservationList] = useState(true);
+	const houseId = useAppSelector(ownerHouseId);
 
 	const { isLoading, data, isSuccess, isError, error } = useQuery<{ data: CheckMyHouseReservationType }>(
 		[ownerKey.checkReservationList],
@@ -21,7 +24,6 @@ const OwnerReservation = () => {
 			staleTime: Infinity,
 		},
 	);
-
 	isError && console.log(error, 'error');
 
 	if (isLoading) {
@@ -38,11 +40,13 @@ const OwnerReservation = () => {
 							{isReservationList ? '예약가능일 보기' : '예약내역 보기'}
 						</CalendarModeBtn>
 					</CalendarOptionContainer>
-					<OwnerCalendar
-						currentDate={{ year: currentYear, month: currentMonth }}
-						initailData={data.data.reservations}
-						isReservationList={isReservationList}
-					/>
+					{!!houseId && (
+						<OwnerCalendar
+							currentDate={{ year: currentYear, month: currentMonth }}
+							initailData={data.data.reservations}
+							isReservationList={isReservationList}
+						/>
+					)}
 				</>
 			)}
 		</OwnerReservationWrapper>

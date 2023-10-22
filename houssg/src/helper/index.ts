@@ -26,6 +26,9 @@ import {
 	deleteRoom,
 	cancelReservation,
 	getIncomeApi,
+	getRoomReservableDays,
+	onEditManageHouseApi,
+	addOfflineReservation,
 } from './ownerFunction';
 
 // 객실 관련
@@ -54,6 +57,9 @@ export {
 	deleteRoom,
 	cancelReservation,
 	getIncomeApi,
+	getRoomReservableDays,
+	onEditManageHouseApi,
+	addOfflineReservation,
 };
 
 export { getTargetRoomData, addTargetRoom, editTargetRoom, returnRoomFormData };
