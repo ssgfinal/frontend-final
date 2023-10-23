@@ -17,7 +17,6 @@ const Nav = () => {
 		['마이페이지', userRoute.myPage],
 	];
 	const ownerNav = [
-		['홈', ownerRoute.main],
 		['내 숙소', ownerRoute.management],
 		['예약 확인', ownerRoute.reservation],
 		['정산 내역', ownerRoute.income],
