@@ -58,13 +58,20 @@ const BusinessRegi: React.FC<RegiStepProps> = ({ goStep, step, funnelState }) =>
 		}
 	};
 
+	const onChangeHandler = (value: string, type: 'businessNum' | 'name') => {
+		setBusinessData((prevData) => ({
+			...prevData,
+			[type]: value,
+		}));
+	};
+
 	return (
 		<HouseRegiEachWrapper>
 			<UserReservationTitle>사업자 등록</UserReservationTitle>
 
 			<div>
 				<InputWrapper>
-					{!isRegistered && <InstructionLabel>{imgFile ? '사업자 등록을 진행해주세요' : '견본을 클릭해서 등록해주세요'}</InstructionLabel>}
+					{!isRegistered && <InstructionLabel>{imgFile ? '사업자 등록을 진행해주세요' : '사진으로 등록하기'}</InstructionLabel>}
 					<FileRegiInput type="file" accept=".png, .jpg" onChange={onChangeBusinessImg} ref={imgRef} />
 					<StyledImg
 						$isLoading={isLoading}
@@ -91,12 +98,19 @@ const BusinessRegi: React.FC<RegiStepProps> = ({ goStep, step, funnelState }) =>
 				)}
 			</div>
 			{isRegistered && (
-				<div>
-					<RegisteredInfoText>숙소명 : {businessData.name} </RegisteredInfoText>
-					<RegisteredInfoText>사업자 번호 : {businessData.businessNum}</RegisteredInfoText>
-				</div>
+				<>
+					<InputAligner>
+						<InputTitle>숙소명</InputTitle>
+						<RegisteredInfo value={businessData.name} onChange={(e) => onChangeHandler(e.target.value, 'name')} />
+					</InputAligner>
+					<InputAligner>
+						<InputTitle>사업자 번호</InputTitle>
+						<RegisteredInfo value={businessData.businessNum} onChange={(e) => onChangeHandler(e.target.value, 'businessNum')} />
+					</InputAligner>
+				</>
 			)}
-			<StepMover inactive={!isRegistered} goStep={goStep} step={step} data={businessData} />
+
+			<StepMover inactive={!businessData.name && !businessData.businessNum} goStep={goStep} step={step} data={businessData} />
 		</HouseRegiEachWrapper>
 	);
 };
@@ -136,12 +150,29 @@ const InstructionBottomText = styled.div`
 	color: ${color.color3};
 	font-weight: 600;
 	line-height: 1.2rem;
+	font-size: 0.9rem;
 `;
 
-const RegisteredInfoText = styled.div`
-	margin-bottom: 0.5rem;
+const InputAligner = styled.div`
+	margin-top: 1rem;
+	display: flex;
+	flex-direction: column;
+	align-items: start;
+	gap: 0.3rem;
+`;
+
+const InputTitle = styled.div`
 	font-weight: 600;
+	margin-left: 2px;
+`;
+const RegisteredInfo = styled.input`
+	margin-bottom: 0.5rem;
+	font-weight: 500;
 	font-size: 1rem;
+	border: 1px solid ${color.basicColor};
+	border-radius: 4px;
+	line-height: 1.2rem;
+	padding: 0.2rem;
 	@media screen and (max-width: 400px) {
 		font-size: 0.8rem;
 	}
