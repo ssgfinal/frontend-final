@@ -49,10 +49,11 @@ const MyReview = () => {
 								<MyReviewBox>
 									<HouseBox
 										onClick={() => {
-											navigate(`/user/house/${review.accomNumber}`);
+											navigate(`/user/houseDetail/${review.accomNumber}`);
 										}}
 									>
-										{review.accomName}&nbsp;({review.reservationNumber})<input type="hidden" value={review.accomNumber} />
+										{review.accomName}
+										<input type="hidden" value={review.accomNumber} />
 										<ArrowBox>&gt;</ArrowBox>
 									</HouseBox>
 									<RoomBox>{review.roomCategory}</RoomBox>

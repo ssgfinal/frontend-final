@@ -14,7 +14,7 @@ const userUrl = {
 	myCoupon: 'coupon/mypage',
 	enrollCoupon: 'coupon/enroll-usercoupon',
 	withdrawal: 'user/withdrawal',
-	myReview: 'mypage/review',
+	myReview: 'mypage/review/page',
 	myFavorite: 'mypage/favorite',
 
 	// userhouselist
