@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
 import { loadPaymentWidget, PaymentWidgetInstance } from '@tosspayments/payment-widget-sdk';
-// import { useParams } from 'react-router-dom';
 import { Provision } from './Provision';
 import { color, ReservationCommonBox, UserReservationTitle } from '../../assets/styles';
 import styled from 'styled-components';
@@ -9,16 +8,14 @@ import api from '../../api/api';
 import { userRoute, userUrl } from '../../assets/constant';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
-// 시크릿키는 .env에서 관리하는 걸 추천?
-
-// 토스페이먼츠에서 제공하는 test용 키
 const clientKey = 'test_ck_D5GePWvyJnrK0W0k6q8gLzN97Eoq';
 const customerKey = 'YbX2HuSlsC9uVJW6NMRMj';
 
 interface PaymentWidgetProps {
 	selectedReservation: SelectedReservationType;
 }
-export const PaymentWidget: React.FC<PaymentWidgetProps> = ({ selectedReservation }) => {
+
+const PaymentWidget: React.FC<PaymentWidgetProps> = ({ selectedReservation }) => {
 	const navigate = useNavigate();
 
 	const paymentWidgetRef = useRef<PaymentWidgetInstance | null>(null);
@@ -28,20 +25,16 @@ export const PaymentWidget: React.FC<PaymentWidgetProps> = ({ selectedReservatio
 	useEffect(() => {
 		(async () => {
 			const paymentWidget = await loadPaymentWidget(clientKey, customerKey);
-			// loadPaymentWidget : PaymentWidget 인스턴스를 반환하는 메서드
-			// PaymentWidget : 해당 인스턴스를 사용해서 결제위젯을 렌더링 함, 결제위젯 인스턴스는 결제를 요청하는 requestPayment()라는 함수도 반환
 			const paymentMethodsWidget = paymentWidget.renderPaymentMethods('#payment-widget', selectedReservation.paymentPrice);
-			// renderPaymentMethods로 결제위젯을 렌더링
-			// paymentWidget.renderPaymentMethods()에서 updateAmount()를 반환함
 
 			paymentWidgetRef.current = paymentWidget;
-			// useRef를 사용해서 인스턴스 저장
 			paymentMethodsWidgetRef.current = paymentMethodsWidget;
 		})();
 	}, [selectedReservation]);
 
 	const userNickName = sessionStorage.getItem('nickname');
 	const userPhone = sessionStorage.getItem('phone');
+	const originPoint = Number(sessionStorage.getItem('point'));
 	const location = useLocation();
 	const houseId = location.state.houseId;
 	const houseName = location.state.houseName;
@@ -53,7 +46,6 @@ export const PaymentWidget: React.FC<PaymentWidgetProps> = ({ selectedReservatio
 		const paymentWidget = paymentWidgetRef.current;
 
 		if (!selectedReservation.night) {
-			console.log('reservation night', selectedReservation.night);
 			alert('예약 기간을 정확히 입력해주세요.');
 			return;
 		}
@@ -73,7 +65,6 @@ export const PaymentWidget: React.FC<PaymentWidgetProps> = ({ selectedReservatio
 		}
 
 		try {
-			console.log('예약 백에 날라감');
 			api
 				.post(userUrl.reservationEnroll, {
 					startDate: selectedReservation.startDate,
@@ -99,26 +90,25 @@ export const PaymentWidget: React.FC<PaymentWidgetProps> = ({ selectedReservatio
 					paymentWidget &&
 						paymentWidget
 							.requestPayment({
-								//원래 맨앞에 await이 있었음 근데 async는 없어서 에러 뜨길래 일단 지움
 								orderId: reservationNumFromBack,
 								orderName: `${houseName} ${room.roomCategory} ${selectedReservation.night}박 예약`,
 								customerName: userNickName ? userNickName : 'houssg 고객님',
-								// customerEmail: 'customer123@gmail.com',
 							})
 							.then(function (data) {
-								console.log('결제 승인 시 토스페이먼츠 리스펀스 > ', data);
 								try {
 									api.patch(userUrl.isPaymentSuccess, { reservationNumber: reservationNumFromBack, sign: 'success' });
-									console.log('백에 결제 완료 api 날림');
 								} catch {
-									console.log('결제 성공을 백에 알려주는 API 통신 에러');
+									alert('죄송합니다. 예약 완료에 문제가 발생했습니다. houssg 고객센터로 문의 부탁드립니다.');
 								}
+
+								// 포인트 사용시, 세션에 포인트도 업데이트
+								if (selectedReservation.usingPoint > 0) {
+									sessionStorage.setItem('point', originPoint - selectedReservation.usingPoint + '');
+								}
+
 								navigate(userRoute.reservationList);
 							})
 							.catch(function (err) {
-								// 에러 처리 : 에러 목록을 확인
-								console.log('토스페이먼츠 결제 api 에러', err);
-
 								if (err.code === 'USER_CANCEL') {
 									// 결제 고객이 결제창을 닫았을 때 에러 처리
 									alert('창이 닫혀서 결제가 완료되지 못 했습니다.');
@@ -132,16 +122,14 @@ export const PaymentWidget: React.FC<PaymentWidgetProps> = ({ selectedReservatio
 
 								try {
 									api.post(userUrl.isPaymentSuccess, { reservationNumber: reservationNumFromBack, sign: 'fail' });
-									console.log('백에 결제 실패 api 날림');
 								} catch {
 									console.log('결제 실패를 백에 알려주는 API 통신 에러');
 								}
 							});
 				});
 		} catch (err) {
-			console.log('예약하기 API 통신 에러', err);
 			if (err === '예약 불가능') {
-				alert('죄송합니다. 이미 예약이 완료된 방입니다.');
+				alert('죄송합니다. 해당 날짜는 이미 예약이 완료된 방입니다.');
 			}
 		}
 	};
@@ -169,10 +157,10 @@ const PaymentFinalBtn = styled.button`
 	padding: 1rem;
 	font-weight: bold;
 	font-size: 20px;
-	/* background-color: white;
-    color: ${color.color2}; */
 	background-color: ${color.color2};
 	color: white;
 	border: solid ${color.color2};
 	border-radius: 1rem;
 `;
+
+export default PaymentWidget;

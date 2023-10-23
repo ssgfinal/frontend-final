@@ -10,7 +10,7 @@ import { calculateNights, dateFormat, makeTwo, periodCheck } from '../../utils';
 interface CalendarProps {
 	initBookableRoomList: BookableRoomCnt[];
 	selectedReservation: SelectedReservationType;
-	setSelectedReservation: React.Dispatch<React.SetStateAction<SelectedReservationType>>;
+	setSelectedReservation: React.Dispatch<React.SetStateAction<SelectedReservationType | undefined>>;
 }
 const Calendar: React.FC<CalendarProps> = ({ initBookableRoomList, selectedReservation, setSelectedReservation }) => {
 	const [event, setEvent] = useState<Schedule[]>();
@@ -59,10 +59,8 @@ const Calendar: React.FC<CalendarProps> = ({ initBookableRoomList, selectedReser
 	// 날짜를 클릭시
 	const handleDateClick = (args: DateClickArg) => {
 		if (Boolean(selectedReservation.startDate) === Boolean(selectedReservation.endDate)) {
-			console.log('시작일 선택', args.dateStr);
 			const found = event?.find((e) => e.date === args.dateStr);
 			if (found) {
-				console.log('예약 불가');
 				alert('예약이 불가합니다.');
 			} else {
 				if (selectedReservation.startDate === '') {
@@ -89,7 +87,6 @@ const Calendar: React.FC<CalendarProps> = ({ initBookableRoomList, selectedReser
 				}
 			}
 		} else {
-			console.log('종료일 선택', args.dateStr);
 			if (args.dateStr <= selectedReservation.startDate) {
 				alert('종료일은 시작일보다 더 이후여야합니다.');
 			} else {

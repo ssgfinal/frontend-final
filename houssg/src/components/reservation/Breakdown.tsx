@@ -9,9 +9,10 @@ import { CouponType, SelectedReservationType } from '../../types';
 interface BreakdownProps {
 	initCouponList: CouponType[];
 	selectedReservation: SelectedReservationType;
-	setSelectedReservation: React.Dispatch<React.SetStateAction<SelectedReservationType>>;
+	setSelectedReservation: React.Dispatch<React.SetStateAction<SelectedReservationType | undefined>>;
 }
-export const Breakdown: React.FC<BreakdownProps> = ({ initCouponList, selectedReservation, setSelectedReservation }) => {
+
+const Breakdown: React.FC<BreakdownProps> = ({ initCouponList, selectedReservation, setSelectedReservation }) => {
 	const location = useLocation();
 	const room = location.state.room;
 
@@ -43,7 +44,10 @@ export const Breakdown: React.FC<BreakdownProps> = ({ initCouponList, selectedRe
 		} else {
 			if (Number(e.target.value) > totalPoint) {
 				setPointStatus('higher');
-				useTotalPoint;
+				setSelectedReservation({
+					...selectedReservation,
+					usingPoint: totalPoint,
+				});
 			} else {
 				setPointStatus('num');
 				setSelectedReservation({
@@ -154,14 +158,6 @@ const Input = styled.input`
 	outline: none;
 	margin-bottom: 0.5rem;
 	width: 30%;
-
-	/* 숫자 증감 버튼 숨기기 */
-	&[type='number']::-webkit-outer-spin-button,
-	&[type='number']::-webkit-inner-spin-button {
-		-webkit-appearance: none;
-		appearance: none;
-		margin: 0;
-	}
 `;
 
 const PointInput = styled(Input)`
@@ -203,3 +199,5 @@ const Hr = styled.hr`
 	grid-column-start: 1;
 	grid-column-end: 3;
 `;
+
+export default Breakdown;
