@@ -77,8 +77,9 @@ const MyReview = () => {
 								)}
 							</div>
 						))}
-						<button>이전</button>
-						<button onClick={onNextPage}>다음</button>
+						{/* TODO: 시간되면 페이징 처리하기 */}
+						<PagingButton>이전</PagingButton>
+						<PagingButton onClick={onNextPage}>다음</PagingButton>
 					</MyReviewContainer>
 				)}
 			</MyReviewWrapper>
@@ -322,4 +323,8 @@ const HouseReviewDate = styled.div`
 const HouseReviewContent = styled.div`
 	text-align: left;
 	padding: 1vw 0;
+`;
+
+const PagingButton = styled.button`
+	display: none;
 `;
