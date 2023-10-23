@@ -14,8 +14,10 @@ api.interceptors.request.use((config: InternalAxiosRequestConfig<{ headers: stri
 
 	if (access_token !== null) {
 		const invalidate = sessionStorage.getItem('invalidate');
-		config.headers['Authorization'] = access_token;
-		if (invalidate !== null) {
+		if (!invalidate) {
+			console.log('첫 요청시');
+			config.headers['Authorization'] = access_token;
+		} else {
 			const refreshtoken = sessionStorage.getItem('refreshtoken');
 			config.headers['Refreshtoken'] = refreshtoken;
 		}
@@ -24,7 +26,15 @@ api.interceptors.request.use((config: InternalAxiosRequestConfig<{ headers: stri
 });
 
 api.interceptors.response.use(
-	(response) => response,
+	(response) => {
+		if (response.headers.authorization) {
+			sessionStorage.setItem('authorization', response.headers.authorization);
+			sessionStorage.setItem('refreshtoken', response.headers.refreshtoken);
+			sessionStorage.removeItem('invalidate');
+		}
+
+		return response;
+	},
 	(error) => {
 		if (error.response && error.response.status) {
 			switch (error.response.status) {
