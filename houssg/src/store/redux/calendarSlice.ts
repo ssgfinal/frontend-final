@@ -8,9 +8,12 @@ export interface CalendarState {
 	ownerHouseId: number;
 	ownerHouseName: string;
 
-	eventStart: string;
-	eventEnd: string;
-	calendarDate: string;
+	reservableRoomInfo: {
+		date: string;
+		roomId: number;
+		roomName: string;
+		amount: string;
+	};
 	reservationInfo: {
 		start: string;
 		end: string;
@@ -18,8 +21,10 @@ export interface CalendarState {
 		eventRoomName: string;
 		guestName: string;
 		guestNumber: string;
+		calendarDate: string;
 	};
 	dateCalendarEvents: { date: string; events: CalendarEvent[] };
+	dateAvailableRooms: { roomName: string; amount: string; date: string; roomId: number }[];
 }
 
 const initialState: CalendarState = {
@@ -27,9 +32,12 @@ const initialState: CalendarState = {
 	ownerHouseId: 0,
 	ownerHouseName: '',
 
-	eventStart: '1980-01-01', //임의의 날짜
-	eventEnd: '1980-01-02',
-	calendarDate: '1980-01',
+	reservableRoomInfo: {
+		roomId: 0,
+		date: '1980-01-01',
+		roomName: '로딩중',
+		amount: '',
+	},
 
 	reservationInfo: {
 		start: '1980-01-01',
@@ -38,21 +46,21 @@ const initialState: CalendarState = {
 		eventRoomName: '',
 		guestName: '',
 		guestNumber: '',
+		calendarDate: '1980-01-01',
 	},
 	dateCalendarEvents: { date: '', events: [] },
+	dateAvailableRooms: [{ roomName: '', amount: '', date: '', roomId: 0 }],
 };
 
 const calendarSlice = createSlice({
 	name: 'calendar',
 	initialState,
 	reducers: {
-		setCalendarEventAdd: (state, action) => {
-			console.log(state, action);
-			// state = action.payload;
+		setCalendarEvent: (state, action) => {
+			state.reservableRoomInfo = action.payload;
 		},
 		setCalendarReservatinInfo: (state, action) => {
 			state.reservationInfo = action.payload.reservationInfo;
-			state.calendarDate = action.payload.calendarDate;
 		},
 		setOwnerHouse: (state, action) => {
 			state.ownerHouseId = action.payload.houseId;
@@ -61,16 +69,20 @@ const calendarSlice = createSlice({
 		setDayCalendarEvents: (state, action) => {
 			state.dateCalendarEvents = action.payload.dateCalendarEvents;
 		},
+		setCalendarAvailableRoom: (state, action) => {
+			state.dateAvailableRooms = action.payload.dateAvailableRooms;
+		},
 	},
 });
 
 const ownerHouseId = (state: RootState) => state.calendar.ownerHouseId;
 const ownerHouseName = (state: RootState) => state.calendar.ownerHouseName;
 
-const calendarDate = (state: RootState) => state.calendar.calendarDate;
+const reservableRoomInfo = (state: RootState) => state.calendar.reservableRoomInfo;
 const reservationInfo = (state: RootState) => state.calendar.reservationInfo;
 const dateCalendarEvents = (state: RootState) => state.calendar.dateCalendarEvents;
-export const { setCalendarEventAdd, setCalendarReservatinInfo, setOwnerHouse, setDayCalendarEvents } = calendarSlice.actions;
+const dateAvailableRooms = (state: RootState) => state.calendar.dateAvailableRooms;
+export const { setCalendarEvent, setCalendarReservatinInfo, setOwnerHouse, setDayCalendarEvents, setCalendarAvailableRoom } = calendarSlice.actions;
 
-export { ownerHouseId, ownerHouseName, calendarDate, reservationInfo, dateCalendarEvents };
+export { ownerHouseId, ownerHouseName, reservableRoomInfo, reservationInfo, dateCalendarEvents, dateAvailableRooms };
 export default calendarSlice.reducer;

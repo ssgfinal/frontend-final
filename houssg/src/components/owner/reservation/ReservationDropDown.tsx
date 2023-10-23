@@ -6,9 +6,14 @@ import { color } from '../../../assets/styles';
 import { ReservationDropDown } from '../../../types';
 import { useAppDispatch } from '../../../hooks';
 import { setOwnerHouse } from '../../../store/redux/calendarSlice';
+import { useEffect } from 'react';
 
 const ReservationDropDown: React.FC<ReservationDropDown> = ({ accomList, houseIndex, setHouseIndex }) => {
 	const dispatch = useAppDispatch();
+
+	useEffect(() => {
+		dispatch(setOwnerHouse({ houseId: accomList[0].accomNumber, houseName: accomList[0].accomName }));
+	}, [dispatch, accomList]);
 
 	const items: MenuProps['items'] = accomList.map((house, index) => {
 		return {
