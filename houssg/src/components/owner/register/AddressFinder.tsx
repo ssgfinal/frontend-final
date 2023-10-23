@@ -10,7 +10,6 @@ const AddressFinder: React.FC<RegiStepProps> = ({ goStep, step, funnelState }) =
 	const [targetAddress, setTargetAddress] = useState(funnelState?.targetAddress ? funnelState.targetAddress : '');
 
 	const handleComplete = (data: Address) => {
-		// console.log(data, 'data');
 		let fullAddress = data.address;
 		let extraAddress = '';
 		if (data.addressType === 'R') {
@@ -22,7 +21,6 @@ const AddressFinder: React.FC<RegiStepProps> = ({ goStep, step, funnelState }) =
 			}
 			fullAddress += extraAddress !== '' ? ` (${extraAddress})` : '';
 		}
-		// setIsOpen(false);
 		setTargetAddress(fullAddress);
 	};
 
