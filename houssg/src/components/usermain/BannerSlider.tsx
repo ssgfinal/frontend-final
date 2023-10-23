@@ -72,7 +72,7 @@ const BannerSlider = () => {
 												{coupon.couponName}({coupon.couponNumber})
 											</NameBox>
 											<DiscountBox>{coupon.discount.toLocaleString()}원</DiscountBox>
-											<ExpirationDateBox>유효기간 : ~ {coupon.expirationDate}</ExpirationDateBox>
+											<ExpirationDateBox>유효기간 ~{coupon.expirationDate}</ExpirationDateBox>
 										</MainCouponContainer>
 									) : (
 										<></>
@@ -168,9 +168,9 @@ const BannerBox = styled.div`
 	align-items: center;
 	width: 100vw;
 	max-width: 2000px;
-	height: 20vw;
+	height: 25vw;
 
-	@media (max-width: 400px) {
+	@media (max-width: 600px) {
 		height: 8rem;
 	}
 `;
@@ -186,7 +186,7 @@ const MainCouponContainer = styled.div`
 	background-image: url(${couponBanner});
 	background-repeat: round;
 	width: 100%;
-	height: 20vw;
+	height: 25vw;
 	display: flex;
 	justify-content: space-around;
 	flex-direction: column;
@@ -200,9 +200,14 @@ const NameBox = styled.p`
 	font-size: 1.5rem;
 	font-weight: bold;
 	margin-top: 2rem;
+	color: ${color.backColor};
+	-webkit-text-stroke: 1px ${color.basicColor};
 
-	@media (max-width: 600px) {
-		font-size: 0.8rem;
+	@media (max-width: 660px) {
+		font-size: 1rem;
+	}
+	@media (max-width: 300px) {
+		font-size: 0.5rem;
 	}
 `;
 
@@ -210,8 +215,13 @@ const DiscountBox = styled.p`
 	font-size: 3rem;
 	font-weight: bold;
 	padding: 1rem;
-	@media (max-width: 600px) {
-		font-size: 0.8rem;
+	color: ${color.backColor};
+	-webkit-text-stroke: 1px ${color.basicColor};
+	@media (max-width: 660px) {
+		font-size: 1rem;
+	}
+	@media (max-width: 300px) {
+		font-size: 0.5rem;
 	}
 `;
 
@@ -220,7 +230,12 @@ const ExpirationDateBox = styled.p`
 	font-weight: bold;
 	font-size: 1.2rem;
 	padding: 0 2rem;
-	@media (max-width: 600px) {
-		font-size: 0.8rem;
+	color: ${color.backColor};
+	-webkit-text-stroke: 1px ${color.basicColor};
+	@media (max-width: 660px) {
+		font-size: 1rem;
+	}
+	@media (max-width: 300px) {
+		font-size: 0.5rem;
 	}
 `;
