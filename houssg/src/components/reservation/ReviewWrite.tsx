@@ -51,7 +51,7 @@ const ReviewWrite = () => {
 	const { mutate } = useMutation({
 		mutationFn: (formData: FormData) => setReview(formData),
 		onSuccess: () => {
-			queryClient.invalidateQueries({ queryKey: [userKey.writeReview] });
+			queryClient.invalidateQueries({ queryKey: [userKey.myReservation] });
 			alert('등록성공');
 		},
 		onError: (error) => {
