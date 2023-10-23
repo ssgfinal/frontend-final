@@ -3,6 +3,7 @@ const userUrl = {
 	//main
 	ratingOrder: 'accom/20/score',
 	registrationOrder: 'accom/20/date',
+	mainCoupon: 'coupon/get-valid-coupons',
 
 	// deleteLike: 'favorite',
 	// mypage

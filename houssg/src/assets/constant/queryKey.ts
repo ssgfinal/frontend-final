@@ -20,6 +20,7 @@ const userKey = {
 	myReservation: 'myReservation',
 	userHouseList: 'userHouseList',
 	myPreview: 'myPreview',
+	mainCoupon: 'mainCoupon',
 };
 
 export { ownerKey, roomKey, userKey };
