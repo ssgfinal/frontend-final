@@ -15,7 +15,6 @@ api.interceptors.request.use((config: InternalAxiosRequestConfig<{ headers: stri
 	if (access_token !== null) {
 		const invalidate = sessionStorage.getItem('invalidate');
 		if (!invalidate) {
-			console.log('첫 요청시');
 			config.headers['Authorization'] = access_token;
 		} else {
 			const refreshtoken = sessionStorage.getItem('refreshtoken');
