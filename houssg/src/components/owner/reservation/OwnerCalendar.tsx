@@ -29,7 +29,6 @@ const OwnerCalendar: React.FC<CommonCalendarProps> = ({ currentDate, initailData
 	const calendarRef = useRef<FullCalendar | null>(null);
 	const [calendarDate, setCalendarDate] = useState(currentDate);
 	const calendarEvent: CalendarEvent[] = [];
-	// const [calendarState, setCalendarState] = useState<CalendarEvent[]>([]);
 	const today = new Date();
 	today.setHours(9, 0, 0, 0);
 	const calendarFullDate = new Date(calendarDate.year + '-' + calendarDate.month);
@@ -57,6 +56,7 @@ const OwnerCalendar: React.FC<CommonCalendarProps> = ({ currentDate, initailData
 					return eventStartDate <= args.dateStr && eventEndDate > args.dateStr;
 				}
 			});
+
 			dispatch(setDayCalendarEvents({ dateCalendarEvents: { date: args.dateStr, events: targetEvent } }));
 			modalOpen('reserve#date#' + args.dateStr);
 			return;
@@ -104,12 +104,11 @@ const OwnerCalendar: React.FC<CommonCalendarProps> = ({ currentDate, initailData
 					reservationInfo: { start, end, eventId, eventRoomName, guestName, guestNumber, calendarDate: calendarDate.year + '-' + calendarDate.month },
 				}),
 			);
-
 			modalOpen('reserve#event');
 		}
 	};
 
-	const { isLoading, data, isSuccess, isError, error } = useQuery<{ data: OwnerReservedRoom[] }>(
+	const { isLoading, data, isSuccess, isError } = useQuery<{ data: OwnerReservedRoom[] }>(
 		[isReservationList ? ownerKey.getReservationData : ownerKey.reserveAvailability, houseId, calendarDate.year + '-' + calendarDate.month],
 		() =>
 			isReservationList
@@ -125,12 +124,13 @@ const OwnerCalendar: React.FC<CommonCalendarProps> = ({ currentDate, initailData
 	if (isReservationList) {
 		data?.data.map((event) => {
 			const endDate = new Date(event.endDate);
+			const guestData = event.guestName.split('++');
 			today < endDate &&
 				calendarEvent.push({
-					title: event.roomCategory + ' : ' + event.guestName,
+					title: event.roomCategory + ' : ' + guestData[0],
 					start: event.startDate,
 					end: event.endDate,
-					constraint: event.guestPhone,
+					constraint: guestData[1] ? guestData[1] : event.guestPhone,
 					id: event.reservationNumber + '',
 				});
 		});
@@ -151,10 +151,7 @@ const OwnerCalendar: React.FC<CommonCalendarProps> = ({ currentDate, initailData
 
 	useCalendarStyle(isReservationList, houseId, calendarFullDate > today ? null : today);
 
-	isSuccess && console.log(data.data, isReservationList ? '예약목록' : '예약가능일');
-	console.log(calendarEvent, '이벤트들');
 	if (isError) {
-		console.log(error);
 		alert('에러 발생');
 	}
 
@@ -162,53 +159,55 @@ const OwnerCalendar: React.FC<CommonCalendarProps> = ({ currentDate, initailData
 		return <div>Loading...</div>;
 	}
 
-	return (
-		<CalendarContainer $isLoading={isLoading}>
-			<FullCalendar
-				headerToolbar={{
-					left: 'prev next',
-					center: 'title',
-					end: 'today',
-				}}
-				customButtons={{
-					prev: {
-						text: 'prev',
-						click: () => {
-							setCalendarDate(changeYearMonth(calendarDate.year, calendarDate.month, 'prev'));
-							calendarRef.current?.getApi().prev();
+	if (isSuccess) {
+		return (
+			<CalendarContainer $isLoading={isLoading}>
+				<FullCalendar
+					headerToolbar={{
+						left: 'prev next',
+						center: 'title',
+						end: 'today',
+					}}
+					customButtons={{
+						prev: {
+							text: 'prev',
+							click: () => {
+								setCalendarDate(changeYearMonth(calendarDate.year, calendarDate.month, 'prev'));
+								calendarRef.current?.getApi().prev();
+							},
 						},
-					},
-					next: {
-						text: 'next',
-						click: () => {
-							setCalendarDate(changeYearMonth(calendarDate.year, calendarDate.month, 'next'));
-							calendarRef.current?.getApi().next();
+						next: {
+							text: 'next',
+							click: () => {
+								setCalendarDate(changeYearMonth(calendarDate.year, calendarDate.month, 'next'));
+								calendarRef.current?.getApi().next();
+							},
 						},
-					},
-					today: {
-						text: 'today',
-						click: () => {
-							setCalendarDate(currentDate);
-							calendarRef.current?.getApi().today();
+						today: {
+							text: 'today',
+							click: () => {
+								setCalendarDate(currentDate);
+								calendarRef.current?.getApi().today();
+							},
 						},
-					},
-				}}
-				locale={'ko'} // 한국어
-				businessHours={true} // 주말을 다른 색으로
-				plugins={[dayGridPlugin, interactionPlugin]}
-				initialView="dayGridMonth"
-				dateClick={handleDateClick}
-				eventClick={handleEventClick}
-				ref={calendarRef}
-				aspectRatio={2}
-				dayMaxEvents={3}
-				events={calendarEvent}
-				eventBackgroundColor={color.color3}
-				eventBorderColor="transparent"
-				contentHeight={800}
-			/>
-		</CalendarContainer>
-	);
+					}}
+					locale={'ko'} // 한국어
+					businessHours={true} // 주말을 다른 색으로
+					plugins={[dayGridPlugin, interactionPlugin]}
+					initialView="dayGridMonth"
+					dateClick={handleDateClick}
+					eventClick={handleEventClick}
+					ref={calendarRef}
+					aspectRatio={2}
+					dayMaxEvents={3}
+					events={calendarEvent}
+					eventBackgroundColor={color.color3}
+					eventBorderColor="transparent"
+					contentHeight={800}
+				/>
+			</CalendarContainer>
+		);
+	}
 };
 
 export default OwnerCalendar;

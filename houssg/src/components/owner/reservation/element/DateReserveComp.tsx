@@ -36,7 +36,7 @@ const DateReserveComp = () => {
 								<EventContainer key={element.id}>
 									<StyledText>{roomName}</StyledText>
 									<StyledText>{guestName}</StyledText>
-									<StyledText> {element.constraint}</StyledText>
+									<StyledText $long={!!element.constraint && element.constraint.length > 10}> {element.constraint}</StyledText>
 									<StyledText> {status}</StyledText>
 								</EventContainer>
 							</>
@@ -72,10 +72,13 @@ const StyledBoldText = styled.div`
 	}
 `;
 
-const StyledText = styled.div`
+const StyledText = styled.div<{ $long?: boolean }>`
 	font-size: 0.9rem;
+	font-size: ${(props) => (props.$long ? '0.8rem' : '0.9rem')};
+
 	text-align: center;
 	@media screen and (max-width: 500px) {
 		font-size: 0.7rem;
+		font-size: ${(props) => (props.$long ? '0.60rem' : '0.7rem')};
 	}
 `;
