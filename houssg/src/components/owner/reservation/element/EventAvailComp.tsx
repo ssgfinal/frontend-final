@@ -18,8 +18,8 @@ const EventAvailComp = () => {
 	const splittedDate = date.split('-');
 	const calendarDate = splittedDate[0] + '-' + splittedDate[1];
 	const { isLoading, data, isSuccess, isError, error } = useQuery([ownerKey.roomReservableDays, houseId], () => getRoomReservableDays(roomId, date), {
-		cacheTime: 2 * 60 * 1000, // 5분
-		staleTime: 3 * 60 * 1000, // 2분
+		cacheTime: 2 * 60 * 1000,
+		staleTime: 3 * 60 * 1000,
 	});
 	const [endDate, setEndDate] = useState(data?.data[0]);
 	const [number, setNumber] = useState('');
@@ -51,7 +51,6 @@ const EventAvailComp = () => {
 				roomNumber: roomId,
 				roomCategory: roomName,
 				guestName: name + '++' + number,
-				guestNumber: '오프라인',
 				startDate: date,
 				endDate: endDate,
 			}),
