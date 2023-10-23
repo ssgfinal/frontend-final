@@ -24,6 +24,7 @@ const userUrl = {
 	review: 'reveiw',
 	addReview: 'review/add', // 유저가 등록하는 리뷰
 	myReservation: 'reservation/history',
+	preview: 'reservation/review',
 	// UserHouseDetail
 	houseDetail: 'accom/detail',
 	like: 'favorite',
