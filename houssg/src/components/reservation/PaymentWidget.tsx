@@ -97,6 +97,7 @@ const PaymentWidget: React.FC<PaymentWidgetProps> = ({ selectedReservation }) =>
 							.then(function (data) {
 								try {
 									api.patch(userUrl.isPaymentSuccess, { reservationNumber: reservationNumFromBack, sign: 'success' });
+									console.log(data);
 								} catch {
 									alert('죄송합니다. 예약 완료에 문제가 발생했습니다. houssg 고객센터로 문의 부탁드립니다.');
 								}
