@@ -1,52 +1,77 @@
-import { useState, useRef, FormEvent } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
 import { color, SmallIndicatorText } from '../../assets/styles';
 import Rating from '../common/Rating';
-import { closeModal } from '../../store/redux/modalSlice';
-import { useAppDispatch } from '../../hooks';
-import { ImageUploader } from '../common';
+import { closeModal, modalProps } from '../../store/redux/modalSlice';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+
 import { photo } from '../../assets/icons';
+import { base64ToFile } from '../../utils';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { setReview, setReviewFormData } from '../../helper';
+import { userKey } from '../../assets/constant/queryKey';
+import { ImageUploader } from '../common';
 
 const ReviewWrite = () => {
-	const activeReview = useRef<HTMLTextAreaElement | null>(null);
-	const [activeRate, setActiveRate] = useState<number>(0);
+	const [reviewContent, setReviewContent] = useState<string>('');
+	const [reviewRating, setReviewRating] = useState<number>(0);
 	const [overReview, setOverReview] = useState(false);
 	const [appendImg, setAppendImg] = useState(false);
-	const [imgFile, setImgFile] = useState('');
+	const [img, setImg] = useState('');
+	const [file, setImgFile] = useState<File>();
+
 	const width = '100%';
 	const height = '40%';
 
 	const dispatch = useAppDispatch();
+	const reservation = useAppSelector(modalProps);
 
-	// TODO: useRef, 사업자 후기도 고쳐야 할 듯
-	const onCharacters = () => {
-		const activeReviewValue = activeReview.current?.value;
+	const reservationNumber = Number(reservation![0]);
+	const accomNumber = Number(reservation![1]);
+	const roomNumber = Number(reservation![2]);
 
-		if (activeReviewValue!.length < 250) {
+	const onAddImgFile = (img: string) => {
+		return setImgFile(base64ToFile(img, 'review'));
+	};
+
+	const onCharacters = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+		const reviewContent = e.target.value;
+		setReviewContent(reviewContent);
+
+		if (reviewContent.length < 250) {
 			setOverReview(false);
 		} else {
 			setOverReview(true);
 		}
 	};
 
-	// TODO: form 안 각 태그들에 name 써야하는지
-	const submit = (e: FormEvent) => {
-		e.preventDefault();
+	// 후기 등록
+	const queryClient = useQueryClient();
 
-		const reviewValue = activeReview.current?.value;
+	const { mutate } = useMutation({
+		mutationFn: (formData: FormData) => setReview(formData),
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: [userKey.myReservation] });
+			alert('등록성공');
+		},
+		onError: (error) => {
+			console.log(error);
+		},
+	});
 
-		const formData = new FormData();
-
-		formData.append('rate', activeRate.toString());
-
-		formData.append('review', reviewValue!.toString());
-
-		if (appendImg && imgFile) {
-			const baseImg = imgFile?.toString() as string;
-			formData.append('uploadFile', baseImg);
+	const onAddReview = () => {
+		const formData = setReviewFormData({
+			reviewContent,
+			reviewRating,
+			reservationNumber,
+			roomNumber,
+			accomNumber,
+			file,
+		});
+		if (formData === 'false') {
+			return;
 		} else {
-			setImgFile(imgFile);
-			setImgFile('');
+			mutate(formData);
 		}
 		dispatch(closeModal());
 	};
@@ -57,14 +82,17 @@ const ReviewWrite = () => {
 		setAppendImg(isCheck);
 	};
 
+	console.log('변환했니?222', typeof img);
+	console.log('파일이 왜 없니???', file);
+
 	return (
 		<ReviewWrapper>
 			<p>📝 나의 후기</p>
-			<FormContainer name="frm" onSubmit={submit} encType="multipart/form-data">
+			<FormContainer>
 				<RateBox>
-					<Rating rate={activeRate} setRate={setActiveRate} />
+					<Rating rate={reviewRating} setRate={setReviewRating} />
 				</RateBox>
-				<ReviewTextarea onChange={onCharacters} placeholder={`후기를 작성해주세요\n( 최대 250자 )`} rows={3} ref={activeReview} maxLength={250} />
+				<ReviewTextarea onChange={onCharacters} placeholder={`후기를 작성해주세요\n( 최대 250자 )`} rows={3} value={reviewContent} maxLength={250} />
 				{overReview ? <OverTextWarning>※ 최대 글자수 250자를 초과하였습니다.</OverTextWarning> : <></>}
 				<PhotoReviewBox>
 					📷 포토리뷰
@@ -72,14 +100,14 @@ const ReviewWrite = () => {
 				</PhotoReviewBox>
 				<ReviewImageContainer>
 					{appendImg ? (
-						<ImageUploader width={width} height={height} setImage={setImgFile} setImgFile={() => console.log('TODO: 이미지 파일과 이미지 구별')}>
-							{imgFile ? (
+						<ImageUploader width={width} height={height} setImage={setImg} setImgFile={onAddImgFile}>
+							{img ? (
 								<>
-									<PreviewBox width={width} height={height} src={imgFile.toString()} alt="이미지 미리보기" />
+									<PreviewBox width={width} height={height} src={img.toString()} alt="이미지 미리보기" />
 									<SmallIndicatorText>이미지 클릭시 교체</SmallIndicatorText>
 								</>
 							) : (
-								<AddPhoto htmlFor="file">
+								<AddPhoto>
 									+<PhotoBox src={photo} alt="이미지 올리기"></PhotoBox>
 								</AddPhoto>
 							)}
@@ -88,7 +116,7 @@ const ReviewWrite = () => {
 						<></>
 					)}
 				</ReviewImageContainer>
-				<Enroll type="submit" value="등록" />
+				{reviewRating && reviewContent ? <Enroll onClick={onAddReview}>등록</Enroll> : <NonEnroll disabled>불가</NonEnroll>}
 			</FormContainer>
 		</ReviewWrapper>
 	);
@@ -110,7 +138,7 @@ const ReviewWrapper = styled.div`
 	}
 `;
 
-const FormContainer = styled.form`
+const FormContainer = styled.div`
 	display: grid;
 	grid-template-columns: 4fr 1fr 1fr;
 
@@ -134,7 +162,7 @@ const RateBox = styled.div`
 	}
 `;
 
-const AddPhoto = styled.label`
+const AddPhoto = styled.div`
 	display: grid;
 	align-self: center;
 	margin: 0.3rem;
@@ -221,7 +249,7 @@ const PhotoReviewBoxInput = styled.input`
 	accent-color: ${color.color1};
 `;
 
-const Enroll = styled.input`
+const Enroll = styled.button`
 	grid-column-start: 3;
 	grid-column-end: 4;
 	grid-row-start: 2;
@@ -230,11 +258,35 @@ const Enroll = styled.input`
 	margin-bottom: 0.5rem;
 	background-color: ${color.color1};
 	color: ${color.backColor};
-	border: solid;
+	border: none;
 	border-radius: 0.5rem;
 	border-color: ${color.color1};
 	font-size: 1rem;
 	cursor: pointer;
+
+	@media (max-width: 900px) {
+		font-size: 0.8rem;
+	}
+
+	@media (max-width: 320px) {
+		font-size: 0.5rem;
+	}
+`;
+
+const NonEnroll = styled.button`
+	grid-column-start: 3;
+	grid-column-end: 4;
+	grid-row-start: 2;
+	grid-row-end: 3;
+	justify-self: flex-end;
+	margin-bottom: 0.5rem;
+	background-color: ${color.lightGrayColor};
+	color: ${color.darkGrayColor};
+	border: none;
+	border-radius: 0.5rem;
+	border-color: ${color.lightGrayColor};
+	font-size: 1rem;
+	cursor: not-allowed;
 
 	@media (max-width: 900px) {
 		font-size: 0.8rem;

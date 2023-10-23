@@ -94,7 +94,7 @@ const PaymentWidget: React.FC<PaymentWidgetProps> = ({ selectedReservation }) =>
 								orderName: `${houseName} ${room.roomCategory} ${selectedReservation.night}박 예약`,
 								customerName: userNickName ? userNickName : 'houssg 고객님',
 							})
-							.then(function (data) {
+							.then(function () {
 								try {
 									api.patch(userUrl.isPaymentSuccess, { reservationNumber: reservationNumFromBack, sign: 'success' });
 								} catch {
