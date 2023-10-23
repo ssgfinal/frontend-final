@@ -16,7 +16,7 @@ const Header = () => {
 	const isUser = useIsUser();
 
 	const goHomeHandler = () => {
-		isUser ? navigate(userRoute.main) : navigate(ownerRoute.main);
+		isUser ? navigate(userRoute.main) : navigate(ownerRoute.management);
 	};
 
 	const loginModalOpen = () => {
