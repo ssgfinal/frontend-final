@@ -1,4 +1,3 @@
-// import React from 'react';
 import { ReservationCommonBox, UserReservationTitle, UserReservationLeft } from '../../assets/styles';
 
 const BookerInfo = () => {
