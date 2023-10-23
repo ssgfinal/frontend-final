@@ -5,7 +5,6 @@ import { color } from '../../../../assets/styles';
 
 const DateAvailComp = () => {
 	const eventList = useAppSelector(dateAvailableRooms);
-	console.log(eventList);
 	return (
 		<Wrapper>
 			<div></div>
