@@ -14,8 +14,8 @@ const customerKey = 'YbX2HuSlsC9uVJW6NMRMj';
 interface PaymentWidgetProps {
 	selectedReservation: SelectedReservationType;
 }
+
 const PaymentWidget: React.FC<PaymentWidgetProps> = ({ selectedReservation }) => {
-	console.log('PaymentWidget 컴포넌트 실행');
 	const navigate = useNavigate();
 
 	const paymentWidgetRef = useRef<PaymentWidgetInstance | null>(null);
@@ -46,7 +46,6 @@ const PaymentWidget: React.FC<PaymentWidgetProps> = ({ selectedReservation }) =>
 		const paymentWidget = paymentWidgetRef.current;
 
 		if (!selectedReservation.night) {
-			console.log('reservation night', selectedReservation.night);
 			alert('예약 기간을 정확히 입력해주세요.');
 			return;
 		}
@@ -66,8 +65,6 @@ const PaymentWidget: React.FC<PaymentWidgetProps> = ({ selectedReservation }) =>
 		}
 
 		try {
-			console.log('예약 백에 날라감');
-			console.log('백에 날릴 데이터들 ', selectedReservation);
 			api
 				.post(userUrl.reservationEnroll, {
 					startDate: selectedReservation.startDate,
@@ -98,12 +95,9 @@ const PaymentWidget: React.FC<PaymentWidgetProps> = ({ selectedReservation }) =>
 								customerName: userNickName ? userNickName : 'houssg 고객님',
 							})
 							.then(function (data) {
-								console.log('결제 승인 시 토스페이먼츠 리스펀스 > ', data);
 								try {
 									api.patch(userUrl.isPaymentSuccess, { reservationNumber: reservationNumFromBack, sign: 'success' });
-									console.log('백에 결제 완료 api 날림');
 								} catch {
-									console.log('결제 성공을 백에 알려주는 API 통신 에러');
 									alert('죄송합니다. 예약 완료에 문제가 발생했습니다. houssg 고객센터로 문의 부탁드립니다.');
 								}
 
@@ -115,8 +109,6 @@ const PaymentWidget: React.FC<PaymentWidgetProps> = ({ selectedReservation }) =>
 								navigate(userRoute.reservationList);
 							})
 							.catch(function (err) {
-								console.log('토스페이먼츠 결제 api 에러', err);
-
 								if (err.code === 'USER_CANCEL') {
 									// 결제 고객이 결제창을 닫았을 때 에러 처리
 									alert('창이 닫혀서 결제가 완료되지 못 했습니다.');
@@ -130,14 +122,12 @@ const PaymentWidget: React.FC<PaymentWidgetProps> = ({ selectedReservation }) =>
 
 								try {
 									api.post(userUrl.isPaymentSuccess, { reservationNumber: reservationNumFromBack, sign: 'fail' });
-									console.log('백에 결제 실패 api 날림');
 								} catch {
 									console.log('결제 실패를 백에 알려주는 API 통신 에러');
 								}
 							});
 				});
 		} catch (err) {
-			console.log('예약하기 API 통신 에러', err);
 			if (err === '예약 불가능') {
 				alert('죄송합니다. 해당 날짜는 이미 예약이 완료된 방입니다.');
 			}

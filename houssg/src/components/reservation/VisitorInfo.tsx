@@ -7,19 +7,10 @@ import { SelectedReservationType } from '../../types';
 
 interface VisitorInfoProps {
 	selectedReservation: SelectedReservationType;
-	setSelectedReservation: React.Dispatch<React.SetStateAction<SelectedReservationType>>;
+	setSelectedReservation: React.Dispatch<React.SetStateAction<SelectedReservationType | undefined>>;
 }
 
-const arePropsEqual = (prevProps: VisitorInfoProps, nextProps: VisitorInfoProps) => {
-	return (
-		prevProps.selectedReservation.visitorName === nextProps.selectedReservation.visitorName &&
-		prevProps.selectedReservation.visitorPhone === nextProps.selectedReservation.visitorPhone
-	);
-};
-
-const VisitorInfo: React.FC<VisitorInfoProps> = React.memo(({ selectedReservation, setSelectedReservation }) => {
-	console.log('VisitorInfo 컴포넌트 실행');
-
+const VisitorInfo: React.FC<VisitorInfoProps> = ({ selectedReservation, setSelectedReservation }) => {
 	const userNickName = sessionStorage.getItem('nickname');
 	const userPhone = sessionStorage.getItem('phone');
 
@@ -128,7 +119,7 @@ const VisitorInfo: React.FC<VisitorInfoProps> = React.memo(({ selectedReservatio
 			{visitorAlarm && <Alarm>{visitorAlarm}</Alarm>}
 		</ReservationCommonBox>
 	);
-}, arePropsEqual);
+};
 
 const Input = styled.input`
 	border: none;

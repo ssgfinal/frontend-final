@@ -7,23 +7,14 @@ import Calendar from './Calendar';
 interface RoomInfoProps {
 	initBookableRoomList: BookableRoomCnt[];
 	selectedReservation: SelectedReservationType;
-	setSelectedReservation: React.Dispatch<React.SetStateAction<SelectedReservationType>>;
+	setSelectedReservation: React.Dispatch<React.SetStateAction<SelectedReservationType | undefined>>;
 }
 
-const arePropsEqual = (prevProps: RoomInfoProps, nextProps: RoomInfoProps) => {
-	return (
-		// prevProps.initBookableRoomList === nextProps.initBookableRoomList &&
-		prevProps.selectedReservation.startDate === nextProps.selectedReservation.startDate &&
-		prevProps.selectedReservation.endDate === nextProps.selectedReservation.endDate
-	);
-};
-
-const RoomInfo: React.FC<RoomInfoProps> = React.memo(({ initBookableRoomList, selectedReservation, setSelectedReservation }) => {
+const RoomInfo: React.FC<RoomInfoProps> = ({ initBookableRoomList, selectedReservation, setSelectedReservation }) => {
 	const location = useLocation();
 	const room = location.state.room;
 	const houseName = location.state.houseName;
 
-	console.log('RoomInfo 컴포넌트 실행');
 	return (
 		<ReservationCommonBox>
 			<UserReservationTitle>객실 정보</UserReservationTitle>
@@ -42,6 +33,5 @@ const RoomInfo: React.FC<RoomInfoProps> = React.memo(({ initBookableRoomList, se
 			</UserReservationLeft>
 		</ReservationCommonBox>
 	);
-}, arePropsEqual);
-
+};
 export default RoomInfo;

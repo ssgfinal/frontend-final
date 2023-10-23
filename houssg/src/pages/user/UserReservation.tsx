@@ -18,43 +18,43 @@ export const UserReservation = () => {
 	const [initBookableRoomList, setInitBookableRoomList] = useState<BookableRoomCnt[]>([]);
 	const [initCouponList, setInitCouponList] = useState<CouponType[]>();
 
-	const [selectedReservation, setSelectedReservation] = useState<SelectedReservationType>({
-		roomId: Number(roomId),
-		selectedReservationDate: '',
-		startDate: '',
-		endDate: '',
-		night: 0,
-		visitorName: '',
-		visitorPhone: '',
-		usingCoupon: {
-			couponNumber: '',
-			couponName: '',
-			discount: 0,
-		},
-		usingPoint: 0,
-		paymentPrice: 0,
-	});
-
-	console.log('UserReservation 컴포넌트 실행');
+	const [selectedReservation, setSelectedReservation] = useState<SelectedReservationType>();
 
 	useEffect(() => {
 		api.get(userUrl.reservation, { params: { roomNumber: roomId } }).then(({ data }) => {
 			setInitBookableRoomList(data.bookableRoomList);
 			setInitCouponList(data.couponInfoList);
 		});
+		setSelectedReservation({
+			roomId: Number(roomId),
+			selectedReservationDate: '',
+			startDate: '',
+			endDate: '',
+			night: 0,
+			visitorName: '',
+			visitorPhone: '',
+			usingCoupon: {
+				couponNumber: '',
+				couponName: '',
+				discount: 0,
+			},
+			usingPoint: 0,
+			paymentPrice: 0,
+		});
 	}, []);
 
 	return (
 		<Wrapper>
-			<RoomInfo
-				initBookableRoomList={initBookableRoomList}
-				selectedReservation={selectedReservation}
-				setSelectedReservation={setSelectedReservation}
-			/>
-			<BookerInfo />
-			<VisitorInfo selectedReservation={selectedReservation} setSelectedReservation={setSelectedReservation} />
-			{initCouponList && (
+			{initCouponList && selectedReservation && (
 				<>
+					<RoomInfo
+						initBookableRoomList={initBookableRoomList}
+						selectedReservation={selectedReservation}
+						setSelectedReservation={setSelectedReservation}
+					/>
+					<BookerInfo />
+					<VisitorInfo selectedReservation={selectedReservation} setSelectedReservation={setSelectedReservation} />
+
 					<Breakdown initCouponList={initCouponList} selectedReservation={selectedReservation} setSelectedReservation={setSelectedReservation} />
 					<PaymentWidget selectedReservation={selectedReservation} />
 				</>

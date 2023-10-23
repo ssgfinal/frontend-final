@@ -9,31 +9,10 @@ import { CouponType, SelectedReservationType } from '../../types';
 interface BreakdownProps {
 	initCouponList: CouponType[];
 	selectedReservation: SelectedReservationType;
-	setSelectedReservation: React.Dispatch<React.SetStateAction<SelectedReservationType>>;
+	setSelectedReservation: React.Dispatch<React.SetStateAction<SelectedReservationType | undefined>>;
 }
 
-const arePropsEqual = (prevProps: BreakdownProps, nextProps: BreakdownProps) => {
-	// console.log('prevProps >> ', prevProps.selectedReservation.night);
-	// console.log('nextProps >> ', nextProps.selectedReservation.night);
-	// console.log('True or false >> ', prevProps.selectedReservation.night === nextProps.selectedReservation.night);
-	// if (isNaN(prevProps.selectedReservation.night) === true && isNaN(nextProps.selectedReservation.night) === true) {
-	// 	return true;
-	// }
-	// if (nextProps.selectedReservation.night === 0) {
-	// 	return true;
-	// }
-	return (
-		prevProps.selectedReservation.night === nextProps.selectedReservation.night
-		//  && prevProps.selectedReservation.usingCoupon === nextProps.selectedReservation.usingCoupon
-	);
-
-	// prevProps.initCouponList === nextProps.initCouponList &&
-};
-
-const Breakdown: React.FC<BreakdownProps> = React.memo(({ initCouponList, selectedReservation, setSelectedReservation }) => {
-	console.log('Breakdown 컴포넌트 실행');
-	console.log('night >> ', selectedReservation.night);
-
+const Breakdown: React.FC<BreakdownProps> = ({ initCouponList, selectedReservation, setSelectedReservation }) => {
 	const location = useLocation();
 	const room = location.state.room;
 
@@ -57,7 +36,6 @@ const Breakdown: React.FC<BreakdownProps> = React.memo(({ initCouponList, select
 
 	const handlePoint = (e: React.ChangeEvent<HTMLInputElement>) => {
 		if (isNaN(Number(e.target.value))) {
-			console.log('포인트에 글자 입력');
 			setPointStatus('text');
 			setSelectedReservation({
 				...selectedReservation,
@@ -66,7 +44,10 @@ const Breakdown: React.FC<BreakdownProps> = React.memo(({ initCouponList, select
 		} else {
 			if (Number(e.target.value) > totalPoint) {
 				setPointStatus('higher');
-				useTotalPoint;
+				setSelectedReservation({
+					...selectedReservation,
+					usingPoint: totalPoint,
+				});
 			} else {
 				setPointStatus('num');
 				setSelectedReservation({
@@ -157,7 +138,7 @@ const Breakdown: React.FC<BreakdownProps> = React.memo(({ initCouponList, select
 			</ReservationCommonBox>
 		</>
 	);
-}, arePropsEqual);
+};
 
 const Select = styled.select`
 	&:hover {
@@ -177,14 +158,6 @@ const Input = styled.input`
 	outline: none;
 	margin-bottom: 0.5rem;
 	width: 30%;
-
-	/* 숫자 증감 버튼 숨기기 */
-	&[type='number']::-webkit-outer-spin-button,
-	&[type='number']::-webkit-inner-spin-button {
-		-webkit-appearance: none;
-		appearance: none;
-		margin: 0;
-	}
 `;
 
 const PointInput = styled(Input)`
