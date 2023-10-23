@@ -25,7 +25,7 @@ import {
 	ReservationDropDown,
 	CalendarEvent,
 } from './ownerReservation';
-import { CouponType } from './ coupon';
+import { CouponType, MainCoupon } from './ coupon';
 
 // auth Regi manage
 export type { AuthProps, AuthInputType, AuthModeType, AuthPropsWithState, IdFindingType, SmsParameter, NewPwProps, FindPwPermitProps };
@@ -54,4 +54,4 @@ export type { HouseBaseInfo, HouseProps, HouseListProps, ServiceList, ReviewType
 // room
 export type { RoomDataType, RoomComp, RoomData, AddRoomProps };
 
-export type { CouponType };
+export type { CouponType, MainCoupon };

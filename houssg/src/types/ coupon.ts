@@ -4,4 +4,12 @@ interface CouponType {
 	discount: number;
 }
 
-export type { CouponType };
+interface MainCoupon {
+	couponNumber: string;
+	couponName: string;
+	discount: number;
+	expirationDate: string;
+	expirationStatus: number;
+}
+
+export type { CouponType, MainCoupon };
