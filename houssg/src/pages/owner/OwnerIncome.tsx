@@ -60,12 +60,12 @@ const response = {
 	],
 };
 
-const OwnerIncome = () => {
-	type HouseList = {
-		[key: string]: boolean;
-	};
+type HouseList = {
+	[key: string]: boolean;
+};
 
-	const colors = ['red', 'orange', 'green', 'blue', 'purple'];
+const OwnerIncome = () => {
+	const colors = ['red', 'orange', 'green', 'blue', 'purple', 'olive', 'coral', 'deeppink', 'gold', 'lavender'];
 	const [houseList, setHouseList] = useState<HouseList>({});
 	const [chartSize, setChartSize] = useState({ width: 600, height: 400 });
 
@@ -92,11 +92,8 @@ const OwnerIncome = () => {
 			}
 		};
 
-		// 초기 로딩 시 한 번 크기를 설정하고,
 		handleResize();
-		// 창 크기 변경 이벤트 리스너를 추가합니다.
 		window.addEventListener('resize', handleResize);
-		// 컴포넌트가 언마운트 될 때 이벤트 리스너를 제거합니다.
 		return () => {
 			window.removeEventListener('resize', handleResize);
 		};
@@ -143,7 +140,8 @@ const OwnerIncome = () => {
 						<YAxis label={{ value: '(만원)', position: 'top', offset: 20 }} />
 						<Tooltip />
 						<Legend />
-						{houseList && response.house.map((h, idx) => <Line key={idx} type="monotone" dataKey={h} stroke={colors[idx]} hide={!houseList[h]} />)}
+						{houseList &&
+							response.house.map((h, idx) => <Line key={idx} type="monotone" dataKey={h} stroke={colors[idx % 10]} hide={!houseList[h]} />)}
 					</LineChart>
 				</Graph>
 				<HouseChoice>
