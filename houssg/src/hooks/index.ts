@@ -9,7 +9,7 @@ import { useLogin } from './useLogin';
 import { useCalWindowWidth } from './useCalWindowWidth';
 import { useKakaoLogin } from './useKaKaoLogin';
 import { useFocusRef } from './useFocusRef';
-
+import { useDateStater } from './useDateStater';
 export {
 	useAppDispatch,
 	useAppSelector,
@@ -22,4 +22,5 @@ export {
 	useKakaoLogin,
 	useCalWindowWidth,
 	useFocusRef,
+	useDateStater,
 };

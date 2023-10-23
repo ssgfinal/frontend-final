@@ -17,6 +17,7 @@ api.interceptors.request.use((config: InternalAxiosRequestConfig<{ headers: stri
 		if (!invalidate) {
 			config.headers['Authorization'] = access_token;
 		} else {
+			console.log('되나');
 			const refreshtoken = sessionStorage.getItem('refreshtoken');
 			config.headers['Refreshtoken'] = refreshtoken;
 		}
@@ -26,7 +27,7 @@ api.interceptors.request.use((config: InternalAxiosRequestConfig<{ headers: stri
 
 api.interceptors.response.use(
 	(response) => {
-		if (response.headers.authorization) {
+		if (response.headers.authorization && response.headers.refreshtoken) {
 			sessionStorage.setItem('authorization', response.headers.authorization);
 			sessionStorage.setItem('refreshtoken', response.headers.refreshtoken);
 			sessionStorage.removeItem('invalidate');
@@ -36,7 +37,15 @@ api.interceptors.response.use(
 	},
 	(error) => {
 		if (error.response && error.response.status) {
+			console.log(error);
 			switch (error.response.status) {
+				case 400:
+					if (error.response.data === 'Relogin') {
+						const invalidate = sessionStorage.getItem('invalidate');
+						sessionStorage.removeItem('invalidate');
+						invalidate && alert('재로그인 부탁드립니다.');
+					}
+					break;
 				case 401:
 					sessionStorage.setItem('invalidate', 'invalidate');
 					break;

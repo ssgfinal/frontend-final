@@ -5,84 +5,30 @@ import { color } from '../../assets/styles';
 import { useQuery } from '@tanstack/react-query';
 import { ownerKey } from '../../assets/constant';
 import { getIncomeApi } from '../../helper';
-
-const response = {
-	house: ['고노도로 모텔', '무지개 호텔', 'paradise hotel', 'h1', 'h2'],
-	importation: [
-		{
-			date: '01',
-			'고노도로 모텔': 30000,
-		},
-		{
-			date: '02',
-			'고노도로 모텔': 20000,
-		},
-		{
-			date: '03',
-			'고노도로 모텔': 45000,
-			'무지개 호텔': 20000,
-		},
-		{
-			date: '04',
-			'고노도로 모텔': 37000,
-			'무지개 호텔': 47000,
-			h2: 12340,
-		},
-		{
-			date: '05',
-			'고노도로 모텔': 26000,
-			'무지개 호텔': 24000,
-			h2: 12340,
-		},
-		{
-			date: '06',
-			'고노도로 모텔': 30000,
-			'무지개 호텔': 40000,
-			'paradise hotel': 22000,
-		},
-		{
-			date: '07',
-			'고노도로 모텔': 30000,
-			'무지개 호텔': 40000,
-			'paradise hotel': 22000,
-		},
-		{
-			date: '08',
-			'고노도로 모텔': 30000,
-			'무지개 호텔': 40000,
-			h1: 5000,
-		},
-		{
-			date: '09',
-			'고노도로 모텔': 30000,
-			'무지개 호텔': 40000,
-		},
-	],
-};
+import { useDateStater } from '../../hooks';
 
 type HouseList = {
 	[key: string]: boolean;
 };
 
+interface MonthlyData {
+	date: string;
+	[key: string]: string;
+}
+
+interface YearlyData {
+	[year: string]: MonthlyData[];
+}
+
 const OwnerIncome = () => {
 	const colors = ['red', 'orange', 'green', 'blue', 'purple', 'olive', 'coral', 'deeppink', 'gold', 'lavender'];
 	const [houseList, setHouseList] = useState<HouseList>({});
 	const [chartSize, setChartSize] = useState({ width: 600, height: 400 });
-
-	useEffect(() => {
-		let houseObj = houseList;
-		response.house.forEach((houseName) => {
-			houseObj = {
-				...houseObj,
-				[houseName]: true,
-			};
-		});
-		setHouseList(houseObj);
-	}, []);
+	const [incomeList, setIncomeList] = useState<YearlyData>();
+	const { currentYear, setNextYear, setPrevYear } = useDateStater();
 
 	useEffect(() => {
 		const handleResize = () => {
-			// TODO: 모바일 폰 버전?으로 볼 때 무작위로 그래프가 잘림 아래 *0.8이 먹혔다 안 먹혔다 하는 거 같음
 			if (window.screen.width < 850) {
 				setChartSize({ width: window.screen.width * 0.8, height: window.screen.width * 0.6 });
 			} else if (window.innerWidth > 850) {
@@ -99,6 +45,45 @@ const OwnerIncome = () => {
 		};
 	}, []);
 
+	const { isLoading, data, isSuccess, isError, error } = useQuery([ownerKey.income], () => getIncomeApi(), {
+		cacheTime: 5 * 60 * 1000,
+		staleTime: 60 * 60 * 1000,
+	});
+
+	useEffect(() => {
+		let houseObj = houseList;
+		if (data) {
+			data.data.accommodationName.forEach((houseName: string) => {
+				houseObj = {
+					...houseObj,
+					[houseName]: true,
+				};
+			});
+			setHouseList(houseObj);
+
+			const result: YearlyData = {};
+			data.data.monthlySales.forEach(({ yearMonth, listOfAccom }: { yearMonth: string; listOfAccom: { [key: string]: string } }) => {
+				const year = yearMonth.substring(0, 4);
+				const month = yearMonth.substring(5, 7);
+
+				if (!result[year]) {
+					result[year] = [];
+				}
+
+				const monthlyData: MonthlyData = { date: month };
+
+				for (const [accomName, price] of Object.entries(listOfAccom)) {
+					monthlyData[accomName] = price;
+				}
+
+				result[year].push(monthlyData);
+			});
+
+			console.log(result);
+			setIncomeList(result);
+		}
+	}, [isSuccess]);
+
 	const handleShowHouse = (houseName: string) => {
 		let houseObj = houseList;
 		houseObj = {
@@ -108,13 +93,6 @@ const OwnerIncome = () => {
 		setHouseList(houseObj);
 	};
 
-	const { isLoading, data, isSuccess, isError, error } = useQuery([ownerKey.income], () => getIncomeApi(), {
-		cacheTime: 5 * 60 * 1000,
-		staleTime: 60 * 60 * 1000,
-	});
-
-	isSuccess && console.log(data);
-
 	isError && console.log(error);
 
 	if (isLoading) {
@@ -123,47 +101,53 @@ const OwnerIncome = () => {
 
 	return (
 		<Wrapper>
-			<Title>월별 정산 내역</Title>
-			<Contents>
-				<Graph>
-					<LineChart
-						width={chartSize.width}
-						height={chartSize.height}
-						data={response.importation}
-						margin={{
-							top: 40,
-							bottom: 5,
-						}}
-					>
-						<CartesianGrid strokeDasharray="3 3" />
-						<XAxis dataKey="date" domain={['dateMin-01', 'dateMax+12']} label={{ value: '(월)', position: 'right', offset: 15 }} />
-						<YAxis label={{ value: '(만원)', position: 'top', offset: 20 }} />
-						<Tooltip />
-						<Legend />
-						{houseList &&
-							response.house.map((h, idx) => <Line key={idx} type="monotone" dataKey={h} stroke={colors[idx % 10]} hide={!houseList[h]} />)}
-					</LineChart>
-				</Graph>
-				<HouseChoice>
-					<HouseTitle>숙소</HouseTitle>
-					<HouseContent>
-						{houseList &&
-							Object.keys(houseList).map((h, idx) => (
-								<OneHouse key={idx}>
-									<input type="checkbox" onChange={() => handleShowHouse(h)} checked={houseList[h]} />
-									&nbsp;{h}
-								</OneHouse>
-							))}
-					</HouseContent>
-				</HouseChoice>
-			</Contents>
+			<Title>
+				<div onClick={setPrevYear}>이전</div> {currentYear}년 정산 내역 <div onClick={setNextYear}>다음</div>
+			</Title>
+			{incomeList && (
+				<Contents>
+					<Graph>
+						<LineChart
+							width={chartSize.width}
+							height={chartSize.height}
+							data={incomeList[currentYear]}
+							margin={{
+								top: 40,
+								bottom: 5,
+							}}
+						>
+							<CartesianGrid strokeDasharray="3 3" />
+							<XAxis dataKey="date" domain={['dateMin-01', 'dateMax+12']} label={{ value: '월)', position: 'right', offset: 15 }} />
+							<YAxis label={{ value: '(만원)', position: 'top', offset: 20 }} />
+
+							<Tooltip />
+							<Legend />
+							{houseList &&
+								Object.keys(houseList).map((h, idx: number) => (
+									<Line key={idx} type="monotone" dataKey={h} stroke={colors[idx % 10]} hide={!houseList[h]} />
+								))}
+						</LineChart>
+					</Graph>
+					<HouseChoice>
+						<HouseTitle>숙소</HouseTitle>
+						<HouseContent>
+							{houseList &&
+								Object.keys(houseList).map((h, idx) => (
+									<OneHouse key={idx}>
+										<input type="checkbox" onChange={() => handleShowHouse(h)} checked={houseList[h]} />
+										&nbsp;{h}
+									</OneHouse>
+								))}
+						</HouseContent>
+					</HouseChoice>
+				</Contents>
+			)}
 		</Wrapper>
 	);
 };
 
 export default OwnerIncome;
 
-// TODO: 코드 정리하기
 const Wrapper = styled.div`
 	padding: 7vw;
 `;
@@ -189,14 +173,10 @@ const Contents = styled.div`
 
 const Graph = styled.div`
 	display: flex;
-	/* justify-content: center; */
 	width: 100%;
-	/* height: ; */
 `;
 
-const HouseChoice = styled.div`
-	/* padding-left: 8%; */
-`;
+const HouseChoice = styled.div``;
 const HouseTitle = styled.div`
 	@media (min-width: 850px) {
 		background-color: ${color.color2};
