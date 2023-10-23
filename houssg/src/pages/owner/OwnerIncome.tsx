@@ -82,6 +82,7 @@ const OwnerIncome = () => {
 			console.log(result);
 			setIncomeList(result);
 		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [isSuccess]);
 
 	const handleShowHouse = (houseName: string) => {
