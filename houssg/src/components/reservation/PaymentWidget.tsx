@@ -94,10 +94,9 @@ const PaymentWidget: React.FC<PaymentWidgetProps> = ({ selectedReservation }) =>
 								orderName: `${houseName} ${room.roomCategory} ${selectedReservation.night}박 예약`,
 								customerName: userNickName ? userNickName : 'houssg 고객님',
 							})
-							.then(function (data) {
+							.then(function () {
 								try {
 									api.patch(userUrl.isPaymentSuccess, { reservationNumber: reservationNumFromBack, sign: 'success' });
-									console.log(data);
 								} catch {
 									alert('죄송합니다. 예약 완료에 문제가 발생했습니다. houssg 고객센터로 문의 부탁드립니다.');
 								}
