@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { useAppSelector } from '../../../../hooks';
+import { useAppDispatch, useAppSelector } from '../../../../hooks';
 import { ownerHouseId, ownerHouseName, reservableRoomInfo } from '../../../../store/redux/calendarSlice';
 import { ownerKey } from '../../../../assets/constant';
 import { addOfflineReservation, getRoomReservableDays } from '../../../../helper';
@@ -8,23 +8,25 @@ import { Dropdown, MenuProps, Space } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
 import React, { useState } from 'react';
 import { color } from '../../../../assets/styles';
+import { closeModal } from '../../../../store/redux/modalSlice';
 
 const EventAvailComp = () => {
 	const queryClient = useQueryClient();
-
+	const dispatch = useAppDispatch();
 	const houseId = useAppSelector(ownerHouseId);
 	const accomName = useAppSelector(ownerHouseName);
 	const { date, roomId, roomName } = useAppSelector(reservableRoomInfo);
 	const splittedDate = date.split('-');
 	const calendarDate = splittedDate[0] + '-' + splittedDate[1];
-	const { isLoading, data, isSuccess, isError, error } = useQuery([ownerKey.roomReservableDays, houseId], () => getRoomReservableDays(roomId, date), {
-		cacheTime: 2 * 60 * 1000, // 5분
-		staleTime: 3 * 60 * 1000, // 2분
+	const { isLoading, data, isSuccess, isError } = useQuery([ownerKey.roomReservableDays, houseId, date], () => getRoomReservableDays(roomId, date), {
+		cacheTime: 2 * 60 * 1000,
+		staleTime: 3 * 60 * 1000,
 	});
 	const [endDate, setEndDate] = useState(data?.data[0]);
 	const [number, setNumber] = useState('');
 	const [name, setName] = useState('');
-	isError && console.log(error);
+
+	isError && alert('조회 실패');
 
 	const items: MenuProps['items'] =
 		isSuccess &&
@@ -51,15 +53,15 @@ const EventAvailComp = () => {
 				roomNumber: roomId,
 				roomCategory: roomName,
 				guestName: name + '++' + number,
-				guestNumber: '오프라인',
 				startDate: date,
 				endDate: endDate,
 			}),
 		onSuccess: () => {
-			queryClient.invalidateQueries({ queryKey: [ownerKey.roomReservableDays, houseId] });
+			queryClient.invalidateQueries({ queryKey: [ownerKey.roomReservableDays, houseId, date] });
 			queryClient.invalidateQueries({ queryKey: [ownerKey.reserveAvailability, houseId, calendarDate] });
-
+			queryClient.invalidateQueries({ queryKey: [ownerKey.getReservationData, houseId, calendarDate] });
 			alert('추가완료');
+			dispatch(closeModal());
 		},
 		onError: () => {
 			alert('추가실패');
@@ -73,8 +75,9 @@ const EventAvailComp = () => {
 			return;
 		}
 
-		mutate();
+		endDate && mutate();
 	};
+
 	return (
 		<Container>
 			<Aligner>
@@ -118,7 +121,7 @@ const EventAvailComp = () => {
 					)
 				)}
 			</Aligner>
-			<ReserveBtn disabled={!number && !name} onClick={onAddOfflineReserve}>
+			<ReserveBtn disabled={!number && !name && !endDate} onClick={onAddOfflineReserve}>
 				예약하기
 			</ReserveBtn>
 		</Container>

@@ -40,6 +40,9 @@ import { getMyCouponList, setMyCouponList, getMyReviewList, getMyFavoriteList } 
 // 숙소 목록 관련
 import { getUserHouseList } from './userHouseListFunction';
 
+// 유저 예약 내역 관련
+import { setReview, getMyPreview, setReviewFormData } from './userReservationDetailFunction';
+
 export { authLoginFunc, authSignUpFunc, kakaoLoginFunc, kakaoSignUp, nickCheckFunc, idCheckFunc, onPhoneUsableCheck, phoneAuthCheck, onFindId };
 
 // 사업자
@@ -67,3 +70,5 @@ export { getTargetRoomData, addTargetRoom, editTargetRoom, returnRoomFormData };
 export { getMyCouponList, setMyCouponList, getMyReviewList, getMyFavoriteList };
 
 export { getUserHouseList };
+
+export { setReview, getMyPreview, setReviewFormData };

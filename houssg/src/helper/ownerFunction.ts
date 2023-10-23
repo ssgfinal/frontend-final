@@ -98,7 +98,6 @@ const addOfflineReservation = (data: {
 	roomNumber: number;
 	roomCategory: string;
 	guestName: string;
-	guestNumber: '오프라인';
 	startDate: string;
 	endDate: string;
 }) => api.post(ownerUrl.offlineReservation, data);

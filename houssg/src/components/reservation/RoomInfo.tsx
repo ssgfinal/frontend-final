@@ -7,7 +7,7 @@ import Calendar from './Calendar';
 interface RoomInfoProps {
 	initBookableRoomList: BookableRoomCnt[];
 	selectedReservation: SelectedReservationType;
-	setSelectedReservation: React.Dispatch<React.SetStateAction<SelectedReservationType>>;
+	setSelectedReservation: React.Dispatch<React.SetStateAction<SelectedReservationType | undefined>>;
 }
 
 const RoomInfo: React.FC<RoomInfoProps> = ({ initBookableRoomList, selectedReservation, setSelectedReservation }) => {
@@ -34,5 +34,4 @@ const RoomInfo: React.FC<RoomInfoProps> = ({ initBookableRoomList, selectedReser
 		</ReservationCommonBox>
 	);
 };
-
 export default RoomInfo;
