@@ -30,7 +30,7 @@ const Header = () => {
 			loginModalOpen();
 			return;
 		}
-		navigate(isUser ? ownerRoute.main : userRoute.main);
+		navigate(isUser ? ownerRoute.reservation : userRoute.main);
 	};
 
 	const logoutFunc = () => {
