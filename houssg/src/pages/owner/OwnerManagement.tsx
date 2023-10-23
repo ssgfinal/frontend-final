@@ -9,15 +9,14 @@ import { ownerKey, ownerRoute } from '../../assets/constant';
 
 const OwnerManagement = () => {
 	const navigate = useNavigate();
-	// const houseList = [1, 2];
 
 	const onHouseRegistering = () => {
 		navigate(ownerRoute.register);
 	};
 
 	const { isLoading, data, isSuccess, isError, error } = useQuery<{ data: MyHouseData[] }>([ownerKey.myHouseList], getMyHouseListData, {
-		cacheTime: 5 * 60 * 1000, // 5분
-		staleTime: 2 * 60 * 1000, // 2분
+		cacheTime: 4 * 60 * 1000,
+		staleTime: 2 * 60 * 1000,
 	});
 
 	isError && console.log(error, 'error');
