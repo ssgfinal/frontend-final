@@ -36,7 +36,8 @@ const MyPage = () => {
 	// 쿠폰 등록
 	const queryClient = useQueryClient();
 
-	const { mutate } = useMutation((couponNumber: string) => setMyCouponList(couponNumber), {
+	const { mutate } = useMutation({
+		mutationFn: (couponNumber: string) => setMyCouponList(couponNumber),
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: [userKey.myCoupon] });
 			alert('등록완료');
@@ -52,6 +53,9 @@ const MyPage = () => {
 
 		if (newCoupon.current && couponNumber) {
 			mutate(couponNumber);
+			if (newCoupon.current) {
+				newCoupon.current.value = '';
+			}
 		} else if (couponNumber === '') {
 			alert('쿠폰번호를 입력해주세요.');
 		}

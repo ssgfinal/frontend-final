@@ -35,7 +35,16 @@ import {
 import { getTargetRoomData, addTargetRoom, returnRoomFormData, editTargetRoom } from './roomFunction';
 
 // 마이페이지 관련
-import { getMyCouponList, setMyCouponList, getMyReviewList, getMyFavoriteList } from './mypageFunction';
+import {
+	setUpdateNickName,
+	setUpdatePassword,
+	smsMyPhoneAuth,
+	setNewPhoneNumber,
+	getMyCouponList,
+	setMyCouponList,
+	getMyReviewList,
+	getMyFavoriteList,
+} from './mypageFunction';
 
 // 숙소 목록 관련
 import { getUserHouseList } from './userHouseListFunction';
@@ -70,7 +79,17 @@ export {
 
 export { getTargetRoomData, addTargetRoom, editTargetRoom, returnRoomFormData };
 
-export { getMyCouponList, setMyCouponList, getMyReviewList, getMyFavoriteList };
+// 마이페이지
+export {
+	setUpdateNickName,
+	setUpdatePassword,
+	smsMyPhoneAuth,
+	setNewPhoneNumber,
+	getMyCouponList,
+	setMyCouponList,
+	getMyReviewList,
+	getMyFavoriteList,
+};
 
 export { getUserHouseList };
 
