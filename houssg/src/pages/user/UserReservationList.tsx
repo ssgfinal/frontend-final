@@ -9,15 +9,12 @@ import { ReservationsType } from '../../types';
 
 const UserReservationList = () => {
 	const getMyReservation = () => api.get(userUrl.myReservation);
-	const { isLoading, data, isSuccess, isError, error } = useQuery<{ data: ReservationsType[] }>([userKey.myReservation], getMyReservation, {
+	const { isLoading, data, isSuccess, isError } = useQuery<{ data: ReservationsType[] }>([userKey.myReservation], getMyReservation, {
 		cacheTime: 5 * 60 * 1000,
 		staleTime: 2 * 60 * 1000,
 	});
 
-	isSuccess && console.log('예약내역', data);
-
 	if (isError) {
-		console.log(error);
 		return <div>에러가 있습니다.</div>;
 	}
 

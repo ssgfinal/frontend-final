@@ -50,7 +50,7 @@ import {
 import { getUserHouseList } from './userHouseListFunction';
 
 // 유저 예약 내역 관련
-import { setReview, getMyPreview, setReviewFormData } from './userReservationDetailFunction';
+import { setReview, getMyPreview, setReviewFormData, userCancelReservation, userReservationSuccess } from './userReservationDetailFunction';
 
 // 메인
 import { getMainCoupon } from './mainFunction';
@@ -93,6 +93,6 @@ export {
 
 export { getUserHouseList };
 
-export { setReview, getMyPreview, setReviewFormData };
+export { setReview, getMyPreview, setReviewFormData, userCancelReservation, userReservationSuccess };
 
 export { getMainCoupon };
