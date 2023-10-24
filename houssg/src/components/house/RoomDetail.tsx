@@ -75,16 +75,15 @@ export default RoomDetail;
 const Wrapper = styled.div`
 	padding: 2rem;
 	border-radius: 1rem;
-	display: grid;
-	grid-gap: 1rem;
 	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
 `;
 
 const Info = styled.div`
+	padding: 0 1.5rem;
 	display: grid;
 	text-align: left;
 	grid-template-rows: repeat(3, 1fr);
-	grid-gap: 0.7rem;
+	grid-gap: 0.5rem;
 	align-items: center;
 `;
 
@@ -135,7 +134,6 @@ const Button = styled.button`
 
 const SliderContainer = styled.div`
 	width: 100%;
-	max-width: 15rem;
 	margin: 0 auto;
 	border-radius: 1rem;
 

@@ -22,13 +22,8 @@ const BriefHouse: React.FC<HouseProps> = ({ house }) => {
 				</HoverContainer>
 
 				<HouseDetailContainer>
-					<div>
-						<span>
-							{house.accomName}
-							<br />
-							{house.accomAddress}&nbsp;
-						</span>
-					</div>
+					<div>{house.accomName}</div>
+					<div>{house.accomAddress}</div>
 					<RateBox>
 						<Rating rate={house.avgRating} readonly />
 					</RateBox>
@@ -59,9 +54,10 @@ const BriefHouseWrapper = styled.div`
 `;
 
 const HouseDetailContainer = styled.div`
-	/* margin: 0 1rem 1rem 1rem; */
 	padding: 0 1rem 1rem 1rem;
-
+	display: grid;
+	grid-template-columns: 100%;
+	grid-gap: 0.4rem;
 	@media (max-width: 380px) {
 		font-size: 0.5rem;
 	}
@@ -73,8 +69,6 @@ const HouseDetailContainer = styled.div`
 
 // TODO: 숙소 이미지 hover시 지나가는 효과
 const HoverContainer = styled.div`
-	/* TODO: 지금 상황에서 굳이 margin과 padding 둘 다 쓸 필요가 있나 여백을 2rem을 주고 싶더라도 걍 padding으로 2rem 줘도 되는거 아닌가? */
-	/* margin: 1rem; */
 	padding: 1rem;
 	position: relative;
 	overflow: hidden;
