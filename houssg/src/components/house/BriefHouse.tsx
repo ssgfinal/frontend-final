@@ -12,16 +12,12 @@ const BriefHouse: React.FC<HouseProps> = ({ house }) => {
 	return (
 		<ScreenBox>
 			<BriefHouseWrapper>
-				{/* TODO: 현재) 이미지만 클릭시 숙소 상세 페이지로 이동
-		          안건) 글자도 클릭시 숙소 상세 페이지로 이동해야하는 거 아닌가?*/}
 				<HoverContainer
-					// < Link to = >는 자동으로 pointer 해줌
 					onClick={() => {
 						navigate(userRoute.houseDetail + house.accomNumber);
 					}}
 				>
 					<HouseImg src={house.img} />
-					{/* TODO: 글자 클릭 시 이미지 효과 낼 수 있나? */}
 					<HoverBox></HoverBox>
 				</HoverContainer>
 
@@ -95,6 +91,7 @@ const HouseImg = styled.img`
 	cursor: pointer;
 	width: 100%;
 	border-radius: 0.8rem;
+	aspect-ratio: 4/3;
 `;
 
 // TODO: 숙소 이미지 hover시 지나가는 효과
