@@ -3,7 +3,7 @@ import './App.css';
 
 import { useEffect } from 'react';
 import { RouteWrap } from './layout';
-import { OwnerHouseRegister, OwnerIncome, OwnerMain, OwnerManagement, OwnerReservation, OwnerRoomRegister } from './pages/owner';
+import { OwnerHouseRegister, OwnerIncome, OwnerManagement, OwnerReservation, OwnerRoomRegister } from './pages/owner';
 import { UserHouseList, UserMain, UserMypage, UserReservationList } from './pages/user';
 import UserHouseDetail from './pages/user/UserHouseDetail';
 import { UserReservation } from './pages/user/UserReservation';
@@ -41,7 +41,6 @@ const App = () => {
 				<Route path={userRoute.reservationList} element={<UserReservationList />} />
 				<Route path={userRoute.reservation + ':roomId'} element={<UserReservation />} />
 
-				<Route path={ownerRoute.main} element={<OwnerMain />} />
 				<Route path={ownerRoute.reservation} element={<OwnerReservation />} />
 				<Route path={ownerRoute.register} element={<OwnerHouseRegister />} />
 				<Route path={ownerRoute.management} element={<OwnerManagement />} />

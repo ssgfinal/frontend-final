@@ -98,7 +98,6 @@ const addOfflineReservation = (data: {
 	roomNumber: number;
 	roomCategory: string;
 	guestName: string;
-	guestNumber: '오프라인';
 	startDate: string;
 	endDate: string;
 }) => api.post(ownerUrl.offlineReservation, data);
@@ -106,6 +105,9 @@ const addOfflineReservation = (data: {
 const requestHouseDelete = (accomNumber: number) => api.patch(ownerUrl.houseDeleteRequest, null, { params: { accomNumber } });
 const deleteRoom = (roomNumber: number) => api.delete(ownerUrl.roomDelete, { params: { roomNumber } });
 
+//정산
+
+const getIncomeApi = () => api.get(ownerUrl.getIncome);
 export {
 	getMyHouseListData,
 	onRegiFunnelData,
@@ -116,6 +118,7 @@ export {
 	reportReview,
 	requestHouseDelete,
 	deleteRoom,
+	getIncomeApi,
 };
 //예약
 export { checkMyHouseReservation, getHouseReservation, getReservableRoomList, cancelReservation, getRoomReservableDays, addOfflineReservation };

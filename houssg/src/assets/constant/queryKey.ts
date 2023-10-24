@@ -4,6 +4,7 @@ const ownerKey = {
 	checkReservationList: 'checkReservationList',
 	getReservationData: 'getReservationData',
 	reserveAvailability: 'reserveAvailability',
+	income: 'income',
 	roomReservableDays: 'roomReservableDays',
 };
 
@@ -19,6 +20,7 @@ const userKey = {
 	myReservation: 'myReservation',
 	userHouseList: 'userHouseList',
 	myPreview: 'myPreview',
+	mainCoupon: 'mainCoupon',
 };
 
 export { ownerKey, roomKey, userKey };

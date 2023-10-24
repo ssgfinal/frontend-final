@@ -25,6 +25,7 @@ import {
 	requestHouseDelete,
 	deleteRoom,
 	cancelReservation,
+	getIncomeApi,
 	getRoomReservableDays,
 	onEditManageHouseApi,
 	addOfflineReservation,
@@ -34,13 +35,25 @@ import {
 import { getTargetRoomData, addTargetRoom, returnRoomFormData, editTargetRoom } from './roomFunction';
 
 // 마이페이지 관련
-import { getMyCouponList, setMyCouponList, getMyReviewList, getMyFavoriteList } from './mypageFunction';
+import {
+	setUpdateNickName,
+	setUpdatePassword,
+	smsMyPhoneAuth,
+	setNewPhoneNumber,
+	getMyCouponList,
+	setMyCouponList,
+	getMyReviewList,
+	getMyFavoriteList,
+} from './mypageFunction';
 
 // 숙소 목록 관련
 import { getUserHouseList } from './userHouseListFunction';
 
 // 유저 예약 내역 관련
 import { setReview, getMyPreview, setReviewFormData, userCancelReservation, userReservationSuccess } from './userReservationDetailFunction';
+
+// 메인
+import { getMainCoupon } from './mainFunction';
 
 export { authLoginFunc, authSignUpFunc, kakaoLoginFunc, kakaoSignUp, nickCheckFunc, idCheckFunc, onPhoneUsableCheck, phoneAuthCheck, onFindId };
 
@@ -58,6 +71,7 @@ export {
 	requestHouseDelete,
 	deleteRoom,
 	cancelReservation,
+	getIncomeApi,
 	getRoomReservableDays,
 	onEditManageHouseApi,
 	addOfflineReservation,
@@ -65,8 +79,20 @@ export {
 
 export { getTargetRoomData, addTargetRoom, editTargetRoom, returnRoomFormData };
 
-export { getMyCouponList, setMyCouponList, getMyReviewList, getMyFavoriteList };
+// 마이페이지
+export {
+	setUpdateNickName,
+	setUpdatePassword,
+	smsMyPhoneAuth,
+	setNewPhoneNumber,
+	getMyCouponList,
+	setMyCouponList,
+	getMyReviewList,
+	getMyFavoriteList,
+};
 
 export { getUserHouseList };
 
 export { setReview, getMyPreview, setReviewFormData, userCancelReservation, userReservationSuccess };
+
+export { getMainCoupon };

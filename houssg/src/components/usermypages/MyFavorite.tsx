@@ -25,38 +25,38 @@ const MyFavorite = () => {
 	if (isLoading) {
 		return <div>로딩중...</div>;
 	}
-
+	console.log(data);
 	return (
 		isSuccess && (
 			<MyFavoriteWrapper>
-				{data.data.length === 0 ? (
-					<GrayFont>찜한 숙소가 없습니다.😢</GrayFont>
+				{data.data.length !== 0 ? (
+					<>
+						{data.data.map((favorites, i) => (
+							<div key={i}>
+								<MyFavoriteContainer>
+									<HouseNameBox>
+										<span
+											onClick={() => {
+												navigate(`/user/houseDetail/${favorites.accomNumber}`);
+											}}
+										>
+											{favorites.accomName}
+										</span>
+									</HouseNameBox>
+									<HouseRateBox>{favorites.avgRating !== undefined && <Rating rate={favorites.avgRating} readonly />}</HouseRateBox>
+									<HouseAddressBox>
+										<img src={MapMarker} alt="Map Marker" />
+										<div>{favorites.accomAddress}</div>
+									</HouseAddressBox>
+									<FavoriteContainer>
+										<HeartIcons houseId={favorites.accomNumber} />
+									</FavoriteContainer>
+								</MyFavoriteContainer>
+							</div>
+						))}
+					</>
 				) : (
-					data.data.map((favorites, i) => (
-						<div key={i}>
-							<MyFavoriteContainer>
-								<HouseNameBox>
-									<span
-										onClick={() => {
-											navigate(`/user/house/${favorites.accomNumber}`);
-										}}
-									>
-										{favorites.accomName}
-									</span>
-								</HouseNameBox>
-								<HouseRateBox>
-									<Rating rate={favorites.avgRating} readonly />
-								</HouseRateBox>
-								<HouseAddressBox>
-									<img src={MapMarker} alt="Map Marker" />
-									<div>{favorites.accomAddress}</div>
-								</HouseAddressBox>
-								<FavoriteContainer>
-									<HeartIcons houseId={favorites.accomNumber} />
-								</FavoriteContainer>
-							</MyFavoriteContainer>
-						</div>
-					))
+					<GrayFont>찜한 숙소가 없습니다.😢</GrayFont>
 				)}
 			</MyFavoriteWrapper>
 		)

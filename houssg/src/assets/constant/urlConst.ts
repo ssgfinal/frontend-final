@@ -3,19 +3,19 @@ const userUrl = {
 	//main
 	ratingOrder: 'accom/20/score',
 	registrationOrder: 'accom/20/date',
+	mainCoupon: 'coupon/get-valid-coupons',
 
 	// deleteLike: 'favorite',
 	// mypage
 	mypage: 'mypage/all',
-	updateNick: 'nick/update',
-	updatePhone: 'phone/update', // TODO: 폰 번호 수정!!새로운 번호 전달
-	phoneCheck: 'sms/change-phone', // 번호 중복확인
-	phoneAuthCheck: 'sms/check', // 인증번호 검사
-	updateMyPw: 'pw/update',
+	updateNick: 'user/mypage-nickname',
+	updatePhone: 'user/change-phone',
+	checkNewPhone: 'sms/check-change-phone',
+	updateMyPw: 'user/mypage-pw',
 	myCoupon: 'coupon/mypage',
 	enrollCoupon: 'coupon/enroll-usercoupon',
 	withdrawal: 'user/withdrawal',
-	myReview: 'mypage/review',
+	myReview: 'mypage/review/page',
 	myFavorite: 'mypage/favorite',
 
 	// userhouselist
@@ -78,6 +78,8 @@ const ownerUrl = {
 	//삭제요청
 	houseDeleteRequest: 'accom/del/request',
 	roomDelete: 'room',
+	//정산
+	getIncome: 'monthly-sales/check',
 };
 
 const roomUrl = {
