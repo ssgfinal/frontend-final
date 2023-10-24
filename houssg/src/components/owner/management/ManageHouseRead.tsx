@@ -180,17 +180,12 @@ const ManageReadAddress = styled.div`
 `;
 
 const HouseImg = styled.img`
-	max-width: 20rem;
+	width: 20rem;
 	margin: auto;
 	border-radius: 0.5rem;
-
+	aspect-ratio: 4/3;
 	@media screen and (max-width: ${devideOnce.first}) {
-		max-width: none;
 		width: 27rem;
-	}
-	@media (max-width: 2000px) {
-		width: 80%;
-		transition: width 0.2s;
 	}
 `;
 

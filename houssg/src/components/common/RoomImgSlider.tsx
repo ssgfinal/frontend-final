@@ -45,8 +45,6 @@ export default RoomImgSlider;
 const SwiperWrapper = styled.div`
 	width: 100%;
 	height: 100%;
-	/* width: 500px;
-	height: 500px; */
 
 	.swiper {
 		width: 100% !important;
@@ -67,7 +65,7 @@ const SwiperWrapper = styled.div`
 
 const SlideImg = styled.img`
 	width: 95%;
-	height: 95%;
+	aspect-ratio: 4/3;
 	margin-bottom: 1rem;
 	border-radius: 1rem;
 `;

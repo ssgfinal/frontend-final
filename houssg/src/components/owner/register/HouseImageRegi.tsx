@@ -5,11 +5,12 @@ import { ImageUploader } from '../../common';
 import { StepMover } from './element';
 import styled from 'styled-components';
 import { base64ToFile } from '../../../utils';
+import { nonImage } from '../../../assets/icons';
 
 const HouseImageRegi: React.FC<RegiStepProps> = ({ goStep, step, funnelState }) => {
 	const [houseImage, setHouseImage] = useState(funnelState?.houseImage ? funnelState.houseImage : '');
-	const width = '300px';
-	const height = '400px';
+	const width = '400px';
+	const height = '300px';
 	const [houseImageFile, setHouseImageFile] = useState(funnelState?.houseImageFile ? funnelState.houseImageFile : null);
 
 	const onAddHouseImageFile = (file: string) => {
@@ -29,7 +30,7 @@ const HouseImageRegi: React.FC<RegiStepProps> = ({ goStep, step, funnelState }) 
 				) : (
 					<>
 						<div>업로드 하기</div>
-						<CroppedImg width={width} height={height} src={''} alt="등록해주세요" />
+						<CroppedImg width={width} height={height} src={nonImage} alt="등록해주세요" />
 					</>
 				)}
 			</ImageUploader>
