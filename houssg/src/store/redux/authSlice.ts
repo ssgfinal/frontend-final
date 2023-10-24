@@ -116,6 +116,7 @@ const authSlice = createSlice({
 			sessionStorage.removeItem('refreshtoken');
 			sessionStorage.removeItem('nickname');
 			sessionStorage.removeItem('phone');
+			sessionStorage.removeItem('invalidate');
 			sessionStorage.removeItem('point');
 		},
 		resetAuthStatus: (state) => {

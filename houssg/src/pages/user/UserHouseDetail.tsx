@@ -24,13 +24,14 @@ const UserHouseDetail = () => {
 	const [clickTab, setClickTab] = useState<string>('roominfo');
 
 	useEffect(() => {
-		try {
-			api.get(userUrl.houseDetail, { params: { accomNumber: houseId } }).then(({ data }) => {
+		api
+			.get(userUrl.houseDetail, { params: { accomNumber: houseId } })
+			.then(({ data }) => {
 				setHouse(data);
+			})
+			.catch(() => {
+				alert('요청에 실패했습니다.');
 			});
-		} catch (error) {
-			console.error('데이터를 불러오는데 실패했습니다.', error);
-		}
 	}, []);
 
 	return (

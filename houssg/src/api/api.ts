@@ -36,16 +36,15 @@ api.interceptors.response.use(
 	},
 	(error) => {
 		if (error.response && error.response.status) {
-			console.log(error);
 			switch (error.response.status) {
-				case 400:
+				case 411:
 					if (error.response.data === 'Relogin') {
 						const invalidate = sessionStorage.getItem('invalidate');
 						sessionStorage.removeItem('invalidate');
 						invalidate && alert('재로그인 부탁드립니다.');
 					}
 					break;
-				case 401:
+				case 410:
 					sessionStorage.setItem('invalidate', 'invalidate');
 					break;
 				case 500:
