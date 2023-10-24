@@ -24,7 +24,6 @@ const PaymentWidget: React.FC<PaymentWidgetProps> = ({ selectedReservation }) =>
 	const paymentWidgetRef = useRef<PaymentWidgetInstance | null>(null);
 	const paymentMethodsWidgetRef = useRef<ReturnType<PaymentWidgetInstance['renderPaymentMethods']> | null>(null);
 
-	// const [reservationNumFromBack, setReservationNumberFromBack] = useState<number>();
 	const queryClient = useQueryClient();
 
 	const { mutate } = useMutation({
@@ -104,8 +103,6 @@ const PaymentWidget: React.FC<PaymentWidgetProps> = ({ selectedReservation }) =>
 				})
 				.then(({ data }) => {
 					const reservationNumFromBack = data;
-					// setReservationNumberFromBack(Number(data));
-					console.log('예약된 번호 >> ', reservationNumFromBack);
 					paymentWidget &&
 						paymentWidget
 							.requestPayment({
@@ -114,11 +111,6 @@ const PaymentWidget: React.FC<PaymentWidgetProps> = ({ selectedReservation }) =>
 								customerName: userNickName ? userNickName : 'houssg 고객님',
 							})
 							.then(function () {
-								// try {
-								// 	// api.patch(userUrl.isPaymentSuccess, { reservationNumber: reservationNumFromBack, sign: 'success' });
-								// } catch {
-								// 	alert('죄송합니다. 예약 완료에 문제가 발생했습니다. houssg 고객센터로 문의 부탁드립니다.');
-								// }
 								mutate(reservationNumFromBack);
 								// 포인트 사용시, 세션에 포인트도 업데이트
 								if (selectedReservation.usingPoint > 0) {
@@ -139,11 +131,7 @@ const PaymentWidget: React.FC<PaymentWidgetProps> = ({ selectedReservation }) =>
 									alert('한도초과 혹은 잔액부족으로 결제에 실패했습니다.');
 								}
 
-								try {
-									api.post(userUrl.isPaymentSuccess, { reservationNumber: reservationNumFromBack, sign: 'fail' });
-								} catch {
-									console.log('결제 실패를 백에 알려주는 API 통신 에러');
-								}
+								api.post(userUrl.isPaymentSuccess, { reservationNumber: reservationNumFromBack, sign: 'fail' });
 							});
 				});
 		} catch (err) {

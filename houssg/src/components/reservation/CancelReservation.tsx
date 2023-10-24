@@ -43,12 +43,9 @@ const CancelReservation = () => {
 		}
 
 		if (account === '') {
-			console.log(account + '');
 			alert('계좌를 입력해주세요');
 			return;
 		}
-
-		console.log('예약번호 >> 808548717', reservationNumber);
 
 		mutate({ reservationNumber, bank, account });
 		setBank('');
@@ -87,9 +84,10 @@ const CancelReservation = () => {
 				<ChargeTitleBox>취소</ChargeTitleBox>
 				<Title>수수료</Title>
 				<ChargeContentsBox>
-					<div>예약일 1달 전 : 100% 환불</div>
-					<div>예약일 1달~ 1주 전 : 50% 환불</div>
-					<div>예약일 1주 미만 : 환불 불가</div>
+					<div>예약일 1주 전 : 100% 환불</div>
+					<div>예약일 5일 전 : 70% 환불</div>
+					<div>예약일 3일 전 : 50% 환불</div>
+					<div>예약일 1일 전 ~ 당일 : 취소 불가</div>
 				</ChargeContentsBox>
 			</CancelReservationWrapper>
 			<Title>환불 받을 계좌 정보</Title>
