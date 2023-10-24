@@ -103,7 +103,8 @@ const OwnerIncome = () => {
 	return (
 		<Wrapper>
 			<Title>
-				<div onClick={setPrevYear}>이전</div> {currentYear}년 정산 내역 <div onClick={setNextYear}>다음</div>
+				<YearChanger $disabled={false} onClick={setPrevYear}>{`<< `}</YearChanger> {currentYear}년 정산 내역
+				<YearChanger $disabled={false} onClick={setNextYear}>{` >>`}</YearChanger>
 			</Title>
 			{incomeList && (
 				<Contents>
@@ -157,6 +158,12 @@ const Title = styled.div`
 	font-size: 2rem;
 	font-weight: bold;
 	margin-bottom: 2rem;
+	gap: 1rem;
+
+	@media screen and (max-width: 850px) {
+		font-size: 1.6rem;
+		gap: 0.9rem;
+	}
 `;
 
 const Contents = styled.div`
@@ -205,7 +212,6 @@ const HouseContent = styled.div`
 	border-width: 1px;
 	border-radius: 1rem;
 	@media (min-width: 850px) {
-		/* grid-template-rows: 3rem; */
 		margin-top: 2vh;
 		padding-top: 2vh;
 		grid-auto-rows: 3rem;
@@ -221,4 +227,9 @@ const HouseContent = styled.div`
 
 const OneHouse = styled.div`
 	padding: 1rem;
+`;
+
+const YearChanger = styled.span<{ $disabled: boolean }>`
+	cursor: pointer;
+	font-weight: 900;
 `;
