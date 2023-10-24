@@ -6,6 +6,9 @@ import { openModal } from '../../store/redux/modalSlice';
 import api from '../../api/api';
 import { userUrl } from '../../assets/constant';
 import { isLoginState } from '../../store/redux/authSlice';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { houseDetailDelete, houseDetailLike } from '../../helper';
+import { userKey } from '../../assets/constant/queryKey';
 
 interface HeartIconsProps {
 	houseId: number;
@@ -15,6 +18,22 @@ const HeartIcons: React.FC<HeartIconsProps> = ({ houseId }) => {
 
 	const dispatch = useAppDispatch();
 	const isLogin = useAppSelector(isLoginState);
+
+	const queryClient = useQueryClient();
+
+	const like = useMutation({
+		mutationFn: (houseId: number) => houseDetailLike(houseId),
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: [userKey.myFavorite] });
+		},
+	});
+
+	const likeDelete = useMutation({
+		mutationFn: (houseId: number) => houseDetailDelete(houseId),
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: [userKey.myFavorite] });
+		},
+	});
 
 	useEffect(() => {
 		if (isLogin) {
@@ -46,23 +65,11 @@ const HeartIcons: React.FC<HeartIconsProps> = ({ houseId }) => {
 			if (isLike) {
 				// 찜 o -> 찜 X 로 된 경우
 				// 아직 변경된 isLike가 반영이 안 되서 true인 상태
-				try {
-					api.delete(userUrl.like, { params: { accomNumber: houseId } }).then(({ data }) => {
-						console.log('찜 해제 api 통신 성공 > ', data);
-					});
-				} catch (err) {
-					console.log('찜 해제 api 에러 > ', err);
-				}
+				likeDelete.mutate(houseId);
 			} else {
 				// 찜 X -> 찜 o 로 된 경우
 				// 아직 변경된 isLike가 반영이 안 되서 false인 상태
-				try {
-					api.post(userUrl.like, null, { params: { accomNumber: houseId } }).then(({ data }) => {
-						console.log('찜 하기 api 통신 성공 > ', data);
-					});
-				} catch (err) {
-					console.log('찜 하기 api 에러 > ', err);
-				}
+				like.mutate(houseId);
 			}
 			setIsLike(!isLike);
 		}
