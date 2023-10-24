@@ -74,7 +74,7 @@ const ReservationList: React.FC<{ reservations: ReservationsType }> = ({ reserva
 						<ReservationButton
 							hidden={false}
 							onClick={() => {
-								modalOpen('cancelReservation', null, null);
+								modalOpen('cancelReservation', `${reservations.reservationNumber}`, null);
 							}}
 						>
 							취소하기
@@ -82,6 +82,14 @@ const ReservationList: React.FC<{ reservations: ReservationsType }> = ({ reserva
 					) : (
 						reservations.status === 2 &&
 						(reservations.reviewStatus ? (
+							<PreviewButton
+								onClick={() => {
+									modalOpen('userPreview', `${reservations.reservationNumber}`, null);
+								}}
+							>
+								후기 보기
+							</PreviewButton>
+						) : (
 							<ReviewWriteButton
 								hidden={false}
 								onClick={() => {
@@ -90,14 +98,6 @@ const ReservationList: React.FC<{ reservations: ReservationsType }> = ({ reserva
 							>
 								후기 등록
 							</ReviewWriteButton>
-						) : (
-							<PreviewButton
-								onClick={() => {
-									modalOpen('userPreview', `${reservations.reservationNumber}`, null);
-								}}
-							>
-								후기 보기
-							</PreviewButton>
 						))
 					)}
 				</ReservationBox>
@@ -154,6 +154,7 @@ const ReservationWrapper = styled.div`
 
 const ReservationContainer = styled.div`
 	display: grid;
+	grid-template-rows: 24px auto;
 `;
 
 const ReservationBox = styled.div`
@@ -304,7 +305,6 @@ const ReservationNumberBox = styled.div`
 	align-self: center;
 	font-size: 0.8rem;
 	font-weight: bold;
-	margin-top: 1rem;
 `;
 
 const DetailContainer = styled.div`
@@ -321,14 +321,14 @@ const ReservationStatusBox = styled.div`
 	padding: 0.3rem;
 	align-self: center;
 	border: none;
-	font-size: 0.5rem;
-	width: 4rem;
+	font-size: 0.7rem;
+	width: 5rem;
 	color: ${color.backColor};
 	background-color: ${color.color2};
 	border-radius: 1rem;
 	text-align: center;
 	line-height: 1rem;
-	font-weight: bold;
+	/* font-weight: bold; */
 `;
 
 const RoomPriceBox = styled.div`

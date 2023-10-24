@@ -1,6 +1,18 @@
 import api from '../api/api';
 import { userUrl } from '../assets/constant';
-import { AddUserReview } from '../types';
+import { AddUserReview, CancelReservationType } from '../types';
+
+// 예약 성공 백에 전달
+const userReservationSuccess = (reservationNumber: number) => {
+	return api.patch(userUrl.isPaymentSuccess, { reservationNumber, sign: 'success' });
+};
+
+// 예약 취소
+const userCancelReservation = ({ reservationNumber, bank, account }: CancelReservationType) => {
+	return api.patch(userUrl.reservationCancel, null, {
+		params: { reservationNumber: reservationNumber, bank: bank, account: account },
+	});
+};
 
 // 리뷰 작성
 const setReview = async (formData: FormData) => {
@@ -47,4 +59,4 @@ const getMyPreview = (reservationNumber: number) => {
 	return api.get(userUrl.preview, { params: { reservationNumber: reservationNumber } });
 };
 
-export { setReview, getMyPreview, setReviewFormData };
+export { setReview, getMyPreview, setReviewFormData, userCancelReservation, userReservationSuccess };

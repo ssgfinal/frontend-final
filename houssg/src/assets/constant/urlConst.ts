@@ -22,10 +22,12 @@ const userUrl = {
 	houseList: 'search',
 
 	// reservation 예약내역페이지
+	reservationCancel: 'reservation/cancel',
 	review: 'reveiw',
 	addReview: 'review/add', // 유저가 등록하는 리뷰
 	myReservation: 'reservation/history',
 	preview: 'reservation/review',
+
 	// UserHouseDetail
 	houseDetail: 'accom/detail',
 	like: 'favorite',

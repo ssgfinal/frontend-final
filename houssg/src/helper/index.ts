@@ -40,7 +40,7 @@ import { getMyCouponList, setMyCouponList, getMyReviewList, getMyFavoriteList } 
 import { getUserHouseList } from './userHouseListFunction';
 
 // 유저 예약 내역 관련
-import { setReview, getMyPreview, setReviewFormData } from './userReservationDetailFunction';
+import { setReview, getMyPreview, setReviewFormData, userCancelReservation, userReservationSuccess } from './userReservationDetailFunction';
 
 export { authLoginFunc, authSignUpFunc, kakaoLoginFunc, kakaoSignUp, nickCheckFunc, idCheckFunc, onPhoneUsableCheck, phoneAuthCheck, onFindId };
 
@@ -69,4 +69,4 @@ export { getMyCouponList, setMyCouponList, getMyReviewList, getMyFavoriteList };
 
 export { getUserHouseList };
 
-export { setReview, getMyPreview, setReviewFormData };
+export { setReview, getMyPreview, setReviewFormData, userCancelReservation, userReservationSuccess };

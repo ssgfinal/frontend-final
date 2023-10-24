@@ -7,6 +7,9 @@ import { SelectedReservationType } from '../../types';
 import api from '../../api/api';
 import { userRoute, userUrl } from '../../assets/constant';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { userReservationSuccess } from '../../helper';
+import { userKey } from '../../assets/constant/queryKey';
 
 const clientKey = 'test_ck_D5GePWvyJnrK0W0k6q8gLzN97Eoq';
 const customerKey = 'YbX2HuSlsC9uVJW6NMRMj';
@@ -20,6 +23,20 @@ const PaymentWidget: React.FC<PaymentWidgetProps> = ({ selectedReservation }) =>
 
 	const paymentWidgetRef = useRef<PaymentWidgetInstance | null>(null);
 	const paymentMethodsWidgetRef = useRef<ReturnType<PaymentWidgetInstance['renderPaymentMethods']> | null>(null);
+
+	// const [reservationNumFromBack, setReservationNumberFromBack] = useState<number>();
+	const queryClient = useQueryClient();
+
+	const { mutate } = useMutation({
+		mutationFn: (reservationNumber: number) => userReservationSuccess(reservationNumber),
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: [userKey.myReservation] });
+			alert('예약이 완료되었습니다.');
+		},
+		onError: () => {
+			alert('죄송합니다. 예약 완료에 문제가 발생했습니다. houssg 고객센터로 문의 부탁드립니다.');
+		},
+	});
 
 	const [isAgreed, setIsAgreed] = useState(false);
 	useEffect(() => {
@@ -87,6 +104,8 @@ const PaymentWidget: React.FC<PaymentWidgetProps> = ({ selectedReservation }) =>
 				})
 				.then(({ data }) => {
 					const reservationNumFromBack = data;
+					// setReservationNumberFromBack(Number(data));
+					console.log('예약된 번호 >> ', reservationNumFromBack);
 					paymentWidget &&
 						paymentWidget
 							.requestPayment({
@@ -95,12 +114,12 @@ const PaymentWidget: React.FC<PaymentWidgetProps> = ({ selectedReservation }) =>
 								customerName: userNickName ? userNickName : 'houssg 고객님',
 							})
 							.then(function () {
-								try {
-									api.patch(userUrl.isPaymentSuccess, { reservationNumber: reservationNumFromBack, sign: 'success' });
-								} catch {
-									alert('죄송합니다. 예약 완료에 문제가 발생했습니다. houssg 고객센터로 문의 부탁드립니다.');
-								}
-
+								// try {
+								// 	// api.patch(userUrl.isPaymentSuccess, { reservationNumber: reservationNumFromBack, sign: 'success' });
+								// } catch {
+								// 	alert('죄송합니다. 예약 완료에 문제가 발생했습니다. houssg 고객센터로 문의 부탁드립니다.');
+								// }
+								mutate(reservationNumFromBack);
 								// 포인트 사용시, 세션에 포인트도 업데이트
 								if (selectedReservation.usingPoint > 0) {
 									sessionStorage.setItem('point', originPoint - selectedReservation.usingPoint + '');
