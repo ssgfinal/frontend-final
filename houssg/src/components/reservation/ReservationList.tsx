@@ -7,6 +7,7 @@ import { useAppDispatch } from '../../hooks';
 
 import { color } from '../../assets/styles';
 import { ReservationDetailType, ReservationsType } from '../../types';
+import { setPreviewNumber } from '../../store/redux/calendarSlice';
 
 const formatDate = (dateString: string): string => {
 	const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' };
@@ -84,7 +85,8 @@ const ReservationList: React.FC<{ reservations: ReservationsType }> = ({ reserva
 						(reservations.reviewStatus ? (
 							<PreviewButton
 								onClick={() => {
-									modalOpen('userPreview', `${reservations.reservationNumber}`, null);
+									dispatch(setPreviewNumber({ previewNumber: reservations.reservationNumber }));
+									modalOpen('userPreview', null, null);
 								}}
 							>
 								후기 보기

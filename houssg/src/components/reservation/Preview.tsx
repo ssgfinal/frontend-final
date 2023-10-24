@@ -7,22 +7,22 @@ import { UserReview } from '../../types';
 import hourClock from '../../utils/hourClock';
 import Rating from '../common/Rating';
 import { getMyPreview } from '../../helper';
-import { useAppSelector } from '../../hooks';
-import { modalText } from '../../store/redux/modalSlice';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { closeModal } from '../../store/redux/modalSlice';
+import { previewNumber } from '../../store/redux/calendarSlice';
 
 const Preview = () => {
+	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
-	const reservationNumber = Number(useAppSelector(modalText));
+	const reservationNumber = useAppSelector(previewNumber);
 
-	console.log('preview', typeof reservationNumber);
 	// 나의 후기
 	const { isLoading, data, isSuccess, isError, error } = useQuery<{ data: UserReview[] }>(
-		[userKey.myPreview],
-		() => getMyPreview(reservationNumber),
+		[userKey.myPreview, reservationNumber],
+		() => getMyPreview(Number(reservationNumber)),
 		{
 			cacheTime: 5 * 60 * 1000,
 			staleTime: 2 * 60 * 1000,
-			retry: 2,
 		},
 	);
 
@@ -32,8 +32,6 @@ const Preview = () => {
 		return <div>로딩중...</div>;
 	}
 
-	console.log(data?.data.length);
-
 	return (
 		isSuccess && (
 			<MyReviewWrapper>
@@ -41,12 +39,13 @@ const Preview = () => {
 					<GrayFont>작성한 후기가 없습니다.😢</GrayFont>
 				) : (
 					<MyReviewContainer>
-						{data.data.map((review, index) => (
-							<div key={index}>
+						{data.data.map((review, reservationNumber) => (
+							<div key={reservationNumber}>
 								<MyReviewBox>
 									<HouseBox
 										onClick={() => {
-											navigate(`/user/house/${review.accomNumber}`);
+											navigate(`/user/houseDetail/${review.accomNumber}`);
+											dispatch(closeModal());
 										}}
 									>
 										{review.accomName}&nbsp;({review.reservationNumber})<input type="hidden" value={review.accomNumber} />
@@ -64,7 +63,7 @@ const Preview = () => {
 										</ContentBox>
 									</ContentsBox>
 								</MyReviewBox>
-								{review.reviewCommentTime && (
+								{review.reviewCommentTime && review.reviewComment && (
 									<CommentContainer>
 										<HouseReviewNickName>💌 숙소 답변</HouseReviewNickName>
 										<HouseReviewDate>{hourClock(review.reviewCommentTime)}</HouseReviewDate>
@@ -196,13 +195,9 @@ const RateBox = styled.div`
 	}
 
 	@media (max-width: 320px) {
-		grid-column-start: 1;
-		grid-column-end: 4;
 		font-size: 0.5rem;
 		ul {
 			margin-right: -15vw;
-			grid-column-start: 1;
-			grid-column-end: 2;
 			justify-self: left;
 			font-size: 0.7rem;
 			text-align: left;
@@ -220,11 +215,12 @@ const ContentsBox = styled.div`
 `;
 
 const ContentBox = styled.div`
-	display: grid;
+	/* display: grid;
 	grid-template-columns: 1fr 2fr;
-	grid-gap: 1vw;
+	grid-gap: 1vw; */
 	line-height: 1.3rem;
-
+	display: flex;
+	flex-direction: column;
 	@media (max-width: 1024px) {
 		display: flex;
 		flex-direction: column;
