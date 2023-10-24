@@ -8,7 +8,6 @@ const userRoute = {
 };
 
 const ownerRoute = {
-	main: '/owner',
 	reservation: '/owner/reservation',
 	register: '/owner/register',
 	management: '/owner/management',

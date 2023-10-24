@@ -85,4 +85,20 @@ interface AddUserReview {
 	file?: File;
 }
 
-export type { ReservationDetailType, ReservationsType, BookableRoomCnt, Schedule, SelectedReservationType, UserReview, AddUserReview };
+// 예약내역에서 예약 삭제
+interface CancelReservationType {
+	reservationNumber: number;
+	bank: string;
+	account: string;
+}
+
+export type {
+	ReservationDetailType,
+	ReservationsType,
+	BookableRoomCnt,
+	Schedule,
+	SelectedReservationType,
+	UserReview,
+	AddUserReview,
+	CancelReservationType,
+};

@@ -9,6 +9,7 @@ import {
 	SelectedReservationType,
 	UserReview,
 	AddUserReview,
+	CancelReservationType,
 } from './reservation';
 import { ManageNavProps, MyHouseData, MyHouseDataHandleComp, EditMutationType, OwnerHouseReviewType } from './manage';
 import { StyledActiveProps, SetStateToggle, UserType, UserTypeObject, RoomSlideProps, TimerProps, ProcessType } from './common';
@@ -34,7 +35,16 @@ export type { AuthProps, AuthInputType, AuthModeType, AuthPropsWithState, IdFind
 export type { StyledActiveProps, SetStateToggle, UserType, UserTypeObject, RoomSlideProps, TimerProps, ProcessType };
 
 //reservation
-export type { ReservationDetailType, ReservationsType, BookableRoomCnt, Schedule, SelectedReservationType, UserReview, AddUserReview };
+export type {
+	ReservationDetailType,
+	ReservationsType,
+	BookableRoomCnt,
+	Schedule,
+	SelectedReservationType,
+	UserReview,
+	AddUserReview,
+	CancelReservationType,
+};
 
 //ownerReservation
 

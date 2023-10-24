@@ -113,13 +113,12 @@ const HouseInfoContainer = styled.div`
 	justify-content: space-between;
 	align-items: stretch;
 	margin: auto;
-
 	@media screen and (max-width: ${devideOnce.first}) {
 		flex-direction: column;
 		align-items: start;
 	}
 
-	@media (max-width: 800px) {
+	@media screen and (max-width: 800px) {
 		gap: 1rem;
 	}
 `;
@@ -131,15 +130,16 @@ const InfoWrapper = styled.div`
 	gap: 0.3rem;
 	padding: 0.5rem 0 0.5rem 0;
 	justify-content: space-between;
-	max-width: 30rem;
+	max-width: 14.5rem;
 	width: 100%;
 	margin: auto;
-
 	@media (min-width: 800px) {
 		padding: 0.5rem;
 	}
 
-	@media (max-width: 800px) {
+	@media screen and (max-width: 800px) {
+		max-width: 30rem;
+
 		display: grid;
 		grid-template-columns: 3fr 5fr;
 		justify-content: left;

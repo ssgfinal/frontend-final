@@ -16,7 +16,7 @@ const OwnerReservation = () => {
 	const [isReservationList, setIsReservationList] = useState(true);
 	const houseId = useAppSelector(ownerHouseId);
 
-	const { isLoading, data, isSuccess, isError, error } = useQuery<{ data: CheckMyHouseReservationType }>(
+	const { isLoading, data, isError, error } = useQuery<{ data: CheckMyHouseReservationType }>(
 		[ownerKey.checkReservationList],
 		() => checkMyHouseReservation(currentYear + '-' + currentMonth),
 		{
@@ -26,29 +26,33 @@ const OwnerReservation = () => {
 	);
 	isError && console.log(error, 'error');
 
+	// console.log(data?.data);
 	if (isLoading) {
 		return <div>로딩중...</div>;
 	}
 
 	return (
 		<OwnerReservationWrapper>
-			{isSuccess && (
-				<>
-					<CalendarOptionContainer>
-						<ReservationDropDown accomList={data.data.accommodationList} houseIndex={houseIndex} setHouseIndex={setHouseIndex} />
-						<CalendarModeBtn onClick={() => setIsReservationList(!isReservationList)}>
-							{isReservationList ? '예약가능일 보기' : '예약내역 보기'}
-						</CalendarModeBtn>
-					</CalendarOptionContainer>
-					{!!houseId && (
-						<OwnerCalendar
-							currentDate={{ year: currentYear, month: currentMonth }}
-							initailData={data.data.reservations}
-							isReservationList={isReservationList}
-						/>
-					)}
-				</>
-			)}
+			{data &&
+				(data.data.accommodationList.length === 0 ? (
+					<div>등록된 숙소가 없습니다.</div>
+				) : (
+					<>
+						<CalendarOptionContainer>
+							<ReservationDropDown accomList={data.data.accommodationList} houseIndex={houseIndex} setHouseIndex={setHouseIndex} />
+							<CalendarModeBtn onClick={() => setIsReservationList(!isReservationList)}>
+								{isReservationList ? '예약가능일 보기' : '예약내역 보기'}
+							</CalendarModeBtn>
+						</CalendarOptionContainer>
+						{!!houseId && (
+							<OwnerCalendar
+								currentDate={{ year: currentYear, month: currentMonth }}
+								initailData={data.data.reservations}
+								isReservationList={isReservationList}
+							/>
+						)}
+					</>
+				))}
 		</OwnerReservationWrapper>
 	);
 };

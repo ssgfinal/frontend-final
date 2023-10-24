@@ -16,7 +16,7 @@ const Header = () => {
 	const isUser = useIsUser();
 
 	const goHomeHandler = () => {
-		isUser ? navigate(userRoute.main) : navigate(ownerRoute.main);
+		isUser ? navigate(userRoute.main) : navigate(ownerRoute.management);
 	};
 
 	const loginModalOpen = () => {
@@ -30,7 +30,7 @@ const Header = () => {
 			loginModalOpen();
 			return;
 		}
-		navigate(isUser ? ownerRoute.reservation : userRoute.main);
+		navigate(isUser ? ownerRoute.management : userRoute.main);
 	};
 
 	const logoutFunc = () => {
