@@ -18,15 +18,16 @@ export const Review: React.FC<ReviewProps> = ({ review }) => {
 					<Title>객실</Title>
 					<Content>{review.roomCategory}</Content>
 				</Set>
-				{/* <Content>{hourClock(review.reviewCreationTime)}</Content> */}
 			</OneLine>
 			<RateBox>
 				<Rating readonly rate={review.reviewRating} />
 			</RateBox>
-			<ReviewContent>
-				{review.img ? <Img src={review.img} /> : <></>}
+
+			<ReviewContent $hasImage={review.img ? true : false}>
+				{review.img && <Img src={review.img} />}
 				<ReviewText>{review.reviewContent}</ReviewText>
 			</ReviewContent>
+
 			{/* TODO: 댓글 입력,수정에서 빈문자열일 땐 등록안 되게 막는게 맞을 듯, 지금은 임시방편으로 && 걸어놓음 */}
 			{review.reviewComment && review.reviewComment.length !== 0 && (
 				<CommentContainer>
@@ -95,15 +96,17 @@ const Content = styled.div`
 	padding: 0.5rem;
 `;
 
-const ReviewContent = styled.div`
+const ReviewContent = styled.div<{ $hasImage: boolean }>`
 	margin-top: 1rem;
 	display: grid;
 	grid-gap: 2rem;
+
 	@media (min-width: 650px) {
-		grid-template-columns: 1fr 2fr;
+		grid-template-columns: ${(props) => (props.$hasImage ? `40% 60%` : `100%`)};
 	}
+
 	@media (max-width: 650px) {
-		grid-template-columns: 1fr;
+		grid-template-columns: 100%;
 	}
 `;
 
@@ -114,7 +117,7 @@ const Img = styled.img`
 
 const ReviewText = styled.div`
 	@media (min-width: 650px) {
-		padding: 1rem;
+		padding: 1rem 0;
 	}
 
 	text-align: left;
