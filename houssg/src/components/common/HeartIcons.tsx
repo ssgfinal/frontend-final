@@ -44,7 +44,7 @@ const HeartIcons: React.FC<HeartIconsProps> = ({ houseId, beforePage }) => {
 						setIsLike(data);
 					});
 				} catch (err) {
-					console.log('라이크 첫 렌더링 시 로그인 상태면 실행되는 get 리스펀스 > ', err);
+					console.log(err);
 				}
 			}
 		}
