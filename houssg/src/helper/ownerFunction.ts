@@ -1,5 +1,5 @@
 import api from '../api/api';
-import { ownerUrl } from '../assets/constant';
+import { ownerUrl, roomUrl } from '../assets/constant';
 import { FunnelPropsType } from '../types';
 
 const getMyHouseListData = async () => {
@@ -103,7 +103,7 @@ const addOfflineReservation = (data: {
 }) => api.post(ownerUrl.offlineReservation, data);
 //  삭제
 const requestHouseDelete = (accomNumber: number) => api.patch(ownerUrl.houseDeleteRequest, null, { params: { accomNumber } });
-const deleteRoom = (roomNumber: number) => api.delete(ownerUrl.roomDelete, { params: { roomNumber } });
+const deleteRoom = (roomNumber: number) => api.patch(roomUrl.roomDelete, null, { params: { roomNumber } });
 
 //정산
 
