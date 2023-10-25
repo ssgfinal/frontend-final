@@ -77,7 +77,6 @@ const ownerUrl = {
 	roomReservableDay: 'reservation/owner-modal',
 	//삭제요청
 	houseDeleteRequest: 'accom/del/request',
-	roomDelete: 'room',
 	//정산
 	getIncome: 'monthly-sales/check',
 };
@@ -86,6 +85,7 @@ const roomUrl = {
 	roomList: 'room/detail',
 	roomAdd: 'room/add',
 	roomEdit: 'room',
+	roomDelete: 'room/request',
 };
 
 export { userUrl, authUrl, ownerUrl, roomUrl };
