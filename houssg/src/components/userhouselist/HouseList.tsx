@@ -17,41 +17,40 @@ interface HouseListProps {
 const HouseList: React.FC<HouseListProps> = ({ search, select, type }) => {
 	const [page, setPage] = useState<number>(1);
 
-	const { isLoading, isError, error, data, hasNextPage, fetchNextPage } = useInfiniteQuery<{ data: SearchHouse[]; totalCount: number; page: [] }>(
-		[userKey.userHouseList, search, type, select, page],
-		({ pageParam = 1 }) => getUserHouseList(search, type, select, page, pageParam),
-		{
-			getNextPageParam: (lastPage, pages) => {
-				const maxPage = Math.ceil(lastPage.totalCount / 24);
-				const nextPage = pages.length;
-				console.log('nextPage', nextPage);
-				//TODO: 페이지 누적이 안 됨(fetchNextPage)
-				/* 공식 문서에서!!!
-				>> fetchNextPage 가져오기가 진행 중인 동안 호출하면 데이터 새로고침 위험이 있음
-				>> 목록을 렌더링하고 fetchNextPage 동시에 트리거할 때 중요
-				>> InfiniteQuery 진행 중인 가져오기는 단 한 번만 가능
-				>> 단일 캐시 항목이 모든 페이지에 공유되므로 동시에 두 번 가져오려고 하면 데이터 덮어쓰기가 발생
-				>> 무슨 소리고..?
-				*/
-				if (nextPage <= maxPage && pages[0].data.length === 0) {
-					setPage(page);
-					if (nextPage <= maxPage && pages[0].data.length > 1) {
-						setPage(page + 1);
-					}
-				} else {
-					return undefined;
+	const { isLoading, isFetching, isError, error, data, hasNextPage, fetchNextPage } = useInfiniteQuery<{
+		data: SearchHouse[];
+		totalCount: number;
+		page: [];
+	}>([userKey.userHouseList, search, type, select, page], ({ pageParam = 0 }) => getUserHouseList(search, type, select, page, pageParam), {
+		getNextPageParam: (lastPage, pages) => {
+			console.log(lastPage, pages, '머냐');
+			console.log('last', lastPage);
+			console.log(pages, 'lastpages');
+			const maxPage = Math.ceil(lastPage.totalCount / 24);
+			const nextPage = pages.length;
+			console.log('nextPage', nextPage);
+			console.log(maxPage, 'max');
+
+			if (nextPage <= maxPage && pages[0].data.length === 0) {
+				setPage(page);
+				if (nextPage <= maxPage && pages[0].data.length > 1) {
+					setPage(page + 1);
 				}
-			},
+			} else {
+				return undefined;
+			}
 		},
-	);
+	});
 
 	useEffect(() => {
 		const onScroll = async () => {
 			const scrollY = window.scrollY; // 현재 세로축(Y축) 스크롤 위치를 나타내는 변수(맨 위에서부터 얼마나 떨어져 있는지)
 			const innerHeight = window.innerHeight; //스크롤바를 포함한 스크롤 가능한 영역의 내부 높이
 			const scrollMaxY = document.documentElement.scrollHeight - innerHeight; // 스크롤 가능한 전체 문서의 세로 높이에서 스크롤바의 내부 높이(innerHeight)를 뺀 값
-
-			if (scrollY >= scrollMaxY && hasNextPage) {
+			// console.log(scrollY, scrollMaxY);
+			// console.log(scrollY >= scrollMaxY - 250);
+			console.log(!isFetching, hasNextPage, '팻칭아닌지, 다음페이지 있는지');
+			if (scrollY >= scrollMaxY - 250 && hasNextPage && !isFetching) {
 				fetchNextPage();
 			}
 		};
