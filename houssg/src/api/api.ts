@@ -40,8 +40,8 @@ api.interceptors.response.use(
 				case 411:
 					if (error.response.data === 'Relogin') {
 						const invalidate = sessionStorage.getItem('invalidate');
-						sessionStorage.removeItem('invalidate');
 						invalidate && alert('재로그인 부탁드립니다.');
+						sessionStorage.removeItem('invalidate');
 					}
 					break;
 				case 410:

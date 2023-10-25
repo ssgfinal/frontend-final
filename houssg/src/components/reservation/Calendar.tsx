@@ -4,47 +4,59 @@ import interactionPlugin, { DateClickArg } from '@fullcalendar/interaction';
 import { BookableRoomCnt, Schedule, SelectedReservationType } from '../../types';
 import styled from 'styled-components';
 import { color } from '../../assets/styles';
-import { useEffect, useState } from 'react';
-import { calculateNights, dateFormat, makeTwo, periodCheck } from '../../utils';
+import { useEffect, useRef, useState } from 'react';
+import { calculateNights, changeYearMonth, dateFormat, makeTwo, periodCheck } from '../../utils';
+import { userUrl } from '../../assets/constant';
+import { api } from '../../api';
 
 interface CalendarProps {
+	roomNumber: number;
 	initBookableRoomList: BookableRoomCnt[];
 	selectedReservation: SelectedReservationType;
 	setSelectedReservation: React.Dispatch<React.SetStateAction<SelectedReservationType | undefined>>;
 }
-const Calendar: React.FC<CalendarProps> = ({ initBookableRoomList, selectedReservation, setSelectedReservation }) => {
+const Calendar: React.FC<CalendarProps> = ({ roomNumber, initBookableRoomList, selectedReservation, setSelectedReservation }) => {
+	const calendarRef = useRef<FullCalendar | null>(null);
+
 	const [event, setEvent] = useState<Schedule[]>();
 
 	const [startObj, setStartObj] = useState<DateClickArg>();
 	const [endObj, setEndObj] = useState<DateClickArg>();
 
-	const today = dateFormat(new Date());
+	const dateTypeToday = new Date();
+	const today = dateFormat(dateTypeToday);
+
+	const todayYear = dateTypeToday.getFullYear();
+	const todayMonth = dateTypeToday.getMonth() + 1;
 	const beforeToday: Schedule[] = [];
 	const [noRoom, setNoRoom] = useState<Schedule[]>();
+	const [calendarDate, setCalendarDate] = useState({ year: todayYear, month: todayMonth });
 
 	useEffect(() => {
-		for (let i = 1; i < Number(today.slice(8, 10)); i++) {
-			beforeToday.push({
-				title: '이전 날짜',
-				date: today.slice(0, 8) + makeTwo(i),
-				allDay: true,
-			});
-		}
+		if (calendarDate.year === todayYear && calendarDate.month === todayMonth) {
+			for (let i = 1; i < Number(today.slice(8, 10)); i++) {
+				beforeToday.push({
+					title: '이전 날짜',
+					date: today.slice(0, 8) + makeTwo(i),
+					allDay: true,
+				});
+			}
 
-		const noRoomTmp: Schedule[] = [];
-		initBookableRoomList &&
-			initBookableRoomList.forEach((roomPerDay: BookableRoomCnt) => {
-				if (roomPerDay.availableRooms == 0) {
-					noRoomTmp.push({
-						title: '매진',
-						date: roomPerDay.date,
-						allDay: true,
-					});
-				}
-			});
-		setNoRoom(noRoomTmp);
-		setEvent([...noRoomTmp, ...beforeToday]);
-	}, [initBookableRoomList]);
+			const noRoomTmp: Schedule[] = [];
+			initBookableRoomList &&
+				initBookableRoomList.forEach((roomPerDay: BookableRoomCnt) => {
+					if (roomPerDay.availableRooms == 0) {
+						noRoomTmp.push({
+							title: '매진',
+							date: roomPerDay.date,
+							allDay: true,
+						});
+					}
+				});
+			setNoRoom(noRoomTmp);
+			setEvent([...noRoomTmp, ...beforeToday]);
+		}
+	}, [initBookableRoomList, calendarDate]);
 
 	const changeCss = (type: string, args: DateClickArg, text?: string) => {
 		if (type === 'select') {
@@ -112,6 +124,25 @@ const Calendar: React.FC<CalendarProps> = ({ initBookableRoomList, selectedReser
 		});
 	}, [selectedReservation.endDate]);
 
+	useEffect(() => {
+		if (calendarDate.year >= todayYear && calendarDate.year === todayYear && calendarDate.month > todayMonth) {
+			api.get(userUrl.reservationableRoom, { params: { roomNumber, yearMonth: calendarDate.year + '-' + calendarDate.month } }).then(({ data }) => {
+				const noRoomTmp: Schedule[] = [];
+				data.data &&
+					data.data.forEach((roomPerDay: BookableRoomCnt) => {
+						if (roomPerDay.availableRooms == 0) {
+							noRoomTmp.push({
+								title: '매진',
+								date: roomPerDay.date,
+								allDay: true,
+							});
+						}
+					});
+				setEvent(noRoomTmp);
+			});
+		}
+	}, [calendarDate, todayMonth, todayYear, roomNumber]);
+
 	return (
 		<>
 			<Period>
@@ -136,12 +167,36 @@ const Calendar: React.FC<CalendarProps> = ({ initBookableRoomList, selectedReser
 						center: 'title',
 						end: 'today',
 					}}
+					customButtons={{
+						prev: {
+							text: 'prev',
+							click: () => {
+								setCalendarDate(changeYearMonth(calendarDate.year, calendarDate.month, 'prev'));
+								calendarRef.current?.getApi().prev();
+							},
+						},
+						next: {
+							text: 'next',
+							click: () => {
+								setCalendarDate(changeYearMonth(calendarDate.year, calendarDate.month, 'next'));
+								calendarRef.current?.getApi().next();
+							},
+						},
+						today: {
+							text: 'today',
+							click: () => {
+								setCalendarDate({ year: todayYear, month: todayMonth });
+								calendarRef.current?.getApi().today();
+							},
+						},
+					}}
 					locale={'ko'} // 한국어
 					businessHours={true} // 주말을 다른 색으로
 					plugins={[dayGridPlugin, interactionPlugin]}
 					initialView="dayGridMonth"
 					dateClick={handleDateClick}
 					events={event}
+					ref={calendarRef}
 					aspectRatio={2}
 					dayMaxEvents={1}
 					eventBorderColor="transparent"
