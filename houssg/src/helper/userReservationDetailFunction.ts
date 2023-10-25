@@ -1,10 +1,10 @@
 import api from '../api/api';
 import { userUrl } from '../assets/constant';
-import { AddUserReview, CancelReservationType } from '../types';
+import { AddUserReview, CancelReservationType, UserReservationIsSuccessType } from '../types';
 
-// 예약 성공 백에 전달
-const userReservationSuccess = (reservationNumber: number) => {
-	return api.patch(userUrl.isPaymentSuccess, { reservationNumber, sign: 'success' });
+// 예약 성공/실패 백에 전달
+const userReservationIsSuccess = ({ reservationNumber, sign }: UserReservationIsSuccessType) => {
+	return api.patch(userUrl.isPaymentSuccess, { reservationNumber, sign });
 };
 
 // 예약 취소
@@ -59,4 +59,4 @@ const getMyPreview = (reservationNumber: number) => {
 	return api.get(userUrl.preview, { params: { reservationNumber: reservationNumber } });
 };
 
-export { setReview, getMyPreview, setReviewFormData, userCancelReservation, userReservationSuccess };
+export { setReview, getMyPreview, setReviewFormData, userCancelReservation, userReservationIsSuccess };
