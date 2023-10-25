@@ -3,10 +3,11 @@ interface RoomDataType {
 	roomNumber: number;
 	imgs: string[];
 	roomCategory: string;
-	roomDetails?: string; // 추후 백에서 삭제할 컬럼
+	roomDetails?: string;
 	roomPrice: number;
 	roomAvailability: number;
 	service: number[];
+	delRequest: number;
 }
 
 interface RoomData {

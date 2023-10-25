@@ -389,8 +389,8 @@ const ImageBox = styled.div`
 
 const OutdoorViewBox = styled.img`
 	width: 100%;
-	height: 100%;
 	border-radius: 1rem;
+	aspect-ratio: 4/3;
 `;
 
 const DetailBox = styled.div`

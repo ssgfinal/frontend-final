@@ -82,9 +82,6 @@ const ReviewWrite = () => {
 		setAppendImg(isCheck);
 	};
 
-	console.log('변환했니?222', typeof img);
-	console.log('파일이 왜 없니???', file);
-
 	return (
 		<ReviewWrapper>
 			<p>📝 나의 후기</p>

@@ -3,12 +3,12 @@ import { loadPaymentWidget, PaymentWidgetInstance } from '@tosspayments/payment-
 import { Provision } from './Provision';
 import { color, ReservationCommonBox, UserReservationTitle } from '../../assets/styles';
 import styled from 'styled-components';
-import { SelectedReservationType } from '../../types';
+import { SelectedReservationType, UserReservationIsSuccessType } from '../../types';
 import api from '../../api/api';
 import { userRoute, userUrl } from '../../assets/constant';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { userReservationSuccess } from '../../helper';
+import { userReservationIsSuccess } from '../../helper';
 import { userKey } from '../../assets/constant/queryKey';
 
 const clientKey = 'test_ck_D5GePWvyJnrK0W0k6q8gLzN97Eoq';
@@ -26,14 +26,20 @@ const PaymentWidget: React.FC<PaymentWidgetProps> = ({ selectedReservation }) =>
 
 	const queryClient = useQueryClient();
 
+	const [sign, setSign] = useState('');
+
 	const { mutate } = useMutation({
-		mutationFn: (reservationNumber: number) => userReservationSuccess(reservationNumber),
+		mutationFn: ({ reservationNumber, sign }: UserReservationIsSuccessType) => userReservationIsSuccess({ reservationNumber, sign }),
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: [userKey.myReservation] });
-			alert('예약이 완료되었습니다.');
+			if (sign === 'success') {
+				alert('예약이 완료되었습니다.');
+			}
 		},
 		onError: () => {
-			alert('죄송합니다. 예약 완료에 문제가 발생했습니다. houssg 고객센터로 문의 부탁드립니다.');
+			if (sign === 'success') {
+				alert('죄송합니다. 예약 완료에 문제가 발생했습니다. houssg 고객센터로 문의 부탁드립니다.');
+			}
 		},
 	});
 
@@ -80,6 +86,11 @@ const PaymentWidget: React.FC<PaymentWidgetProps> = ({ selectedReservation }) =>
 			return;
 		}
 
+		if (selectedReservation.paymentPrice < 0) {
+			alert('쿠폰 및 포인트의 사용 총액이 결제할 금액보다 많은 경우는 결제가 불가합니다.');
+			return;
+		}
+
 		try {
 			api
 				.post(userUrl.reservationEnroll, {
@@ -111,7 +122,8 @@ const PaymentWidget: React.FC<PaymentWidgetProps> = ({ selectedReservation }) =>
 								customerName: userNickName ? userNickName : 'houssg 고객님',
 							})
 							.then(function () {
-								mutate(reservationNumFromBack);
+								mutate({ reservationNumber: reservationNumFromBack, sign: 'success' });
+								setSign('success');
 								// 포인트 사용시, 세션에 포인트도 업데이트
 								if (selectedReservation.usingPoint > 0) {
 									sessionStorage.setItem('point', originPoint - selectedReservation.usingPoint + '');
@@ -130,8 +142,8 @@ const PaymentWidget: React.FC<PaymentWidgetProps> = ({ selectedReservation }) =>
 									// 유효하지 않은 카드 코드에 대한 에러 처리
 									alert('한도초과 혹은 잔액부족으로 결제에 실패했습니다.');
 								}
-
-								api.post(userUrl.isPaymentSuccess, { reservationNumber: reservationNumFromBack, sign: 'fail' });
+								mutate({ reservationNumber: reservationNumFromBack, sign: 'fail' });
+								setSign('fail');
 							});
 				});
 		} catch (err) {

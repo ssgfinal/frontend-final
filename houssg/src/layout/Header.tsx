@@ -8,8 +8,11 @@ import { authUrl, ownerRoute, userRoute } from '../assets/constant';
 import { checkLogout, isLoginState } from '../store/redux/authSlice';
 import api from '../api/api';
 import { color } from '../assets/styles';
+import { useQueryClient } from '@tanstack/react-query';
 
 const Header = () => {
+	const queryClient = useQueryClient();
+
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 	const isLogin = useAppSelector(isLoginState);
@@ -35,6 +38,8 @@ const Header = () => {
 
 	const logoutFunc = () => {
 		if (window.confirm('로그아웃 하시겠습니가?')) {
+			queryClient.removeQueries();
+
 			dispatch(checkLogout());
 			api.post(authUrl.logout).catch((err) => {
 				console.log(err);

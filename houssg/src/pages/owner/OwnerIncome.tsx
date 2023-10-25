@@ -77,9 +77,11 @@ const OwnerIncome = () => {
 				}
 
 				result[year].push(monthlyData);
+				result[year].sort((a, b) => {
+					return parseInt(a.date) - parseInt(b.date);
+				});
 			});
 
-			console.log(result);
 			setIncomeList(result);
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
