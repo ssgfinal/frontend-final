@@ -108,7 +108,6 @@ const phoneAuthCheck = (
 	api
 		.post(authUrl.phoneAuthCheck + `?verificationCode=${number}&phoneNumber=${phoneNumber}`)
 		.then((data) => {
-			console.log(data);
 			if (data.status === 200) {
 				setConfirmed(true);
 				setPermittedUserId && setPermittedUserId();
@@ -219,7 +218,6 @@ const onUpdateNewPw = (
 };
 
 const kakaoLoginFunc = (code: string) => {
-	// TODO: authUrl 수정
 	api
 		.post(authUrl.kakaoLogin, code)
 		.then((res) => {
@@ -231,14 +229,9 @@ const kakaoLoginFunc = (code: string) => {
 };
 
 const kakaoSignUp = (nickName: string) => {
-	api
-		.post(authUrl.kakaoAdd, { nickName })
-		.then(({ data }) => {
-			console.log(data);
-		})
-		.catch(({ response }) => {
-			console.log(response);
-		});
+	api.post(authUrl.kakaoAdd, { nickName }).catch(({ response }) => {
+		console.log(response);
+	});
 };
 
 export { authLoginFunc, authSignUpFunc, idCheckFunc, nickCheckFunc, kakaoLoginFunc, kakaoSignUp };

@@ -7,7 +7,7 @@ import RoomReviewComp from './element/RoomReviewComp';
 import { OwnerHouseReviewType } from '../../../types';
 
 const ManageReview: React.FC<{ accomNumber: number }> = ({ accomNumber }) => {
-	const { isLoading, data, isSuccess, isError, error } = useQuery<{ data: OwnerHouseReviewType[] }>(
+	const { isLoading, data, isError, error } = useQuery<{ data: OwnerHouseReviewType[] }>(
 		[ownerKey.houseReview, accomNumber],
 		() => getHouseReview(accomNumber),
 		{
@@ -16,7 +16,6 @@ const ManageReview: React.FC<{ accomNumber: number }> = ({ accomNumber }) => {
 		},
 	);
 
-	isSuccess && console.log(data);
 	if (isError) {
 		console.log(error, 'error');
 		return <div>실패...</div>;

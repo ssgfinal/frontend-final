@@ -16,14 +16,12 @@ const userCancelReservation = ({ reservationNumber, bank, account }: CancelReser
 
 // 리뷰 작성
 const setReview = async (formData: FormData) => {
-	console.log('formData??', ...formData);
 	const resp = await api.post(userUrl.addReview, formData, { headers: { 'Content-Type': 'multipart/form-data' } });
 	return resp;
 };
 
 // 리뷰 보내기
 const setReviewFormData = ({ reviewContent, reviewRating, reservationNumber, roomNumber, accomNumber, file }: AddUserReview) => {
-	console.log('setReviewFormData?', reviewContent, reviewRating, reservationNumber, roomNumber, accomNumber, file);
 	if (!reservationNumber && !roomNumber && !accomNumber) {
 		alert('잘못된 접근입니다.');
 		return 'false';
