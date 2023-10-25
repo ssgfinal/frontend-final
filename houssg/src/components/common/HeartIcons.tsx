@@ -12,9 +12,10 @@ import { userKey } from '../../assets/constant/queryKey';
 
 interface HeartIconsProps {
 	houseId: number;
+	beforePage: string;
 }
-const HeartIcons: React.FC<HeartIconsProps> = ({ houseId }) => {
-	const [isLike, setIsLike] = useState<boolean>(false);
+const HeartIcons: React.FC<HeartIconsProps> = ({ houseId, beforePage }) => {
+	const [isLike, setIsLike] = useState<boolean>(beforePage === 'houseDetail' ? false : true);
 
 	const dispatch = useAppDispatch();
 	const isLogin = useAppSelector(isLoginState);
@@ -37,12 +38,14 @@ const HeartIcons: React.FC<HeartIconsProps> = ({ houseId }) => {
 
 	useEffect(() => {
 		if (isLogin) {
-			try {
-				api.get(userUrl.like, { params: { accomNumber: houseId } }).then(({ data }) => {
-					setIsLike(data);
-				});
-			} catch (err) {
-				console.log('라이크 첫 렌더링 시 로그인 상태면 실행되는 get 리스펀스 > ', err);
+			if (beforePage === 'houseDetail') {
+				try {
+					api.get(userUrl.like, { params: { accomNumber: houseId } }).then(({ data }) => {
+						setIsLike(data);
+					});
+				} catch (err) {
+					console.log('라이크 첫 렌더링 시 로그인 상태면 실행되는 get 리스펀스 > ', err);
+				}
 			}
 		}
 	}, []);

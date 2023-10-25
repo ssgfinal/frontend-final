@@ -25,14 +25,13 @@ const MyFavorite = () => {
 	if (isLoading) {
 		return <div>로딩중...</div>;
 	}
-	console.log(data);
 	return (
 		isSuccess && (
 			<MyFavoriteWrapper>
 				{data.data.length !== 0 ? (
 					<>
-						{data.data.map((favorites, i) => (
-							<div key={i}>
+						{data.data.map((favorites) => (
+							<div key={favorites.accomNumber}>
 								<MyFavoriteContainer>
 									<HouseNameBox>
 										<span
@@ -49,7 +48,7 @@ const MyFavorite = () => {
 										<div>{favorites.accomAddress}</div>
 									</HouseAddressBox>
 									<FavoriteContainer>
-										<HeartIcons houseId={favorites.accomNumber} />
+										<HeartIcons houseId={favorites.accomNumber} beforePage="myFavorite" />
 									</FavoriteContainer>
 								</MyFavoriteContainer>
 							</div>
