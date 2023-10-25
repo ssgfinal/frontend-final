@@ -26,7 +26,6 @@ const OwnerReservation = () => {
 	);
 	isError && console.log(error, 'error');
 
-	// console.log(data?.data);
 	if (isLoading) {
 		return <div>로딩중...</div>;
 	}

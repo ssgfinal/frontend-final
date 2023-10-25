@@ -68,9 +68,8 @@ const BannerSlider = () => {
 								<SwiperSlide key={couponNumber}>
 									{coupon.expirationStatus !== 1 ? (
 										<MainCouponContainer>
-											<NameBox>
-												{coupon.couponName}({coupon.couponNumber})
-											</NameBox>
+											<NameBox>{coupon.couponName}</NameBox>
+											<NumberBox>({coupon.couponNumber})</NumberBox>
 											<DiscountBox>{coupon.discount.toLocaleString()}원</DiscountBox>
 											<ExpirationDateBox>유효기간 ~{coupon.expirationDate}</ExpirationDateBox>
 										</MainCouponContainer>
@@ -127,13 +126,13 @@ const TimeCircle = styled.div`
 	height: 50px;
 
 	@media (max-width: 400px) {
-		top: -5%;
+		top: -2%;
 	}
 `;
 
 // 배너에 progress 효과
 const AutoplayProgress = styled(TimeCircle)`
-	width: 80%;
+	width: 100%;
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -166,34 +165,25 @@ const BannerBox = styled.div`
 	position: relative;
 	display: grid;
 	align-items: center;
-	width: 100vw;
 	max-width: 2000px;
-	height: 25vw;
-
-	@media (max-width: 600px) {
-		height: 8rem;
-	}
+	width: 100%;
+	height: 10rem;
 `;
 
 // 배너 이미지
 const SwiperMainBanner = styled.img`
-	position: absolute;
+	/* position: absolute; */
 	width: 100%;
-	height: 100%;
+	height: 10rem;
 `;
 
 const MainCouponContainer = styled.div`
 	background-image: url(${couponBanner});
-	background-repeat: round;
-	width: 100%;
-	height: 25vw;
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
 	display: flex;
 	justify-content: space-around;
 	flex-direction: column;
-
-	@media (max-width: 600px) {
-		height: 8rem;
-	}
 `;
 
 const NameBox = styled.p`
@@ -206,22 +196,30 @@ const NameBox = styled.p`
 	@media (max-width: 660px) {
 		font-size: 1rem;
 	}
-	@media (max-width: 300px) {
-		font-size: 0.5rem;
+`;
+
+const NumberBox = styled.p`
+	font-size: 1.5rem;
+	font-weight: bold;
+	color: ${color.backColor};
+	-webkit-text-stroke: 1px ${color.basicColor};
+
+	@media (max-width: 660px) {
+		font-size: 1rem;
 	}
 `;
 
 const DiscountBox = styled.p`
-	font-size: 3rem;
+	font-size: 2rem;
 	font-weight: bold;
-	padding: 1rem;
+	margin: 0.5rem 0;
 	color: ${color.backColor};
 	-webkit-text-stroke: 1px ${color.basicColor};
 	@media (max-width: 660px) {
 		font-size: 1rem;
 	}
 	@media (max-width: 300px) {
-		font-size: 0.5rem;
+		font-size: 1rem;
 	}
 `;
 
@@ -230,12 +228,13 @@ const ExpirationDateBox = styled.p`
 	font-weight: bold;
 	font-size: 1.2rem;
 	padding: 0 2rem;
+	margin-bottom: 1rem;
 	color: ${color.backColor};
 	-webkit-text-stroke: 1px ${color.basicColor};
 	@media (max-width: 660px) {
 		font-size: 1rem;
 	}
 	@media (max-width: 300px) {
-		font-size: 0.5rem;
+		font-size: 0.8rem;
 	}
 `;

@@ -15,12 +15,12 @@ const UserHouseList = () => {
 	// <Select>에 필요한 배열
 	const order = [
 		{
-			value: '최근 등록순',
-			label: '최근 등록순',
-		},
-		{
 			value: '평점 높은순',
 			label: '평점 높은순',
+		},
+		{
+			value: '최근 등록순',
+			label: '최근 등록순',
 		},
 	];
 
