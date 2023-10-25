@@ -55,6 +55,9 @@ import { setReview, getMyPreview, setReviewFormData, userCancelReservation, user
 // 메인
 import { getMainCoupon } from './mainFunction';
 
+// 숙소 상세
+import { houseDetailLike, houseDetailDelete } from './userHouseDetail';
+
 export { authLoginFunc, authSignUpFunc, kakaoLoginFunc, kakaoSignUp, nickCheckFunc, idCheckFunc, onPhoneUsableCheck, phoneAuthCheck, onFindId };
 
 // 사업자
@@ -96,3 +99,5 @@ export { getUserHouseList };
 export { setReview, getMyPreview, setReviewFormData, userCancelReservation, userReservationSuccess };
 
 export { getMainCoupon };
+
+export { houseDetailLike, houseDetailDelete };
