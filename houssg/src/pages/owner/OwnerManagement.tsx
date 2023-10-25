@@ -29,7 +29,7 @@ const OwnerManagement = () => {
 		<ManagementWrapper>
 			<HouserRegisterButton onClick={onHouseRegistering}>숙소 등록하기</HouserRegisterButton>
 
-			{isSuccess && data.data.map((house) => <ManageWrapComp house={house} key={house.accomNumber} />)}
+			{isSuccess && data.data.map((house) => house.deletionRequest !== 2 && <ManageWrapComp house={house} key={house.accomNumber} />)}
 		</ManagementWrapper>
 	);
 };
