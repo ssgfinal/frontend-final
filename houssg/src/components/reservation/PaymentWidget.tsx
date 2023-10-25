@@ -27,7 +27,7 @@ const PaymentWidget: React.FC<PaymentWidgetProps> = ({ selectedReservation }) =>
 	const queryClient = useQueryClient();
 
 	const { mutate } = useMutation({
-		mutationFn: ({ reservationNumber, sign }: UserReservationIsSuccessType) => userReservationIsSuccess(reservationNumber, sign),
+		mutationFn: ({ reservationNumber, sign }: UserReservationIsSuccessType) => userReservationIsSuccess({ reservationNumber, sign }),
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: [userKey.myReservation] });
 			alert('예약이 완료되었습니다.');
