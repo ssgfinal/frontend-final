@@ -7,7 +7,6 @@ interface ReservationDetailType {
 	guestPhone: string; // 이용자핸드폰
 	couponName: string; // 쿠폰이름
 	couponNumber: string; // 쿠폰번호
-	// isUsed: number; // 쿠폰사용여부 // 백에선 안 주는 듯
 	discount: number; // 쿠폰할인가
 	usePoint: number; // 포인트사용
 	paymentAmount: number; // 결제금액
@@ -55,6 +54,12 @@ interface SelectedReservationType {
 	paymentPrice: number;
 }
 
+// 결제 성공 여부
+interface UserReservationIsSuccessType {
+	reservationNumber: number;
+	sign: string;
+}
+
 // 유저 리뷰
 interface UserReview {
 	reviewNumber: number;
@@ -98,6 +103,7 @@ export type {
 	BookableRoomCnt,
 	Schedule,
 	SelectedReservationType,
+	UserReservationIsSuccessType,
 	UserReview,
 	AddUserReview,
 	CancelReservationType,
