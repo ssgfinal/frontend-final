@@ -26,14 +26,20 @@ const PaymentWidget: React.FC<PaymentWidgetProps> = ({ selectedReservation }) =>
 
 	const queryClient = useQueryClient();
 
+	const [sign, setSign] = useState('');
+
 	const { mutate } = useMutation({
 		mutationFn: ({ reservationNumber, sign }: UserReservationIsSuccessType) => userReservationIsSuccess({ reservationNumber, sign }),
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: [userKey.myReservation] });
-			alert('예약이 완료되었습니다.');
+			if (sign === 'success') {
+				alert('예약이 완료되었습니다.');
+			}
 		},
 		onError: () => {
-			alert('죄송합니다. 예약 완료에 문제가 발생했습니다. houssg 고객센터로 문의 부탁드립니다.');
+			if (sign === 'success') {
+				alert('죄송합니다. 예약 완료에 문제가 발생했습니다. houssg 고객센터로 문의 부탁드립니다.');
+			}
 		},
 	});
 
@@ -80,11 +86,7 @@ const PaymentWidget: React.FC<PaymentWidgetProps> = ({ selectedReservation }) =>
 			return;
 		}
 
-		if (
-			selectedReservation.usingCoupon.discount !== 0 ||
-			(selectedReservation.usingPoint !== 0 &&
-				selectedReservation.paymentPrice < selectedReservation.usingCoupon.discount + selectedReservation.usingPoint)
-		) {
+		if (selectedReservation.paymentPrice < 0) {
 			alert('쿠폰 및 포인트의 사용 총액이 결제할 금액보다 많은 경우는 결제가 불가합니다.');
 			return;
 		}
@@ -121,6 +123,7 @@ const PaymentWidget: React.FC<PaymentWidgetProps> = ({ selectedReservation }) =>
 							})
 							.then(function () {
 								mutate({ reservationNumber: reservationNumFromBack, sign: 'success' });
+								setSign('success');
 								// 포인트 사용시, 세션에 포인트도 업데이트
 								if (selectedReservation.usingPoint > 0) {
 									sessionStorage.setItem('point', originPoint - selectedReservation.usingPoint + '');
@@ -140,6 +143,7 @@ const PaymentWidget: React.FC<PaymentWidgetProps> = ({ selectedReservation }) =>
 									alert('한도초과 혹은 잔액부족으로 결제에 실패했습니다.');
 								}
 								mutate({ reservationNumber: reservationNumFromBack, sign: 'fail' });
+								setSign('fail');
 							});
 				});
 		} catch (err) {
