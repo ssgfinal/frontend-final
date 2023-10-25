@@ -1,5 +1,3 @@
-import { useState } from 'react';
-
 import { useAppDispatch } from '../../hooks';
 import { openModal } from '../../store/redux/modalSlice';
 import styled from 'styled-components';
@@ -18,17 +16,12 @@ export const Provision: React.FC<ProvisionProps> = ({ isAgreed, setIsAgreed }) =
 		dispatch(openModal({ modalComponent: 'provision', modalSize: modalSize }));
 	};
 
-	const refundPolicy = '취소 수수료 \n예약일 1달 전 : 100% 환불\n예약일 1달~ 1주 전 : 50% 환불\n예약일 1주 미만 : 환불 불가';
-
-	const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+	const refundPolicy =
+		'취소 수수료 \n예약일 1주 전 : 100% 환불\n예약일 5일 전 : 70% 환불\n예약일 3일 전 : 50% 환불\n예약일 1일 전 ~ 당일 : 취소 불가';
 
 	// 약관 체크 박스 핸들러 함수
 	const handleAgreeCheckbox = () => {
 		setIsAgreed(!isAgreed);
-	};
-
-	const toggleDropdown = () => {
-		setIsDropdownOpen(!isDropdownOpen);
 	};
 
 	return (
@@ -45,9 +38,8 @@ export const Provision: React.FC<ProvisionProps> = ({ isAgreed, setIsAgreed }) =
 			</UserReservationLeft>
 			<UserReservationLeft>
 				환불 수수료 규정
-				<MoreInfo onClick={toggleDropdown}>{isDropdownOpen ? '▲' : '▼'}</MoreInfo>
+				<RefundPolicy>{refundPolicy}</RefundPolicy>
 			</UserReservationLeft>
-			{isDropdownOpen && <DropdownContent>{refundPolicy}</DropdownContent>}
 		</ReservationCommonBox>
 	);
 };
@@ -71,18 +63,9 @@ const Right = styled.div`
 	}
 `;
 
-const MoreInfo = styled.button`
-	background-color: white;
-	border-width: 0;
-
-	&:hover {
-		cursor: pointer;
-	}
-`;
-
-const DropdownContent = styled.div`
-	/* position: absolute; */
-	background-color: ${color.unSelectColor};
+const RefundPolicy = styled.div`
+	margin-top: 1rem;
+	border: solid 0.3rem ${color.color5};
 	border-radius: 1rem;
 	padding: 1rem;
 	white-space: pre-wrap;
