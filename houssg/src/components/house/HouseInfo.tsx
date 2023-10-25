@@ -107,10 +107,12 @@ const Container = styled.div`
 		margin-bottom: 0;
 		grid-template-columns: 1fr;
 	}
+	max-width: 2000px;
 `;
 
 const AccomImg = styled.div`
 	position: relative;
+	margin: 0 auto;
 	width: 100%;
 `;
 
@@ -126,6 +128,7 @@ const Img = styled.img`
 	height: 100%;
 	border-radius: 1rem;
 	object-fit: cover;
+	aspect-ratio: 4/3;
 `;
 
 const Info = styled.div`

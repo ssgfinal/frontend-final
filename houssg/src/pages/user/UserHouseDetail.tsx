@@ -66,6 +66,7 @@ const Wrapper = styled.div`
 	margin: 0 auto;
 	display: grid;
 	grid-template-columns: 1fr;
+	max-width: 2000px;
 `;
 
 const Tab = styled.div`
