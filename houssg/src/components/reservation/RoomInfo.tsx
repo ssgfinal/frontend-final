@@ -26,6 +26,7 @@ const RoomInfo: React.FC<RoomInfoProps> = ({ initBookableRoomList, selectedReser
 			<UserReservationLeft>
 				예약 날짜
 				<Calendar
+					roomNumber={room.roomNumber}
 					initBookableRoomList={initBookableRoomList}
 					selectedReservation={selectedReservation}
 					setSelectedReservation={setSelectedReservation}
