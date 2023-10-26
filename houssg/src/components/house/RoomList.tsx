@@ -1,10 +1,10 @@
 import styled from 'styled-components';
+import { useQuery } from '@tanstack/react-query';
+import { useParams } from 'react-router-dom';
 
 import RoomDetail from './RoomDetail';
 import { RoomDataType } from '../../types';
 import { roomKey } from '../../assets/constant';
-import { useParams } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
 import { getTargetRoomData } from '../../helper';
 
 interface RoomListProps {

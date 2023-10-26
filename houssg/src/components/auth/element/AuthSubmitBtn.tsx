@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+
 import { color } from '../../../assets/styles';
 import { AuthSubmitType } from '../../../types/auth';
 

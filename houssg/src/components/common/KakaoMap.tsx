@@ -13,7 +13,6 @@ const KakaoMap: React.FC<locationType> = ({ location }) => {
 
 	useEffect(() => {
 		if (location) {
-			// const container = document.getElementById('map');
 			const container = document.getElementsByClassName('mapStyle')[0]; //
 
 			const geocoder = new kakaoMaps.services.Geocoder();
@@ -23,7 +22,6 @@ const KakaoMap: React.FC<locationType> = ({ location }) => {
 				// 정상적으로 검색이 완료됐으면
 				if (status === kakao.maps.services.Status.OK) {
 					const coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-					// console.log(coords);
 					const options = {
 						center: coords,
 						level: 3,
@@ -34,12 +32,9 @@ const KakaoMap: React.FC<locationType> = ({ location }) => {
 
 					// 결과값으로 받은 위치를 마커로 표시합니다
 					new kakao.maps.Marker({
-						// map: map,
 						map: map,
 						position: coords,
 					});
-
-					// console.log(marker, 'marker');
 				}
 			});
 		}
