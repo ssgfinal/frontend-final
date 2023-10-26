@@ -1,8 +1,9 @@
 import { useState } from 'react';
+import styled from 'styled-components';
+
 import { AuthContainer, AuthTitle, FinderRouteAligner } from '../../assets/styles';
 import { AuthProps } from '../../types';
 import { AuthModeBtn } from './element';
-import styled from 'styled-components';
 import { IdFinding } from '.';
 
 const FindId: React.FC<AuthProps> = ({ authStep, setAuthStep }) => {

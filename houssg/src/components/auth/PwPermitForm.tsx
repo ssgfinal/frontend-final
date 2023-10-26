@@ -1,4 +1,5 @@
 import { useState } from 'react';
+
 import { CheckerContainer, FindInputAligner, UseAbilitiyChecker } from '../../assets/styles';
 import { AuthInput } from './element';
 import { FindPwPermitProps, ProcessType } from '../../types';

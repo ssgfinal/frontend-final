@@ -3,13 +3,12 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
 
 import BriefHouse from '../house/BriefHouse';
-// import { accomodation } from '../../assets/icons';
 
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
-import { color } from '../../assets/styles';
 
+import { color } from '../../assets/styles';
 import { HouseBaseInfo } from '../../types';
 
 interface HomeSliderProps {
@@ -17,16 +16,6 @@ interface HomeSliderProps {
 }
 
 const HomeSlider: React.FC<HomeSliderProps> = ({ houseList }) => {
-	// TODO: Map 돌릴 때 사용될 부분, 백 받은 후, 확인하고 오류가 있으면 수정 예정
-	//const [houses, setHouses] = useState([]);
-
-	// useEffect(() => {
-	// 	fetch('URL_TO_YOUR_API_ENDPOINT')
-	// 		.then((response) => response.json())
-	// 		.then((data) => setHouses(data))
-	// 		.catch((error) => console.error('Error fetching data:', error));
-	// }, []);
-
 	return (
 		<HomeSliderWrapper>
 			<Swiper

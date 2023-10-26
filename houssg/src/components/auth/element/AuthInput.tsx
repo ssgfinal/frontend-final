@@ -1,10 +1,10 @@
 import { styled } from 'styled-components';
 import { useEffect, ChangeEvent, useState, memo } from 'react';
+import { Tooltip } from 'antd';
 
 import { color } from '../../../assets/styles';
 import { unvisible, visible } from '../../../assets/icons';
 import { useDebounce } from '../../../hooks';
-import { Tooltip } from 'antd';
 import { AuthInputType } from '../../../types';
 
 const AuthInput: React.FC<AuthInputType> = ({ title, password, setValue, reg, keyPressFunc }) => {

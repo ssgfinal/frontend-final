@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import styled from 'styled-components';
+
 import { color } from '../../../assets/styles';
 import { ManageHouseEdit, ManageHouseRead } from '.';
 import { MyHouseData } from '../../../types';

@@ -1,8 +1,9 @@
+import { useRef, useState } from 'react';
 import styled from 'styled-components';
+
 import { useAppDispatch } from '../../hooks';
 import { closeModal } from '../../store/redux/modalSlice';
 import { color } from '../../assets/styles';
-import { useRef, useState } from 'react';
 import { Timer } from '../common';
 import { ProcessType } from '../../types';
 import { setNewPhoneNumber, smsMyPhoneAuth } from '../../helper';

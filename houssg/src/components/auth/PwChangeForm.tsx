@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
+import styled from 'styled-components';
+
 import { regSignUp } from '../../assets/constant';
 import { FindInputAligner, color } from '../../assets/styles';
 import { NewPwProps } from '../../types';
 import { AuthInput } from './element';
 import { onUpdateNewPw } from '../../helper/authFunction';
-import styled from 'styled-components';
 
 const PwChangeForm: React.FC<NewPwProps> = ({ userId, setAuthStep }) => {
 	const [newPw, setNewPw] = useState('');
