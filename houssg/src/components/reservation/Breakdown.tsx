@@ -18,6 +18,8 @@ const Breakdown: React.FC<BreakdownProps> = ({ initCouponList, selectedReservati
 
 	const totalPoint = Number(sessionStorage.getItem('point'));
 
+	const [htmlCoupon, setHtmlCoupon] = useState('');
+
 	useEffect(() => {
 		setSelectedReservation({
 			...selectedReservation,
@@ -25,31 +27,61 @@ const Breakdown: React.FC<BreakdownProps> = ({ initCouponList, selectedReservati
 		});
 	}, []);
 
-	const [pointStatus, setPointStatus] = useState('num');
+	const [pointWarning, setPointWarning] = useState('');
 
 	const handleCoupon = (e: React.ChangeEvent<HTMLSelectElement>) => {
+		if (selectedReservation.night === 0) {
+			alert('예약 기간을 먼저 선택해주세요.');
+			return;
+		}
+		const result = selectedReservation.night * room.roomPrice - initCouponList[Number(e.target.value)].discount - selectedReservation.usingPoint;
+		if (result < 0) {
+			alert('할인 금액은 상품 금액보다 작게 설정되어야합니다.');
+			setHtmlCoupon('');
+			return;
+		}
 		setSelectedReservation({
 			...selectedReservation,
 			usingCoupon: initCouponList[Number(e.target.value)],
 		});
+		setHtmlCoupon(e.target.value);
 	};
 
 	const handlePoint = (e: React.ChangeEvent<HTMLInputElement>) => {
+		if (selectedReservation.night === 0) {
+			alert('예약 기간을 먼저 선택해주세요.');
+			return;
+		}
+
 		if (isNaN(Number(e.target.value))) {
-			setPointStatus('text');
+			setPointWarning('숫자만 입력가능합니다');
 			setSelectedReservation({
 				...selectedReservation,
 				usingPoint: 0,
 			});
 		} else {
 			if (Number(e.target.value) > totalPoint) {
-				setPointStatus('higher');
+				setPointWarning('입력한 포인트는 보유 포인트 초과로 보유한 전포인트를 적용시킵니다.');
+				const result = selectedReservation.night * room.roomPrice - selectedReservation.usingCoupon.discount - totalPoint;
+				if (result < 0) {
+					setSelectedReservation({
+						...selectedReservation,
+						usingPoint: selectedReservation.night * room.roomPrice,
+					});
+					setPointWarning('입력한 포인트는 상품 금액 초과로 상품 금액을 적용시킵니다.');
+					return;
+				}
 				setSelectedReservation({
 					...selectedReservation,
 					usingPoint: totalPoint,
 				});
 			} else {
-				setPointStatus('num');
+				// setPointWarning('num');
+				const result = selectedReservation.night * room.roomPrice - selectedReservation.usingCoupon.discount - Number(e.target.value);
+				if (result < 0) {
+					alert('할인 금액은 상품 금액보다 작게 설정되어야합니다.');
+					return;
+				}
 				setSelectedReservation({
 					...selectedReservation,
 					usingPoint: Number(e.target.value),
@@ -59,6 +91,19 @@ const Breakdown: React.FC<BreakdownProps> = ({ initCouponList, selectedReservati
 	};
 
 	const useTotalPoint = () => {
+		if (selectedReservation.night === 0) {
+			alert('예약 기간을 먼저 선택해주세요.');
+			return;
+		}
+		const result = selectedReservation.night * room.roomPrice - selectedReservation.usingCoupon.discount - totalPoint;
+		if (result < 0) {
+			setSelectedReservation({
+				...selectedReservation,
+				usingPoint: selectedReservation.night * room.roomPrice - selectedReservation.usingCoupon.discount,
+			});
+			setPointWarning('입력한 포인트는 상품 금액 초과로 상품 금액을 적용시킵니다.');
+			return;
+		}
 		setSelectedReservation({
 			...selectedReservation,
 			usingPoint: totalPoint,
@@ -78,7 +123,7 @@ const Breakdown: React.FC<BreakdownProps> = ({ initCouponList, selectedReservati
 				<UserReservationTitle>할인</UserReservationTitle>
 				<UserReservationLeft>쿠폰</UserReservationLeft>
 				<UserReservationLeft>
-					<Select onChange={(e) => handleCoupon(e)}>
+					<Select onChange={(e) => handleCoupon(e)} value={htmlCoupon}>
 						{initCouponList && initCouponList.length === 0 ? (
 							<option value={''}>사용 가능한 쿠폰 없음</option>
 						) : (
@@ -101,13 +146,7 @@ const Breakdown: React.FC<BreakdownProps> = ({ initCouponList, selectedReservati
 				<UserReservationLeft>
 					<PointInput name="point" value={selectedReservation.usingPoint} onChange={(e) => handlePoint(e)} /> &nbsp;
 					<Button onClick={useTotalPoint}> 전액 사용 </Button>
-					{pointStatus == 'text' ? (
-						<Warning>숫자만 입력가능합니다.</Warning>
-					) : pointStatus == 'higher' ? (
-						<Warning>입력한 포인트는 보유 포인트 초과로 보유한 전포인트를 적용시킵니다.</Warning>
-					) : (
-						<></>
-					)}
+					{pointWarning && <Warning>{pointWarning}</Warning>}
 				</UserReservationLeft>
 			</ReservationCommonBox>
 			<ReservationCommonBox>
@@ -177,7 +216,7 @@ const Button = styled.button`
 
 const Warning = styled.div`
 	color: red;
-	font-size: 0.5rem;
+	font-size: 0.7rem;
 `;
 const AboutPayment = styled.div`
 	padding-right: 1rem;
