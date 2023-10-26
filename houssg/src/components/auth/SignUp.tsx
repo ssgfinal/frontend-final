@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
+
 import { AuthContainer, AuthTitle, CheckerContainer, UseAbilitiyChecker, color } from '../../assets/styles';
 import { AuthInput, AuthModeBtn, AuthSubmitBtn } from './element';
 import { regSignUp } from '../../assets/constant';

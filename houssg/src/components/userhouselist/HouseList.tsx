@@ -1,20 +1,13 @@
-import { getUserHouseList } from '../../helper';
-
+import { useEffect } from 'react';
+import { useInfiniteQuery } from '@tanstack/react-query';
+import styled from 'styled-components';
 import { userKey } from '../../assets/constant/queryKey';
+
+import { HouseListScrollProps, SearchHouse } from '../../types';
+import { getUserHouseList } from '../../helper';
 import BriefHouse from '../house/BriefHouse';
 
-import { useInfiniteQuery } from '@tanstack/react-query';
-import { useEffect } from 'react';
-import styled from 'styled-components';
-import { SearchHouse } from '../../types';
-
-interface HouseListProps {
-	search: string;
-	select: string;
-	type: string;
-}
-
-const HouseList: React.FC<HouseListProps> = ({ search, select, type }) => {
+const HouseList: React.FC<HouseListScrollProps> = ({ search, select, type }) => {
 	const { isLoading, isFetching, isError, error, data, hasNextPage, fetchNextPage } = useInfiniteQuery<{
 		data: SearchHouse[];
 		totalCount: number;

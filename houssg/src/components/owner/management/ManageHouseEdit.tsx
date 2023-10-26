@@ -1,13 +1,14 @@
-import { HouseTabContainer, ManageReadTitle, NavClickComp, color } from '../../../assets/styles';
+import { useEffect, useRef, useState } from 'react';
 import { styled } from 'styled-components';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+
+import { HouseTabContainer, ManageReadTitle, NavClickComp, color } from '../../../assets/styles';
 import { EditMutationType, MyHouseDataHandleComp } from '../../../types';
 import { houseServiceCategory, ownerKey } from '../../../assets/constant';
-import { CheckBox } from '../register/element';
-import { useEffect, useRef, useState } from 'react';
 import { useCalWindowWidth } from '../../../hooks';
+import { CheckBox } from '../register/element';
 import { ImageUploader } from '../../common';
 import { base64ToFile, pxToRem } from '../../../utils';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { onEditManageHouseApi } from '../../../helper';
 
 const ManageHouseEdit: React.FC<MyHouseDataHandleComp> = ({ house, setIsEditMode }) => {

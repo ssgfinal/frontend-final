@@ -1,8 +1,9 @@
 import styled from 'styled-components';
-import RoomCompToggler from './element/RoomCompToggler';
-import { useNavigate } from 'react-router-dom';
-import { ownerRoute, roomKey } from '../../../assets/constant';
 import { useQuery } from '@tanstack/react-query';
+import { useNavigate } from 'react-router-dom';
+
+import RoomCompToggler from './element/RoomCompToggler';
+import { ownerRoute, roomKey } from '../../../assets/constant';
 import { getTargetRoomData } from '../../../helper';
 import { RoomDataType } from '../../../types';
 import { color } from '../../../assets/styles';

@@ -1,5 +1,4 @@
 // 숙소 상세 페이지에서 쓰는 자료형들
-
 interface HouseBaseInfo {
 	accomNumber: number;
 	accomName: string;

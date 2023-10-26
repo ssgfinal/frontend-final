@@ -29,6 +29,7 @@ import {
 } from './ownerReservation';
 import { CouponType, MainCoupon } from './ coupon';
 
+import { HouseListScrollProps } from './user';
 // auth Regi manage
 export type { AuthProps, AuthInputType, AuthModeType, AuthPropsWithState, IdFindingType, SmsParameter, NewPwProps, FindPwPermitProps };
 
@@ -49,9 +50,9 @@ export type {
 };
 
 //ownerReservation
-
 export type { OwnerReservedRoom, OwnerAvailableRoom, CommonCalendarProps, CheckMyHouseReservationType, ReservationDropDown, CalendarEvent };
-
+//user
+export type { HouseListScrollProps };
 //manage
 export type { ManageNavProps, MyHouseData, MyHouseDataHandleComp, EditMutationType, OwnerHouseReviewType };
 //regi

@@ -1,13 +1,13 @@
-import { useState } from 'react';
+import styled from 'styled-components';
+import { useState, useEffect } from 'react';
+
 import { ownerRegiImg } from '../../../assets/images';
 import { useImageConverter } from '../../../hooks';
-import styled from 'styled-components';
-import { useEffect } from 'react';
 import { HouseRegiEachWrapper, UserReservationTitle, color, SmallIndicatorText } from '../../../assets/styles';
 import { RegiStepProps } from '../../../types';
 import { StepMover } from './element';
 import { ownerUrl } from '../../../assets/constant';
-import api from '../../../api/api';
+import { api } from '../../../api';
 
 const BusinessRegi: React.FC<RegiStepProps> = ({ goStep, step, funnelState }) => {
 	const [isLoading, setIsLoading] = useState(false);

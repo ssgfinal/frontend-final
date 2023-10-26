@@ -1,4 +1,5 @@
 import { styled } from 'styled-components';
+
 import { ManageNavProps, StyledActiveProps } from '../../../types';
 import { HouseTabContainer, color } from '../../../assets/styles';
 

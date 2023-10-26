@@ -1,10 +1,10 @@
+import { useState } from 'react';
 import { styled } from 'styled-components';
 
 import { closeModal, modalComponent, modalFunc, modalText } from '../../store/redux/modalSlice';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 
 import { color } from '../../assets/styles';
-import { useState } from 'react';
 
 const CommonInstruction = () => {
 	const modalComp = useAppSelector(modalComponent);

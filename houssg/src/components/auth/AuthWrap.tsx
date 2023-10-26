@@ -1,9 +1,9 @@
 import styled from 'styled-components';
-
-import { FindId, FindPw, Login, SignUp } from '.';
 import { useState, useEffect } from 'react';
-import { useAppSelector } from '../../hooks';
+
 import { isModalOpen } from '../../store/redux/modalSlice';
+import { FindId, FindPw, Login, SignUp } from '.';
+import { useAppSelector } from '../../hooks';
 
 const AuthWrap = () => {
 	const [authStep, setAuthStep] = useState<string>('login');

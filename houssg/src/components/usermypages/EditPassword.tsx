@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { useEffect, useState } from 'react';
+
 import { useAppDispatch } from '../../hooks';
 import { closeModal } from '../../store/redux/modalSlice';
 import { color } from '../../assets/styles';
