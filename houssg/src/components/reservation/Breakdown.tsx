@@ -76,12 +76,12 @@ const Breakdown: React.FC<BreakdownProps> = ({ initCouponList, selectedReservati
 					usingPoint: totalPoint,
 				});
 			} else {
-				// setPointWarning('num');
 				const result = selectedReservation.night * room.roomPrice - selectedReservation.usingCoupon.discount - Number(e.target.value);
 				if (result < 0) {
 					alert('할인 금액은 상품 금액보다 작게 설정되어야합니다.');
 					return;
 				}
+				setPointWarning('');
 				setSelectedReservation({
 					...selectedReservation,
 					usingPoint: Number(e.target.value),
