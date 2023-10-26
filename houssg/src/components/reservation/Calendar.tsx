@@ -128,8 +128,8 @@ const Calendar: React.FC<CalendarProps> = ({ roomNumber, initBookableRoomList, s
 		if (calendarDate.year >= todayYear && calendarDate.year === todayYear && calendarDate.month > todayMonth) {
 			api.get(userUrl.reservationableRoom, { params: { roomNumber, yearMonth: calendarDate.year + '-' + calendarDate.month } }).then(({ data }) => {
 				const noRoomTmp: Schedule[] = [];
-				data.data &&
-					data.data.forEach((roomPerDay: BookableRoomCnt) => {
+				data.bookableRoomList &&
+					data.bookableRoomList.forEach((roomPerDay: BookableRoomCnt) => {
 						if (roomPerDay.availableRooms == 0) {
 							noRoomTmp.push({
 								title: '매진',

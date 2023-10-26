@@ -22,7 +22,7 @@ const KaKaoSignUp = () => {
 	const [isLoading, setIsLoading] = useState(false);
 	const isLogin = useAppSelector(isLoginState);
 	useEffect(() => {
-		isLogin && dispatch(closeModal);
+		isLogin && dispatch(closeModal());
 		return () => {
 			isLogin && dispatch(resetAuthStatus());
 		};
@@ -64,10 +64,10 @@ const KaKaoSignUp = () => {
 						<UseAbilitiyChecker onClick={onPhoneCheck}>인증하기</UseAbilitiyChecker>
 					</CheckerContainer>
 				) : (
-					<VerifiedPhoneNumberContainer>
+					<CheckerContainer>
 						<VerifiedTitle>전화번호</VerifiedTitle>
 						<VerifiedPhoneNumber>{userPhone}</VerifiedPhoneNumber>
-					</VerifiedPhoneNumberContainer>
+					</CheckerContainer>
 				)}
 				{!!time && !confirmed && (
 					<>
@@ -89,21 +89,6 @@ const KaKaoSignUp = () => {
 };
 
 export default KaKaoSignUp;
-
-const VerifiedPhoneNumberContainer = styled.div`
-	width: 80%;
-	padding-inline: 0.5rem;
-	padding-bottom: 0.5rem;
-	height: 4.5rem;
-
-	@media screen and (max-width: 1000px) {
-		width: 90%;
-	}
-
-	@media screen and (max-width: 600px) {
-		width: 100%;
-	}
-`;
 
 const VerifiedTitle = styled.div`
 	font-size: 1rem;
