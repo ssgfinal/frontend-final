@@ -6,6 +6,9 @@
 - 신세계 KDT 과정에서 진행한 선결제로 예약 및 노쇼를 방지하는 시스템을 체험하는 프로젝트입니다.
 - 이때 숙박을 주제로 하여 고객, 점주, 관리자 입장에서 숙박 시스템을 구현해 보는 것이 목표입니다.
 
+## 🗓 프로젝트 기간
+2023년 08월 25일 ~ 2023년 10월 27일 (9주)
+
 ## 👉🏻 서비스 소개 <br>
 - 일반 유저의 경우 무한 스크롤로 이루어진 검색창을 통하여서 숙소를 카테고리를 설정 후 검색할 수 있습니다. 이때 최신 및 평점 순으로 정렬 가능합니다
 - 숙소에 대해서 찜하기 기능을 이용할 수 있고, 달력을 통해 예약일을 설정 후 쿠폰 및 포인트를 적용시켜 예약할 수 있습니다.
@@ -15,8 +18,8 @@
 - 차트를 동해서 숙소별 매출액을 확인할 수 있습니다.
 - 관리자는 리뷰 신고 관리, 숙소 등록 및 삭제 관리, 쿠폰 발행을 할 수 있습니다. 
 
-👉🏻[HOUS-SG 팀 노션  Click!]([https://www.notion.so/HOUS-SG-Project-68a8b031b7ee4be5aad70516b1214c74])
-👉🏻[BACKEND-GITHUB  Click!]([https://github.com/ssgfinal/backend-final])
+👉🏻[HOUS-SG 팀 노션  Click!](https://www.notion.so/HOUS-SG-Project-68a8b031b7ee4be5aad70516b1214c74)
+👉🏻[BACKEND-GITHUB  Click!](https://github.com/ssgfinal/backend-final)
 
 ## 🛠 프로젝트 아키텍쳐
 ![image](https://github.com/ssgfinal/frontend-final/assets/120103909/709638dc-798b-4358-9ab9-5441fcfa2333)
@@ -61,19 +64,20 @@
 | 기술 스택 | 사용이유 |
 | --- | --- |
 | JWT | Stateless 하여 로드밸런싱에 이점이 있다. |
-| Docker | 어느 환경에서든 동일한 조건으로 배포가 가능하다. |
-| React | SPA 기반으로 페이지 이동시 깜빡임이 없고, 유저와 상호작용이 많은 숙박앱에서 CSR을 통해 효과적인 랜더링을 할 수 있다.|
-| Axios | promise 기반으로 데이터 처리의 용이, json 데이터 변환을 통한 코드 최적화할 수 있다. axiosinstance를 바탕으로 코드 재사용성과 유지보수성을 향상시킬 수 있다. |
-| GitAction | docker와 함께 CICD 파이프라인을 형성하여 main에 병합시 자동으로 배포를 해준다. |
+| docker | 어느 환경에서든 동일한 조건으로 배포가 가능하다. |
+| react | SPA 기반으로 페이지 이동시 깜빡임이 없고, 유저와 상호작용이 많은 숙박앱에서 CSR을 통해 효과적인 랜더링을 할 수 있다.|
+| axios | promise 기반으로 데이터 처리의 용이, json 데이터 변환을 통한 코드 최적화할 수 있다. axiosinstance를 바탕으로 코드 재사용성과 유지보수성을 향상시킬 수 있다. |
+| gitaction | docker와 함께 CICD 파이프라인을 형성하여 main에 병합시 자동으로 배포를 해준다. |
+| VITE | CRA보다 빠른 빌드를 위해 사용했다. |
+| NGINX | EC2 인스턴스에 사용할 웹서버로 사용했다. 정적웹서버에 적합하다.|
+| typescript | 코드 에러 핸들링에 용이함, 자동 완성 기능 활용에 용이, 타입 체크를 통해 협업에 용이하다. |
+| UI라이브러리 | antd, swiper, full-calendar 를 생산성 향상을 위해서 사용했다. |
+| styled-component | css-js 로 css를 자바스크립트로 동적 스타일링하기 용이하고, 코드 가독성을 향상 시킬 수 있다.|
+| react-query | 캐싱을 통하여서 불필요한 api 요청 최적화 가능하다. 무한스크롤 구현에 용이하다.|
+| redux-toolkit| 캐싱이 필요없는 전역변수의 상태관리에 사용했다. |
 
-<details><summary>라이브러리 
-</summary>
-  
-  - redux toolkit :전역 변수의 상태관리를 위해 사용했다. 또한 Reudx의 단점으로 꼽히는 보일러플레이트 코드를 줄일 수 있어서 채택했다.
-  
-  - 
-  
-  </details>
+👉🏻[라이브러리 채택 기준](https://www.notion.so/5b8e07ea6cfc436893f75afdc0615bce)
+
   
 ## Frontend Git-flow 전략
 main : 제품으로 출시될 수 있는 브랜치 
@@ -107,39 +111,27 @@ hotfix : 출시 버전에서 발생한 버그를 수정 하는 브랜치
 
   
 ## 👷 ERD
+![image](https://github.com/ssgfinal/frontend-final/assets/120103909/1343b574-30ef-4a5e-bdc0-3a0117e8747e)
 
 
 ## 🔆 트러블슈팅
+![image](https://github.com/ssgfinal/frontend-final/assets/120103909/a118e41b-f583-4775-ab6e-47793f17f744)
+![image](https://github.com/ssgfinal/frontend-final/assets/120103909/a112a716-404d-4b6e-b6c3-50011730b044)
+![image](https://github.com/ssgfinal/frontend-final/assets/120103909/2da266b2-9ad3-4281-b17b-bbc88af4c936)
+![image](https://github.com/ssgfinal/frontend-final/assets/120103909/6c8b7794-e96e-4572-be75-bf65214d1910)
+![image](https://github.com/ssgfinal/frontend-final/assets/120103909/37257e78-864a-4e0b-8a70-efc4edc7375b)
 
-![image](https://user-images.githubusercontent.com/114650436/225261986-2d11fa2f-e91b-4e3c-857d-90b5e1bbaa88.png)
+## 🔆 자체 피드백
 
-
-**문제 상황**  : imageGetter라는 컴포넌트를 사진 게시판과 동영상 게시판에서 사용하는데, 동일한 이미지를 랜더링
-
-![image](https://user-images.githubusercontent.com/114650436/225262101-08a6691f-24fa-46d4-9963-a615f7036109.png)
-
-문제 원인 : imageGetter 컴포넌트가 사진게시판에서 Mount된 이후, 동영상게시판에서는 새로 Mount 되지 않음 React Navigation에서는 페이지 이동 시 Unmount되는 게 아닌 Stack이 쌓임
-
-![image](https://user-images.githubusercontent.com/114650436/225262154-7ee30932-9209-4e94-92cd-19baa4c81a86.png)
-
-✅ 해결 방법 :  useIsFocused Hook을 사용페이지에 포커스가 올 때 업데이트가 되도록, useEffect의 의존성 배열에 isFocused를 추가
-
-**문제 상황**  : RNMIP(react native multiple image picker) 라이브러리를 활용해 미디어파일을 전송하는데, 서버에서 파일을 인식하지 못하는(undefined) 문제가 발생
-
-추정 원인 : 서버에서는 이미지 데이터를 buffer형식으로 받는데, 프론트 쪽에서 별도의 인코딩 과정이 없음
-
-![image](https://user-images.githubusercontent.com/114650436/225262195-7e66dec2-8bc4-4805-afc7-27af42796d20.png)
-
-실제 원인 : RNMIP에서 얻은 realPath 경로앞에 file://(파일 URI 스키마)를 적어야 함
-
-![image](https://user-images.githubusercontent.com/114650436/225262320-68f61350-febe-476d-b541-3585ffbdadd0.png)
-
-✅ 깨달은 점:  HTTP 통신할 때 데이터 타입을 HTTP Header에 multipart/form-data 를 명시하면 데이터가 인코딩됨
+![image](https://github.com/ssgfinal/frontend-final/assets/120103909/9ca40bd7-1d58-451a-90a7-912e848612e5)
 
 
 
 
-## 👻 Pupfluencer 팀원들!
+
+
+
+## 👻 HOUS-SG 팀원들!
   
   <table>
   <tr>
@@ -149,21 +141,21 @@ hotfix : 출시 버전에서 발생한 버그를 수정 하는 브랜치
   <tr>
         </td>
     <td align="center" >
-    <b>송찬혁(팀장)</b></a><br>
-    <a href="https://github.com/sch7878">Github</a>
-    <br><img src="https://img.shields.io/badge/NestJS-000000?style=flat&logo=NestJS&logoColor=red"/><br>
+    <b>김수홍(팀장)</b></a><br>
+    <a href="https://github.com/suhong99">Github</a>
+    <br><img src="https://img.shields.io/badge/react-61DAFB?style=for-the-badge&logo=react&logoColor=black"><br>
     </td>
         </td>
     <td align="center" >
-    <b>신중완</b></a><br>
-    <a href="https://github.com/F1rstID">Github</a>
-    <br><img src="https://img.shields.io/badge/NestJS-000000?style=flat&logo=NestJS&logoColor=red"/><br>
+    <b>우지예</b></a><br>
+    <a href="https://github.com/woojiyee">Github</a>
+    <br><img src="https://img.shields.io/badge/react-61DAFB?style=for-the-badge&logo=react&logoColor=black"><br>
     </td>
         </td>
     <td align="center" >
-    <b>이준빈</b></a><br>
-    <a href="https://github.com/ljunbin">Github</a>
-    <br><img src="https://img.shields.io/badge/NestJS-000000?style=flat&logo=NestJS&logoColor=red"/><br>
+    <b>한주리</b></a><br>
+    <a href="https://github.com/HanJuRi999">Github</a>
+    <br><img src="https://img.shields.io/badge/react-61DAFB?style=for-the-badge&logo=react&logoColor=black"><br>
     </td>
     </tr>
 </table>
@@ -178,34 +170,17 @@ hotfix : 출시 버전에서 발생한 버그를 수정 하는 브랜치
   <tr>
         </td>
     <td align="center" >
-    <b>김수홍(팀장)</b></a><br>
-    <a href="https://github.com/suhong99">Github</a>
-    <br><img src="https://img.shields.io/badge/React-Native-339933?style=flat&logo=React&logoColor=white"/><br>
+    <b>김보근</b></a><br>
+    <a href="https://github.com/SanBu599">Github</a>
+    <br><img src="https://img.shields.io/badge/springboot-6DB33F?style=flat&logo=springboot&logoColor=white"/><br>
     </td>
         </td>
     <td align="center" >
-    <b>차수지</b></a><br>
-    <a href="https://github.com/olive-jam">Github</a>
-    <br><img src="https://img.shields.io/badge/React-Native-339933?style=flat&logo=React&logoColor=white"/><br>
+    <b>최영석</b></a><br>
+    <a href="https://github.com/0-ssg">Github</a>
+    <br><img src="https://img.shields.io/badge/springboot-6DB33F?style=flat&logo=springboot&logoColor=white"/><br>
     </td>
   </tr>
-</table>
-
-<br>
-
-  <table>
-  <tr>
-  <td colspan='1' align="center">
-  Deginer
-  </td>
-  <tr>
-        </td>
-    <td align="center" >
-    <b>이정효</b></a><br>
-    <a href="https://github.com/suhong99">Github</a>
-    <br><img src="https://img.shields.io/badge/React-Native-339933?style=flat&logo=React&logoColor=white"/><br>
-    </td>
-
 </table>
 
 <br>
